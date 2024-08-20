@@ -55,7 +55,7 @@ const EditImagesForm: React.FC<IEditImagesForm> = ({ onHide }) => {
     <div className={styles.root}>
       {activeImage && onHide && (
         <button className={classNames(styles.root__return)} onClick={onHide}>
-          ✖
+          x
         </button>
       )}
       <p className={styles.root__title}>
