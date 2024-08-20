@@ -1,0 +1,98 @@
+@import '../../../../styles/colors.scss';
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__image {
+    max-height: 100%;
+    max-width: 100%;
+    cursor: pointer;
+  }
+  &__taggedFriend {
+    position: absolute;
+    transform: translate(calc(-50% - 1px), 8px);
+  }
+}
+
+.selection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0px;
+  height: 0px;
+  visibility: hidden;
+  &.visible {
+    visibility: visible;
+  }
+  &__selectArea {
+    pointer-events: none;
+    margin-left: -25px;
+    margin-top: -25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: 2px solid $darkColor;
+    outline: 2px solid $lightColor;
+  }
+  &__search {
+    margin-top: 5px;
+    &.above {
+      margin-top: 0;
+      transform: translate(0, calc(-100% - 55px));
+    }
+    overflow: hidden;
+    margin-left: -105px;
+    background: $lightColor;
+    padding: 10px;
+    height: 200px;
+    width: 220px;
+    border-radius: 10px;
+  }
+}
+
+.taggedFriend {
+  background-color: $lightColor;
+  padding: 5px 7px;
+  font-size: 13px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px $grayColor;
+  transition: 0.3s;
+  &__row {
+    display: flex;
+    gap: 5px;
+  }
+  &__decoration {
+    border-left: 1px solid $grayColor;
+    border-top: 1px solid $grayColor;
+    top: -4.5px;
+    z-index: 0;
+    transform: rotate(45deg);
+    left: calc(50% - 2.5px);
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: inherit;
+  }
+  &__name {
+    position: relative;
+    z-index: 1;
+  }
+  &__avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+  }
+  &.reverse {
+    transform: translate(calc(-50% - 1px), -36px);
+
+    .taggedFriend__decoration {
+      top: auto;
+      bottom: -5px;
+    }
+  }
+}

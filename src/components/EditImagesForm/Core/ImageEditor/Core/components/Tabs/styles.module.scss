@@ -1,0 +1,41 @@
+@import '../../../../../../../styles/colors.scss';
+
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  &__tab {
+    font-size: 14px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    color: $lightColor;
+    position: relative;
+    svg {
+      height: 20px;
+      path {
+        stroke: $grayColorLighten;
+        fill: $grayColorLighten;
+      }
+    }
+    &:hover {
+      color: $grayColor;
+      path {
+        stroke: $grayColor;
+        fill: $grayColor;
+      }
+    }
+    &.active {
+      &::before {
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 2px;
+        bottom: 0;
+        background-color: $greenColor;
+      }
+    }
+  }
+}

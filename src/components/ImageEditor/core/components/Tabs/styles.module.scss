@@ -1,0 +1,48 @@
+@import '../../../styles/colors.scss';
+
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  &__tab {
+    font-size: 14px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    color: $mainTextColor;
+    position: relative;
+    svg {
+      height: 20px;
+      path {
+        stroke: $mainTextColor;
+        fill: $mainTextColor;
+      }
+    }
+    &:hover {
+      color: $mainTextColorHover;
+      path {
+        stroke: $mainTextColorHover;
+        fill: $mainTextColorHover;
+      }
+    }
+    &.active {
+      color: $themeColor;
+      svg {
+        path {
+          stroke: $themeColor;
+          fill: $themeColor;
+        }
+      }
+      &::before {
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 2px;
+        bottom: 0;
+        background-color: $themeColor;
+      }
+    }
+  }
+}

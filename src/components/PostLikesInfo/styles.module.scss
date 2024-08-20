@@ -1,0 +1,53 @@
+@import '../../styles/colors.scss';
+
+.root {
+  display: flex;
+  gap: 5px;
+  padding: 0 10px;
+}
+
+.likes {
+  color: $blueColorLighten;
+  padding: 0 7px;
+  border-radius: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+  cursor: pointer;
+  &:hover {
+    background-color: $grayColorLightenUltra;
+  }
+  svg {
+    width: 20px;
+    path {
+      stroke: $blueColorLighten;
+    }
+  }
+
+  &.active {
+    svg {
+      path {
+        fill: $blueColorLighten;
+      }
+    }
+  }
+}
+
+.dislikes {
+  color: $redColor;
+  svg {
+    transform: scale(1, -1);
+    path {
+      stroke: $redColor;
+    }
+  }
+
+  &.active {
+    svg {
+      path {
+        fill: $redColor;
+      }
+    }
+  }
+}

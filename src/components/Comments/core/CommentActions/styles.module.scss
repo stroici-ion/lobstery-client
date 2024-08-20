@@ -1,0 +1,129 @@
+@import '../../../../styles/colors.scss';
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  &__like,
+  &__dislike {
+    display: flex;
+    align-items: center;
+    button {
+      transform: rotate(0deg);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      background-color: transparent;
+    }
+    span {
+      font-size: 11px;
+      font-weight: 500;
+      color: $grayColor;
+    }
+  }
+
+  &__like {
+    svg {
+      path {
+        stroke: $blueColorLighten;
+      }
+    }
+    &.active {
+      svg {
+        path {
+          fill: $blueColorLighten;
+        }
+      }
+    }
+  }
+
+  &__dislike {
+    svg {
+      transform: scale(1, -1);
+      path {
+        stroke: $redColor;
+      }
+    }
+    &.active {
+      svg {
+        path {
+          fill: $redColor;
+        }
+      }
+    }
+  }
+
+  &__likeByAuthor {
+    pointer-events: none;
+    button {
+      transform: rotate(0deg);
+      background-color: transparent;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      path {
+        stroke: $grayColor;
+      }
+    }
+    svg {
+      width: 15px;
+      height: 15px;
+      visibility: collapse;
+    }
+    img {
+      position: absolute;
+      visibility: hidden;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    &.editable {
+      pointer-events: all;
+      svg {
+        visibility: visible;
+      }
+    }
+
+    &.active {
+      img {
+        position: static;
+        visibility: visible;
+      }
+      svg {
+        visibility: visible;
+        position: absolute;
+        z-index: 1;
+        bottom: -3px;
+        right: -5px;
+        width: 12px;
+        height: 12px;
+        path {
+          stroke-width: 7;
+          stroke: $lightColor;
+          fill: $redColor;
+        }
+      }
+    }
+  }
+
+  &__reply {
+    transition: 0.2s;
+    opacity: 0;
+    font-weight: 700;
+    background-color: transparent;
+    color: $grayColor;
+    &:hover {
+      color: $blueColor;
+    }
+  }
+}

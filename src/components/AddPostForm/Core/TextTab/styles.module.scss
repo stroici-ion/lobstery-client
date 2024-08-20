@@ -1,0 +1,62 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding: 10px;
+  &__top {
+    margin-bottom: 15px;
+  }
+  &__body {
+    flex: 1 1 auto;
+    @include scrollBar;
+    overflow-y: auto;
+  }
+}
+
+.user {
+  display: flex;
+  gap: 15px;
+  &__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.text {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+  &__description,
+  &__title {
+    background-color: transparent;
+    height: 18px;
+    line-height: 18px;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 5px;
+    border: none;
+    border-bottom: 1px solid $grayColorLighten;
+    resize: none;
+    outline: none;
+    overflow: hidden;
+    padding-bottom: 5px;
+  }
+  &__title {
+    background-color: transparent;
+    font-size: 18px;
+    line-height: 22px;
+    height: 22px;
+    font-weight: 700;
+  }
+}

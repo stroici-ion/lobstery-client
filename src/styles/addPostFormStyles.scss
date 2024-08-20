@@ -1,0 +1,81 @@
+@import './colors.scss';
+
+@mixin asideButtonColor($color, $backColorHover, $backColorActive) {
+  color: $color;
+  @include svgcolor($color);
+  &:hover {
+    background-color: $backColorHover;
+  }
+  &:active,
+  &.active {
+    background-color: $backColorActive;
+  }
+}
+
+@mixin audienceButtonColor($color, $backColorHover, $backColorActive) {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background-color: $backColorHover;
+  }
+  color: $color;
+  @include svgcolor($color);
+  &:hover {
+    background-color: $backColorHover;
+  }
+  &:active,
+  &.active {
+    box-shadow: none;
+    background-color: $backColorActive;
+  }
+}
+
+$mainColor: $lightColor;
+$mainTextColor: $darkColor;
+
+$greenColor: $greenColor;
+$greenColorHover: darken($greenColor, 10);
+$greenColorActive: lighten($greenColor, 12);
+$greenColorBackground: lighten($greenColor, 30);
+$greenColorBackgroundHover: darken($greenColorBackground, 5);
+$greenColorBackgroundActive: $greenColorBackground;
+
+$orangeColor: $orangeColor;
+$orangeColorHover: darken($orangeColor, 10);
+$orangeColorActive: lighten($orangeColor, 12);
+$orangeColorBackground: lighten($orangeColor, 30);
+$orangeColorBackgroundHover: darken($orangeColorBackground, 5);
+$orangeColorBackgroundActive: $orangeColorBackground;
+
+$yellowColor: $yellowColor;
+$yellowColorHover: darken($yellowColor, 10);
+$yellowColorActive: lighten($yellowColor, 12);
+$yellowColorBackground: lighten($yellowColor, 30);
+$yellowColorBackgroundHover: darken($yellowColorBackground, 5);
+$yellowColorBackgroundActive: $yellowColorBackground;
+
+$cyanColor: $cyanColor;
+$cyanColorHover: darken($cyanColor, 10);
+$cyanColorActive: lighten($cyanColor, 12);
+$cyanColorBackground: lighten($cyanColor, 30);
+$cyanColorBackgroundHover: darken($cyanColorBackground, 5);
+$cyanColorBackgroundActive: $cyanColorBackground;
+
+$redColor: $redColor;
+$redColorHover: darken($redColor, 10);
+$redColorActive: lighten($redColor, 12);
+$redColorBackground: lighten($redColor, 30);
+$redColorBackgroundHover: darken($redColorBackground, 5);
+$redColorBackgroundActive: $redColorBackground;
+
+$blueColor: $blueColor;
+$blueColorHover: darken($blueColor, 10);
+$blueColorActive: lighten($blueColor, 12);
+$blueColorBackground: lighten($blueColor, 30);
+$blueColorBackgroundHover: darken($blueColorBackground, 5);
+$blueColorBackgroundActive: $blueColorBackground;

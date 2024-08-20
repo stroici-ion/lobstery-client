@@ -1,0 +1,87 @@
+@import '../../styles/colors.scss';
+@import '../../styles/mixins.scss';
+
+.selectedPeoples {
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+  height: 0px;
+  transform: translate(-50%, 0);
+  &.active {
+    transform: translate(0%, 0);
+    height: 55px;
+  }
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(90deg, $lightColor, transparent);
+  }
+  &::after {
+    left: auto;
+    right: 0;
+    background-image: linear-gradient(90deg, transparent, $lightColor);
+  }
+  &__scrollArea {
+    @include scrollBar;
+    overflow: hidden;
+    overflow-x: auto;
+    height: 55px;
+    display: flex;
+    button {
+      margin-left: 10px;
+    }
+  }
+  &__button {
+    position: relative;
+    height: 35px;
+  }
+  &__decoration,
+  &__decorationRemove {
+    position: absolute;
+    bottom: -4px;
+    right: -1px;
+    background-color: $greenColor;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    right: -5px;
+    border: 2px solid $lightColor;
+    svg {
+      padding: 2px;
+      width: 12px;
+      height: 12px;
+      path {
+        stroke: $lightColor;
+      }
+    }
+  }
+  &__decorationRemove {
+    opacity: 0;
+    font-size: 10px;
+    text-align: center;
+    color: $lightColor;
+    background-color: $redColor;
+  }
+  &__button {
+    &:hover {
+      .selectedPeoples__decoration {
+        opacity: 0;
+      }
+      .selectedPeoples__decorationRemove {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.avatar {
+  object-fit: cover;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}

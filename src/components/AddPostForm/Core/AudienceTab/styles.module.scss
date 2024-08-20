@@ -1,0 +1,113 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/addPostFormStyles.scss';
+
+.root {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  &__title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  &__button {
+    height: 30px;
+    flex: 1 1 auto;
+    border-radius: 10px;
+    padding: 0 30px 0 7px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__decoration {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+
+    &.visible {
+      display: flex;
+    }
+
+    svg {
+      width: 250px;
+      height: 250px;
+      path {
+        fill: $grayColorLighten;
+        stroke: $grayColorLighten;
+      }
+    }
+  }
+
+  &__customAudienceBlock {
+    flex: 1 1 auto;
+    display: none;
+    overflow: hidden;
+
+    &.visible {
+      display: block;
+    }
+  }
+}
+
+.public {
+  @include audienceButtonColor($greenColor, $greenColorBackgroundHover, $greenColorBackgroundActive);
+}
+
+.friends {
+  @include audienceButtonColor($cyanColor, $cyanColorBackgroundHover, $cyanColorBackgroundActive);
+}
+
+.friendsOfFriends {
+  @include audienceButtonColor($blueColor, $blueColorBackgroundHover, $blueColorBackgroundActive);
+}
+
+.private {
+  @include audienceButtonColor($redColor, $redColorBackgroundHover, $redColorBackgroundActive);
+}
+
+.custom {
+  @include audienceButtonColor($yellowColor, $yellowColorBackgroundHover, $yellowColorBackgroundActive);
+}
+
+.defaultAudience {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  user-select: none;
+  &__checkbox {
+    accent-color: #74992e;
+    pointer-events: none;
+  }
+
+  &__label {
+    font-size: 14px;
+    text-decoration: underline;
+    color: $grayColorDarken;
+  }
+  &.active {
+    .defaultAudience__label {
+      text-decoration: none;
+    }
+  }
+}

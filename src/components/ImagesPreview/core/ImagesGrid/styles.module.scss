@@ -1,0 +1,194 @@
+@import '../../../../styles/colors.scss';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+  width: 100%;
+  img {
+    object-fit: contain;
+  }
+  &__row {
+    &:first-child {
+      border-radius: 10px 10px 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 10px 10px;
+    }
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    justify-content: center;
+
+    .row__decorationRight,
+    .row__decorationLeft {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 50%;
+      background-size: contain;
+      background-position: left center;
+      filter: blur(20px);
+    }
+    .row__decorationRight {
+      background-position: right center;
+      left: auto;
+      right: 0;
+    }
+    &:not(:last-child) {
+      &::before {
+        content: '';
+        z-index: 2;
+        position: absolute;
+        right: -1px;
+        left: -1px;
+        bottom: 0;
+        height: 5px;
+        background-color: $lightColor;
+      }
+    }
+
+    &.single {
+      border-radius: 10px;
+      img {
+        margin-bottom: -5px;
+      }
+    }
+  }
+
+  &__nearVideoBlock {
+    position: relative;
+    overflow: hidden;
+    max-height: 400px;
+    &_image {
+      max-width: 100%;
+      max-height: inherit;
+    }
+  }
+
+  &__nearVideoBlock:not(:last-child) {
+    &::before {
+      content: '';
+      z-index: 1;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background-color: $lightColor;
+    }
+  }
+
+  &__imageBlock {
+    position: relative;
+    &_image {
+      max-width: 100%;
+      max-height: 259px;
+      margin-bottom: -5px;
+    }
+  }
+
+  &__imageBlock:not(:last-child) {
+    &::before {
+      content: '';
+      z-index: 1;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background-color: $lightColor;
+    }
+  }
+
+  &__imageBlock:last-child {
+    border-right: none;
+  }
+}
+
+.tripleVertical {
+  max-height: 400px;
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  &__block {
+    overflow: hidden;
+    display: flex;
+    position: relative;
+    &:not(:last-child) {
+      border-bottom: 5px solid $lightColor;
+    }
+  }
+  img {
+    max-width: 100%;
+    object-fit: contain;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.verticalGrid {
+  &__imageBlock {
+    overflow: hidden;
+  }
+  &__image {
+    max-width: 100%;
+    margin-bottom: -8px;
+  }
+}
+
+.videoButton {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  background-color: transparentize($color: $lightColor, $amount: 0.2);
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 5px;
+  svg {
+    width: 30px;
+    height: 30px;
+    path {
+      fill: $cyanColor;
+    }
+  }
+}
+
+.imageParent {
+  position: relative;
+  &__decorationRemove {
+    visibility: hidden;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 25px;
+    height: 25px;
+    font-size: 9px;
+    text-align: center;
+    line-height: 25px;
+    background-color: $lightColor;
+    border-radius: 50%;
+    color: $redColorDarken;
+    &:hover {
+      cursor: pointer;
+      background-color: $redColor;
+      color: $lightColor;
+      box-shadow: inset 0 0 0 2px $lightColor;
+    }
+  }
+  &:hover {
+    .imageParent__decorationRemove {
+      visibility: visible;
+    }
+  }
+}

@@ -1,0 +1,312 @@
+@import '../../styles/colors.scss';
+@import '../../styles/mixins.scss';
+
+.root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px;
+  flex-direction: column;
+  display: flex;
+
+  &__title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+    button {
+      height: 30px;
+      position: absolute;
+      left: 0px;
+      background-color: $grayColor;
+      color: $lightColor;
+      padding: 5px 10px;
+      border-radius: 20px;
+      &:hover {
+        background-color: $grayColor;
+      }
+      svg {
+        margin-right: 4px;
+        width: 13px;
+        height: 13px;
+        path {
+          stroke: $lightColor;
+          fill: $lightColor;
+        }
+      }
+    }
+  }
+
+  &__body {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+  }
+
+  &__listBody {
+    flex: 0 0 100%;
+    overflow: hidden;
+    display: flex;
+    transition: 0.5s;
+    &.active {
+      margin-left: -100%;
+    }
+  }
+
+  &__empty {
+    width: 100%;
+    text-align: center;
+    color: $grayColor;
+  }
+
+  &__edit {
+    flex: 1 1 auto;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    &.active {
+      display: flex;
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__audience {
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__list {
+    border-bottom: 1px solid $grayColorLighten;
+    flex: 1 1 auto;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    margin-bottom: 10px;
+    &.active {
+      display: none;
+    }
+    &::before,
+    &::after {
+      z-index: 1;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 10px;
+      right: 14px;
+      background-image: linear-gradient($lightColor, transparent);
+    }
+    &::after {
+      top: auto;
+      bottom: 0;
+      background-image: linear-gradient(transparent, $lightColor);
+    }
+  }
+
+  &__scrollArea {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+    padding-left: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    @include scrollBar;
+    gap: 5px;
+  }
+
+  &__selectedAudience {
+    display: flex;
+    border-bottom: 1px solid $grayColorLighten;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+  }
+
+  &__setDefault {
+    overflow: hidden;
+    width: 0px;
+    &.active {
+      transition: 0.3s;
+      width: 90px;
+    }
+    border-radius: 10px;
+    color: $grayColor;
+    text-decoration: underline;
+    &:hover {
+      color: $grayColorDarken;
+    }
+    &.isDefault {
+      color: $greenColorDarken;
+    }
+  }
+}
+
+.top {
+  padding: 5px 0;
+  &__title {
+    font-size: 12px;
+    padding: 5px;
+    padding-right: 20px;
+    line-height: 12px;
+    color: $grayColorDarken;
+    flex: 1 1 auto;
+    word-wrap: break-word;
+  }
+}
+
+.public {
+  svg {
+    path {
+      fill: $greenColor;
+      stroke: $greenColor;
+    }
+  }
+  &:hover {
+    background-color: $greenColorLighten;
+  }
+}
+
+.friends {
+  svg {
+    path {
+      fill: $cyanColor;
+      stroke: $cyanColor;
+    }
+  }
+  &:hover {
+    background-color: $cyanColorLighten;
+  }
+}
+
+.friendsOfFriends {
+  svg {
+    path {
+      fill: $blueColor;
+      stroke: $blueColor;
+    }
+  }
+  &:hover {
+    background-color: lighten($blueColorLighten, 18);
+  }
+}
+
+.private {
+  svg {
+    path {
+      fill: $redColor;
+      stroke: $redColor;
+    }
+  }
+
+  &:hover {
+    background-color: lighten($redColorLighten, 6);
+  }
+}
+
+.createNew {
+  border-radius: 20px;
+  align-self: flex-end;
+  background-color: $greenColor;
+  color: $lightColor;
+  padding: 4px 7px;
+  &:hover {
+    background-color: $greenColorDarken;
+  }
+}
+
+.defaultAudience {
+  margin-left: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+  &__checkbox {
+    accent-color: #74992e;
+    pointer-events: none;
+  }
+
+  &__label {
+    font-size: 14px;
+    text-decoration: underline;
+    color: $grayColorDarken;
+  }
+  &.active {
+    cursor: default;
+    pointer-events: none;
+  }
+  &:hover {
+    span {
+      color: $greenColorDarken;
+    }
+  }
+}
+
+.customAudience {
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  &:hover {
+    background-color: lighten($color: $grayColorLighten, $amount: 17);
+  }
+
+  &__row {
+    display: flex;
+    padding: 3px;
+    align-items: center;
+  }
+
+  &__options {
+    gap: 5px;
+    span {
+      display: block;
+      height: 18px;
+      width: 1px;
+      background-color: $grayColorLighten;
+    }
+  }
+
+  &__edit {
+    width: 24px;
+    height: 24px;
+    border-radius: 20px;
+    &:hover {
+      background-color: transparentize($color: $greenColor, $amount: 0.7);
+    }
+    svg {
+      width: 14px;
+      height: 100%;
+      path {
+        fill: $greenColor;
+        stroke: $greenColor;
+      }
+    }
+  }
+
+  &__delete {
+    border-radius: 20px;
+    width: 24px;
+    height: 24px;
+    &:hover {
+      background-color: $redColorLighten;
+    }
+    svg {
+      padding: 5px;
+      width: 24px;
+      height: 100%;
+      path {
+        fill: lighten($color: $redColor, $amount: 10);
+        stroke: lighten($color: $redColor, $amount: 10);
+      }
+    }
+  }
+}

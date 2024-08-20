@@ -1,0 +1,94 @@
+@import '../../../../styles/colors.scss';
+
+.comment {
+  margin: 15px 0;
+  display: flex;
+  gap: 10px;
+  position: relative;
+  &__avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__body {
+    position: relative;
+    flex: 1 1 auto;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__info {
+    display: flex;
+    gap: 5px;
+  }
+
+  &__text {
+    font-size: 13.5px;
+  }
+
+  &__nameInfo {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 17px;
+    color: $greenColorDarken;
+    &_owner {
+      background-color: $grayColor;
+      border-radius: 10px;
+      padding: 0px 7px;
+      color: $lightColor;
+    }
+  }
+
+  &__timeInfo {
+    line-height: 17px;
+    font-size: 11px;
+    color: $grayColor;
+  }
+
+  &:hover {
+    .root__actions {
+      button {
+        opacity: 1;
+      }
+    }
+    .submenu {
+      opacity: 1;
+    }
+  }
+}
+
+.submenu {
+  opacity: 0;
+  &__delete {
+    svg {
+      height: 12px;
+      width: 12px;
+      path {
+        fill: $redColor;
+        stroke: $redColor;
+      }
+    }
+    &:hover {
+      background-color: $redColorLighten;
+    }
+  }
+  &__edit {
+    svg {
+      height: 10px;
+      width: 12px;
+      path {
+        fill: $greenColor;
+        stroke: $greenColor;
+      }
+    }
+    &:hover {
+      background-color: $greenColorLighten;
+    }
+  }
+}

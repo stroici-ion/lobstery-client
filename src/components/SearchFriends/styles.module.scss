@@ -1,0 +1,92 @@
+@import '../../styles/colors.scss';
+@import '../../styles/mixins.scss';
+
+.root {
+  min-width: 200px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  &__search {
+    display: flex;
+    padding: 0 5px;
+    border-radius: 20px;
+    border: 2px solid $cyanColorDarken;
+    margin-bottom: 10px;
+    svg {
+      width: 22px;
+      path {
+        stroke: $cyanColor;
+        fill: $cyanColor;
+      }
+    }
+  }
+  &__input {
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+    min-width: none;
+    padding: 5px 30px 5px 10px;
+  }
+
+  &__peoples {
+    flex: 1 1 auto;
+  }
+}
+
+.peoples {
+  position: relative;
+  overflow: hidden;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    height: 10px;
+    right: 0;
+    background-image: linear-gradient($lightColor, transparent);
+  }
+  &::after {
+    top: auto;
+    bottom: -1px;
+    background-image: linear-gradient(transparent, $lightColor);
+  }
+  &__scrollArea {
+    height: 100%;
+    @include scrollBar;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+  }
+  &__button {
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    padding: 5px;
+    background-color: transparent;
+    &:hover {
+      background-color: $grayColorLighten;
+    }
+  }
+
+  &__empty {
+    color: $grayColorLighten;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.avatar {
+  object-fit: cover;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}

@@ -1,0 +1,37 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/mixins.scss';
+
+.root {
+  flex: 1 1 auto;
+  display: flex;
+  position: relative;
+
+  &__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__aside {
+    background-color: $panelColor;
+    border-radius: 20px;
+    width: 420px;
+    padding: 20px;
+  }
+
+  &__scrollArea {
+    height: 100%;
+    @include scrollBar;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+  }
+}
+.canvas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

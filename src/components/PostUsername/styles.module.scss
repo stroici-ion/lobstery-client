@@ -1,0 +1,21 @@
+.root {
+  &__name {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    span {
+      font-weight: 500;
+    }
+  }
+  &__feeling {
+    font-size: 20px;
+  }
+}
+.noMarginLeft {
+  margin-left: -4px;
+}

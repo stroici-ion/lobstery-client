@@ -1,0 +1,83 @@
+@import '../../styles/colors.scss';
+
+.root {
+  flex: 1 1 auto;
+  display: flex;
+  &__left {
+    flex: 0 0 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $backColor;
+  }
+  &__right {
+    box-shadow: -3px 0px 1px $lightColor;
+    background-color: $yellowColor;
+    flex: 1 1 auto;
+    padding: 30px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.form {
+  box-shadow: -3px -3px 1px $lightColor, 3px 3px 1px $grayColor;
+  background-color: $backColor;
+  border-radius: 10px;
+  padding: 40px;
+  height: 400px;
+  width: 400px;
+  text-align: center;
+  &__title {
+    color: $darkTextColor;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  &__input {
+    font-size: 16px;
+    border-radius: 20px;
+    height: 40px;
+    line-height: 20px;
+    padding: 10px;
+    box-shadow: inset 2px 2px $grayColor, inset -2px -2px $lightColor;
+  }
+
+  &__error {
+    height: 20px;
+    font-size: 13px;
+    color: $redColor;
+    margin-bottom: 15px;
+  }
+
+  &__submit {
+    padding: 10px 20px;
+    background-color: $yellowColor;
+    color: $darkTextColor;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 20px;
+    box-shadow: -2px -2px 0.5px $lightColor, 2px 2px 0.5px $grayColor, inset 0px 0px 0px $lightColor,
+      inset 0px 0px 0px $grayColor;
+    transition: 0.1s;
+    &:hover {
+      box-shadow: 0px 0px 0px $lightColor, 0px 0px 0px $grayColor, inset -2px -2px 0.5px $lightColor,
+        inset 2px 2px 0.5px $grayColor;
+    }
+    &:active {
+      background-color: $yellowColorDarken;
+    }
+  }
+}

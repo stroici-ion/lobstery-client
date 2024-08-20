@@ -1,0 +1,7 @@
+@import '../../styles/colors.scss';
+
+.root {
+  background-color: $lightColor;
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px $grayColor;
+}

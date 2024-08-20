@@ -1,0 +1,71 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+
+.root {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__post {
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 auto;
+    &::before,
+    &::after {
+      z-index: 1;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 10px;
+      right: 0;
+      background-image: linear-gradient($lightColor, transparent);
+    }
+    &::after {
+      top: auto;
+      bottom: 0;
+      background-image: linear-gradient(transparent, $lightColor);
+    }
+  }
+
+  &__scrollArea {
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 10px 0;
+  }
+
+  &__postPreview {
+    user-select: none;
+    pointer-events: none;
+    transform: translate(-12%, -12%) scale(0.74);
+    // transform: scale(0.7);
+  }
+
+  &__submit {
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+    border-radius: 20px;
+    background-color: $greenColor;
+    color: $lightColor;
+    font-weight: 700;
+    font-size: 16px;
+    transition: 0.2s;
+    &:hover {
+      background-color: $greenColorDarken;
+    }
+    &.update {
+      background-color: $orangeColor;
+      color: $lightColor;
+      &:hover {
+        background-color: $orangeColorDarken;
+      }
+    }
+  }
+}

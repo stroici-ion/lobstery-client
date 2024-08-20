@@ -1,0 +1,12 @@
+@import '../../../../../../styles/colors.scss';
+
+.tools {
+  background-color: $panelColor;
+  display: flex;
+  gap: 5px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  box-shadow: -4px 4px 10px 0px $panelShadowColor;
+  align-items: center;
+  position: relative;
+}

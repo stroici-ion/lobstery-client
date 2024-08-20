@@ -1,0 +1,65 @@
+@import '../../styles/colors.scss';
+
+.root {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //   &__form {
+  //   }
+}
+
+.form {
+  box-shadow: -3px -3px 1px $lightColor, 3px 3px 1px $grayColor;
+  background-color: $backColor;
+  border-radius: 10px;
+  padding: 40px;
+  height: 500px;
+  width: 500px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__preview {
+    max-height: 200px;
+    max-width: 200px;
+    object-fit: contain;
+    border-radius: 20px;
+    box-shadow: -3px -3px 0.5px $lightColor, 3px 3px 0.5px $grayColor;
+  }
+
+  &__input {
+    font-size: 16px;
+    border-radius: 20px;
+    height: 40px;
+    line-height: 20px;
+    padding: 10px;
+    box-shadow: inset 2px 2px $grayColor, inset -2px -2px $lightColor;
+  }
+
+  &__button {
+    padding: 10px 20px;
+    background-color: $yellowColor;
+    color: $darkTextColor;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 20px;
+    box-shadow: -2px -2px 0.5px $lightColor, 2px 2px 0.5px $grayColor, inset 0px 0px 0px $lightColor,
+      inset 0px 0px 0px $grayColor;
+    transition: 0.1s;
+    &:hover {
+      box-shadow: 0px 0px 0px $lightColor, 0px 0px 0px $grayColor, inset -2px -2px 0.5px $lightColor,
+        inset 2px 2px 0.5px $grayColor;
+    }
+    &:active {
+      background-color: $yellowColorDarken;
+    }
+  }
+}

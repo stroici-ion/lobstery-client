@@ -1,0 +1,29 @@
+@import '../../../../../../../styles/colors.scss';
+
+.root {
+  background-color: $iEditorMainColor;
+  flex: 1 1 auto;
+  display: flex;
+  position: relative;
+
+  &__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__aside {
+    background-color: #272727;
+    border-radius: 20px;
+    margin: 20px 0;
+    width: 400px;
+    padding: 20px;
+  }
+}
+.canvas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

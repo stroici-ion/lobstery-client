@@ -1,0 +1,36 @@
+@import '../../../../../styles/colors.scss';
+
+.root {
+  width: 100%;
+  height: 60px;
+  position: relative;
+  background-color: transparent;
+  transition: 0.2s;
+
+  svg {
+    width: 23px;
+    path {
+      stroke: $grayColorLighten;
+      fill: $grayColorLighten;
+    }
+  }
+
+  &.active {
+    svg {
+      path {
+        stroke: $cyanColor;
+        fill: $cyanColor;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: $cyanColorLighten;
+    svg {
+      path {
+        stroke: $cyanColor;
+        fill: $cyanColor;
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+
+.root {
+  height: 100%;
+  padding: 10px;
+  &__title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  &__dropzone {
+    cursor: pointer;
+    position: relative;
+    height: calc(100% - 30px);
+    overflow: hidden;
+    display: flex;
+    // align-items: center;
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 6px;
+      right: 14px;
+      z-index: 1;
+      background-image: linear-gradient($lightColor, transparent);
+    }
+    &::after {
+      top: auto;
+      bottom: 0;
+      background-image: linear-gradient(transparent, $lightColor);
+    }
+  }
+
+  &__placeholder {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    top: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  &__scrollArea {
+    padding: 5px 0;
+    overflow: hidden;
+    overflow-y: auto;
+    @include scrollBar;
+    position: relative;
+    width: 100%;
+  }
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparentize($color: $lightColor, $amount: 0.2);
+  justify-content: center;
+  svg {
+    width: 30%;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    font-size: 13px;
+    color: $grayColor;
+  }
+
+  &__drag_active_text {
+    opacity: 0;
+  }
+
+  &.active {
+    border-radius: 10px;
+    border: 5px dashed $cyanColor;
+    .placeholder__title,
+    .placeholder__subtitle,
+    svg {
+      opacity: 0;
+    }
+
+    .placeholder__drag_active_text {
+      opacity: 1;
+    }
+  }
+}
+
+.root__add {
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: $greenColor;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid $lightColor;
+
+  svg {
+    width: 22px;
+    height: 45px;
+    path {
+      fill: $lightColor;
+      stroke: $lightColor;
+    }
+  }
+  transition: 0.3s;
+  &:hover {
+    background-color: $greenColorDarken;
+  }
+}

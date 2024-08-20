@@ -1,0 +1,36 @@
+@import '../../../styles/colors.scss';
+
+.smallButton {
+  position: relative;
+  &__wrapper {
+    z-index: -1;
+    display: block;
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $grayColor;
+    border-radius: 50%;
+    transition: 0.2s;
+  }
+  &.active {
+    .smallButton__wrapper {
+      animation: animated 0.3s;
+    }
+  }
+}
+
+@keyframes animated {
+  0% {
+    width: 0px;
+    height: 0px;
+  }
+  100% {
+    width: 30px;
+    height: 30px;
+    opacity: 0;
+    box-shadow: inset 0px 0px #000;
+  }
+}

@@ -1,0 +1,19 @@
+@import '../../../../../../../../../../styles/colors.scss';
+@import '../../../../../../../../../../styles/mixins.scss';
+
+.root {
+  padding: 10px 0;
+
+  &__row {
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__filter {
+    flex: 0 0 33.333%;
+    margin-bottom: 15px;
+  }
+  &__slider {
+    margin-bottom: 30px;
+  }
+}

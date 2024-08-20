@@ -1,0 +1,40 @@
+@import '../../../../../../../../../../styles/colors.scss';
+@import '../../../../../../../../../../styles/mixins.scss';
+
+.root {
+  background-color: $iEditorMainColor;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: lighten($color: $iEditorMainColor, $amount: 3);
+  }
+
+  &.active {
+    background-color: lighten($color: $iEditorMainColor, $amount: 5);
+    &:hover {
+      background-color: lighten($color: $iEditorMainColor, $amount: 8);
+    }
+    .pen__status {
+      svg {
+        visibility: visible;
+      }
+      // display: flex;
+    }
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    svg {
+      width: 25px;
+      height: 25px;
+      @include svgcolor($grayColorLighten);
+    }
+  }
+}

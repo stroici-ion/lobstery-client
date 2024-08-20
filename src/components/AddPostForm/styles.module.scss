@@ -1,0 +1,74 @@
+@import '../../styles/colors.scss';
+
+.root {
+  width: 550px;
+  height: 550px;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  // transition: width 0.5s, height 0.5s;
+  &.fullScreen {
+    width: calc(100vw - 20px);
+    height: calc(100vh - 20px);
+  }
+
+  &__body {
+    margin: 5px 15px;
+    border-radius: 20px;
+    height: calc(100% - 10px);
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__return {
+    position: absolute;
+    background-color: $cyanColor;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    right: 10px;
+    top: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      padding: 5px;
+      path {
+        stroke: $lightColor;
+        fill: $lightColor;
+      }
+    }
+    transform: translate(50px, 0);
+    transition: 0.5s;
+    &.active {
+      transform: translate(0px, 0);
+    }
+    &:hover {
+      background-color: $cyanColorDarken;
+    }
+  }
+  &__main_form,
+  &__form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    background-color: $lightColor;
+    transition: 1s;
+  }
+  &__main_form {
+    padding-right: 45px;
+    left: -100%;
+    &.active {
+      left: 0%;
+    }
+  }
+  &__form {
+    padding-left: 45px;
+    right: -100%;
+    &.active {
+      right: 0%;
+    }
+  }
+}

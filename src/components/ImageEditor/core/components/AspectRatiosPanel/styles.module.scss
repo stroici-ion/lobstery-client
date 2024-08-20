@@ -1,0 +1,58 @@
+@import '../../../styles/colors.scss';
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 0 0 70px;
+  position: relative;
+  &__list {
+    height: 80px;
+  }
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__done,
+  &__button {
+    font-size: 14px;
+    font-weight: lighter;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px 0px;
+    width: 70px;
+    color: $panelTextColor;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      path {
+        fill: $panelTextColor;
+        stroke: $panelTextColor;
+      }
+    }
+
+    &:hover {
+      background-color: $panelColorHover;
+    }
+
+    &.active {
+      background-color: $panelColorActive;
+      color: $mainColor;
+      svg {
+        width: 20px;
+        height: 20px;
+        path {
+          fill: $mainColor;
+          stroke: $mainColor;
+        }
+      }
+    }
+  }
+}

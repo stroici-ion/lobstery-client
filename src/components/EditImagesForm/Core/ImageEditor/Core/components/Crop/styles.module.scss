@@ -1,0 +1,160 @@
+@import '../../../../../../../styles/colors.scss';
+
+.root {
+  min-height: 400px;
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.body {
+  min-height: 400px;
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.canvas {
+  flex: 1 1 auto;
+  position: relative;
+  &__crop,
+  &__markup,
+  &__image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+  &__crop {
+    image-rendering: pixelated;
+  }
+}
+
+.bottom {
+  position: absolute;
+  height: 120px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cropTools {
+  flex: 0 0 120px;
+  &.hidden {
+    display: none;
+  }
+  display: flex;
+  flex-direction: column;
+  svg {
+    path {
+      fill: $lightColor;
+      stroke: $lightColor;
+    }
+  }
+}
+
+.degrees {
+  flex: 0 0 70px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  &__starightening {
+    color: $lightColor;
+    position: absolute;
+    left: 50%;
+    transform: translate(-5.5px, 0);
+  }
+}
+
+.cropTools {
+  display: flex;
+  justify-content: center;
+  width: 800px;
+  &__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__aspectRatio {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 30px;
+    border-radius: 10px;
+    padding: 0 10px;
+    color: $lightColor;
+    &:hover {
+      background-color: darken($color: $iEditorMainColor, $amount: 5);
+    }
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.rotateTools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    &:hover {
+      background-color: darken($color: $iEditorMainColor, $amount: 5);
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  &__left,
+  &__right {
+    svg {
+      transform: rotate(-60deg);
+    }
+  }
+  &__right {
+    svg {
+      margin-left: 1px;
+    }
+  }
+  &__left {
+    svg {
+      transform: scale(-1, 1) rotate(-60deg);
+    }
+  }
+}
+
+.flipTools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    &:hover {
+      background-color: darken($color: $iEditorMainColor, $amount: 5);
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__horizontal {
+    svg {
+      transform: scale(-1, 1) rotate(-90deg);
+    }
+  }
+}

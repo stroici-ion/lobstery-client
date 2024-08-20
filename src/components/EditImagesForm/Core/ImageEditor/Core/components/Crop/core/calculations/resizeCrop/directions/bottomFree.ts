@@ -1,0 +1,82 @@
+import { imageEditorSelectionBorderAutoDock as iESBAD } from '../../../../../../../../../../../utils/consts';
+import { imageEditorMinSelectionSize as iEMSZ } from '../../../../../../../../../../../utils/consts';
+import { imageEditorBorderSizeBottom as iEBSB } from '../../../../../../../../../../../utils/consts';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../Types/Interfaces';
+
+export const resizeBottomFree = (
+  cursorDistance: IPosition,
+  crop: ICropShape,
+  image: IDynamicShape & { isImageChanged: boolean },
+  imageBorders: IBorders,
+  maxOverBorderRatio: IBorders,
+  viewBorders: IBorders
+) => {
+  if (crop.startPosition.height + cursorDistance.y > iEMSZ) {
+    if (cursorDistance.y < 0) {
+      crop.height = crop.startPosition.height + cursorDistance.y;
+      crop.y = crop.startPosition.y;
+      if (image.x !== image.startPosition.x || image.y !== image.startPosition.y) {
+        image.x = image.startPosition.x;
+        image.y = image.startPosition.y;
+        image.width = image.startPosition.width;
+        image.height = image.startPosition.height;
+        image.isImageChanged = true;
+      }
+    } else {
+      if (cursorDistance.y < viewBorders.bottom) {
+        if (imageBorders.bottom / 2 - cursorDistance.y <= iESBAD) cursorDistance.y = imageBorders.bottom / 2;
+        crop.x = crop.startPosition.x;
+        crop.y = crop.startPosition.y - cursorDistance.y;
+        crop.width = crop.startPosition.width;
+        crop.height = crop.startPosition.height + cursorDistance.y * 2;
+
+        image.x = image.startPosition.x;
+        image.y = image.startPosition.y - cursorDistance.y;
+        image.width = image.startPosition.width;
+        image.height = image.startPosition.height;
+        image.isImageChanged = true;
+      } else {
+        if (viewBorders.bottom * 2 < imageBorders.bottom) {
+          const overBorder = Math.abs(viewBorders.bottom - cursorDistance.y);
+
+          let progress = 0;
+          if (overBorder >= iEBSB) progress = maxOverBorderRatio.bottom;
+          else progress = Math.floor((overBorder * maxOverBorderRatio.bottom) / iEBSB);
+
+          resizeBottomFreeOverView(progress, image, crop, viewBorders);
+          image.isImageChanged = true;
+        }
+      }
+    }
+  } else {
+    crop.height = iEMSZ;
+    crop.y = crop.startPosition.y;
+    if (image.y !== image.startPosition.y) {
+      image.y = image.startPosition.y;
+      image.isImageChanged = true;
+    }
+  }
+};
+
+export const resizeBottomFreeOverView = (progress: number, image: IDynamicShape, crop: ICropShape, viewBorders: IBorders) => {
+  crop.y = crop.startPosition.y - viewBorders.bottom;
+  crop.height = crop.startPosition.height + viewBorders.bottom * 2;
+  const imageStartPosition = image.startPosition.y - viewBorders.bottom;
+  const fullDistance = image.startPosition.height - (crop.y - imageStartPosition);
+  const distance = fullDistance - crop.height;
+  const diff = (distance / 100) * progress;
+  const newFullDistance = fullDistance - diff;
+  const minimizeOpositeRatio = newFullDistance / fullDistance;
+  const startDistanceOposite = crop.y - imageStartPosition;
+  const newDistanceOposite = startDistanceOposite * minimizeOpositeRatio;
+  const diffOposite = startDistanceOposite - newDistanceOposite;
+  image.height = image.startPosition.height - diff - diffOposite;
+  image.y = imageStartPosition + diffOposite;
+  const aspectRatio = image.startPosition.width / image.startPosition.height;
+  image.width = image.height * aspectRatio;
+  const relativeCropSize = crop.startPosition.width / image.startPosition.width;
+  const relativeCropPosition = (crop.startPosition.x - image.startPosition.x) / image.startPosition.width;
+  crop.width = image.width * relativeCropSize;
+  crop.x = crop.startPosition.x + (crop.startPosition.width - crop.width) / 2;
+  image.x = crop.x - image.width * relativeCropPosition;
+};

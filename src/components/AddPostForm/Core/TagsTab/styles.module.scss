@@ -1,0 +1,150 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+
+.root {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+
+  &__title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  &__empty {
+    width: 100%;
+    text-align: center;
+    color: $grayColor;
+  }
+  &__body {
+    flex: 1 1 auto;
+  }
+
+  &__search {
+    display: flex;
+    padding: 0 0 0 5px;
+    border-radius: 20px;
+    border: 2px solid $cyanColorDarken;
+    svg {
+      width: 22px;
+      path {
+        stroke: $cyanColor;
+        fill: $cyanColor;
+      }
+    }
+  }
+
+  &__input {
+    flex: 1 1 auto;
+    border-radius: 20px;
+    height: 100%;
+    min-width: none;
+    padding: 5px 10px 5px 10px;
+  }
+
+  &__add {
+    border-radius: 20px;
+    margin: 2px;
+    margin-right: 3px;
+    position: relative;
+    padding: 0 10px;
+    font-weight: 700;
+    font-size: 14px;
+    background-color: transparent;
+    color: $cyanColorDarken;
+    &:hover {
+      background-color: $cyanColor;
+
+      color: $lightColor;
+    }
+  }
+
+  &__tags {
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 auto;
+    &::before,
+    &::after {
+      z-index: 1;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 10px;
+      right: 14px;
+      background-image: linear-gradient($lightColor, transparent);
+    }
+    &::after {
+      top: auto;
+      bottom: 0;
+      background-image: linear-gradient(transparent, $lightColor);
+    }
+  }
+
+  &__scrollArea {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 20px;
+    padding-left: 0;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    @include scrollBar;
+  }
+
+  &__decoration,
+  &__decorationRemove {
+    position: absolute;
+    top: -2px;
+    right: -8px;
+    background-color: $greenColor;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid $lightColor;
+    svg {
+      padding: 2px;
+      width: 12px;
+      height: 12px;
+      path {
+        stroke: $lightColor;
+      }
+    }
+  }
+  &__decorationRemove {
+    opacity: 0;
+    font-size: 10px;
+    text-align: center;
+    color: $lightColor;
+    background-color: $redColor;
+  }
+  &__tag {
+    max-width: 100%;
+    background-color: $cyanColorDarken;
+    color: $lightColor;
+    border-radius: 20px;
+    padding: 5px 15px 5px 10px;
+    position: relative;
+    text-transform: lowercase;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    &::before {
+      content: '#';
+    }
+
+    &:hover {
+      .root__decoration {
+        opacity: 0;
+      }
+      .root__decorationRemove {
+        opacity: 1;
+      }
+    }
+  }
+}

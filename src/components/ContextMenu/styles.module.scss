@@ -1,0 +1,52 @@
+@import '../../styles/colors.scss';
+
+.root {
+  flex-direction: column;
+  position: relative;
+  transition: 0.3s;
+  z-index: 2;
+  text-align: center;
+  &__button {
+    transform: rotate(0deg);
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: 0.2s;
+    svg {
+      height: 12px;
+      path {
+        stroke: $cyanColorDarken;
+        fill: transparent;
+      }
+    }
+    &:hover {
+      background-color: $lightColor;
+    }
+  }
+
+  &__body {
+    position: absolute;
+    overflow: hidden;
+    right: 0;
+    top: 100%;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 2px $grayColorLighten;
+
+    & > button {
+      border-bottom: 1px solid $grayColorLighten;
+      width: 100%;
+      transition: 0.2s;
+      padding: 10px;
+      background-color: $lightColor;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 5px;
+    }
+  }
+}

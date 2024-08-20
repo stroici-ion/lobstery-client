@@ -1,0 +1,117 @@
+@import '../../styles/colors.scss';
+
+.root {
+  background-color: $lightColor;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__index {
+    width: 80px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  &__indexVertical {
+    width: 50px;
+    padding: 20px;
+    height: 80px;
+    line-height: 60px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  &__game {
+    display: flex;
+    flex-direction: column;
+  }
+  &__body {
+    display: flex;
+  }
+  &__chees {
+    border: 5px solid #444;
+  }
+  &__row {
+    display: flex;
+    &.rowIndex {
+      margin-left: 50px;
+    }
+  }
+  &__column {
+    flex-direction: column;
+    display: flex;
+  }
+  &__cell {
+    width: 80px;
+    height: 80px;
+    &.black {
+      background-color: #444;
+      // background: url('../../assets/chess/background.jpg') center;
+    }
+  }
+}
+
+.cell {
+  position: relative;
+
+  &__candidatePlace {
+    top: 30px;
+    left: 30px;
+    position: absolute;
+    z-index: 1;
+    background-color: transparentize($color: $cyanColorDarken, $amount: 0.2);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: 0.2s;
+  }
+  &.removeCandidate {
+    &::before {
+      z-index: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      content: '';
+      background: $redColor;
+      opacity: 0.8;
+    }
+  }
+  &.candidatePlace {
+    &:hover {
+      .cell__candidatePlace {
+        top: 0px;
+        left: 0px;
+        width: 80px;
+        height: 80px;
+        border-radius: 0%;
+      }
+    }
+    cursor: pointer;
+    .cell__candidatePlace {
+      opacity: 1;
+    }
+  }
+  &.warning {
+    .cell__candidatePlace {
+      top: 0px;
+      left: 0px;
+      width: 80px;
+      height: 80px;
+      border-radius: 0%;
+      opacity: 1;
+      background-color: darken($color: $redColorDarken, $amount: 20);
+    }
+  }
+  &.active {
+    cursor: pointer;
+  }
+  &__figure {
+    margin: 5px;
+    position: relative;
+    z-index: 2;
+    width: 70px;
+    height: 70px;
+  }
+}

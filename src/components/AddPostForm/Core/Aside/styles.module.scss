@@ -1,0 +1,111 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/addPostFormStyles.scss';
+
+.feeling {
+  font-size: 26px;
+}
+.checked,
+.tag_people,
+.text,
+.image,
+.tag {
+  svg {
+    padding: 2px;
+  }
+}
+
+.friends,
+.tag,
+.text {
+  @include asideButtonColor($cyanColor, $cyanColorBackgroundHover, $cyanColorBackgroundActive);
+}
+
+.custom,
+.feeling {
+  @include asideButtonColor($yellowColor, $yellowColorBackgroundHover, $yellowColorBackgroundActive);
+}
+
+.private,
+.tag_people {
+  @include asideButtonColor($redColor, $redColorBackgroundHover, $redColorBackgroundActive);
+}
+
+.public,
+.image,
+.checked {
+  @include asideButtonColor($greenColor, $greenColorBackgroundHover, $greenColorBackgroundActive);
+}
+
+.friendsOfFriends {
+  @include asideButtonColor($blueColor, $blueColorBackgroundHover, $blueColorBackgroundActive);
+}
+
+.root {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  z-index: 1;
+  width: 50px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 2px 2px $grayColor;
+  align-items: center;
+  padding: 10px 0;
+  gap: 5px;
+  background-color: $lightColor;
+  transition: 1s;
+  left: 3px;
+  &.active {
+    left: calc(100% - 53px);
+  }
+
+  &__button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+    transition: 0.2s;
+  }
+
+  &__decoration {
+    background-color: $lightColor;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    top: -4px;
+    right: 0px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    color: $greenColorDarken;
+    justify-content: center;
+    svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    &.dott {
+      top: -1px;
+      right: 2px;
+      width: 13px;
+      height: 13px;
+      span {
+        line-height: 15px;
+        font-size: 24px;
+        display: block;
+        width: 100%;
+        height: 100%;
+        color: $orangeColor;
+      }
+    }
+  }
+}

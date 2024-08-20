@@ -1,0 +1,80 @@
+@import '../../../../styles/colors.scss';
+
+.root {
+  background-color: transparentize($color: $lightColor, $amount: 0.2);
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  &.centerContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &::before {
+    position: absolute;
+    content: '';
+    left: 0;
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    height: 30px;
+    background: linear-gradient(transparent, $lightColor);
+  }
+  &__top {
+    display: flex;
+    height: 200px;
+  }
+  &__images {
+    position: relative;
+  }
+  &__imageBlock {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    transition: transform;
+    overflow: hidden;
+    transition: transform 0.3s, height 0.3s ease 0.3s;
+    height: 60px;
+
+    &.uploaded {
+      transform: translate(0, -100%) scale(0);
+      height: 0px;
+    }
+    &.pending {
+      opacity: 0.8;
+    }
+  }
+  &__image {
+    margin-right: 20px;
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+    filter: blur(0.4px);
+  }
+  &__imageProgress {
+    flex: 0 0 100px;
+    text-align: left;
+    margin-left: 15px;
+    &.pending {
+      color: $grayColor;
+    }
+  }
+  &__progressBarBlock {
+    flex: 1 1 auto;
+    background-color: $cyanColorLighten;
+    border-radius: 30px;
+    overflow: hidden;
+    height: 20px;
+  }
+  &__progressBar {
+    transition: 0.1s;
+    background-color: $cyanColorDarken;
+    width: 0%;
+    height: 100%;
+    border-radius: 0 30px 30px 0;
+    position: relative;
+    overflow: hidden;
+  }
+}

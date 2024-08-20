@@ -1,0 +1,110 @@
+@import '../../../../styles/colors.scss';
+
+.root {
+  width: 100%;
+  position: relative;
+}
+
+.customAudience {
+  display: flex;
+  border-radius: 10px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  &:hover {
+    background-color: lighten($color: $grayColorLighten, $amount: 17);
+  }
+
+  &__button {
+    padding: 3px 5px 3px 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 auto;
+    &:hover {
+      background-color: $grayColorLightenUltra;
+    }
+  }
+
+  &__row {
+    display: flex;
+    padding: 3px;
+    align-items: center;
+  }
+
+  &__options {
+    gap: 5px;
+    span {
+      display: block;
+      height: 18px;
+      width: 1px;
+      background-color: $grayColorLighten;
+    }
+  }
+
+  &__edit {
+    width: 24px;
+    height: 24px;
+    border-radius: 20px;
+    &:hover {
+      background-color: $greenColorLighten;
+    }
+    svg {
+      width: 14px;
+      height: 100%;
+      path {
+        fill: $greenColor;
+        stroke: $greenColor;
+      }
+    }
+  }
+
+  &__delete {
+    border-radius: 20px;
+    width: 24px;
+    height: 24px;
+    &:hover {
+      background-color: $redColorLighten;
+    }
+    svg {
+      padding: 5px;
+      width: 24px;
+      height: 100%;
+      path {
+        fill: $redColor;
+        stroke: $redColor;
+      }
+    }
+  }
+
+  &__public {
+    path {
+      fill: $greenColor;
+      stroke: $greenColor;
+    }
+  }
+
+  &__friends {
+    path {
+      fill: $cyanColor;
+      stroke: $cyanColor;
+    }
+  }
+
+  &__friendsOfFriends {
+    path {
+      fill: $blueColor;
+      stroke: $blueColor;
+    }
+  }
+
+  &__private {
+    path {
+      fill: $redColor;
+      stroke: $redColor;
+    }
+  }
+}

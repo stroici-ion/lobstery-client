@@ -1,0 +1,29 @@
+@import './colors.scss';
+
+@mixin svgcolor($color) {
+  path {
+    fill: $color;
+    stroke: $color;
+  }
+}
+
+@mixin scrollBar {
+  &::-webkit-scrollbar {
+    width: 15px;
+    z-index: 200;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $themeColor;
+    border-radius: 10px;
+    border: 4px solid $panelColor;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $themeColorHover;
+  }
+}

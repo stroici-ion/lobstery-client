@@ -1,0 +1,374 @@
+@import '../../styles/colors.scss';
+
+.post {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px 4px transparentize($grayColor, 0.5);
+  width: 600px;
+  &__content {
+    background-color: $lightColor;
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    &_right {
+      gap: 10px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__text {
+    padding-bottom: 10px;
+  }
+
+  &__body {
+    padding-top: 2px;
+  }
+
+  &__images {
+    overflow: hidden;
+  }
+
+  &__tags {
+    margin-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: $cyanColorDarken;
+    gap: 5px;
+    span {
+      cursor: pointer;
+      &:hover {
+        color: $cyanColor;
+      }
+    }
+  }
+
+  &__avatar {
+    width: 50px;
+    cursor: pointer;
+    flex: 0 0 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: 0.2s;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__name {
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    span {
+      font-weight: 500;
+    }
+  }
+  &__feeling {
+    font-size: 20px;
+  }
+
+  &__date {
+    font-weight: 500;
+    font-size: 12px;
+    color: $grayColor;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    svg {
+      width: 15px;
+      height: 15px;
+      path {
+        stroke: $grayColorDarken;
+        fill: $grayColorDarken;
+      }
+    }
+  }
+
+  &__audienceBtn {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 18px;
+    transition: 0.2s;
+    cursor: pointer;
+    &:hover {
+      color: $blueColor;
+    }
+  }
+
+  &__description {
+    font-size: 14px;
+    max-height: 200px;
+    overflow: hidden;
+  }
+
+  &__bottom {
+    padding-top: 15px;
+    color: #9b9b9b;
+    display: flex;
+    justify-content: space-between;
+    &_right {
+      gap: 10px;
+      display: flex;
+      width: 100%;
+    }
+  }
+
+  &__comments {
+    color: $greenColor;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+    span {
+      font-size: 13px;
+      text-decoration: underline;
+    }
+    svg {
+      width: 20px;
+      path {
+        fill: $greenColor;
+        stroke: $greenColor;
+      }
+    }
+    &:hover {
+      color: $greenColorDarken;
+      svg {
+        path {
+          fill: $greenColorDarken;
+          stroke: $greenColorDarken;
+        }
+      }
+    }
+  }
+
+  &__views {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    justify-content: flex-end;
+    color: $grayColor;
+    gap: 6px;
+    svg {
+      height: 12px;
+      path {
+        fill: $grayColor;
+        stroke: $grayColor;
+      }
+    }
+  }
+
+  &:hover {
+    .post__actions {
+      opacity: 0.9;
+      pointer-events: all;
+    }
+  }
+
+  &__submenu {
+    z-index: 3;
+  }
+}
+
+.submenu {
+  &__delete {
+    svg {
+      height: 16px;
+      width: 16px;
+      path {
+        fill: $redColor;
+        stroke: $redColor;
+      }
+    }
+    &:hover {
+      background-color: $redColorLighten;
+    }
+  }
+
+  &__edit {
+    svg {
+      height: 14px;
+      width: 16px;
+      path {
+        fill: $greenColor;
+        stroke: $greenColor;
+      }
+    }
+    &:hover {
+      background-color: $greenColorLighten;
+    }
+  }
+}
+
+.public {
+  svg {
+    path {
+      fill: $greenColor;
+      stroke: $greenColor;
+    }
+  }
+  &:hover {
+    background-color: $greenColorLighten;
+  }
+}
+
+.friends {
+  svg {
+    path {
+      fill: $cyanColor;
+      stroke: $cyanColor;
+    }
+  }
+  &:hover {
+    background-color: $cyanColorLighten;
+  }
+}
+
+.friendsOfFriends {
+  svg {
+    path {
+      fill: $blueColor;
+      stroke: $blueColor;
+    }
+  }
+  &:hover {
+    background-color: lighten($blueColorLighten, 18);
+  }
+}
+
+.private {
+  svg {
+    path {
+      fill: $redColor;
+      stroke: $redColor;
+    }
+  }
+  &:hover {
+    background-color: lighten($redColorLighten, 6);
+  }
+}
+
+.custom {
+  svg {
+    path {
+      fill: darken($color: $yellowColorDarken, $amount: 15);
+      stroke: darken($color: $yellowColorDarken, $amount: 15);
+    }
+  }
+  &:hover {
+    background-color: $yellowColorLighten;
+  }
+}
+
+.skeleton {
+  background-color: $lightColor;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  width: 720px;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    background-color: $grayColorDarken;
+    height: 100%;
+    left: 0%;
+    top: 0;
+    box-shadow: 10px 0 10px $grayColorDarken, -10px 0 10px $grayColorDarken;
+    animation: loading 2s infinite linear;
+  }
+
+  &__image {
+    height: 200px;
+    background-color: $grayColorLighten;
+  }
+
+  &__body {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    padding-bottom: 30px;
+  }
+
+  &__avatar {
+    background-color: $grayColorLighten;
+    width: 40px;
+    flex: 0 0 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__fullName {
+    width: 30%;
+    height: 16px;
+    border-radius: 4px;
+    background-color: $grayColorLighten;
+    margin-bottom: 4px;
+  }
+
+  &__date {
+    border-radius: 4px;
+    width: 20%;
+    height: 10px;
+    background-color: $grayColorLighten;
+  }
+
+  &__title {
+    border-radius: 4px;
+    height: 50px;
+    background-color: $grayColorLighten;
+    margin: 10px 0;
+  }
+
+  &__tags {
+    border-radius: 4px;
+    width: 50%;
+    height: 20px;
+    background-color: $grayColorLighten;
+    margin: 10px 0;
+  }
+
+  &__bottom {
+    border-radius: 4px;
+    width: 15%;
+    height: 20px;
+    background-color: $grayColorLighten;
+    margin: 10px 0;
+  }
+}
+
+@keyframes loading {
+  0% {
+    left: 0%;
+  }
+
+  100% {
+    left: calc(100% - 100px);
+  }
+}

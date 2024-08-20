@@ -1,0 +1,178 @@
+@import '../../../../styles/colors.scss';
+
+.comment {
+  margin: 15px 0;
+  display: flex;
+  gap: 15px;
+  position: relative;
+  &.pinned {
+    padding-top: 25px;
+  }
+
+  &__pinned {
+    position: absolute;
+    height: 15px;
+    top: 0;
+    left: 10px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $grayColor;
+    svg {
+      height: 12px;
+      width: 12px;
+      path {
+        fill: $blueColor;
+        stroke: $blueColor;
+      }
+    }
+    &_owner {
+      margin-left: -5px;
+      background-color: $greenColorLighten;
+      border-radius: 10px;
+      padding: 0px 7px;
+      font-weight: 700;
+      color: $greenColorDarken;
+    }
+  }
+
+  &__wasPinned {
+    svg {
+      path {
+        fill: $redColor;
+        stroke: $redColor;
+      }
+    }
+  }
+
+  &__avatar {
+    user-select: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__body {
+    padding-right: 15px;
+    padding-bottom: 5px;
+    position: relative;
+    flex: 1 1 auto;
+    border-bottom: 1px solid $grayColorLighten;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__info {
+    display: flex;
+    gap: 5px;
+  }
+
+  &__nameInfo {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 15px;
+    color: $grayColorDarken;
+    &_owner {
+      line-height: 18px;
+      background-color: $grayColorLighten;
+      border-radius: 10px;
+      padding: 0px 7px;
+      color: $darkColor;
+    }
+  }
+
+  &__timeInfo {
+    font-size: 12px;
+    color: $grayColor;
+  }
+
+  &:hover {
+    .root__actions {
+      button {
+        opacity: 1;
+      }
+    }
+    .submenu {
+      opacity: 1;
+    }
+  }
+}
+
+.submenu {
+  opacity: 0;
+  &__delete {
+    svg {
+      height: 12px;
+      width: 12px;
+      path {
+        fill: $redColor;
+        stroke: $redColor;
+      }
+    }
+    &:hover {
+      background-color: $redColorLighten;
+    }
+  }
+
+  &__edit {
+    svg {
+      height: 10px;
+      width: 12px;
+      path {
+        fill: $greenColor;
+        stroke: $greenColor;
+      }
+    }
+    &:hover {
+      background-color: $greenColorLighten;
+    }
+  }
+
+  &__report {
+    svg {
+      height: 12px;
+      width: 12px;
+      path {
+        fill: $yellowColor;
+        stroke: $yellowColor;
+      }
+    }
+    &:hover {
+      background-color: $yellowColorLighten;
+    }
+  }
+
+  &__pin {
+    svg {
+      height: 14px;
+      width: 12px;
+      path {
+        fill: $blueColor;
+        stroke: $blueColor;
+      }
+    }
+    &:hover {
+      background-color: $blueColorLighten;
+    }
+  }
+  &__unpin {
+    svg {
+      transform: rotate(45deg);
+      height: 14px;
+      width: 12px;
+      path {
+        fill: $blueColor;
+        stroke: $blueColor;
+      }
+    }
+    &:hover {
+      background-color: $blueColorLighten;
+    }
+  }
+}

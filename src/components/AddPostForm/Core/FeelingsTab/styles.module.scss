@@ -1,0 +1,176 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+
+.root {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+  &__title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  &__emojis {
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 auto;
+
+    &::before,
+    &::after {
+      z-index: 1;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 10px;
+      right: 14px;
+      background-image: linear-gradient($lightColor, transparent);
+    }
+    &::after {
+      top: auto;
+      bottom: 0;
+      background-image: linear-gradient(transparent, $lightColor);
+    }
+  }
+
+  &__scrollArea {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    padding: 10px 0;
+    overflow: hidden;
+    overflow-y: auto;
+    @include scrollBar;
+  }
+
+  &__button {
+    padding: 0 6px;
+    padding-top: 2px;
+    flex: 0 0 33.333%;
+    background-color: transparent;
+    border-radius: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    span {
+      font-size: 35px;
+      line-height: 35px;
+    }
+    &:hover {
+      background-color: $greenColorLighten;
+    }
+  }
+
+  &__search {
+    display: flex;
+    padding: 0 5px;
+    border-radius: 20px;
+    border: 2px solid $cyanColorDarken;
+    svg {
+      width: 22px;
+      path {
+        stroke: $cyanColor;
+        fill: $cyanColor;
+      }
+    }
+  }
+
+  &__input {
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+    min-width: none;
+    padding: 5px 30px 5px 10px;
+  }
+}
+.buttons {
+  justify-content: flex-end;
+}
+
+.selectedFeeling {
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+  height: 0px;
+  transform: translate(-50%, 0);
+  &.active {
+    transform: translate(0%, 0);
+    height: 60px;
+  }
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(90deg, $lightColor, transparent);
+  }
+  &::after {
+    left: auto;
+    right: 0;
+    background-image: linear-gradient(90deg, transparent, $lightColor);
+  }
+  &__scrollArea {
+    @include scrollBar;
+    overflow: hidden;
+    overflow-x: auto;
+    height: 60px;
+    display: flex;
+    button {
+      margin-left: 10px;
+    }
+  }
+  &__button {
+    position: relative;
+    height: 40px;
+  }
+  &__decoration,
+  &__decorationRemove {
+    position: absolute;
+    bottom: -7px;
+    right: -1px;
+    background-color: $greenColor;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    right: -5px;
+    border: 2px solid $lightColor;
+    svg {
+      padding: 2px;
+      width: 12px;
+      height: 12px;
+      path {
+        stroke: $lightColor;
+      }
+    }
+  }
+  &__decorationRemove {
+    opacity: 0;
+    font-size: 10px;
+    text-align: center;
+    color: $lightColor;
+    background-color: $redColor;
+  }
+  &__button {
+    &:hover {
+      .selectedFeeling__decoration {
+        opacity: 0;
+      }
+      .selectedFeeling__decorationRemove {
+        opacity: 1;
+      }
+    }
+  }
+  &__feeling {
+    font-size: 35px;
+  }
+}

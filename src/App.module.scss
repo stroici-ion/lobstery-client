@@ -1,0 +1,17 @@
+.scrollArea {
+  height: 100%;
+  &.lockScroll {
+    position: fixed;
+    overflow-y: scroll;
+    width: 100%;
+  }
+}
+
+.images__modal {
+  border: 1px solid #000;
+  background-color: #fff;
+  max-height: 100%;
+  flex: 1 1 auto;
+  height: 100vh;
+  padding: 10px;
+}

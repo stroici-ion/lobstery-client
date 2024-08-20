@@ -1,0 +1,89 @@
+@import '../../../../styles/colors.scss';
+
+.properties {
+  overflow: hidden;
+  &__hr {
+    margin: 10px 0;
+    border-bottom: 1px solid $grayColorLighten;
+  }
+  &__taggedFriends {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: $grayColorDarken;
+    margin-bottom: 10px;
+  }
+  &__taggedFriendCount {
+    color: $lightColor;
+    padding: 0 7px;
+    border-radius: 20px;
+    font-size: 13px;
+    background-color: $greenColor;
+  }
+  &__selectedUsers {
+    border-radius: 30px;
+    overflow: hidden;
+  }
+  &__caption {
+    width: 100%;
+    resize: none;
+    padding: 4px 0;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid $grayColorLighten;
+  }
+  &__button {
+    width: 100%;
+    padding: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: $greenColor;
+    border-radius: 20px;
+    font-weight: 700;
+    color: $lightColor;
+    margin-bottom: 10px;
+  }
+}
+
+.taggedFriend {
+  background-color: $lightColor;
+  padding: 5px 7px;
+  font-size: 13px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px $grayColor;
+  transition: 0.3s;
+  &__row {
+    display: flex;
+    gap: 5px;
+  }
+  &__decoration {
+    border-left: 1px solid $grayColor;
+    border-top: 1px solid $grayColor;
+    top: -4.5px;
+    z-index: 0;
+    transform: rotate(45deg);
+    left: calc(50% - 2.5px);
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: inherit;
+  }
+  &__name {
+    position: relative;
+    z-index: 1;
+  }
+  &__avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+  }
+  &.reverse {
+    transform: translate(calc(-50% - 1px), -36px);
+
+    .taggedFriend__decoration {
+      top: auto;
+      bottom: -5px;
+    }
+  }
+}

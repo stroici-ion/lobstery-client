@@ -1,0 +1,61 @@
+@import '../../styles/colors.scss';
+@import '../../styles/mixins.scss';
+
+.root {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+
+  &__title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  &__emojis {
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 auto;
+    &::before,
+    &::after {
+      z-index: 1;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 10px;
+      background-image: linear-gradient($lightColor, transparent);
+    }
+    &::after {
+      top: auto;
+      bottom: 0;
+      background-image: linear-gradient(transparent, $lightColor);
+    }
+  }
+
+  &__scrollArea {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    @include scrollBar;
+  }
+
+  &__button {
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    font-size: 26px;
+    padding-top: 1px;
+    padding-right: 1px;
+    border-radius: 50%;
+    &:hover {
+      background-color: $grayColorLighten;
+    }
+  }
+}

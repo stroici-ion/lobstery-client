@@ -1,0 +1,100 @@
+.slider {
+  &__top {
+    color: #2e2e2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  &__icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      width: 80%;
+      height: 80%;
+    }
+    path {
+      fill: #2e2e2e;
+      stroke: #2e2e2e;
+    }
+    circle {
+      fill: #2e2e2e;
+      stroke: #2e2e2e;
+    }
+  }
+  &__title {
+    flex: 1 1 auto;
+  }
+  &__value {
+    font-size: 14px;
+  }
+}
+
+.bar {
+  cursor: pointer;
+  height: 20px;
+  margin: 0 10px;
+  position: relative;
+  &::before {
+    content: '';
+    background-color: #b1b1b1;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 0;
+    left: 0;
+    height: 5px;
+  }
+
+  &__control {
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: transparentize(#578b2a, 0.5);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &:hover {
+      & > div {
+        width: 13px;
+        height: 13px;
+      }
+    }
+  }
+  &__controlPoint {
+    transition: 0.2s;
+    border-radius: 50px;
+    width: 11px;
+    height: 11px;
+    background-color: #578b2a;
+  }
+
+  &__left {
+    position: absolute;
+    height: 5px;
+    width: 0px;
+    top: 50%;
+    right: 0%;
+    background-color: #578b2a;
+    transform: translate(-100%, -50%);
+    border-radius: 5px;
+  }
+  &__right {
+    position: absolute;
+    height: 5px;
+    width: 0px;
+    left: 0%;
+    top: 50%;
+    background-color: #578b2a;
+    border-radius: 5px;
+    transform: translate(0, -50%);
+  }
+}

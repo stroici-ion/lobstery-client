@@ -1,0 +1,75 @@
+@import '../../styles/colors.scss';
+
+.root {
+  padding: 15px;
+  padding-right: 0px;
+
+  &__top {
+    position: relative;
+    z-index: 51;
+    padding: 0 15px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__sortBy {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    transition: 0.2s;
+    color: $grayColorLighten;
+
+    svg {
+      width: 22px;
+
+      path {
+        transition: 0.2s;
+        stroke: $grayColorLighten;
+        fill: $grayColorLighten;
+      }
+    }
+
+    &:hover {
+      color: $grayColor;
+
+      svg {
+        path {
+          stroke: $grayColor;
+          fill: $grayColor;
+        }
+      }
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    padding-top: 20px;
+    justify-content: center;
+  }
+
+  &__hide {
+    color: $redColor;
+    padding: 3px 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: underline;
+    &:hover {
+      color: $redColorDarken;
+    }
+  }
+}
+
+.sortTypes {
+  &__button {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $grayColorLighten;
+    }
+  }
+}
