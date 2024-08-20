@@ -1,6 +1,6 @@
 //API
-// export const API_URL = 'https://8fd9-109-185-92-69.ngrok-free.app/';
-export const API_URL = 'http://127.0.0.1:8000/';
+export const API_URL = 'https://bfe28da1-74d5-432f-9583-03f45beec360-00-hzvwm2l9n9nr.picard.replit.dev/';
+// export const API_URL = 'http://127.0.0.1:8000/';
 
 //ROUTES
 export const MAIN_LAYOUT_ROUTE = '';
