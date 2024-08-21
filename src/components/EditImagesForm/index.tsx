@@ -9,7 +9,7 @@ import { ImageEditOperationsEnum } from '../../models/ImageEditOperationsEnum';
 import ImageToolBar from './Core/ImageToolBar';
 import { IImage } from '../../models/IImage';
 import { useAppDispatch } from '../../redux';
-import { ArrowDownSvg } from '../../icons';
+import { ArrowDownSvg, CloseSvg } from '../../icons';
 import styles from './styles.module.scss';
 import Loader from '../Loader';
 const ImageEditor = React.lazy(() => import('../ImageEditor'));
@@ -55,7 +55,7 @@ const EditImagesForm: React.FC<IEditImagesForm> = ({ onHide }) => {
     <div className={styles.root}>
       {activeImage && onHide && (
         <button className={classNames(styles.root__return)} onClick={onHide}>
-          x
+          <CloseSvg />
         </button>
       )}
       <p className={styles.root__title}>
