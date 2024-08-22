@@ -9,14 +9,15 @@
   flex-direction: column;
   border-radius: 20px;
   background-color: $lightColor;
-  padding: 10px;
   position: relative;
   user-select: none;
 
   &__title {
+    font-weight: 700;
     text-align: center;
     font-size: 16px;
-    margin-bottom: 10px;
+    height: 45px;
+    line-height: 45px;
   }
   &__body {
     overflow: hidden;

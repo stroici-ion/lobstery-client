@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { IAdjustments, ICropHistory, IFilterHistory, IHistoryIndexState, IHistoryJSON, IMarkupLine } from './core/types/interfaces';
@@ -18,6 +18,7 @@ import { IImage } from '../../models/IImage';
 import styles from './styles.module.scss';
 import Tabs from './core/components/Tabs';
 import { ResetSvg } from '../../icons';
+import Loader from '../Loader';
 
 interface IImageEditor2 {
   image: IImage;
@@ -418,21 +419,25 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
           {/* <button className={styles.saveTools__cancel}>Cancel</button> */}
         </div>
       </div>
-      <div className={styles.tabContent}>
-        <TabItems
-          tab={tab}
-          zoomTrigger={zoomTrigger}
-          canvasAsImage={canvasAsImage}
-          optimizedImageData={optimizedImageData.current}
-          selectedHistoryCropStep={selectedHistoryCropStep}
-          selectedHistoryAdjStep={selectedHistoryAdjStep}
-          selectedHistoryMarkupStep={selectedHistoryMarkupStep}
-          selectedHistoryFilterStep={selectedHistoryFilterStep}
-          imageRef={imageRef}
-          canvasMarkup={canvasMarkupRef.current || undefined}
-          addToHistory={addToHistory}
-        />
-      </div>
+      {!selectedHistoryCropStep ? (
+        <Loader height={200} size={200} />
+      ) : (
+        <div className={styles.tabContent}>
+          <TabItems
+            tab={tab}
+            zoomTrigger={zoomTrigger}
+            canvasAsImage={canvasAsImage}
+            optimizedImageData={optimizedImageData.current}
+            selectedHistoryCropStep={selectedHistoryCropStep}
+            selectedHistoryAdjStep={selectedHistoryAdjStep}
+            selectedHistoryMarkupStep={selectedHistoryMarkupStep}
+            selectedHistoryFilterStep={selectedHistoryFilterStep}
+            imageRef={imageRef}
+            canvasMarkup={canvasMarkupRef.current || undefined}
+            addToHistory={addToHistory}
+          />
+        </div>
+      )}
     </div>
   );
 };
