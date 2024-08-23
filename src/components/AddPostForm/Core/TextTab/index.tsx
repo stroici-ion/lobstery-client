@@ -29,12 +29,6 @@ const TextTab: React.FC<ITextTab> = () => {
 
   return (
     <div className={styles.root}>
-      <div className={classNames(styles.root__top, styles.user)}>
-        <img className={styles.user__avatar} src={user.profile.avatar_thumbnail} alt="Avatar" />
-        <div className={styles.user__info}>
-          <PostUsername user={user} feeling={feeling} taggedFriends={tagged_friends} />
-        </div>
-      </div>
       <div className={styles.root__body}>
         <div className={classNames(styles.root__text, styles.text)}>
           <TextareaAutosize

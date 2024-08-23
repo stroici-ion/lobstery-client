@@ -1,6 +1,6 @@
-import { degrees_to_radians } from '../../../../calculationFunctions/converters';
-import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
-import { IEditorStep } from '../../../../types/interfaces';
+import { degrees_to_radians } from "../../../../calculationFunctions/converters";
+import { getDistanceToCenter } from "../calculations/maxDistance/distToCenter";
+import { IEditorStep } from "../../../../types/interfaces";
 
 /**
  * @param adjustedImageCanvas - Adjustments Canvas

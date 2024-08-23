@@ -220,16 +220,16 @@ export const zoomOut = (crop: ICropShape, image: IDynamicShape & { angle: number
   }
 };
 
-const getName = (x: EnumMoveTypes) => {
-  switch (x) {
-    case EnumMoveTypes.top:
-      return 'Top';
-    case EnumMoveTypes.right:
-      return 'Right';
-    case EnumMoveTypes.bottom:
-      return 'Bottom';
-    case EnumMoveTypes.left:
-      return 'Left';
-  }
-  return 'none';
-};
+// const getName = (x: EnumMoveTypes) => {
+//   switch (x) {
+//     case EnumMoveTypes.top:
+//       return 'Top';
+//     case EnumMoveTypes.right:
+//       return 'Right';
+//     case EnumMoveTypes.bottom:
+//       return 'Bottom';
+//     case EnumMoveTypes.left:
+//       return 'Left';
+//   }
+//   return 'none';
+// };

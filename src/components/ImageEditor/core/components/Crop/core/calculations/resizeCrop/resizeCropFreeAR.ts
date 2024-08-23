@@ -1,10 +1,11 @@
-import { IBorders, ICropShape, IDynamicShape, IPosition, IShape } from '../../../../../types/interfaces';
-import { EnumMoveTypes } from '../../../../../types/enumerations';
-import { resizeBottomFree } from './directions/bottomFree';
-import { resizeRightFree } from './directions/rightFree';
-import { resizeLeftFree } from './directions/leftFree';
-import { resizeTopFree } from './directions/topFree';
-import { resizeLeft } from './directions/left';
+import { IBorders, ICropShape, IDynamicShape, IPosition, IShape } from "../../../../../types/interfaces";
+import { EnumMoveTypes } from "../../../../../types/enumerations";
+import { resizeBottomFree } from "./directions/bottomFree";
+import { resizeRightFree } from "./directions/rightFree";
+import { resizeLeftFree } from "./directions/leftFree";
+import { resizeTopFree } from "./directions/topFree";
+import { resizeLeft } from "./directions/left";
+import { adjustShapePostion } from "../../../../../utils/calc";
 
 export const resizeCropFreeAR = (
   crop: ICropShape,
@@ -65,11 +66,4 @@ export const resizeCropFreeAR = (
     newCrop,
     newImage,
   };
-};
-
-export const adjustShapePostion = (shape: IShape) => {
-  shape.x = Math.floor(shape.x);
-  shape.y = Math.floor(shape.y);
-  shape.width = Math.ceil(shape.width);
-  shape.height = Math.ceil(shape.height);
 };

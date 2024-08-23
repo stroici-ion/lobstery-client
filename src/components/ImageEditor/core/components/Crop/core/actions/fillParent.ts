@@ -1,7 +1,7 @@
-import { getFillParentPosition } from '../calculations/position/getFillParentPosition';
-import { adjustShapePostion } from '../calculations/resizeCrop/resizeCropFreeAR';
-import { fillParentAnimation } from '../animations/fillParentAnimation';
-import { IEditorStep, IShape } from '../../../../types/interfaces';
+import { getFillParentPosition } from "../calculations/position/getFillParentPosition";
+import { fillParentAnimation } from "../animations/fillParentAnimation";
+import { IEditorStep, IShape } from "../../../../types/interfaces";
+import { adjustShapePostion } from "../../../../utils/calc";
 
 export const fillParent = (cropStep: IEditorStep, drawImage: (opacity: number) => void, addToHistory?: () => void) => {
   const Origin = cropStep.Origin;

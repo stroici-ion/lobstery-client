@@ -22,8 +22,8 @@ export const authRoutes = [
 ];
 
 export const publicRoutes = [
-  { path: HOME_ROUTE, element: <Home /> },
-  { path: PRODUCTS_ROUTE, element: <Products /> },
+  { path: HOME_ROUTE, element: <Posts /> },
+  { path: PRODUCTS_ROUTE, element: <Posts /> },
   { path: POSTS_ROUTE, element: <Posts /> },
   { path: ADD_POST_ROUTE, element: <AddPost /> },
 ];

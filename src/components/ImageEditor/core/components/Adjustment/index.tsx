@@ -1,20 +1,28 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import styles from './styles.module.scss';
-import { IAdjustments, ICropHistory, IEditorStep, IFilterHistory, IFilterListItem, IMarkupLine, ISlider } from '../../types/interfaces';
-import { loadHistoryStepPosition } from '../../historyFunctions/loadHistoryStepPosition';
-import { getAdjustedImageData } from '../../imageDataFunctions/getAdjustedImageData';
-import { getNullAdjustments } from '../../initialStateFunctions/getNullAdjustments';
-import { initialCanvasContextLoad } from './core/actions/initialCanvasContextLoad';
-import { compareAdjustments } from '../../checkFunctions/compareAdjustments';
-import { initailPostitionLoad } from './core/actions/initailPostitionLoad';
-import { getNullObject } from '../../initialStateFunctions/getNullObject';
-import { checkAdjustments } from '../../checkFunctions/checkAdjustments';
-import { drawMarkupLines } from '../../drawFunctions/drawMarkupLines';
-import { checkFilter } from '../../checkFunctions/checkFilter';
-import { canvasDrawImage } from '../Crop/core/draw/drawImage';
-import { filtersList } from '../FiltersList/filtersList';
-import Aside from '../AdjustmentsAside';
+import styles from "./styles.module.scss";
+import {
+  IAdjustments,
+  ICropHistory,
+  IEditorStep,
+  IFilterHistory,
+  IFilterListItem,
+  IMarkupLine,
+  ISlider,
+} from "../../types/interfaces";
+import { loadHistoryStepPosition } from "../../historyFunctions/loadHistoryStepPosition";
+import { getAdjustedImageData } from "../../imageDataFunctions/getAdjustedImageData";
+import { getNullAdjustments } from "../../initialStateFunctions/getNullAdjustments";
+import { initialCanvasContextLoad } from "./core/actions/initialCanvasContextLoad";
+import { compareAdjustments } from "../../checkFunctions/compareAdjustments";
+import { initailPostitionLoad } from "./core/actions/initailPostitionLoad";
+import { getNullObject } from "../../initialStateFunctions/getNullObject";
+import { checkAdjustments } from "../../checkFunctions/checkAdjustments";
+import { drawMarkupLines } from "../../drawFunctions/drawMarkupLines";
+import { checkFilter } from "../../checkFunctions/checkFilter";
+import { canvasDrawImage } from "../Crop/core/draw/drawImage";
+import { filtersList } from "../FiltersList/filtersList";
+import Aside from "../AdjustmentsAside";
 import {
   BrightnessSvg,
   ContrastSvg,
@@ -25,7 +33,7 @@ import {
   SharpenessSvg,
   TintSvg,
   WarmthSvg,
-} from '../../../../../icons/imageEditor';
+} from "../../../../../icons/imageEditor";
 
 interface IAdjustment {
   optimizedImageData: ImageData;
@@ -111,14 +119,13 @@ const Adjustment: React.FC<IAdjustment> = ({
   };
 
   const updateActiveFilter = () => {
-    if (historyFilterState) activeFilter.current = filtersList.find((f) => f.id === historyFilterState.filterId) || filtersList[0];
+    if (historyFilterState)
+      activeFilter.current = filtersList.find((f) => f.id === historyFilterState.filterId) || filtersList[0];
   };
 
   const updateAdjustemntsWithFilter = () => {
-    console.log('Calll Update Adjustments');
     if (!adjustedImageCtxRef.current) return;
     const isAdjusted = checkAdjustments(adjustmentsRef.current);
-    console.log('isAdjusted', isAdjusted);
 
     const isFilterd = historyFilterState ? checkFilter(historyFilterState) : false;
 
@@ -155,7 +162,8 @@ const Adjustment: React.FC<IAdjustment> = ({
     } else {
       wasFiltered.current = false;
       activeFilter.current = undefined;
-      if (wasAdjusted.current && adjustmentsImageData.current) adjustedImageCtxRef.current.putImageData(adjustmentsImageData.current, 0, 0);
+      if (wasAdjusted.current && adjustmentsImageData.current)
+        adjustedImageCtxRef.current.putImageData(adjustmentsImageData.current, 0, 0);
     }
     drawImage();
   };
@@ -202,7 +210,14 @@ const Adjustment: React.FC<IAdjustment> = ({
   };
 
   const setCropInitialPosition = (isResizing = false) => {
-    if (!canvasRef.current || !imageRef.current || !parentDivRef.current || !markupCanvasRef.current || !adjustedImageCanvasRef.current) return;
+    if (
+      !canvasRef.current ||
+      !imageRef.current ||
+      !parentDivRef.current ||
+      !markupCanvasRef.current ||
+      !adjustedImageCanvasRef.current
+    )
+      return;
 
     initailPostitionLoad(cropStep, imageRef.current, canvasRef.current, markupCanvasRef.current, parentDivRef.current);
 
@@ -210,7 +225,7 @@ const Adjustment: React.FC<IAdjustment> = ({
 
     adjustedImageCanvasRef.current.width = optimizedImageData.width;
     adjustedImageCanvasRef.current.height = optimizedImageData.height;
-    adjustedImageCtxRef.current = adjustedImageCanvasRef.current.getContext('2d');
+    adjustedImageCtxRef.current = adjustedImageCanvasRef.current.getContext("2d");
 
     adjustmentsImageData.current = new ImageData(
       new Uint8ClampedArray(optimizedImageData.data, optimizedImageData.data.length),
@@ -258,9 +273,9 @@ const Adjustment: React.FC<IAdjustment> = ({
   }, [historyCropState]);
 
   useEffect(() => {
-    window.addEventListener('resize', onWindowResize);
+    window.addEventListener("resize", onWindowResize);
     return () => {
-      window.removeEventListener('resize', onWindowResize);
+      window.removeEventListener("resize", onWindowResize);
     };
   }, []);
 
@@ -310,11 +325,11 @@ const Adjustment: React.FC<IAdjustment> = ({
 
   const controlsList = [
     {
-      categoryName: 'Light',
+      categoryName: "Light",
       sliders: [
         {
           id: 0,
-          title: 'Brightness',
+          title: "Brightness",
           value: adjustments.brightness,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -325,7 +340,7 @@ const Adjustment: React.FC<IAdjustment> = ({
         },
         {
           id: 1,
-          title: 'Contrast',
+          title: "Contrast",
           value: adjustments.contrast,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -336,7 +351,7 @@ const Adjustment: React.FC<IAdjustment> = ({
         },
         {
           id: 2,
-          title: 'Exposure',
+          title: "Exposure",
           value: adjustments.exposure,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -347,7 +362,7 @@ const Adjustment: React.FC<IAdjustment> = ({
         },
         {
           id: 3,
-          title: 'Highlights',
+          title: "Highlights",
           value: adjustments.highlights,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -358,7 +373,7 @@ const Adjustment: React.FC<IAdjustment> = ({
         },
         {
           id: 4,
-          title: 'Shadows',
+          title: "Shadows",
           value: adjustments.shadows,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -370,11 +385,11 @@ const Adjustment: React.FC<IAdjustment> = ({
       ],
     },
     {
-      categoryName: 'Color',
+      categoryName: "Color",
       sliders: [
         {
           id: 5,
-          title: 'Saturation',
+          title: "Saturation",
           value: adjustments.saturation,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -385,7 +400,7 @@ const Adjustment: React.FC<IAdjustment> = ({
         },
         {
           id: 6,
-          title: 'Warmth',
+          title: "Warmth",
           value: adjustments.warmth,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -396,7 +411,7 @@ const Adjustment: React.FC<IAdjustment> = ({
         },
         {
           id: 7,
-          title: 'Tint',
+          title: "Tint",
           value: adjustments.tint,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -407,7 +422,7 @@ const Adjustment: React.FC<IAdjustment> = ({
         },
         {
           id: 8,
-          title: 'Sharpness',
+          title: "Sharpness",
           value: adjustments.sharpness,
           initialValue: 0,
           onChange: onChangeAdjustment,
@@ -425,7 +440,7 @@ const Adjustment: React.FC<IAdjustment> = ({
       <div className={styles.root__body} ref={parentDivRef}>
         <canvas ref={canvasRef} className={styles.canvas} />
         <canvas ref={markupCanvasRef} className={styles.canvas} />
-        <canvas ref={adjustedImageCanvasRef} style={{ visibility: 'hidden' }} className={styles.canvas} />
+        <canvas ref={adjustedImageCanvasRef} style={{ visibility: "hidden" }} className={styles.canvas} />
       </div>
       <div className={styles.root__aside}>
         <div className={styles.root__scrollArea}>

@@ -1,12 +1,30 @@
 @import '../../../../styles/colors.scss';
 @import '../../../../styles/mixins.scss';
 
+.user {
+  display: flex;
+  gap: 15px;
+  &__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
 .root {
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
   padding: 10px;
+  &__top {
+    margin-bottom: 15px;
+  }
   &__title {
     text-align: center;
     font-size: 16px;

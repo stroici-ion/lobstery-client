@@ -1,15 +1,15 @@
-import { IBorders, ICropShape, IDynamicShape, IImageShape, IPosition, IShape } from '../../../../../types/interfaces';
-import { resizeBottomOverView } from '../resizeCrop/directions/bottom';
-import { resizeRightOverView } from '../resizeCrop/directions/right';
-import { adjustShapePostion } from '../resizeCrop/resizeCropFreeAR';
-import { getInscriptedImage } from '../position/getInscriptedImage';
-import { resizeLeftOverView } from '../resizeCrop/directions/left';
-import { EnumMoveTypes } from '../../../../../types/enumerations';
-import { resizeTopOverView } from '../resizeCrop/directions/top';
-import { getImageLimits } from '../maxDistance/cropMoveMaxDist';
-import { TZoomProperties } from '../../../../../types/types';
-import { zoomOut } from '../resizeCrop/directions/zoom';
-import { iEZPS } from '../../../../../consts';
+import { IBorders, ICropShape, IDynamicShape, IImageShape, IPosition, IShape } from "../../../../../types/interfaces";
+import { resizeBottomOverView } from "../resizeCrop/directions/bottom";
+import { resizeRightOverView } from "../resizeCrop/directions/right";
+import { getInscriptedImage } from "../position/getInscriptedImage";
+import { resizeLeftOverView } from "../resizeCrop/directions/left";
+import { EnumMoveTypes } from "../../../../../types/enumerations";
+import { resizeTopOverView } from "../resizeCrop/directions/top";
+import { getImageLimits } from "../maxDistance/cropMoveMaxDist";
+import { adjustShapePostion } from "../../../../../utils/calc";
+import { TZoomProperties } from "../../../../../types/types";
+import { zoomOut } from "../resizeCrop/directions/zoom";
+import { iEZPS } from "../../../../../consts";
 
 export const zoomImage = (
   step: number,
@@ -81,14 +81,23 @@ export const zoomImage = (
       if (step === 10) {
         if (image.angle) {
           stepProperties.stop = true;
-        } else if ((newImage.x === crop.x && newImage.width === crop.width) || (newImage.y === crop.y && newImage.height === crop.height)) {
+        } else if (
+          (newImage.x === crop.x && newImage.width === crop.width) ||
+          (newImage.y === crop.y && newImage.height === crop.height)
+        ) {
           stepProperties.stop = true;
         } else {
           stepProperties.isStartPosition = true;
         }
       }
       if (image.angle) {
-        const inscriptedImage = getInscriptedImage(newImage, image.angle, image.aspectRatio, startPosition.ratio || 1, O);
+        const inscriptedImage = getInscriptedImage(
+          newImage,
+          image.angle,
+          image.aspectRatio,
+          startPosition.ratio || 1,
+          O
+        );
 
         image.x = inscriptedImage.x;
         image.y = inscriptedImage.y;

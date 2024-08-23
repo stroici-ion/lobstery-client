@@ -7,7 +7,7 @@ const imageEditorBorderSizeBottom = 130 * devicePixelRatio; //px
 const imageEditorSelectionBorderSize = 20 * devicePixelRatio; //px
 const imageEditorSelectionBorderAutoDock = 3 * devicePixelRatio; //px
 const imageEditorSlectedImagePreviewBorderSize = 30 * devicePixelRatio; //px
-const imageEditorZoomPixelStep = 100; //px
+const imageEditorZoomPixelStep = 50; //px
 const imageEditorMarkupLaziness = 5; //px
 
 export { devicePixelRatio as dpr };

@@ -1,6 +1,6 @@
-import { getRotatedShape } from '../components/Crop/core/calculations/position/getRotatedShape';
-import { ICropHistory, IEditorStep } from '../types/interfaces';
-import { iEBSB, iEBSLR, iEBST, iESIPBS } from '../consts';
+import { getRotatedShape } from "../components/Crop/core/calculations/position/getRotatedShape";
+import { ICropHistory, IEditorStep } from "../types/interfaces";
+import { iEBSB, iEBSLR, iEBST, iESIPBS } from "../consts";
 
 export const loadHistoryStepPosition = (
   cropStep: IEditorStep,
@@ -40,18 +40,18 @@ export const loadHistoryStepPosition = (
 
     //Calculating new Selection size to fill Parent size
     if (canvasAspectRatio > crop.aspectRatio) {
-      crop.width = parentHeight * crop.aspectRatio;
-      crop.height = parentHeight;
+      crop.width = ~~(parentHeight * crop.aspectRatio);
+      crop.height = ~~(crop.width / crop.aspectRatio);
     } else {
-      crop.width = parentWidth;
-      crop.height = parentWidth / crop.aspectRatio;
+      crop.width = ~~(crop.height * crop.aspectRatio);
+      crop.height = ~~(parentWidth / crop.aspectRatio);
     }
   }
 
   //Calculating new Selection position to center of Parent
   if (recalculateCrop) {
-    crop.x = Origin.x - crop.width / 2;
-    crop.y = Origin.y - crop.height / 2;
+    crop.x = Origin.x - ~~(crop.width / 2);
+    crop.y = Origin.y - ~~(crop.height / 2);
   } else {
     crop.x = 0;
     crop.y = 0;
@@ -60,9 +60,9 @@ export const loadHistoryStepPosition = (
   let relativeCropWidth = crop.width;
   if (historyStep.angle) relativeCropWidth = getRotatedShape(crop, historyStep.angle).width;
 
-  image.width = relativeCropWidth / historyStep.cropWidth;
-  image.height = image.width / image.aspectRatio;
+  image.width = ~~(relativeCropWidth / historyStep.cropWidth);
+  image.height = ~~(image.width / image.aspectRatio);
 
-  image.x = Origin.x - image.width * historyStep.cropLeft;
-  image.y = Origin.y - image.height * historyStep.cropTop;
+  image.x = Origin.x - ~~(image.width * historyStep.cropLeft);
+  image.y = Origin.y - ~~(image.height * historyStep.cropTop);
 };

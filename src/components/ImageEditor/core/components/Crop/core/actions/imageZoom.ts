@@ -1,13 +1,13 @@
-import { calculateDiagonalLength, calculateHelperAngle } from '../calculations/maxDistance/cropRotatedDistToImage';
-import { getRotatedImageLimits } from '../calculations/maxDistance/cropMoveMaxDist';
-import { degrees_to_radians } from '../../../../calculationFunctions/converters';
-import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
-import { IBorders, IEditorStep, IShape } from '../../../../types/interfaces';
-import { getRotatedShape } from '../calculations/position/getRotatedShape';
-import { resetShape } from '../calculations/resizeCrop/resizeCrop';
-import { zoomImage } from '../calculations/resizeImage/zoomImage';
-import { EnumMoveTypes } from '../../../../types/enumerations';
-import { TZoomProperties } from '../../../../types/types';
+import { calculateDiagonalLength, calculateHelperAngle } from "../calculations/maxDistance/cropRotatedDistToImage";
+import { getRotatedImageLimits } from "../calculations/maxDistance/cropMoveMaxDist";
+import { degrees_to_radians } from "../../../../calculationFunctions/converters";
+import { getDistanceToCenter } from "../calculations/maxDistance/distToCenter";
+import { IBorders, IEditorStep, IShape } from "../../../../types/interfaces";
+import { getRotatedShape } from "../calculations/position/getRotatedShape";
+import { resetShape } from "../calculations/resizeCrop/resizeCrop";
+import { zoomImage } from "../calculations/resizeImage/zoomImage";
+import { EnumMoveTypes } from "../../../../types/enumerations";
+import { TZoomProperties } from "../../../../types/types";
 
 export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (opacity: number) => void) => {
   const Origin = cropStep.Origin;
@@ -26,8 +26,10 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
       break;
     case -1:
       //If before we detected that no zoom out available then break
-      if (zoom.outSteps[0].stop) break;
-
+      if (zoom.outSteps[0].stop) {
+        zoom.step = 0;
+        break;
+      }
       //If first zoom out step was calculated before
       if (zoom.outSteps.length > 1) {
         image.x = zoom.outSteps[1].x;
@@ -67,6 +69,23 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
         );
       };
 
+      const isZoomOutAvailable = () => {
+        if (image.angle) {
+          const rc = getRotatedShape(crop, image.angle);
+          if (image.width <= rc.width + 1 || image.height <= rc.height + 1) return false;
+        } else {
+          if (image.width <= crop.width || image.height <= crop.height) return false;
+        }
+        return true;
+      };
+
+      if (!isZoomOutAvailable()) {
+        zoom.outSteps[0].stop = true;
+        zoom.step = 0;
+        break;
+      }
+
+      // If zoom out is available bu Image size did not changed - then resize in certain direction
       //Size remained the same as before
       if (checkChanges()) {
         //Recalculating with certain direction
@@ -252,7 +271,9 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
           image.height = zoom.outSteps[step].height;
         } else {
           const lastStep = zoom.outSteps[step - 1];
-          let posCandidate = zoom.outSteps.find((item, index) => index >= zoom.outSteps.length - 10 && item.isStartPosition) || zoom.outSteps[0];
+          let posCandidate =
+            zoom.outSteps.find((item, index) => index >= zoom.outSteps.length - 10 && item.isStartPosition) ||
+            zoom.outSteps[0];
           let posCandidateIndex = zoom.outSteps.indexOf(posCandidate) || 0;
 
           if (lastStep?.stop) {
@@ -262,7 +283,12 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
 
           const chengeDirectionPosition: IShape & { ratio?: number } & {
             maxOverBorderRatio: IBorders;
-          } = image.angle ? { ...posCandidate.outer, maxOverBorderRatio: posCandidate.maxOverBorderRatio } : posCandidate;
+          } = image.angle
+            ? {
+                ...posCandidate.outer,
+                maxOverBorderRatio: posCandidate.maxOverBorderRatio,
+              }
+            : posCandidate;
 
           const stepProperties: TZoomProperties = {
             stop: false,
@@ -283,7 +309,16 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
             },
           };
 
-          zoomImage(step - posCandidateIndex, isZoomIn, crop, image, Origin, imageDC, stepProperties, chengeDirectionPosition);
+          zoomImage(
+            step - posCandidateIndex,
+            isZoomIn,
+            crop,
+            image,
+            Origin,
+            imageDC,
+            stepProperties,
+            chengeDirectionPosition
+          );
 
           zoom.outSteps.push({
             ...stepProperties,
@@ -295,6 +330,5 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
         }
       }
   }
-
   drawImage(0.3);
 };

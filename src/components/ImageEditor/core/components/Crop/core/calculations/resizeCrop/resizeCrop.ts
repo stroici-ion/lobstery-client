@@ -1,11 +1,11 @@
-import { IBorders, ICropShape, IDynamicShape, IPosition, IShape } from '../../../../../types/interfaces';
-import { getAvailableResizeDirection } from '../../mouseMoveType/getAvailableDirection';
-import { EnumMoveTypes } from '../../../../../types/enumerations';
-import { adjustShapePostion } from './resizeCropFreeAR';
-import { resizeBottom } from './directions/bottom';
-import { resizeLeft } from './directions/left';
-import { resizeRight } from './directions/right';
-import { resizeTop } from './directions/top';
+import { IBorders, ICropShape, IDynamicShape, IPosition, IShape } from "../../../../../types/interfaces";
+import { getAvailableResizeDirection } from "../../mouseMoveType/getAvailableDirection";
+import { EnumMoveTypes } from "../../../../../types/enumerations";
+import { resizeBottom } from "./directions/bottom";
+import { resizeLeft } from "./directions/left";
+import { resizeRight } from "./directions/right";
+import { resizeTop } from "./directions/top";
+import { adjustShapePostion } from "../../../../../utils/calc";
 
 export const getMin = (x: number, y: number) => {
   return x > y ? y : x;

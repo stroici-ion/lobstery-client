@@ -1,7 +1,7 @@
-import { updateStartPosition } from '../../resetFunctions/updateStartPosition';
-import { adjustShapePostion } from '../resizeCrop/resizeCropFreeAR';
-import { IEditorStep } from '../../../../../types/interfaces';
-import { iEBSB, iEBSLR, iEBST } from '../../../../../consts';
+import { updateStartPosition } from "../../resetFunctions/updateStartPosition";
+import { adjustShapePostion } from "../../../../../utils/calc";
+import { IEditorStep } from "../../../../../types/interfaces";
+import { iEBSB, iEBSLR, iEBST } from "../../../../../consts";
 
 const getInitialPosition = (cropStep: IEditorStep) => {
   const parentSize = cropStep.parentSize;

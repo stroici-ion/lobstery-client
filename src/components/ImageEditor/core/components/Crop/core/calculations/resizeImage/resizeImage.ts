@@ -1,7 +1,7 @@
-import { degrees_to_radians } from '../../../../../calculationFunctions/converters';
-import { iESBAD } from '../../../../../consts';
-import { IBorders, IImageShape, IPosition } from '../../../../../types/interfaces';
-import { adjustShapePostion } from '../resizeCrop/resizeCropFreeAR';
+import { degrees_to_radians } from "../../../../../calculationFunctions/converters";
+import { IBorders, IImageShape, IPosition } from "../../../../../types/interfaces";
+import { adjustShapePostion } from "../../../../../utils/calc";
+import { iESBAD } from "../../../../../consts";
 
 export const resizeImage = (image: IImageShape, cursorDistance: IPosition, imageBorders: IBorders) => {
   if (image.angle) {
