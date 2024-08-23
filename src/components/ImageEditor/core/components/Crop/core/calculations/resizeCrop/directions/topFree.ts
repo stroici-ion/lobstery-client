@@ -1,5 +1,5 @@
 import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
-import { iEBST, iEMSS, iESBAD } from '../../../../../../consts';
+import { iEBST, iEMAR, iEMSS, iESBAD } from '../../../../../../consts';
 
 export const resizeTopFree = (
   cursorDistance: IPosition,
@@ -60,20 +60,30 @@ export const resizeTopFree = (
 export const resizeTopFreeOverView = (progress: number, image: IDynamicShape, crop: ICropShape, viewBorders: IBorders) => {
   const remainigDistance = crop.startPosition.y - image.startPosition.y - viewBorders.top * 2;
   const cropStretchDist = viewBorders.top * -1;
-  crop.y = crop.startPosition.y + cropStretchDist;
-  image.y = image.startPosition.y - cropStretchDist;
-  crop.height = crop.startPosition.height - cropStretchDist * 2;
+  const cropY = crop.startPosition.y + cropStretchDist;
+  const cropHeight = crop.startPosition.height - cropStretchDist * 2;
   const newDistance = (remainigDistance / 100) * progress;
-  image.y = image.startPosition.y - cropStretchDist + newDistance;
+  const imageY = image.startPosition.y - cropStretchDist + newDistance;
   const startDistance = crop.startPosition.y + crop.startPosition.height - image.startPosition.y;
   const sizeRatio = startDistance / image.startPosition.height;
-  const currentDistance = crop.y + crop.height - image.y;
-  image.height = currentDistance / sizeRatio;
+  const currentDistance = cropY + cropHeight - imageY;
+  const imageHeight = currentDistance / sizeRatio;
   const aspectRatio = image.startPosition.width / image.startPosition.height;
-  image.width = image.height * aspectRatio;
+  const imageWidth = imageHeight * aspectRatio;
   const relativeOpositeSize = crop.startPosition.width / image.startPosition.width;
   const relativeOpositeAxis = (crop.startPosition.x - image.startPosition.x) / image.startPosition.width;
-  crop.width = image.width * relativeOpositeSize;
-  crop.x = crop.startPosition.x + (crop.startPosition.width - crop.width) / 2;
-  image.x = crop.x - image.width * relativeOpositeAxis;
+  const cropWidth = imageWidth * relativeOpositeSize;
+  const cropX = crop.startPosition.x + (crop.startPosition.width - cropWidth) / 2;
+  const imageX = cropX - imageWidth * relativeOpositeAxis;
+
+  if (cropWidth / cropHeight >= iEMAR) {
+    crop.y = cropY;
+    crop.x = cropX;
+    crop.width = cropWidth;
+    crop.height = cropHeight;
+    image.x = imageX;
+    image.y = imageY;
+    image.width = imageWidth;
+    image.height = imageHeight;
+  }
 };
