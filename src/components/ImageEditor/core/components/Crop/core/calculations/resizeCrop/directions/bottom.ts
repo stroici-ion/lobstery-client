@@ -1,6 +1,6 @@
-import { iEBSB, iEMSS } from '../../../../../../consts';
-import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
-import { resetShape } from '../resizeCrop';
+import { iEBSB, iEMSS } from "../../../../../../consts";
+import { IBorders, ICropShape, IDynamicShape, IPosition } from "../../../../../../types/interfaces";
+import { resetShape } from "../resizeCrop";
 
 export const resizeBottom = (
   cursorDistance: IPosition,
@@ -16,7 +16,8 @@ export const resizeBottom = (
     crop.x = crop.startPosition.x + diff / 2;
   };
 
-  if (crop.startPosition.height + cursorDistance.y > iEMSS) {
+  const min = crop.startPosition.height < crop.startPosition.width ? iEMSS : iEMSS / crop.aspectRatio;
+  if (crop.startPosition.height + cursorDistance.y > min) {
     if (cursorDistance.y < 0) {
       crop.height = crop.startPosition.height + cursorDistance.y;
       adjustCrop();
@@ -34,14 +35,19 @@ export const resizeBottom = (
       image.isImageChanged = true;
     }
   } else {
-    crop.height = iEMSS;
+    crop.height = min;
     adjustCrop();
     resetShape(image);
     image.isImageChanged = true;
   }
 };
 
-export const resizeBottomOverView = (progress: number, image: IDynamicShape, crop: ICropShape, imageBorders: IBorders) => {
+export const resizeBottomOverView = (
+  progress: number,
+  image: IDynamicShape,
+  crop: ICropShape,
+  imageBorders: IBorders
+) => {
   const aspectRatio = image.startPosition.width / image.startPosition.height;
   const isCenter = !!imageBorders.left && !!imageBorders.right;
   const isLeft = isCenter ? imageBorders.left < imageBorders.right : !!imageBorders.left;
@@ -51,9 +57,9 @@ export const resizeBottomOverView = (progress: number, image: IDynamicShape, cro
   if (remainigDistanceX < imageBorders.bottom * helperAR) {
     const newDistance = (remainigDistanceX / 100) * progress;
 
-    const startDistX = crop.startPosition.width / (isCenter ? 2 : 1) + imageBorders[isLeft ? 'left' : 'right'];
+    const startDistX = crop.startPosition.width / (isCenter ? 2 : 1) + imageBorders[isLeft ? "left" : "right"];
 
-    const startDistOpositeX = imageBorders[isLeft ? 'right' : 'left'] + (isCenter ? crop.startPosition.width / 2 : 0);
+    const startDistOpositeX = imageBorders[isLeft ? "right" : "left"] + (isCenter ? crop.startPosition.width / 2 : 0);
 
     const diffPasive = (startDistOpositeX * newDistance) / startDistX;
     const diffX = isLeft ? newDistance : diffPasive;
@@ -79,7 +85,8 @@ export const resizeBottomOverView = (progress: number, image: IDynamicShape, cro
     image.height = image.startPosition.height - newDistance - diffTop;
     image.width = image.height * aspectRatio;
 
-    const relativeLeft = (imageBorders.left + (isCenter ? crop.width / 2 : isLeft ? crop.width : 0)) / image.startPosition.width;
+    const relativeLeft =
+      (imageBorders.left + (isCenter ? crop.width / 2 : isLeft ? crop.width : 0)) / image.startPosition.width;
 
     const newDistToLeft = image.width * relativeLeft;
     image.y = image.startPosition.y + diffTop;

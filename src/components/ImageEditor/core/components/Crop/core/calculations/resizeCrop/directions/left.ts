@@ -1,7 +1,7 @@
-import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
-import { EnumMoveTypes } from '../../../../../../types/enumerations';
-import { iEBSLR, iEMSS } from '../../../../../../consts';
-import { resetShape } from '../resizeCrop';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from "../../../../../../types/interfaces";
+import { EnumMoveTypes } from "../../../../../../types/enumerations";
+import { iEBSLR, iEMSS } from "../../../../../../consts";
+import { resetShape } from "../resizeCrop";
 
 export const resizeLeft = (
   moveType: EnumMoveTypes,
@@ -27,7 +27,8 @@ export const resizeLeft = (
     }
   };
 
-  if (crop.startPosition.width - cursorDistance.x > iEMSS) {
+  const min = crop.startPosition.height > crop.startPosition.width ? iEMSS : iEMSS * crop.aspectRatio;
+  if (crop.startPosition.width - cursorDistance.x > min) {
     if (cursorDistance.x > 0) {
       crop.width = crop.startPosition.width - cursorDistance.x;
       adjustCrop();
@@ -47,14 +48,20 @@ export const resizeLeft = (
       }
     }
   } else {
-    crop.width = iEMSS;
+    crop.width = min;
     adjustCrop();
     resetShape(image);
     image.isImageChanged = true;
   }
 };
 
-export const resizeLeftOverView = (progress: number, moveType: EnumMoveTypes, image: IDynamicShape, crop: ICropShape, imageBorders: IBorders) => {
+export const resizeLeftOverView = (
+  progress: number,
+  moveType: EnumMoveTypes,
+  image: IDynamicShape,
+  crop: ICropShape,
+  imageBorders: IBorders
+) => {
   const aspectRatio = image.startPosition.width / image.startPosition.height;
   const isCenter = moveType === EnumMoveTypes.left && !!imageBorders.top && !!imageBorders.bottom;
   const isTop = isCenter
@@ -66,8 +73,8 @@ export const resizeLeftOverView = (progress: number, moveType: EnumMoveTypes, im
   const helperAR = crop.aspectRatio * (isCenter ? 2 : 1);
   if (remainigDistanceY < imageBorders.left / helperAR) {
     const newDistance = (remainigDistanceY / 100) * progress;
-    const startDistY = crop.startPosition.height / (isCenter ? 2 : 1) + imageBorders[isTop ? 'top' : 'bottom'];
-    const startDistOpositeY = imageBorders[isTop ? 'bottom' : 'top'] + (isCenter ? crop.startPosition.height / 2 : 0);
+    const startDistY = crop.startPosition.height / (isCenter ? 2 : 1) + imageBorders[isTop ? "top" : "bottom"];
+    const startDistOpositeY = imageBorders[isTop ? "bottom" : "top"] + (isCenter ? crop.startPosition.height / 2 : 0);
     const diffPasive = (startDistOpositeY * newDistance) / startDistY;
     const diffY = isTop ? newDistance : diffPasive;
     const relativeRight = imageBorders.right / image.startPosition.width;
@@ -85,7 +92,8 @@ export const resizeLeftOverView = (progress: number, moveType: EnumMoveTypes, im
     const diffRight = startDistRight * relativeDiffLeft;
     image.width = image.startPosition.width - newDistance - diffRight;
     image.height = image.width / aspectRatio;
-    const relativeTop = (imageBorders.top + (isCenter ? crop.height / 2 : isTop ? crop.height : 0)) / image.startPosition.height;
+    const relativeTop =
+      (imageBorders.top + (isCenter ? crop.height / 2 : isTop ? crop.height : 0)) / image.startPosition.height;
     const newDistToTop = image.height * relativeTop;
     image.x = image.startPosition.x + newDistance;
     image.y = crop.y + (isCenter ? crop.height / 2 : isTop ? crop.height : 0) - newDistToTop;

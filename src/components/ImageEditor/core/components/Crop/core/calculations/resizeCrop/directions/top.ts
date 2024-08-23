@@ -1,6 +1,6 @@
-import { iEBST, iEMSS } from '../../../../../../consts';
-import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
-import { resetShape } from '../resizeCrop';
+import { iEBST, iEMSS } from "../../../../../../consts";
+import { IBorders, ICropShape, IDynamicShape, IPosition } from "../../../../../../types/interfaces";
+import { resetShape } from "../resizeCrop";
 
 export const resizeTop = (
   cursorDistance: IPosition,
@@ -16,7 +16,8 @@ export const resizeTop = (
     crop.x = crop.startPosition.x + diff / 2;
   };
 
-  if (crop.startPosition.height - cursorDistance.y > iEMSS) {
+  const min = crop.startPosition.height < crop.startPosition.width ? iEMSS : iEMSS / crop.aspectRatio;
+  if (crop.startPosition.height - cursorDistance.y > min) {
     if (cursorDistance.y > 0) {
       crop.height = crop.startPosition.height - cursorDistance.y;
       adjustCrop();
@@ -36,7 +37,7 @@ export const resizeTop = (
       }
     }
   } else {
-    crop.height = iEMSS;
+    crop.height = min;
     adjustCrop();
     resetShape(image);
     image.isImageChanged = true;
@@ -56,9 +57,9 @@ export const resizeTopOverView = (progress: number, image: IDynamicShape, crop: 
   if (remainigDistanceX < imageBorders.top * helperAR) {
     const newDistance = (remainigDistanceX / 100) * progress;
 
-    const startDistX = crop.startPosition.width / (isCenter ? 2 : 1) + imageBorders[isLeft ? 'left' : 'right'];
+    const startDistX = crop.startPosition.width / (isCenter ? 2 : 1) + imageBorders[isLeft ? "left" : "right"];
 
-    const startDistOpositeX = imageBorders[isLeft ? 'right' : 'left'] + (isCenter ? crop.startPosition.width / 2 : 0);
+    const startDistOpositeX = imageBorders[isLeft ? "right" : "left"] + (isCenter ? crop.startPosition.width / 2 : 0);
 
     const diffPasive = (startDistOpositeX * newDistance) / startDistX;
     const diffX = isLeft ? newDistance : diffPasive;
@@ -85,7 +86,8 @@ export const resizeTopOverView = (progress: number, image: IDynamicShape, crop: 
     image.height = image.startPosition.height - newDistance - diffBottom;
     image.width = image.height * aspectRatio;
 
-    const relativeLeft = (imageBorders.left + (isCenter ? crop.width / 2 : isLeft ? crop.width : 0)) / image.startPosition.width;
+    const relativeLeft =
+      (imageBorders.left + (isCenter ? crop.width / 2 : isLeft ? crop.width : 0)) / image.startPosition.width;
 
     const newDistToLeft = image.width * relativeLeft;
     image.y = image.startPosition.y + newDistance;
