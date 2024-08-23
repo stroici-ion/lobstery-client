@@ -1,6 +1,11 @@
 //IMAGE EDIDOR
 const devicePixelRatio = window.devicePixelRatio;
-const imageEditorMinSelectionSize = 101 * devicePixelRatio;
+
+const imageEditorCropCornersSize = 50 * devicePixelRatio;
+const imageEditorCropBordersSize = 30 * devicePixelRatio;
+
+const imageEditorMinSelectionSize = imageEditorCropCornersSize * 2;
+
 const imageEditorBorderSizeLeftRight = 50 * devicePixelRatio; //px
 const imageEditorBorderSizeTop = 50 * devicePixelRatio; //px
 const imageEditorBorderSizeBottom = 130 * devicePixelRatio; //px
@@ -12,6 +17,8 @@ const imageEditorMarkupLaziness = 5; //px
 const imageEditorMinCropAR = 0.15; //px
 
 export { devicePixelRatio as dpr };
+export { imageEditorCropCornersSize as iECCS };
+export { imageEditorCropBordersSize as iECBS };
 export { imageEditorMinSelectionSize as iEMSS };
 export { imageEditorBorderSizeLeftRight as iEBSLR };
 export { imageEditorBorderSizeTop as iEBST };
