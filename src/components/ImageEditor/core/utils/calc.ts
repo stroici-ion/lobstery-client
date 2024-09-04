@@ -1,8 +1,10 @@
-import { IShape } from "../types/interfaces";
+import { IShape } from '../types/interfaces';
+
+export const r = (x: number) => Math.round(x);
 
 export const adjustShapePostion = (shape: IShape) => {
-  shape.x = Math.floor(shape.x);
-  shape.y = Math.floor(shape.y);
-  shape.width = Math.ceil(shape.width);
-  shape.height = Math.ceil(shape.height);
+  shape.x = Math.round(shape.x);
+  shape.y = Math.round(shape.y);
+  shape.width = Math.round(shape.width);
+  shape.height = Math.round(shape.height);
 };
