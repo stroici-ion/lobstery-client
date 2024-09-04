@@ -1,7 +1,8 @@
-import { getFillParentPosition } from "../calculations/position/getFillParentPosition";
-import { fillParentAnimation } from "../animations/fillParentAnimation";
-import { IEditorStep, IShape } from "../../../../types/interfaces";
-import { adjustShapePostion } from "../../../../utils/calc";
+import { getFillParentPosition } from '../calculations/position/getFillParentPosition';
+import { fillParentAnimation } from '../animations/fillParentAnimation';
+import { IEditorStep, IShape } from '../../../../types/interfaces';
+import { adjustShapePostion } from '../../../../utils/calc';
+import { adjustCropPosition } from '../calculations/position/adjustCropPosition';
 
 export const fillParent = (cropStep: IEditorStep, drawImage: (opacity: number) => void, addToHistory?: () => void) => {
   const Origin = cropStep.Origin;
@@ -20,8 +21,7 @@ export const fillParent = (cropStep: IEditorStep, drawImage: (opacity: number) =
 
   const newPosition = getFillParentPosition(Origin, crop, image, parentSize);
 
-  adjustShapePostion(newPosition.crop);
-  adjustShapePostion(newPosition.image);
+  adjustCropPosition(newPosition.crop, newPosition.image, image.angle, Origin);
 
   //Calculating increment for animation - selection
   const cropIncremented = {
@@ -55,6 +55,8 @@ export const fillParent = (cropStep: IEditorStep, drawImage: (opacity: number) =
       cropStep.activeActions.isAnimation = false;
     }
   };
+
+  console.log(cropStep);
 
   fillParentAnimation(drawAnimationStep);
 };
