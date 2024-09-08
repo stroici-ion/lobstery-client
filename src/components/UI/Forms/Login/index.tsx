@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import styles from './styles.module.scss';
 import useInput from '../../../../hooks/useInput';
 import useInputPassword from '../../../../hooks/useInputPassword';
-import { EnumFromTypes } from '../..';
-import Input from '../../../../components/UI/Inputs/Input';
-import InputPassword from '../../../../components/UI/Inputs/InputPassword';
+import { EnumFromTypes } from '../../../../models/auth/EnumFormTypes';
+import Input from '../../Inputs/Input';
+import InputPassword from '../../Inputs/InputPassword';
 
 interface ILoginForm {
   className: string;

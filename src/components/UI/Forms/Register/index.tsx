@@ -2,11 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 
 import styles from './styles.module.scss';
-import { EnumFromTypes } from '../..';
+import { EnumFromTypes } from '../../../../models/auth/EnumFormTypes';
 import useInput from '../../../../hooks/useInput';
 import useInputPassword from '../../../../hooks/useInputPassword';
-import Input from '../../../../components/UI/Inputs/Input';
-import InputPassword from '../../../../components/UI/Inputs/InputPassword';
+import Input from '../../Inputs/Input';
+import InputPassword from '../../Inputs/InputPassword';
 
 interface IRegisterForm {
   className: string;

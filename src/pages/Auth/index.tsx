@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './styles.module.scss';
-import LoginForm from './Core/Forms/LoginForm';
-import RegisterForm from './Core/Forms/RegisterForm';
+import { EnumFromTypes } from '../../models/auth/EnumFormTypes';
+import LoginForm from '../../components/UI/Forms/Login';
+import RegisterForm from '../../components/UI/Forms/Register';
 
 // const location = useLocation();
 // const dispatch = useAppDispatch();
@@ -27,12 +28,6 @@ import RegisterForm from './Core/Forms/RegisterForm';
 //     alert('Success');
 //   }
 // }, [registerStatus]);
-
-export enum EnumFromTypes {
-  login = 0,
-  register = 1,
-  recover = 2,
-}
 
 const Auth: React.FC = () => {
   const [form, setForm] = useState(EnumFromTypes.login);
