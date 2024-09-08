@@ -32,12 +32,12 @@ import PostUsername from '../PostUsername';
 // import { setIsEditing, setNewPost } from '../../redux/app/slice';
 // import { selectExistsNewPostDraft } from '../../redux/app/selectors';
 import classNames from 'classnames';
-import SmallButton from '../UI/buttons/SmallButton';
 import { IImage } from '../../models/IImage';
 import { setActiveImageId, setImages } from '../../redux/images/slice';
 import { setImagesModalStatus, setPostCreateModalStatus } from '../../redux/modals/slice';
 import { fetchRemovePost } from '../../redux/posts/asyncActions';
 import { setPostToEdit } from '../../redux/posts/slice';
+import SmallButton from '../UI/buttons/SmallButton';
 
 interface IPostFC {
   small?: boolean;
