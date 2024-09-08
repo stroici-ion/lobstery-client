@@ -1,6 +1,6 @@
 //API
 // export const API_URL = 'https://bfe28da1-74d5-432f-9583-03f45beec360-00-hzvwm2l9n9nr.picard.replit.dev/';
-export const API_URL = 'http://13.61.4.166:8000/';
+export const API_URL = 'http://13.53.129.134:8000/';
 
 //ROUTES
 export const MAIN_LAYOUT_ROUTE = '';
