@@ -1,0 +1,39 @@
+.inputBox {
+  position: relative;
+  height: 40px;
+  overflow: hidden;
+  &__svg {
+    stroke: #646464;
+    opacity: 0;
+    transition: 0.3s;
+    position: absolute;
+    right: 6px;
+    width: 30px;
+    height: 40px;
+    padding: 5px;
+    cursor: pointer;
+    &.active {
+      opacity: 1;
+    }
+    &:hover {
+      stroke: #999999;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 1px;
+    left: 10px;
+    color: orangered;
+    font-size: 9px;
+  }
+
+  input {
+    border-radius: 5px;
+    padding: 5px 10px;
+    padding-right: 33px;
+    height: 100%;
+    line-height: 40px;
+    width: 100%;
+  }
+}
