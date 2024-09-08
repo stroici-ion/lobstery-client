@@ -51,3 +51,5 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
     </form>
   );
 };
+
+export default RegisterForm;
