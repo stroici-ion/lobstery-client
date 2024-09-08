@@ -1,83 +1,305 @@
-@import '../../styles/colors.scss';
+@import '../../styles/authFormStyles.scss';
 
-.root {
-  flex: 1 1 auto;
+.auth {
+  overflow: hidden;
   display: flex;
-  &__left {
-    flex: 0 0 40%;
+  flex-direction: column;
+  flex: 1 1 auto;
+  &__body {
+    flex: 1 1 auto;
+    position: relative;
+  }
+  &__changeBlock {
+    display: none;
+    color: #fff;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    z-index: 1;
+    &_right,
+    &_left {
+      display: none;
+    }
+    @media screen and (min-width: 780px) {
+      left: -10%;
+      right: 50%;
+      top: -10%;
+      bottom: -10%;
+      transform: rotate(2deg);
+      z-index: 1;
+      transition: 1s;
+      overflow: hidden;
+      &_top,
+      &_left,
+      &_right {
+        position: absolute;
+        top: 0;
+        left: 0%;
+        right: 0%;
+        bottom: 0;
+        z-index: -1;
+        transition: 1s;
+        transform: rotate(-2deg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: calc(20% + 20px);
+        padding-right: calc(10% + 20px);
+        &.active {
+          left: -120%;
+          right: 120%;
+        }
+      }
+      &_right {
+        left: 120%;
+        right: -120%;
+        padding-right: calc(20% + 20px);
+        padding-left: calc(10% + 20px);
+        &.active {
+          left: 0%;
+          right: 0%;
+        }
+      }
+      &_top {
+        top: -100%;
+        bottom: 100%;
+      }
+      &::after,
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0%;
+        right: -1%;
+        bottom: 0;
+        background-image: linear-gradient(90deg, $gradientFirstColor, $gradientSecondColor);
+        z-index: -2;
+        transition: 1s;
+      }
+      &::before {
+        background-image: linear-gradient(90deg, $gradientSecondColor, $gradientThirdColor);
+        left: 100%;
+        right: -100%;
+      }
+
+      &.active {
+        left: 50%;
+        right: -10%;
+        &::after {
+          left: -100%;
+          right: 100%;
+        }
+        &::before {
+          left: -1%;
+          right: 0%;
+        }
+        .auth__changeBlock_left {
+          left: -120%;
+          right: 120%;
+        }
+        .auth__changeBlock_right {
+          left: 0%;
+          right: 0%;
+        }
+      }
+      &.center {
+        left: 25%;
+        right: 25%;
+        .auth__changeBlock_left {
+          left: -100%;
+          right: 100%;
+        }
+        .auth__changeBlock_right {
+          left: 100%;
+          right: -100%;
+        }
+        .auth__changeBlock_top {
+          top: 0%;
+          bottom: 0%;
+        }
+        &::after {
+          left: -50%;
+          right: 49%;
+        }
+        &::before {
+          left: 49%;
+          right: -50%;
+        }
+      }
+      display: flex;
+    }
+
+    align-items: center;
+    justify-content: center;
+    &_button {
+      height: 50px;
+      padding: 0 20px;
+      border-radius: 25px;
+      border: 2px solid #fff;
+      background-color: transparent;
+      font-size: 16px;
+      color: #fff;
+      transition: 0.3s;
+      &:hover {
+        background-color: #fff;
+        color: $gradientFirstColor;
+        cursor: pointer;
+      }
+      &.smallMonitor {
+        display: none;
+      }
+      @media screen and (max-width: 780px) {
+        &.bigMonitor {
+          display: none;
+        }
+        &.smallMonitor {
+          display: block;
+        }
+      }
+    }
+    &_content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    &_title {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+    &_text {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+    &_row {
+      display: flex;
+      margin-top: 40px;
+      .auth__changeBlock_button:first-child {
+        margin-right: 20px;
+      }
+      .auth__changeBlock_button:last-child {
+        margin-left: 20px;
+      }
+    }
+    &.center {
+      display: flex;
+      background-image: linear-gradient(90deg, $gradientFirstColor, $gradientSecondColor);
+      @media screen and (max-width: 780px) {
+        padding: 35px;
+      }
+    }
+  }
+  &__formBlock {
+    position: absolute;
+    right: 0%;
+    height: 100%;
+    width: 50%;
+    @media screen and (max-width: 780px) {
+      width: 100%;
+    }
+
+    transition: 1s;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $backColor;
-  }
-  &__right {
-    box-shadow: -3px 0px 1px $lightColor;
-    background-color: $yellowColor;
-    flex: 1 1 auto;
-    padding: 30px;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+    &_form {
+      width: 55%;
+      @media screen and (max-width: 780px) {
+        width: 80%;
+      }
+    }
+    @media screen and (min-width: 780px) {
+      &.active {
+        right: 50%;
+      }
     }
   }
 }
 
-.form {
-  box-shadow: -3px -3px 1px $lightColor, 3px 3px 1px $grayColor;
-  background-color: $backColor;
-  border-radius: 10px;
-  padding: 40px;
-  height: 400px;
-  width: 400px;
-  text-align: center;
-  &__title {
-    color: $darkTextColor;
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 40px;
-  }
+// @import '../../styles/colors.scss';
 
-  &__inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
+// .root {
+//   flex: 1 1 auto;
+//   display: flex;
+//   &__left {
+//     flex: 0 0 40%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background-color: $backColor;
+//   }
+//   &__right {
+//     box-shadow: -3px 0px 1px $lightColor;
+//     background-color: $yellowColor;
+//     flex: 1 1 auto;
+//     padding: 30px;
+//     img {
+//       width: 100%;
+//       height: 100%;
+//       object-fit: contain;
+//     }
+//   }
+// }
 
-  &__input {
-    font-size: 16px;
-    border-radius: 20px;
-    height: 40px;
-    line-height: 20px;
-    padding: 10px;
-    box-shadow: inset 2px 2px $grayColor, inset -2px -2px $lightColor;
-  }
+// .form {
+//   box-shadow: -3px -3px 1px $lightColor, 3px 3px 1px $grayColor;
+//   background-color: $backColor;
+//   border-radius: 10px;
+//   padding: 40px;
+//   height: 400px;
+//   width: 400px;
+//   text-align: center;
+//   &__title {
+//     color: $darkTextColor;
+//     font-size: 20px;
+//     font-weight: 700;
+//     text-align: center;
+//     margin-bottom: 40px;
+//   }
 
-  &__error {
-    height: 20px;
-    font-size: 13px;
-    color: $redColor;
-    margin-bottom: 15px;
-  }
+//   &__inputs {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 10px;
+//     margin-bottom: 15px;
+//   }
 
-  &__submit {
-    padding: 10px 20px;
-    background-color: $yellowColor;
-    color: $darkTextColor;
-    font-size: 16px;
-    font-weight: 700;
-    border-radius: 20px;
-    box-shadow: -2px -2px 0.5px $lightColor, 2px 2px 0.5px $grayColor, inset 0px 0px 0px $lightColor,
-      inset 0px 0px 0px $grayColor;
-    transition: 0.1s;
-    &:hover {
-      box-shadow: 0px 0px 0px $lightColor, 0px 0px 0px $grayColor, inset -2px -2px 0.5px $lightColor,
-        inset 2px 2px 0.5px $grayColor;
-    }
-    &:active {
-      background-color: $yellowColorDarken;
-    }
-  }
-}
+//   &__input {
+//     font-size: 16px;
+//     border-radius: 20px;
+//     height: 40px;
+//     line-height: 20px;
+//     padding: 10px;
+//     box-shadow: inset 2px 2px $grayColor, inset -2px -2px $lightColor;
+//   }
+
+//   &__error {
+//     height: 20px;
+//     font-size: 13px;
+//     color: $redColor;
+//     margin-bottom: 15px;
+//   }
+
+//   &__submit {
+//     padding: 10px 20px;
+//     background-color: $yellowColor;
+//     color: $darkTextColor;
+//     font-size: 16px;
+//     font-weight: 700;
+//     border-radius: 20px;
+//     box-shadow: -2px -2px 0.5px $lightColor, 2px 2px 0.5px $grayColor, inset 0px 0px 0px $lightColor,
+//       inset 0px 0px 0px $grayColor;
+//     transition: 0.1s;
+//     &:hover {
+//       box-shadow: 0px 0px 0px $lightColor, 0px 0px 0px $grayColor, inset -2px -2px 0.5px $lightColor,
+//         inset 2px 2px 0.5px $grayColor;
+//     }
+//     &:active {
+//       background-color: $yellowColorDarken;
+//     }
+//   }
+// }

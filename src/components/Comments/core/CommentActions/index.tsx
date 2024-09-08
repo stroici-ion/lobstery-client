@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import SmallButton from '../../../UI/Buttons/SmallButton';
+import SmallButton from '../../../UI/buttons/SmallButton';
 import { HeartSvg, LikeSvg } from '../../../../icons';
 import styles from './styles.module.scss';
 import { putCommentLike, putCommentLikeByAuthor } from '../../../../services/CommentsServices';
@@ -103,9 +103,7 @@ const CommentActions: React.FC<ICommentActions> = ({
         </SmallButton>
         <span>{localLikesInfo.likes_count}</span>
       </div>
-      <div
-        className={classNames(styles.actions__dislike, localLikesInfo.disliked && styles.active)}
-      >
+      <div className={classNames(styles.actions__dislike, localLikesInfo.disliked && styles.active)}>
         <SmallButton onClick={handlePutDislike}>
           <LikeSvg />
         </SmallButton>

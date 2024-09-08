@@ -32,7 +32,7 @@ import PostUsername from '../PostUsername';
 // import { setIsEditing, setNewPost } from '../../redux/app/slice';
 // import { selectExistsNewPostDraft } from '../../redux/app/selectors';
 import classNames from 'classnames';
-import SmallButton from '../UI/Buttons/SmallButton';
+import SmallButton from '../UI/buttons/SmallButton';
 import { IImage } from '../../models/IImage';
 import { setActiveImageId, setImages } from '../../redux/images/slice';
 import { setImagesModalStatus, setPostCreateModalStatus } from '../../redux/modals/slice';
@@ -102,11 +102,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
               className={styles.post__avatar}
             />
             <div className={styles.post__info}>
-              <PostUsername
-                user={post.user}
-                feeling={post.feeling}
-                taggedFriends={post.tagged_friends}
-              />
+              <PostUsername user={post.user} feeling={post.feeling} taggedFriends={post.tagged_friends} />
               <div className={styles.post__date}>
                 {getTime(post.created_at.toString())} <span>•</span>
                 {userProfile?.id === post.user.id ? (
@@ -207,11 +203,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
               <button className={styles.post__comments} onClick={handleViewComments}>
                 <MessagingSvg />
                 <span>
-                  {post.comments_count === 0 ? (
-                    'Leave Comment'
-                  ) : (
-                    <>{isCommentsVisible ? 'Hide' : 'Show'} Comments</>
-                  )}
+                  {post.comments_count === 0 ? 'Leave Comment' : <>{isCommentsVisible ? 'Hide' : 'Show'} Comments</>}
                 </span>
                 {post.comments_count > 0 && getLikes(post.comments_count)}
               </button>
@@ -223,9 +215,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
           </div>
         </div>
       </div>
-      {isCommentsVisible && (
-        <Comments hideComments={handleViewComments} owner={post.user} id={post.id} />
-      )}
+      {isCommentsVisible && <Comments hideComments={handleViewComments} owner={post.user} id={post.id} />}
     </div>
   );
 };

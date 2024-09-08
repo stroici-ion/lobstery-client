@@ -5,7 +5,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { EmojiSvg, PlusSvg } from '../../icons';
 import ContextMenu from '../ContextMenu';
 import EmojiPicker from '../EmojiPicker';
-import SmallButton from '../UI/Buttons/SmallButton';
+import SmallButton from '../UI/buttons/SmallButton';
 import styles from './styles.module.scss';
 
 interface IWriteText {
@@ -46,10 +46,7 @@ const WriteText: React.FC<IWriteText> = ({ value, setValue, placeholder, classNa
           width={250}
           maxHeight={300}
           openButton={(onClick: any) => (
-            <SmallButton
-              className={classNames(styles.root__button, styles.emoji)}
-              onClick={onClick}
-            >
+            <SmallButton className={classNames(styles.root__button, styles.emoji)} onClick={onClick}>
               <EmojiSvg />
             </SmallButton>
           )}

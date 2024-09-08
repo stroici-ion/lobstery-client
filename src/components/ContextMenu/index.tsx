@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { defaultContextMenuMaxHeight, defaultContextMenuWidth } from '../../utils/consts';
-import SmallButton from '../UI/Buttons/SmallButton';
+import SmallButton from '../UI/buttons/SmallButton';
 import { SubmenuSvg } from '../../icons';
 import styles from './styles.module.scss';
 
@@ -23,13 +23,7 @@ interface IContextMenuBody {
   parentRef: React.RefObject<HTMLDivElement>;
 }
 
-const ContextMenu: React.FC<IContextMenu> = ({
-  className,
-  children,
-  openButton,
-  width,
-  maxHeight,
-}) => {
+const ContextMenu: React.FC<IContextMenu> = ({ className, children, openButton, width, maxHeight }) => {
   const [isVisible, setIsVisible] = useState(false);
   const parentRef = useRef<HTMLDivElement>(null);
 
@@ -56,13 +50,7 @@ const ContextMenu: React.FC<IContextMenu> = ({
   );
 };
 
-const ContextMenuBody: React.FC<IContextMenuBody> = ({
-  children,
-  close,
-  width,
-  maxHeight,
-  parentRef,
-}) => {
+const ContextMenuBody: React.FC<IContextMenuBody> = ({ children, close, width, maxHeight, parentRef }) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [bodyStyles, setBodyStyles] = useState({
     left: 'auto',
