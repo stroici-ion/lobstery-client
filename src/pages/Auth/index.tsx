@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import LoginForm from './core/Forms/LoginForm';
-import RegisterForm from './core/Forms/RegisterForm';
+import LoginForm from './Core/Forms/LoginForm';
+import RegisterForm from './Core/Forms/RegisterForm';
 
 // const location = useLocation();
 // const dispatch = useAppDispatch();
