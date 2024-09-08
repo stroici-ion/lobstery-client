@@ -7,6 +7,7 @@ import useInput from '../../../../hooks/useInput';
 import useInputPassword from '../../../../hooks/useInputPassword';
 import Input from '../../Inputs/Input';
 import InputPassword from '../../Inputs/InputPassword';
+import { fetchAuthRegister } from '../../../../redux/auth/asyncActions';
 
 interface IRegisterForm {
   className: string;
@@ -22,17 +23,9 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
   const password = useInputPassword('password', 'Password');
   const confirmPassword = useInputPassword('confirmpassword', 'Confirm Password');
 
-  //   const registerClick = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       const response = await AuthService.registration(email.value, password.value, name.value);
-  //       localStorage.setItem('token', response.accessToken);
-  //       setUser(response.user);
-  //       navigate(HOME_ROUTE);
-  //     } catch (e) {
-  //       console.log(e.response?.data?.message);
-  //     }
-  //   };
+  const onSubmit = () => {
+    dispatch(fetchAuthRegister({ username: username.value, password: password.value }));
+  };
 
   return (
     <form className={classNames(className, styles.form)}>
@@ -46,7 +39,9 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
       <Input {...email} className={styles.form__inputBox} />
       <InputPassword {...password} className={styles.form__inputBox} />
       <InputPassword {...confirmPassword} className={styles.form__inputBox} />
-      <button className={styles.form__button}>Sign up</button>
+      <button className={styles.form__button} onClick={onSubmit}>
+        Sign up
+      </button>
       <p className={styles.form__bottomButton} onClick={() => changePositionFast(1)}>
         Already have an account? <b>Sign In</b>
       </p>
@@ -55,3 +50,6 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
 };
 
 export default RegisterForm;
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}

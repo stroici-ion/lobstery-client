@@ -7,6 +7,7 @@ import useInputPassword from '../../../../hooks/useInputPassword';
 import { EnumFromTypes } from '../../../../models/auth/EnumFormTypes';
 import Input from '../../Inputs/Input';
 import InputPassword from '../../Inputs/InputPassword';
+import { fetchAuthLogin } from '../../../../redux/auth/asyncActions';
 
 interface ILoginForm {
   className: string;
@@ -18,18 +19,10 @@ const LoginForm: React.FC<ILoginForm> = ({ className, changeForm, changePosition
   const username = useInput('', { placeholder: 'Username e.g. lobsteryUser22', type: 'text', name: 'username' });
   const password = useInputPassword('Password');
 
-  //   const loginClick = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       const response = await AuthService.login(email.value, password.value);
-  //       localStorage.setItem('token', response.accessToken);
-  //       setUser(response.user);
-  //       navigate(HOME_ROUTE);
-  //     } catch (e) {
-  //       email.setError(e.response?.data?.errors);
-  //       password.setError(e.response?.data?.errors);
-  //     }
-  //   };
+  const onSubmit = () => {
+    dispatch(fetchAuthLogin({ username: username.value, password: password.value }));
+  };
+
   return (
     <form className={classNames(className, styles.form)}>
       <p className={styles.form__title}>Sign in</p>
@@ -42,7 +35,9 @@ const LoginForm: React.FC<ILoginForm> = ({ className, changeForm, changePosition
       <p className={styles.form__frogotPassword_fast} onClick={() => changePositionFast(2)}>
         Forgot your password?
       </p>
-      <button className={styles.form__button}>Sign in</button>
+      <button className={styles.form__button} onClick={onSubmit}>
+        Sign in
+      </button>
       <p className={styles.form__bottomButton} onClick={() => changePositionFast(0)}>
         Don't have an account? <b>Sign Up</b>
       </p>
@@ -51,3 +46,6 @@ const LoginForm: React.FC<ILoginForm> = ({ className, changeForm, changePosition
 };
 
 export default LoginForm;
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}
