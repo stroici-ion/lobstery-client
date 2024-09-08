@@ -5,7 +5,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { EmojiSvg, PlusSvg } from '../../icons';
 import ContextMenu from '../ContextMenu';
 import EmojiPicker from '../EmojiPicker';
-import SmallButton from '../UI/buttons/SmallButton';
+import SmallButton from '../UI/Buttons/SmallButton';
 import styles from './styles.module.scss';
 
 interface IWriteText {

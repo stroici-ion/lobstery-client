@@ -37,7 +37,7 @@ import { setActiveImageId, setImages } from '../../redux/images/slice';
 import { setImagesModalStatus, setPostCreateModalStatus } from '../../redux/modals/slice';
 import { fetchRemovePost } from '../../redux/posts/asyncActions';
 import { setPostToEdit } from '../../redux/posts/slice';
-import SmallButton from '../UI/buttons/SmallButton';
+import SmallButton from '../UI/Buttons/SmallButton';
 
 interface IPostFC {
   small?: boolean;

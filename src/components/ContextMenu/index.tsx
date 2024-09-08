@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { defaultContextMenuMaxHeight, defaultContextMenuWidth } from '../../utils/consts';
-import SmallButton from '../UI/buttons/SmallButton';
 import { SubmenuSvg } from '../../icons';
 import styles from './styles.module.scss';
+import SmallButton from '../UI/Buttons/SmallButton';
 
 interface IContextMenu {
   children: any;

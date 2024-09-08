@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import SmallButton from '../../../UI/buttons/SmallButton';
 import { HeartSvg, LikeSvg } from '../../../../icons';
 import styles from './styles.module.scss';
 import { putCommentLike, putCommentLikeByAuthor } from '../../../../services/CommentsServices';
 import { IUser } from '../../../../models/IUser';
 import { ILikesInfo } from '../../../../models/comments/IComment';
+import SmallButton from '../../../UI/Buttons/SmallButton';
 
 interface ICommentActions {
   isMultimedia: boolean;
