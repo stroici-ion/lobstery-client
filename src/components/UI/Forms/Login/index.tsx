@@ -8,6 +8,7 @@ import { EnumFromTypes } from '../../../../models/auth/EnumFormTypes';
 import Input from '../../Inputs/Input';
 import InputPassword from '../../Inputs/InputPassword';
 import { fetchAuthLogin } from '../../../../redux/auth/asyncActions';
+import { useAppDispatch } from '../../../../redux';
 
 interface ILoginForm {
   className: string;
@@ -18,6 +19,7 @@ interface ILoginForm {
 const LoginForm: React.FC<ILoginForm> = ({ className, changeForm, changePositionFast }) => {
   const username = useInput('', { placeholder: 'Username e.g. lobsteryUser22', type: 'text', name: 'username' });
   const password = useInputPassword('Password');
+  const dispatch = useAppDispatch();
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -47,6 +49,3 @@ const LoginForm: React.FC<ILoginForm> = ({ className, changeForm, changePosition
 };
 
 export default LoginForm;
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}

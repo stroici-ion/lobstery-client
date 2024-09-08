@@ -8,6 +8,7 @@ import useInputPassword from '../../../../hooks/useInputPassword';
 import Input from '../../Inputs/Input';
 import InputPassword from '../../Inputs/InputPassword';
 import { fetchAuthRegister } from '../../../../redux/auth/asyncActions';
+import { useAppDispatch } from '../../../../redux';
 
 interface IRegisterForm {
   className: string;
@@ -22,6 +23,7 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
   const email = useInput('', { placeholder: 'Email', type: 'email', name: 'email' });
   const password = useInputPassword('password', 'Password');
   const confirmPassword = useInputPassword('confirmpassword', 'Confirm Password');
+  const dispatch = useAppDispatch();
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -49,8 +51,3 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
     </form>
   );
 };
-
-export default RegisterForm;
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}
