@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/consts';
 import styles from './styles.module.scss';
-import mainImage from '../../assets/auth/01.png';
-import { useAppDispatch } from '../../redux';
-import { fetchAuthLogin, fetchAuthRegister } from '../../redux/auth/asyncActions';
-import { useSelector } from 'react-redux';
-import { selectAuthErrors, selectRegisterStatus } from '../../redux/auth/selectors';
-import { fetchRegisterUser } from '../../services/UserRegister';
-import { FetchStatusEnum } from '../../models/response/FetchStatus';
 import classNames from 'classnames';
-import LoginForm from './core/forms/LoginForm';
-import RegisterForm from './core/forms/RegisterForm';
+import LoginForm from './core/Forms/LoginForm';
+import RegisterForm from './core/Forms/RegisterForm';
 
 // const location = useLocation();
 // const dispatch = useAppDispatch();
@@ -44,7 +34,7 @@ export enum EnumFromTypes {
   recover = 2,
 }
 
-const Auth = () => {
+const Auth: React.FC = () => {
   const [form, setForm] = useState(EnumFromTypes.login);
   const [position, setPosition] = useState(1);
 
