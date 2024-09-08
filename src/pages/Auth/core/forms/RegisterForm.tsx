@@ -1,7 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 import styles from './styles.module.scss';
 import { EnumFromTypes } from '../..';

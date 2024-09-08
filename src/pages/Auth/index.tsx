@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import styles from './styles.module.scss';
-import classNames from 'classnames';
 import LoginForm from './Core/Forms/LoginForm';
 import RegisterForm from './Core/Forms/RegisterForm';
 
