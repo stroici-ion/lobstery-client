@@ -19,7 +19,8 @@ const LoginForm: React.FC<ILoginForm> = ({ className, changeForm, changePosition
   const username = useInput('', { placeholder: 'Username e.g. lobsteryUser22', type: 'text', name: 'username' });
   const password = useInputPassword('Password');
 
-  const onSubmit = () => {
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     dispatch(fetchAuthLogin({ username: username.value, password: password.value }));
   };
 

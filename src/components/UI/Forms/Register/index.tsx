@@ -23,7 +23,8 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
   const password = useInputPassword('password', 'Password');
   const confirmPassword = useInputPassword('confirmpassword', 'Confirm Password');
 
-  const onSubmit = () => {
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     dispatch(fetchAuthRegister({ username: username.value, password: password.value }));
   };
 
