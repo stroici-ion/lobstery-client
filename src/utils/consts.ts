@@ -1,6 +1,6 @@
 //API
 // export const API_URL = 'https://bfe28da1-74d5-432f-9583-03f45beec360-00-hzvwm2l9n9nr.picard.replit.dev/';
-export const API_URL = 'localhost:8000';
+export const API_URL = 'https://stroici.pythonanywhere.com/';
 
 //ROUTES
 export const MAIN_LAYOUT_ROUTE = '';
