@@ -34,7 +34,7 @@ const Aside: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [activeButton, setAcitveButton] = useState(0);
-  const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
+  const [isPanelCollapsed, setIsPanelCollapsed] = useState(true);
   const user = useSelector(selectUserProfile);
   const isPanelCollapsedRef = useRef(false);
 
@@ -55,6 +55,7 @@ const Aside: React.FC = () => {
   };
 
   useEffect(() => {
+    if (window.innerWidth > 768) setIsPanelCollapsed(false);
     window.addEventListener('resize', handleWindowOnResize);
     return () => window.removeEventListener('resize', handleWindowOnResize);
   }, []);
