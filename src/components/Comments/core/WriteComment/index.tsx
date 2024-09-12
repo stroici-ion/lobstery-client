@@ -8,6 +8,7 @@ import { EmojiSvg } from '../../../../icons';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import ContextMenu from '../../../ContextMenu';
 import EmojiPicker from '../../../EmojiPicker';
+import UserImage from '../../../UserImage';
 
 type WriteIComment = {
   initialValue?: string;
@@ -25,10 +26,10 @@ const WriteComment: React.FC<WriteIComment> = ({
   hide,
 }) => {
   const user = useSelector(selectUserProfile);
+  console.log(user);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const emojiPickerRef = useRef(null);
 
   const [value, setValue] = useState(initialValue);
   const [cursorPosition, setCursorPosition] = useState(0);
@@ -79,11 +80,8 @@ const WriteComment: React.FC<WriteIComment> = ({
 
   return (
     <div className={classNames(styles.addComment, !isEditing && styles.withPadding)}>
-      {!isEditing && (
-        <img
-          src={user?.profile.avatar_thumbnail}
-          className={classNames(styles.addComment__image, isReply && styles.isReply)}
-        />
+      {!isEditing && user.id && (
+        <UserImage user={user} className={classNames(styles.addComment__image, isReply && styles.isReply)} />
       )}
       <div className={styles.addComment__writeBlock}>
         <TextareaAutosize
@@ -115,22 +113,14 @@ const WriteComment: React.FC<WriteIComment> = ({
             <div>
               <button
                 ref={buttonRef}
-                className={classNames(
-                  styles.addComment__button,
-                  isReply && styles.isReply,
-                  styles.cancelButton
-                )}
+                className={classNames(styles.addComment__button, isReply && styles.isReply, styles.cancelButton)}
                 onClick={onClickCancel}
               >
                 Cancel
               </button>
               <button
                 ref={buttonRef}
-                className={classNames(
-                  styles.addComment__button,
-                  isReply && styles.isReply,
-                  styles.yesButton
-                )}
+                className={classNames(styles.addComment__button, isReply && styles.isReply, styles.yesButton)}
                 onClick={onClickSendComment}
               >
                 {addCommentButtonText}

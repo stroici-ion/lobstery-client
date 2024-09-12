@@ -18,6 +18,13 @@ const authSlice = createSlice({
       state.errors = undefined;
       state.userId = undefined;
       state.status = FetchStatusEnum.PENDING;
+      state.registerStatus = FetchStatusEnum.PENDING;
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    },
+    setGuestStatus: (state) => {
+      state.userId = undefined;
+      state.status = FetchStatusEnum.ERROR;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
@@ -27,7 +34,7 @@ const authSlice = createSlice({
     builder.addCase(fetchAuthRegister.pending, (state) => {
       state.registerStatus = FetchStatusEnum.PENDING;
     });
-    builder.addCase(fetchAuthRegister.fulfilled, (state) => {
+    builder.addCase(fetchAuthRegister.fulfilled, (state, action) => {
       state.registerStatus = FetchStatusEnum.SUCCESS;
       state.errors = undefined;
     });
@@ -66,6 +73,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logOut } = authSlice.actions;
+export const { logOut, setGuestStatus } = authSlice.actions;
 
 export default authSlice.reducer;

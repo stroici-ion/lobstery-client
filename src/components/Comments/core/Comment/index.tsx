@@ -11,16 +11,13 @@ import styles from './styles.module.scss';
 import { EditSvg, PinSvg, ReportSvg } from '../../../../icons';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import WriteComment from '../WriteComment';
-import {
-  editComment,
-  removeComment,
-  togglePinnedComment,
-} from '../../../../services/CommentsServices';
+import { editComment, removeComment, togglePinnedComment } from '../../../../services/CommentsServices';
 import CommentContextMenu from '../CommentContextMenu';
 import { Link } from 'react-router-dom';
 import { IUser } from '../../../../models/IUser';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import { IComment } from '../../../../models/comments/IComment';
+import UserImage from '../../../UserImage';
 
 interface ICommentFC {
   isPinned?: boolean;
@@ -88,16 +85,12 @@ const Comment: React.FC<ICommentFC> = ({
     if (result) {
       if (result.pinned_comment === comment.id) {
         setComments((comments) =>
-          comments.map((item) =>
-            item.id === comment.id ? { ...item, is_pinned_by_author: true } : item
-          )
+          comments.map((item) => (item.id === comment.id ? { ...item, is_pinned_by_author: true } : item))
         );
         setPinnedComment({ ...comment, is_pinned_by_author: true });
       } else {
         setComments((comments) =>
-          comments.map((item) =>
-            item.id === comment.id ? { ...item, is_pinned_by_author: false } : item
-          )
+          comments.map((item) => (item.id === comment.id ? { ...item, is_pinned_by_author: false } : item))
         );
         setPinnedComment(undefined);
       }
@@ -113,9 +106,7 @@ const Comment: React.FC<ICommentFC> = ({
     setIsEditingCommentLoading(true);
     const newComment = await editComment(comment.id, value);
     if (newComment) {
-      setComments((comments) =>
-        comments.map((item) => (item.id === comment.id ? { ...item, text: value } : item))
-      );
+      setComments((comments) => comments.map((item) => (item.id === comment.id ? { ...item, text: value } : item)));
     }
     setIsEditingCommentLoading(false);
     setIsEditing(false);
@@ -159,28 +150,19 @@ const Comment: React.FC<ICommentFC> = ({
   return (
     <>
       {isEditing ? (
-        <WriteComment
-          initialValue={comment.text}
-          hide={handleToogleEditComment}
-          sendComment={handleEditComment}
-        />
+        <WriteComment initialValue={comment.text} hide={handleToogleEditComment} sendComment={handleEditComment} />
       ) : (
         <div className={classNames(styles.comment, isPinned && styles.pinned)}>
           {isPinned && (
-            <div
-              className={classNames(styles.comment__pinned, wasPinned && styles.comment__wasPinned)}
-            >
+            <div className={classNames(styles.comment__pinned, wasPinned && styles.comment__wasPinned)}>
               <PinSvg />
               {wasPinned ? 'Was' : 'Is'} pinned by{' '}
-              <Link
-                to={USER_PROFILE_ROUTE + '/' + owner.id}
-                className={styles.comment__pinned_owner}
-              >
+              <Link to={USER_PROFILE_ROUTE + '/' + owner.id} className={styles.comment__pinned_owner}>
                 {`${owner.first_name} ${owner.last_name}`}
               </Link>
             </div>
           )}
-          <img className={styles.comment__avatar} src={comment.user.profile.avatar_thumbnail} />
+          <UserImage user={comment.user} className={styles.comment__avatar} />
           <div className={styles.comment__body}>
             <div className={styles.comment__top}>
               <div className={styles.comment__info}>

@@ -33,6 +33,7 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
   const images = useSelector(selectImages);
   const defaultAudience = useSelector(selectDefaultAudience);
   const selectedAudience = newPost.audience !== -1 ? newPost.audience : defaultAudience.default_audience;
+  console.log(selectedAudience);
 
   const handleSelectTab = (tabIndex: number) => {
     setSelectedtab(tabIndex);
@@ -40,7 +41,10 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
 
   return (
     <div className={classNames(styles.root, selectedTab < 0 && styles.active)}>
-      <button onClick={() => handleSelectTab(0)} className={classNames(styles.root__button, styles.text, selectedTab === 0 && styles.active)}>
+      <button
+        onClick={() => handleSelectTab(0)}
+        className={classNames(styles.root__button, styles.text, selectedTab === 0 && styles.active)}
+      >
         <TextSvg />
       </button>
       <button
@@ -68,7 +72,12 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
       </button>
       <button
         onClick={() => handleSelectTab(2)}
-        className={classNames(styles.root__button, styles.image, images.length && styles.used, selectedTab === 2 && styles.active)}
+        className={classNames(
+          styles.root__button,
+          styles.image,
+          images.length && styles.used,
+          selectedTab === 2 && styles.active
+        )}
       >
         {images.length > 0 && (
           <div className={classNames(styles.root__decoration, styles.dott)}>
@@ -77,7 +86,10 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
         )}
         <ImagesVideoSvg />
       </button>
-      <button onClick={() => handleSelectTab(3)} className={classNames(styles.root__button, styles.tag, selectedTab === 3 && styles.active)}>
+      <button
+        onClick={() => handleSelectTab(3)}
+        className={classNames(styles.root__button, styles.tag, selectedTab === 3 && styles.active)}
+      >
         {newPost.tags.length > 0 && (
           <div className={classNames(styles.root__decoration, styles.dott)}>
             <span>•</span>
@@ -85,14 +97,20 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
         )}
         <TagSvg />
       </button>
-      <button onClick={() => handleSelectTab(4)} className={classNames(styles.root__button, styles.feeling, selectedTab === 4 && styles.active)}>
+      <button
+        onClick={() => handleSelectTab(4)}
+        className={classNames(styles.root__button, styles.feeling, selectedTab === 4 && styles.active)}
+      >
         {newPost.feeling ? (
           emoji(String.fromCodePoint(parseInt(feelings.find((item) => item.name === newPost.feeling)?.code || '', 16)))
         ) : (
           <EmojiSvg />
         )}
       </button>
-      <button onClick={() => handleSelectTab(5)} className={classNames(styles.root__button, styles.tag_people, selectedTab === 5 && styles.active)}>
+      <button
+        onClick={() => handleSelectTab(5)}
+        className={classNames(styles.root__button, styles.tag_people, selectedTab === 5 && styles.active)}
+      >
         {newPost.tagged_friends.length > 0 && (
           <div className={classNames(styles.root__decoration, styles.dott)}>
             <span>•</span>
@@ -100,10 +118,16 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
         )}
         <TagPeopleSvg />
       </button>
-      <button onClick={() => handleSelectTab(-2)} className={classNames(styles.root__button, styles.checked, selectedTab === -2 && styles.active)}>
+      <button
+        onClick={() => handleSelectTab(-2)}
+        className={classNames(styles.root__button, styles.checked, selectedTab === -2 && styles.active)}
+      >
         <CheckedSvg />
       </button>
-      <button onClick={() => handleSelectTab(-1)} className={classNames(styles.root__button, styles.checked, selectedTab === -1 && styles.active)}>
+      <button
+        onClick={() => handleSelectTab(-1)}
+        className={classNames(styles.root__button, styles.checked, selectedTab === -1 && styles.active)}
+      >
         <CheckedSvg />
       </button>
       {/* <button

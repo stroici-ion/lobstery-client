@@ -1,0 +1,22 @@
+@import '../../styles/colors.scss';
+
+.image {
+  object-fit: cover;
+  border-radius: 50%;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.acronyms {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $cyanColor;
+  color: $lightColor;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 50%;
+  min-width: 30px;
+  min-height: 30px;
+}

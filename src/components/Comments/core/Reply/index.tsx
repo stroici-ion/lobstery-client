@@ -15,6 +15,7 @@ import { IUser } from '../../../../models/IUser';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import { ILikesInfo, IReply } from '../../../../models/comments/IComment';
 import Loader from '../../../Loader';
+import UserImage from '../../../UserImage';
 
 interface IReplyFC {
   isMultimedia: boolean;
@@ -65,7 +66,7 @@ const Reply: React.FC<IReplyFC> = ({
             id: userData.id,
             first_name: userData.first_name,
             last_name: userData.last_name,
-            profile: {
+            profile: userData.profile && {
               avatar: userData.profile.avatar,
               avatar_thumbnail: userData.profile.avatar_thumbnail,
               cover: userData.profile.cover,
@@ -99,9 +100,7 @@ const Reply: React.FC<IReplyFC> = ({
   ) => {
     if (setFeetchedReplies) {
       setFeetchedReplies((feetchedReplies) =>
-        feetchedReplies.map((item) =>
-          item.id === reply.id ? { ...reply, ...fetchedLikesInfo } : item
-        )
+        feetchedReplies.map((item) => (item.id === reply.id ? { ...reply, ...fetchedLikesInfo } : item))
       );
       return;
     }
@@ -145,9 +144,7 @@ const Reply: React.FC<IReplyFC> = ({
           replies.map((item) => (item.id === reply.id ? { ...item, text: value } : item))
         );
       } else {
-        setRecentReplies((replies) =>
-          replies.map((item) => (item.id === reply.id ? { ...item, text: value } : item))
-        );
+        setRecentReplies((replies) => replies.map((item) => (item.id === reply.id ? { ...item, text: value } : item)));
       }
     }
     setIsEditingReplyLoading(false);
@@ -183,7 +180,7 @@ const Reply: React.FC<IReplyFC> = ({
         <WriteComment isReply={true} hide={handleToogleEditReply} sendComment={handleEditReply} />
       ) : (
         <div className={styles.comment}>
-          <img className={styles.comment__avatar} src={reply.user.profile.avatar_thumbnail} />
+          <UserImage user={reply.user} className={styles.comment__avatar} />
           <div className={styles.comment__body}>
             <div className={styles.comment__top}>
               <div className={styles.comment__info}>
@@ -204,11 +201,7 @@ const Reply: React.FC<IReplyFC> = ({
                 buttons={replyContextMenuButtons}
               />
             </div>
-            <CommentText
-              className={styles.comment__text}
-              refUser={reply.reply_to}
-              text={reply.text}
-            />
+            <CommentText className={styles.comment__text} refUser={reply.reply_to} text={reply.text} />
             <CommentActions
               isMultimedia={isMultimedia}
               owner={owner}
@@ -224,11 +217,7 @@ const Reply: React.FC<IReplyFC> = ({
               (isCreateReplyLoading ? (
                 <Loader height={81} size={70} />
               ) : (
-                <WriteComment
-                  isReply={true}
-                  hide={handleToggleCreateRelpy}
-                  sendComment={handleCreateReply}
-                />
+                <WriteComment isReply={true} hide={handleToggleCreateRelpy} sendComment={handleCreateReply} />
               ))}
           </div>
         </div>

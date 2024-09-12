@@ -40,9 +40,7 @@ const RecentComments: React.FC<IRecentComments> = ({
 
   useEffect(() => {
     if (pinnedComment) {
-      const pinnedCandidate = recentPinnedComments.find(
-        (comment) => comment.id === pinnedComment.id
-      );
+      const pinnedCandidate = recentPinnedComments.find((comment) => comment.id === pinnedComment.id);
       if (!pinnedCandidate) {
         setRecentPinnedComments([
           pinnedComment,
@@ -80,7 +78,7 @@ const RecentComments: React.FC<IRecentComments> = ({
             id: userData.id,
             first_name: userData.first_name,
             last_name: userData.last_name,
-            profile: {
+            profile: userData.profile && {
               avatar: userData.profile.avatar,
               avatar_thumbnail: userData.profile.avatar_thumbnail,
               cover: userData.profile.cover,
@@ -97,11 +95,7 @@ const RecentComments: React.FC<IRecentComments> = ({
 
   return (
     <div className={styles.root}>
-      {isCreateCommentLoading ? (
-        <Loader height={93} size={80} />
-      ) : (
-        <WriteComment sendComment={handleCreateComment} />
-      )}
+      {isCreateCommentLoading ? <Loader height={93} size={80} /> : <WriteComment sendComment={handleCreateComment} />}
       {recentPinnedComments.map((comment) => (
         <Comment
           isPinned={true}

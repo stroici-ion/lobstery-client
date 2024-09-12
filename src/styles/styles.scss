@@ -14,6 +14,20 @@ html {
 }
 
 .container {
-  width: 1200px;
   margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 20px;
+    width: 600px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    padding: 0 20px;
+    width: 700px;
+  }
 }

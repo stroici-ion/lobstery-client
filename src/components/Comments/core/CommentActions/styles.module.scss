@@ -78,14 +78,6 @@
       height: 15px;
       visibility: collapse;
     }
-    img {
-      position: absolute;
-      visibility: hidden;
-      width: 17px;
-      height: 17px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
 
     &.editable {
       pointer-events: all;
@@ -114,6 +106,15 @@
         }
       }
     }
+  }
+
+  &__likeByAuthorImg {
+    position: absolute;
+    visibility: hidden;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   &__reply {

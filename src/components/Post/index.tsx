@@ -38,6 +38,7 @@ import { setImagesModalStatus, setPostCreateModalStatus } from '../../redux/moda
 import { fetchRemovePost } from '../../redux/posts/asyncActions';
 import { setPostToEdit } from '../../redux/posts/slice';
 import SmallButton from '../UI/Buttons/SmallButton';
+import UserImage from '../UserImage';
 
 interface IPostFC {
   small?: boolean;
@@ -87,20 +88,12 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     dispatch(setImagesModalStatus(true));
   };
 
-  if (!userProfile?.id) return <></>;
-
   return (
     <div className={classNames(styles.post, className)}>
       <div className={styles.post__content}>
         <div className={styles.post__top}>
           <div className={styles.post__top_right}>
-            <img
-              onClick={() => {
-                navigate(USER_PROFILE_ROUTE + '/' + post.user.id);
-              }}
-              src={post.user.profile?.avatar_thumbnail}
-              className={styles.post__avatar}
-            />
+            <UserImage user={post.user} className={styles.post__avatar} />
             <div className={styles.post__info}>
               <PostUsername user={post.user} feeling={post.feeling} taggedFriends={post.tagged_friends} />
               <div className={styles.post__date}>

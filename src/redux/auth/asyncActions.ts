@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { IUser } from '../../models/IUser';
-import { IAuthError, IAuthResponse } from '../../models/response/AuthResonse';
 import { API_URL } from '../../utils/consts';
 import jwt_decode from 'jwt-decode';
+import { IAuthError } from '../../models/auth/IAuthError';
+import { IAuthResponse } from '../../models/auth/AuthResonse';
 
 export const fetchAuthLogin = createAsyncThunk<number, Record<string, string>, { rejectValue: IAuthError }>(
   'auth/fetchAuthLogin',
@@ -19,6 +19,24 @@ export const fetchAuthLogin = createAsyncThunk<number, Record<string, string>, {
         throw error;
       }
       return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+    }
+  }
+);
+
+export const fetchAuthRegister = createAsyncThunk<{}, Record<string, string>, { rejectValue: IAuthError }>(
+  'auth/fetchAuthRegister',
+  async (params, { rejectWithValue }) => {
+    try {
+      await axios.post<IAuthResponse>(API_URL + 'api/register/', params);
+    } catch (error: any) {
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue({
+        message: error.response.data.detail || '',
+        errors: error.response.data,
+      } as IAuthError);
     }
   }
 );
@@ -39,21 +57,6 @@ export const fetchAuthRefresh = createAsyncThunk<number, {}, { rejectValue: IAut
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue({ message: error.response.data.detail } as IAuthError);
-    }
-  }
-);
-
-export const fetchAuthRegister = createAsyncThunk<{}, Record<string, string>, { rejectValue: IAuthError }>(
-  'auth/fetchAuthRegister',
-  async (params, { rejectWithValue }) => {
-    try {
-      await axios.post<{ id: number; username: string }>(API_URL + 'api/register/', params);
-    } catch (error: any) {
-      if (!error.response) {
-        throw error;
-      }
-
       return rejectWithValue({ message: error.response.data.detail } as IAuthError);
     }
   }

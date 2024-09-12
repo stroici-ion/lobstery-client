@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import $api from '../../http';
-import { IAuthError } from '../../models/response/AuthResonse';
 import { setUploadProgress } from './slice';
 import { IImage } from '../../models/IImage';
 import { v4 } from 'uuid';
+import { IAuthError } from '../../models/auth/IAuthError';
 
 export const fetchCreateImage = createAsyncThunk<
   IImage,

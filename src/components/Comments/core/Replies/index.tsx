@@ -10,6 +10,7 @@ import styles from './styles.module.scss';
 import Reply from '../Reply';
 import { IReply } from '../../../../models/comments/IComment';
 import Loader from '../../../Loader';
+import UserImage from '../../../UserImage';
 
 interface IReplies {
   isMultimedia: boolean;
@@ -32,7 +33,7 @@ const Replies: React.FC<IReplies> = ({
   setIsCreateReplyVisible,
   repliesCount,
 }) => {
-  const userData = useSelector(selectUserProfile);
+  const user = useSelector(selectUserProfile);
 
   const [isCreateReplyLoading, setIsCreateReplyLoading] = useState(false);
   const [isRepliesLoading, setIsRepliesLoading] = useState(false);
@@ -44,9 +45,9 @@ const Replies: React.FC<IReplies> = ({
   const totalPages = Math.ceil(repliesCount / limit);
 
   const handleCreateReply = async (text: string) => {
-    if (userData) {
+    if (user) {
       setIsCreateReplyLoading(true);
-      const res = await createReply({ text, post: postId, parent: commentId, user: userData.id });
+      const res = await createReply({ text, post: postId, parent: commentId, user: user.id });
       if (res) {
         const newReply: IReply = {
           ...res,
@@ -57,13 +58,13 @@ const Replies: React.FC<IReplies> = ({
           disliked: false,
           //must chkeck later
           user: {
-            id: userData.id,
-            first_name: userData.first_name,
-            last_name: userData.last_name,
-            profile: {
-              avatar: userData.profile.avatar,
-              avatar_thumbnail: userData.profile.avatar_thumbnail,
-              cover: userData.profile.cover,
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            profile: user.profile && {
+              avatar: user.profile.avatar,
+              avatar_thumbnail: user.profile.avatar_thumbnail,
+              cover: user.profile.cover,
             },
           },
         };
@@ -77,7 +78,7 @@ const Replies: React.FC<IReplies> = ({
   useEffect(() => {
     if (isFetchedRepliesVisible && !feetchedReplies.length) {
       setIsRepliesLoading(true);
-      getReplies(commentId, page).then((replies) => {
+      getReplies(commentId, page, user.id).then((replies) => {
         if (replies) setFeetchedReplies([...feetchedReplies, ...replies.results]);
         setIsRepliesLoading(false);
       });
@@ -87,7 +88,7 @@ const Replies: React.FC<IReplies> = ({
   useEffect(() => {
     if (feetchedReplies.length) {
       setIsRepliesLoading(true);
-      getReplies(commentId, page).then((replies) => {
+      getReplies(commentId, page, user.id).then((replies) => {
         if (replies) setFeetchedReplies([...feetchedReplies, ...replies.results]);
         setIsRepliesLoading(false);
       });
@@ -100,22 +101,15 @@ const Replies: React.FC<IReplies> = ({
         <Loader height={83} size={80} />
       ) : (
         isCreateReplyVisible && (
-          <WriteComment
-            isReply={true}
-            hide={() => setIsCreateReplyVisible(false)}
-            sendComment={handleCreateReply}
-          />
+          <WriteComment isReply={true} hide={() => setIsCreateReplyVisible(false)} sendComment={handleCreateReply} />
         )
       )}
       {repliesCount > 0 && (
-        <button
-          className={styles.root__button}
-          onClick={() => setIsFetchedRepliesVisible(!isFetchedRepliesVisible)}
-        >
+        <button className={styles.root__button} onClick={() => setIsFetchedRepliesVisible(!isFetchedRepliesVisible)}>
           <ArrowDownSvg />
           {isRepliedByAuthor && (
             <>
-              <img className={styles.root__avatar} src={owner.profile.avatar_thumbnail} />
+              <UserImage user={owner} className={styles.root__avatar} />
               <span className={styles.root__avatarDecoration}>•</span>
             </>
           )}

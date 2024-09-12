@@ -6,7 +6,7 @@
   flex-direction: column;
   border-radius: 10px;
   box-shadow: 2px 2px 5px 4px transparentize($grayColor, 0.5);
-  width: 600px;
+  width: 100%;
   &__content {
     background-color: $lightColor;
     padding: 15px;

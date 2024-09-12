@@ -42,9 +42,16 @@ const InputPassword: React.FC<IInputPassword> = ({
   };
 
   return (
-    <div className={classNames(styles.inputBox, className)} ref={passwordBoxRef}>
-      {error.length > 0 && <span className={styles.inputBox__label}>{error}</span>}
-      <input name={name} placeholder={placeholder} type={type} value={value} onChange={onChange}></input>
+    <div className={classNames(styles.inputBox, className, !!error.length && styles.error)} ref={passwordBoxRef}>
+      {!!error.length && <p className={styles.inputBox__label}>{error}</p>}
+      <input
+        name={name}
+        autoComplete={name}
+        placeholder={placeholder}
+        type={type}
+        value={value}
+        onChange={onChange}
+      ></input>
       <svg
         className={classNames(styles.inputBox__svg, value.length > 0 && styles.active)}
         onClick={onclickHandler}
@@ -63,15 +70,6 @@ const InputPassword: React.FC<IInputPassword> = ({
       </svg>
     </div>
   );
-};
-
-InputPassword.defaultProps = {
-  value: '',
-  placeholder: '',
-  type: '',
-  className: '',
-  error: '',
-  onChange: () => {},
 };
 
 export default InputPassword;

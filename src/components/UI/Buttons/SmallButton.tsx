@@ -14,7 +14,8 @@ const SmallButton: FC<ISmallButton> = ({ children, className, onClick }) => {
   const [isActive, setIsActive] = useState(false);
   const timmerRef = useRef<any>(null);
 
-  const handleOnClick = () => {
+  const handleOnClick = (e: any) => {
+    e.preventDefault();
     if (!isActive) {
       setIsActive(true);
       timmerRef.current = setTimeout(() => {
@@ -25,11 +26,7 @@ const SmallButton: FC<ISmallButton> = ({ children, className, onClick }) => {
   };
 
   return (
-    <button
-      style={{}}
-      onClick={handleOnClick}
-      className={classNames(styles.smallButton, isActive && styles.active, className)}
-    >
+    <button onClick={handleOnClick} className={classNames(styles.smallButton, isActive && styles.active, className)}>
       <span className={styles.smallButton__wrapper}></span>
       {children}
     </button>

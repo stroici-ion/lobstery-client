@@ -5,8 +5,3 @@ export interface IAuthResponse {
   refresh: string;
   user: IUser;
 }
-
-export interface IAuthError {
-  message: string;
-  errors?: [];
-}

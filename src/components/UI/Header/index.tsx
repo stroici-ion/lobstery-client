@@ -1,54 +1,35 @@
-import classNames from 'classnames';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { LogoSvg } from '../../../icons';
-import CartSvg from '../../../icons/CartSvg';
-
-import { useAppDispatch } from '../../../redux';
-import { logOut } from '../../../redux/auth/slice';
-import { ADD_POST_ROUTE, HOME_ROUTE, POSTS_ROUTE } from '../../../utils/consts';
+import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 
 import styles from './styles.module.scss';
 
+import { HomeSvg, GallerySvg, MessagingSvg, SettingsSvg, LogoSvg, LogOutSvg, ChessSvg, UserSvg } from '../../../icons';
+import { GAMES_ROUTE, HOME_ROUTE, LOGIN_ROUTE, POSTS_ROUTE, USER_SETTINGS_ROUTE } from '../../../utils/consts';
+import { logOut } from '../../../redux/auth/slice';
+import { useAppDispatch } from '../../../redux';
+import { useSelector } from 'react-redux';
+import { selectUserProfile } from '../../../redux/profile/selectors';
+import ContextMenu from '../../ContextMenu';
+import classNames from 'classnames';
+import { selectAuthStatus } from '../../../redux/auth/selectors';
+import UserImage from '../../UserImage';
+import { FetchStatusEnum } from '../../../models/response/FetchStatus';
+
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
-  const handleLogoutClick = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    dispatch(logOut());
+  const navigate = useNavigate();
+  const [activeButton, setAcitveButton] = useState(0);
+  const user = useSelector(selectUserProfile);
+
+  const authorizationStatus = useSelector(selectAuthStatus);
+  const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
+
+  const handleLogout = () => {
+    if (isAuth) dispatch(logOut());
+    navigate(LOGIN_ROUTE);
   };
 
-  return (
-    <header className={styles.root}>
-      <div className={classNames(styles.root__body, 'container')}>
-        <div className={styles.root__logo}>
-          <LogoSvg />
-          Online store
-        </div>
-        <ul className={classNames(styles.root__menu, styles.menu)}>
-          <li>
-            <Link to={HOME_ROUTE}>Home</Link>
-          </li>
-          <li>Products</li>
-          <li>
-            <Link to={POSTS_ROUTE}>Posts</Link>
-          </li>
-          <li>
-            <Link to={ADD_POST_ROUTE}>Add Post</Link>
-          </li>
-        </ul>
-        <div className={classNames(styles.root__user, styles.user)}>
-          <div className={styles.user__cart}>
-            <button>
-              <span>17</span>
-              <CartSvg />
-            </button>
-          </div>
-          <button onClick={handleLogoutClick}>Log out</button>
-        </div>
-      </div>
-    </header>
-  );
+  return <header className={styles.header}></header>;
 };
 
 export default Header;

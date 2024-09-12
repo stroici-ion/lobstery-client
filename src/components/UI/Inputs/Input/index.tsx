@@ -13,23 +13,13 @@ interface IInput {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<IInput> = ({ type, name, value, onChange, error, className, placeholder }) => {
+const Input: React.FC<IInput> = ({ value, onChange, error, className, type, name, placeholder }) => {
   return (
-    <div className={classNames(styles.inputBox, className)}>
-      {!error && <span className={styles.inputBox__label}>{error}</span>}
-      <input name={name} type={type} placeholder={placeholder} value={value} onChange={onChange} />
+    <div className={classNames(styles.inputBox, className, !!error.length && styles.error)}>
+      {!!error.length && <p className={styles.inputBox__label}>{error}</p>}
+      <input name={name} autoComplete={name} type={type} placeholder={placeholder} value={value} onChange={onChange} />
     </div>
   );
-};
-
-Input.defaultProps = {
-  name: '',
-  value: '',
-  placeholder: '',
-  type: '',
-  className: '',
-  error: '',
-  onChange: () => {},
 };
 
 export default Input;

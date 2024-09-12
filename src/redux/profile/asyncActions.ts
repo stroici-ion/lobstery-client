@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IUser } from '../../models/IUser';
-import { IAuthError } from '../../models/response/AuthResonse';
 import { API_URL } from '../../utils/consts';
+import { IAuthError } from '../../models/auth/IAuthError';
 
 export const fetchUserProfile = createAsyncThunk<IUser, number, { rejectValue: IAuthError }>(
   'profile/fetchUserProfile',

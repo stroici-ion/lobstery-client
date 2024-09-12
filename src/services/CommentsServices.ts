@@ -1,7 +1,7 @@
 import $api from '../http';
 import { IComment, ILikesInfo, IReply } from '../models/comments/IComment';
 
-export const getComments = async (id: number, page: number, sortBy: string) => {
+export const getComments = async (id: number, page: number, sortBy: string, user?: number) => {
   try {
     const { data } = await $api.get<{
       results: IComment[];
@@ -12,6 +12,7 @@ export const getComments = async (id: number, page: number, sortBy: string) => {
         limit: 10,
         offset: (page - 1) * 10,
         sort_by: sortBy,
+        user,
       },
     });
     return data;
@@ -105,7 +106,7 @@ export const createReply = async (params: {
   }
 };
 
-export const getReplies = async (comment: number, page: number) => {
+export const getReplies = async (comment: number, page: number, user?: number) => {
   try {
     const { data } = await $api.get<{
       results: IReply[];
@@ -115,6 +116,7 @@ export const getReplies = async (comment: number, page: number) => {
         page,
         limit: 10,
         offset: (page - 1) * 10,
+        user,
       },
     });
     return data;
@@ -136,12 +138,9 @@ export const putCommentLikeByAuthor = async (commentId: number) => {
 
 export const togglePinnedComment = async (post: number, comment: number) => {
   try {
-    const { data } = await $api.post<{ pinned_comment: number }>(
-      'api/posts/' + post + '/pin-comment/',
-      {
-        comment,
-      }
-    );
+    const { data } = await $api.post<{ pinned_comment: number }>('api/posts/' + post + '/pin-comment/', {
+      comment,
+    });
     return data;
   } catch (e) {
     console.error(e);

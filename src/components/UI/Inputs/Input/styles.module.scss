@@ -1,39 +1,35 @@
+@import '../../../../styles/colors.scss';
+
 .inputBox {
   position: relative;
-  height: 40px;
+  height: 45px;
   overflow: hidden;
-  &__svg {
-    stroke: #646464;
-    opacity: 0;
-    transition: 0.3s;
-    position: absolute;
-    right: 6px;
-    width: 30px;
-    height: 40px;
-    padding: 5px;
-    cursor: pointer;
-    &.active {
-      opacity: 1;
-    }
-    &:hover {
-      stroke: #999999;
-    }
-  }
+  padding-top: 5px;
 
   &__label {
+    padding: 0 5px;
+    border-radius: 3px;
+    background-color: $lightColor;
     position: absolute;
-    top: 1px;
+    top: 0px;
     left: 10px;
-    color: orangered;
-    font-size: 9px;
+    color: $redColor;
+    font-size: 11px;
   }
 
   input {
     border-radius: 5px;
     padding: 5px 10px;
     padding-right: 33px;
-    height: 100%;
+    height: 40px;
     line-height: 40px;
     width: 100%;
+  }
+}
+
+.error {
+  input {
+    border: 1px solid $redColor !important;
+    background-color: $lightColor !important;
   }
 }

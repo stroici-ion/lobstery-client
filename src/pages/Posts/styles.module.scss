@@ -1,19 +1,18 @@
 @import '../../styles/colors.scss';
+@import '../../styles/mixins.scss';
 
 .root {
   position: relative;
-  // &.modalActive {
-  //   overflow: hidden;
-  //   max-width: 100vw;
-  //   max-height: 100vh;
-  // }
   &__posts {
-    padding: 40px 0;
+    @media (min-width: 768px) {
+      padding: 10px 0;
+    }
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
     justify-content: center;
+    @include scrollBar();
   }
 }
 
@@ -40,8 +39,4 @@
   &:hover {
     background-color: $greenColorDarken;
   }
-}
-.post {
-  overflow: hidden;
-  width: 500px;
 }

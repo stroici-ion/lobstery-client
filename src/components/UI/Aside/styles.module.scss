@@ -1,78 +1,275 @@
 @import '../../../styles/colors.scss';
+@import '../../../styles/mixins.scss';
 
-.header {
+.aside {
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
-  bottom: 0;
-  background-color: $lightColor;
-  width: 80px;
-  z-index: 100;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 40px 0;
-  &::before {
-    content: '';
-    position: absolute;
-    background-color: $grayColorLighten;
-    top: 35px;
-    bottom: 35px;
-    width: 1px;
-    left: 80px;
+  transition: 0.3s;
+  width: 100vw;
+  max-height: 100vh;
+  @media (min-width: 768px) {
+    width: 240px;
   }
+
+  &.collapsed {
+    @media (max-width: 768px) {
+      left: -100%;
+    }
+    @media (min-width: 768px) {
+      width: 50px;
+    }
+  }
+
+  &__asideBody {
+    flex: 1 1 auto;
+    width: 80vw;
+    left: 0%;
+    @media (min-width: 768px) {
+      width: 240px;
+    }
+  }
+}
+
+.padding {
+  transition: 0.3s;
+  flex: 0 0 0px;
+  @media (min-width: 768px) {
+    flex: 0 0 240px;
+  }
+  &.collapsed {
+    @media (min-width: 768px) {
+      flex: 0 0 50px;
+    }
+  }
+}
+
+.top {
+  background-color: $lightColor;
+  z-index: 1;
+  padding: 0 20px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  gap: 20px;
+  height: 40px;
+  border-right: none;
+
+  @media (min-width: 768px) {
+    border-right: 1px solid $grayColorLighten;
+    width: 240px;
+    height: 60px;
+  }
+
+  &.collapsed {
+    @media (min-width: 768px) {
+      padding: 0 10px;
+      width: 50px;
+    }
+  }
+
+  &__menuButton {
+    display: block;
+    @media (min-width: 768px) {
+      display: none;
+    }
+    height: 20px;
+    width: 20px;
+    position: relative;
+    span {
+      transition: 0.3s;
+      display: block;
+      width: 20px;
+      height: 2.5px;
+      background-color: $cyanColor;
+      margin-bottom: 4px;
+      &:nth-child(3) {
+        margin-bottom: 0;
+      }
+    }
+    &.collapsed {
+      span:nth-child(1) {
+        transform: translate(0, 3.5px) rotate(-45deg);
+      }
+      span:nth-child(2) {
+        display: none;
+      }
+      span:nth-child(3) {
+        transform: translate(0, -3.5px) rotate(45deg);
+      }
+    }
+  }
+
   &__logo {
-    height: 50px;
     display: flex;
     align-items: center;
-    justify-content: center;
+  }
+
+  &__logoSvg {
     svg {
-      height: 50px;
+      width: 25px;
+      height: 25px;
+      @media (min-width: 768px) {
+        width: 30px;
+        height: 30px;
+      }
+      @include svgcolor($cyanColor);
+    }
+  }
+
+  &__logoTextSvg {
+    color: $cyanColor;
+    margin-left: 14px;
+    font-weight: 700;
+    font-family: cursive;
+  }
+}
+
+.asideBody {
+  border-right: 1px solid $grayColorLighten;
+  transition: 0.3s;
+  background-color: $lightColor;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  position: relative;
+  max-height: 100vh;
+
+  &.collapsed {
+    @media (min-width: 768px) {
+      width: 50px;
     }
   }
 
   &__buttons {
+    flex: 1 1 auto;
     position: relative;
-    padding: 40px 0;
+    margin: 0;
+    overflow: hidden;
+    overflow-y: scroll;
+    margin-top: 60px;
+    direction: rtl;
+    @include scrollBarSmall();
+    @media (min-width: 768px) {
+      margin: 40px 0;
+    }
     display: flex;
     flex-direction: column;
     gap: 10px;
-    &_decoration {
-      z-index: 100;
-      transition: 0.2s;
-      position: absolute;
-      top: 130px;
-      height: 60px;
-      width: 3px;
-      background-color: $cyanColor;
-      right: -1px;
-      border-radius: 5px;
+    & > * {
+      direction: ltr;
     }
   }
 
-  &__user {
-    display: flex;
-    justify-content: center;
+  &__buttonsDecoration {
+    z-index: 102;
+    transition: 0.3s;
+    position: absolute;
+    top: 130px;
+    height: 40px;
+    width: 3px;
+    background-color: $cyanColor;
+    right: -1px;
+    border-radius: 5px;
+  }
+
+  &__collapse {
+    display: none;
+    margin: 0 15px;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: 5px;
+    margin-top: 70px;
+    background-color: $cyanColorLighten;
+    @media (min-width: 768px) {
+      display: flex;
+    }
+  }
+
+  &__collapseButton {
+    width: 20px;
+    height: 20px;
+
+    svg {
+      flex: 0 0 20px;
+      width: 20px;
+      height: 20px;
+      @include svgcolor($cyanColor);
+    }
   }
 }
 
 .user {
+  transition: 0.3s;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+
+  &::before {
+    transition: 0.3s;
+    content: '';
+    position: absolute;
+    left: 20px;
+    height: 1px;
+    right: 20px;
+    top: 0;
+    background-color: $grayColorLighten;
+    @media (min-width: 768px) {
+      left: 0px;
+      right: 0px;
+    }
+  }
+
+  &.collapsed {
+    padding-left: 8px;
+  }
+
+  button.signup {
+    padding: 0 0 0 35px;
+  }
+
   &__openMenuButton {
     border-radius: 50%;
     background-color: transparent;
-    transition: 0.2s;
-    width: 50px;
-    height: 50px;
+    transition: 0.3s;
+    width: 34px;
+    flex: 0 0 34px;
+    height: 34px;
     &:hover {
-      opacity: 0.9;
+      opacity: 0.8;
     }
   }
 
   &__img {
-    object-fit: cover;
-    border-radius: 50%;
     width: 100%;
     height: 100%;
+  }
+
+  &__collapsableInfo {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    flex-wrap: nowrap;
+    &.collapsed {
+      display: none;
+    }
+  }
+
+  &__name {
+    flex: 1 1 auto;
+    font-size: 14px;
   }
 
   &__button {
@@ -84,6 +281,82 @@
   }
 }
 
+.guest {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  padding-left: 25px;
+  padding-right: 20px;
+  transition: 0.3s;
+  position: relative;
+
+  &::before {
+    transition: 0.3s;
+    content: '';
+    position: absolute;
+    height: 1px;
+    left: 20px;
+    right: 20px;
+    top: 0;
+    background-color: $grayColorLighten;
+    @media (min-width: 768px) {
+      left: 0px;
+      right: 0px;
+    }
+  }
+
+  &.collapsed {
+    padding-left: 8px;
+  }
+
+  &__icon {
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 2px solid $grayColorLighten;
+    width: 34px;
+    flex: 0 0 34px;
+    height: 34px;
+    svg {
+      @include svgcolor($grayColorLighten);
+      width: 102%;
+      height: 102%;
+    }
+    &:hover {
+      border: 2px solid $cyanColor;
+      svg {
+        @include svgcolor($cyanColor);
+      }
+    }
+  }
+
+  &__text {
+    flex: 1 1 auto;
+    gap: 5px;
+    color: $grayColor;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  &.collapsed {
+    padding-left: 8px;
+    .guest__text {
+      visibility: hidden;
+    }
+  }
+
+  &__link {
+    color: $cyanColorDarken;
+    text-wrap: nowrap;
+    font-size: 14px;
+    text-decoration: underline;
+    &:hover {
+      color: $darkColor;
+    }
+  }
+}
+
 .logout {
   svg {
     path {
@@ -91,7 +364,6 @@
       stroke: $redColor;
     }
   }
-
   &:hover {
     background-color: $redColorLighten;
   }
@@ -99,19 +371,10 @@
 
 .profile {
   svg {
-    path {
-      fill: $blueColor;
-      stroke: $blueColor;
-    }
+    @include svgcolor($blueColor);
   }
 
   &:hover {
     background-color: $blueColorLighten;
-  }
-}
-
-.gamesButton {
-  svg {
-    width: 30px;
   }
 }

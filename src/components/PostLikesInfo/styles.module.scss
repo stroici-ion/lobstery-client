@@ -18,6 +18,13 @@
   &:hover {
     background-color: $grayColorLightenUltra;
   }
+
+  @media (hover: none) {
+    &:hover {
+      background-color: initial;
+    }
+  }
+
   svg {
     width: 20px;
     path {

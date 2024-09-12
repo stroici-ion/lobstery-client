@@ -4,12 +4,16 @@ import React from 'react';
 
 import Aside from '../../components/UI/Aside';
 import styles from './styles.module.scss';
+import Header from '../../components/UI/Header';
 
 const MainLayout: React.FC = () => {
   return (
-    <div className={classNames(styles.root, 'wrapper')}>
+    <div className={styles.root}>
       <Aside />
-      <Outlet />
+      <div className={classNames(styles.root__content, 'wrapper')}>
+        {/* <Header /> */}
+        <Outlet />
+      </div>
     </div>
   );
 };

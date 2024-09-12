@@ -14,19 +14,30 @@ import Post from '../../components/Post';
 import { setPostCreateModalStatus } from '../../redux/modals/slice';
 import { selectPostCreateModalStatus } from '../../redux/modals/selectors';
 import { setActivePostNull } from '../../redux/posts/slice';
+import { selectAuthStatus, selectUserId } from '../../redux/auth/selectors';
+import toast from 'react-hot-toast';
+import { FetchStatusEnum } from '../../models/response/FetchStatus';
 
 const Posts: React.FC = () => {
   const posts = useSelector(selectPosts);
   const dispatch = useAppDispatch();
   const postCreateModalStatus = useSelector(selectPostCreateModalStatus);
 
+  const authorizationStatus = useSelector(selectAuthStatus);
+  const pendingAuth = authorizationStatus === FetchStatusEnum.PENDING;
+  const userId = useSelector(selectUserId);
+
   useEffect(() => {
-    dispatch(fetchPosts({}));
-  }, []);
+    if (pendingAuth) return;
+    if (userId) dispatch(fetchPosts({ user: `${userId}` }));
+    else dispatch(fetchPosts({}));
+  }, [pendingAuth, userId]);
 
   const handleShowAddPostModal = () => {
-    dispatch(setPostCreateModalStatus(true));
-    dispatch(setActivePostNull());
+    if (userId) {
+      dispatch(setPostCreateModalStatus(true));
+      dispatch(setActivePostNull());
+    } else toast.error('You are not authorized');
   };
 
   const handleHideModal = () => {

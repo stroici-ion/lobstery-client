@@ -7,6 +7,7 @@ import { useAppDispatch } from '../../../../redux';
 import { addImageTaggedFriend } from '../../../../redux/images/slice';
 import classNames from 'classnames';
 import SearchFirends from '../../../SearchFriends';
+import UserImage from '../../../UserImage';
 
 interface IImageTagFriends {
   activeImage: IImage;
@@ -81,18 +82,15 @@ const ImageTagFriends: React.FC<IImageTagFriends> = ({ activeImage }) => {
       return {
         left:
           (100 -
-            ((boundsSize.image.width || boundsImage.width) * 100) /
-              (boundsSize.block.width || boundsBlock.width)) /
+            ((boundsSize.image.width || boundsImage.width) * 100) / (boundsSize.block.width || boundsBlock.width)) /
             2 +
           (left *
-            (((boundsSize.image.width || boundsImage.width) * 100) /
-              (boundsSize.block.width || boundsBlock.width))) /
+            (((boundsSize.image.width || boundsImage.width) * 100) / (boundsSize.block.width || boundsBlock.width))) /
             100 +
           '%',
         top:
           (100 -
-            ((boundsSize.image.height || boundsImage.height) * 100) /
-              (boundsSize.block.height || boundsBlock.height)) /
+            ((boundsSize.image.height || boundsImage.height) * 100) / (boundsSize.block.height || boundsBlock.height)) /
             2 +
           (top *
             (((boundsSize.image.height || boundsImage.height) * 100) /
@@ -124,21 +122,15 @@ const ImageTagFriends: React.FC<IImageTagFriends> = ({ activeImage }) => {
         onClick={handleMouseClick}
         onLoad={handleImageOnload}
       />
-      {activeImage.tagged_friends?.map((item) => (
+      {activeImage.tagged_friends?.map((tUser) => (
         <div
-          key={item.user.id}
-          style={getLocationStyle(item.top, item.left)}
-          className={classNames(
-            styles.mainImage__taggedFriend,
-            styles.taggedFriend,
-            item.top > 90 && styles.reverse
-          )}
+          key={tUser.user.id}
+          style={getLocationStyle(tUser.top, tUser.left)}
+          className={classNames(styles.mainImage__taggedFriend, styles.taggedFriend, tUser.top > 90 && styles.reverse)}
         >
           <div className={styles.taggedFriend__row}>
-            <img className={styles.taggedFriend__avatar} src={item.user.profile.avatar_thumbnail} />
-            <p className={styles.taggedFriend__name}>
-              {item.user.first_name + ' ' + item.user.last_name}
-            </p>
+            <UserImage user={tUser.user} className={styles.taggedFriend__avatar} />
+            <p className={styles.taggedFriend__name}>{tUser.user.first_name + ' ' + tUser.user.last_name}</p>
           </div>
           <div className={styles.taggedFriend__decoration}></div>
         </div>

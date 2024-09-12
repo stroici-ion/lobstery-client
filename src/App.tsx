@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Routes, BrowserRouter, Route, Navigate } from 'react-router-dom';
 
@@ -18,21 +18,23 @@ import EditImagesForm from './components/EditImagesForm';
 import { selectActiveImage } from './redux/images/selectors';
 import { selectImagesModalStatus, selectPostCreateModalStatus } from './redux/modals/selectors';
 import { setImagesModalStatus } from './redux/modals/slice';
+import { Toaster } from 'react-hot-toast';
+import { FetchStatusEnum } from './models/response/FetchStatus';
+import { setGuestStatus } from './redux/auth/slice';
 
 const App: React.FC = () => {
-  const isAuth = useSelector(selectAuthStatus);
   const dispatch = useAppDispatch();
-  const userId = useSelector(selectUserId);
   const activeImage = useSelector(selectActiveImage);
   const imagesModalStatus = useSelector(selectImagesModalStatus);
   const postCreateModalStatus = useSelector(selectPostCreateModalStatus);
 
-  const refreshUser = async () => {
-    dispatch(fetchAuthRefresh({}));
-  };
+  const authorizationStatus = useSelector(selectAuthStatus);
+  const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
+  const userId = useSelector(selectUserId);
 
   useEffect(() => {
-    if (localStorage.getItem('refreshToken')) refreshUser();
+    if (localStorage.getItem('refreshToken')) dispatch(fetchAuthRefresh({}));
+    else dispatch(setGuestStatus());
   }, []);
 
   useEffect(() => {
@@ -40,45 +42,33 @@ const App: React.FC = () => {
       if (userId) {
         dispatch(fetchUserProfile(userId));
       }
-  }, [userId]);
+  }, [isAuth]);
 
   const handleImagesModalHide = () => {
     dispatch(setImagesModalStatus(false));
   };
 
   return (
-    <div
-      className={classNames(
-        styles.scrollArea,
-        (imagesModalStatus || postCreateModalStatus) && styles.lockScroll
-      )}
-    >
+    <div className={classNames(styles.scrollArea, (imagesModalStatus || postCreateModalStatus) && styles.lockScroll)}>
       {imagesModalStatus && activeImage && (
         <Modal fullSize={true} onHide={handleImagesModalHide}>
           <EditImagesForm onHide={handleImagesModalHide} />
         </Modal>
       )}
-
+      <div>
+        <Toaster />
+      </div>
       <BrowserRouter>
         <Routes>
-          {!isAuth && (
-            <Route path={AUTH_LAYOUT_ROUTE} element={<AuthLayout />}>
-              {authRoutes.map((route) => (
-                <Route key={route.path} {...route} />
-              ))}
-            </Route>
-          )}
+          <Route path={AUTH_LAYOUT_ROUTE} element={<AuthLayout />}>
+            {!isAuth && authRoutes.map((route) => <Route key={route.path} {...route} />)}
+          </Route>
           <Route path={MAIN_LAYOUT_ROUTE} element={<MainLayout />}>
             {publicRoutes.map((route) => (
               <Route key={route.path} {...route} />
             ))}
-            {privateRoutes.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={!isAuth ? <Navigate to={LOGIN_ROUTE} /> : route.element}
-              />
-            ))}
+            {isAuth &&
+              privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element} />)}
           </Route>
           <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
         </Routes>

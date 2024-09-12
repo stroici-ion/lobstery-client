@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IUser } from '../../models/IUser';
-import { IAuthError } from '../../models/response/AuthResonse';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
 import { fetchUserProfile } from './asyncActions';
 import { IUserProfileState } from './types';

@@ -7,6 +7,10 @@ import { putCommentLike, putCommentLikeByAuthor } from '../../../../services/Com
 import { IUser } from '../../../../models/IUser';
 import { ILikesInfo } from '../../../../models/comments/IComment';
 import SmallButton from '../../../UI/Buttons/SmallButton';
+import UserImage from '../../../UserImage';
+import { useSelector } from 'react-redux';
+import { selectUserId } from '../../../../redux/auth/selectors';
+import toast from 'react-hot-toast';
 
 interface ICommentActions {
   isMultimedia: boolean;
@@ -39,7 +43,18 @@ const CommentActions: React.FC<ICommentActions> = ({
 }) => {
   const [localLikesInfo, setLocalLikesInfo] = useState(likesInfo);
 
+  const userId = useSelector(selectUserId);
+  const isAuthorized = !!userId;
+
+  const checkPermission = () => {
+    if (!isAuthorized) {
+      toast.error('Sign In or Create an account to perform this action!');
+    }
+    return isAuthorized;
+  };
+
   const handlePutLike = async () => {
+    if (!checkPermission()) return;
     if (isReply) {
       const feetchedLikesInfo = await putCommentLike(id, true);
       if (feetchedLikesInfo && setLikesInfo) {
@@ -55,6 +70,7 @@ const CommentActions: React.FC<ICommentActions> = ({
   };
 
   const handlePutDislike = async () => {
+    if (!checkPermission()) return;
     if (isReply) {
       const feetchedLikesInfo = await putCommentLike(id, false);
       if (feetchedLikesInfo && setLikesInfo) {
@@ -70,6 +86,7 @@ const CommentActions: React.FC<ICommentActions> = ({
   };
 
   const handlePuteLikeByAuthor = async () => {
+    if (!checkPermission()) return;
     if (isReply) {
       const response = await putCommentLikeByAuthor(id);
 
@@ -118,8 +135,8 @@ const CommentActions: React.FC<ICommentActions> = ({
           )}
         >
           <SmallButton onClick={handlePuteLikeByAuthor}>
+            <UserImage user={owner} className={styles.actions__likeByAuthorImg} />
             <HeartSvg />
-            <img src={owner.profile.avatar_thumbnail} />
           </SmallButton>
         </div>
       )}

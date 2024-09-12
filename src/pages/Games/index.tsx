@@ -52,8 +52,6 @@ enum FigureTypeEnum {
   PAWN = 'PAWN',
 }
 
-type CellType = {};
-
 const Games: React.FC = () => {
   const [table, setTable] = useState(initialTable);
 
@@ -67,20 +65,25 @@ const Games: React.FC = () => {
       <div className={styles.root__game}>
         <div className={classNames(styles.root__row, styles.rowIndex)}>
           {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].map((letter) => (
-            <div className={styles.root__index}>{letter}</div>
+            <div key={letter} className={styles.root__index}>
+              {letter}
+            </div>
           ))}
         </div>
         <div className={styles.root__body}>
           <div className={styles.root__column}>
-            {[8, 7, 6, 5, 4, 3, 2, 1].map((letter) => (
-              <div className={styles.root__indexVertical}>{letter}</div>
+            {[8, 7, 6, 5, 4, 3, 2, 1].map((number) => (
+              <div key={number} className={styles.root__indexVertical}>
+                {number}
+              </div>
             ))}
           </div>
           <div className={styles.root__chees}>
             {table.figures.map((row, i) => (
-              <div className={styles.root__row}>
+              <div className={styles.root__row} key={i}>
                 {row.map((cell, j) => (
                   <div
+                    key={i + '' + j}
                     className={classNames(
                       styles.root__cell,
                       styles.cell,
@@ -92,9 +95,7 @@ const Games: React.FC = () => {
                     )}
                     onClick={() => onClickCell(i, j)}
                   >
-                    {cell.figure?.figure && (
-                      <img className={styles.cell__figure} src={cell.figure?.figure} />
-                    )}
+                    {cell.figure?.figure && <img className={styles.cell__figure} src={cell.figure?.figure} />}
                     <div className={styles.cell__candidatePlace}></div>
                   </div>
                 ))}
@@ -102,14 +103,18 @@ const Games: React.FC = () => {
             ))}
           </div>
           <div className={styles.root__column}>
-            {[8, 7, 6, 5, 4, 3, 2, 1].map((letter) => (
-              <div className={styles.root__indexVertical}>{letter}</div>
+            {[8, 7, 6, 5, 4, 3, 2, 1].map((number) => (
+              <div key={number} className={styles.root__indexVertical}>
+                {number}
+              </div>
             ))}
           </div>
         </div>
         <div className={classNames(styles.root__row, styles.rowIndex)}>
           {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].map((letter) => (
-            <div className={styles.root__index}>{letter}</div>
+            <div key={letter} className={styles.root__index}>
+              {letter}
+            </div>
           ))}
         </div>
       </div>
@@ -997,9 +1002,7 @@ const pawnMooves = (table: ITable, i: number, j: number) => {
     }
 
     case FigureTypeEnum.KING: {
-      const atributeKey = newTable.selectedFigure.figure.color
-        ? 'blackDominating'
-        : 'whiteDominating';
+      const atributeKey = newTable.selectedFigure.figure.color ? 'blackDominating' : 'whiteDominating';
 
       if (figures[i - 1]?.[j])
         if (figures[i - 1]?.[j][atributeKey] === 0)

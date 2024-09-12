@@ -8,6 +8,8 @@ import { getComments } from '../../../../services/CommentsServices';
 import Loader from '../../../Loader';
 import Comment from '../Comment';
 import styles from './styles.module.scss';
+import { useSelector } from 'react-redux';
+import { selectUserId } from '../../../../redux/auth/selectors';
 
 interface IRecentComments {
   sortBy: SortCommentsByEnum;
@@ -17,19 +19,14 @@ interface IRecentComments {
   setPinnedComment: React.Dispatch<React.SetStateAction<IComment | undefined>>;
 }
 
-const RecentComments: React.FC<IRecentComments> = ({
-  sortBy,
-  postId,
-  owner,
-  isMultimedia,
-  setPinnedComment,
-}) => {
+const RecentComments: React.FC<IRecentComments> = ({ sortBy, postId, owner, isMultimedia, setPinnedComment }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [feetchedComments, setFeetchedComments] = useState<IComment[]>([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const isFeetched = useRef(false);
+  const user = useSelector(selectUserId);
 
   useEffect(() => {
     setFeetchedComments([]);
@@ -43,7 +40,7 @@ const RecentComments: React.FC<IRecentComments> = ({
 
   const fetchComments = async () => {
     setIsLoading(true);
-    const res = await getComments(postId, page, sortBy);
+    const res = await getComments(postId, page, sortBy, user);
     if (res) {
       if (!count) setCount(res.count);
       if (page === 1) {
@@ -69,9 +66,7 @@ const RecentComments: React.FC<IRecentComments> = ({
 
   return (
     <div className={styles.root}>
-      {feetchedComments.length === 0 && (
-        <p className={styles.root__empty} children={'No comments...'} />
-      )}
+      {feetchedComments.length === 0 && <p className={styles.root__empty} children={'No comments...'} />}
       {feetchedComments
         .filter((comment) => !!comment.is_pinned_by_author === false)
         .map((comment) => (

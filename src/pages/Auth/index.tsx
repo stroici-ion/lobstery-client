@@ -6,32 +6,9 @@ import { EnumFromTypes } from '../../models/auth/EnumFormTypes';
 import LoginForm from '../../components/UI/Forms/Login';
 import RegisterForm from '../../components/UI/Forms/Register';
 
-// const location = useLocation();
-// const dispatch = useAppDispatch();
-// const isLogin = location.pathname === LOGIN_ROUTE;
-// const authErrors = useSelector(selectAuthErrors);
-// const registerStatus = useSelector(selectRegisterStatus);
-// const navigate = useNavigate();
-
-// const { register, handleSubmit } = useForm();
-
-// const onSubmit = handleSubmit(async (data) => {
-//   if (isLogin) {
-//     dispatch(fetchAuthLogin({ username: data.username, password: data.password }));
-//     return;
-//   }
-//   dispatch(fetchAuthRegister({ username: data.username, password: data.password }));
-// });
-
-// useEffect(() => {
-//   if (registerStatus === FetchStatusEnum.SUCCESS) {
-//     alert('Success');
-//   }
-// }, [registerStatus]);
-
 const Auth: React.FC = () => {
   const [form, setForm] = useState(EnumFromTypes.login);
-  const [position, setPosition] = useState(1);
+  const [position, setPosition] = useState(EnumFromTypes.login);
 
   const changeForm = (formType: EnumFromTypes) => {
     setPosition(formType);
@@ -46,8 +23,8 @@ const Auth: React.FC = () => {
   };
 
   const chsngeBlockStyle = () => {
-    if (position === 1) return styles.active;
-    if (position === 2) return styles.center;
+    if (position === EnumFromTypes.register) return styles.active;
+    if (position === EnumFromTypes.recover) return styles.center;
     return '';
   };
 
@@ -57,72 +34,75 @@ const Auth: React.FC = () => {
         <div className={classNames(styles.auth__changeBlock, chsngeBlockStyle())}>
           <div className={styles.auth__changeBlock_left}>
             <div className={styles.auth__changeBlock_content}>
-              <p className={styles.auth__changeBlock_title}>Welcome Back!</p>
+              <p className={styles.auth__changeBlock_title}>Hello Friend!</p>
               <p className={styles.auth__changeBlock_text}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, temporibus at. Magni reiciendis
-                consequatur ipsa. Mollitia, voluptatibus. Temporibus.
+                We're excited to have you here. Connect with others, share your thoughts, and explore endless
+                possibilities. Your journey starts now, and we can't wait to see what you create. Let's make amazing
+                memories together!
               </p>
-              <button className={styles.auth__changeBlock_button} onClick={() => changeForm(1)}>
-                Sign in
+              <button className={styles.auth__changeBlock_button} onClick={() => changeForm(EnumFromTypes.register)}>
+                Sign Up
               </button>
             </div>
           </div>
           <div className={styles.auth__changeBlock_top}>
             <div className={styles.auth__changeBlock_content}>
               <p className={styles.auth__changeBlock_title}>Forgot password?</p>
+              <p className={styles.auth__changeBlock_text}>{'This feature is not available at the moment :('}</p>
               {/* {form === 2 && (
                 <PasswordRecoveryForm changeForm={changeForm} buttonStyles={styles.auth__changeBlock_button} />
               )} */}
               <div className={styles.auth__changeBlock_row}>
                 <button
                   className={classNames(styles.auth__changeBlock_button, styles.bigMonitor)}
-                  onClick={() => changeForm(1)}
+                  onClick={() => changeForm(EnumFromTypes.register)}
                 >
-                  ⮜ Sign in
+                  ⮜ Sign Up
                 </button>
                 <button
                   className={classNames(styles.auth__changeBlock_button, styles.bigMonitor)}
-                  onClick={() => changeForm(0)}
+                  onClick={() => changeForm(EnumFromTypes.login)}
                 >
-                  Sign up ⮞
+                  Sign In ⮞
                 </button>
                 <button
                   className={classNames(styles.auth__changeBlock_button, styles.smallMonitor)}
-                  onClick={() => changePositionFast(1)}
+                  onClick={() => changePositionFast(EnumFromTypes.login)}
                 >
-                  Sign in
+                  Sign In
                 </button>
                 <button
                   className={classNames(styles.auth__changeBlock_button, styles.smallMonitor)}
-                  onClick={() => changePositionFast(0)}
+                  onClick={() => changePositionFast(EnumFromTypes.register)}
                 >
-                  Sign up
+                  Sign Up
                 </button>
               </div>
             </div>
           </div>
           <div className={styles.auth__changeBlock_right}>
             <div className={styles.auth__changeBlock_content}>
-              <p className={styles.auth__changeBlock_title}>Hello Friend!</p>
+              <p className={styles.auth__changeBlock_title}>Welcome Back!</p>
               <p className={styles.auth__changeBlock_text}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, temporibus at. Magni reiciendis
-                consequatur ipsa. Mollitia, voluptatibus. Temporibus.
+                We're excited to have you back in the community. Catch up on new posts, reconnect with friends, and
+                share what you've been up to. Your voice matters here, so dive in and keep the conversations going.
+                Let's continue making great moments together!
               </p>
-              <button className={styles.auth__changeBlock_button} onClick={() => changeForm(0)}>
-                Sign up
+              <button className={styles.auth__changeBlock_button} onClick={() => changeForm(EnumFromTypes.login)}>
+                Sign In
               </button>
             </div>
           </div>
         </div>
-        <div className={classNames(styles.auth__formBlock, position === 1 && styles.active)}>
-          {form === 1 && (
+        <div className={classNames(styles.auth__formBlock, position === EnumFromTypes.register && styles.active)}>
+          {form === EnumFromTypes.login && (
             <LoginForm
               changeForm={changeForm}
               changePositionFast={changePositionFast}
               className={styles.auth__formBlock_form}
             />
           )}
-          {form === 0 && (
+          {form === EnumFromTypes.register && (
             <RegisterForm changePositionFast={changePositionFast} className={styles.auth__formBlock_form} />
           )}
         </div>

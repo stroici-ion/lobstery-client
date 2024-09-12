@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import $api from '../../http';
-import { IAuthError } from '../../models/response/AuthResonse';
 import { FetchPostsResponse } from '../../models/response/FetchPostsRespose';
 import { API_URL } from '../../utils/consts';
 import { IPost, IPostEdit } from '../../models/IPost';
@@ -8,14 +7,15 @@ import { setActivePostNull, setUploadProgress } from './slice';
 import { IImage } from '../../models/IImage';
 import { fetchCreateImage, fetchRemoveImage, fetchUpdateImage } from '../images/asyncActions';
 import { setPostCreateModalStatus } from '../modals/slice';
+import { IAuthError } from '../../models/auth/IAuthError';
 
 export const fetchPosts = createAsyncThunk<
   FetchPostsResponse,
-  Record<string, string>,
+  Record<string, string | undefined>,
   { rejectValue: IAuthError }
 >('posts/fetchPosts', async (params, { rejectWithValue }) => {
   try {
-    const response = await $api.get<FetchPostsResponse>(API_URL + 'api/posts/');
+    const response = await $api.get<FetchPostsResponse>(API_URL + 'api/posts/', { params });
     return response.data;
   } catch (error: any) {
     if (!error.response) {
@@ -55,9 +55,7 @@ export const fetchCreatePost = createAsyncThunk<
     const newImages = images.filter((image) => image.id < 0);
     const updatedImages = images.filter((image) => image.isUpdated && image.id >= 0);
     const newPostImagesId = images.map((image) => image.id);
-    const removedImagesId = post.fetched_images_id.filter(
-      (imageId) => !newPostImagesId.includes(imageId)
-    );
+    const removedImagesId = post.fetched_images_id.filter((imageId) => !newPostImagesId.includes(imageId));
 
     for await (const image of updatedImages) {
       await dispatch(fetchUpdateImage(image));
