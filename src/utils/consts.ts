@@ -1,8 +1,4 @@
 //API
-// export const API_URL = 'http://localhost:8000/';
-export const API_URL = 'https://stroici.pythonanywhere.com/';
-
-//ROUTES
 export const MAIN_LAYOUT_ROUTE = '';
 export const AUTH_LAYOUT_ROUTE = '/auth';
 

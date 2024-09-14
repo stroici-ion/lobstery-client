@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { API_URL } from '../utils/consts';
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const fetchRegisterUser = async (params: Record<string, string>) => {
-  return await axios.post(API_URL + '/api/register/', params);
+  return await axios.post(apiUrl + '/api/register/', params);
 };

@@ -1,13 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import $api from '../../http';
-import { FetchPostsResponse } from '../../models/response/FetchPostsRespose';
-import { API_URL } from '../../utils/consts';
-import { IPost, IPostEdit } from '../../models/IPost';
-import { setActivePostNull, setUploadProgress } from './slice';
-import { IImage } from '../../models/IImage';
+
 import { fetchCreateImage, fetchRemoveImage, fetchUpdateImage } from '../images/asyncActions';
+import { FetchPostsResponse } from '../../models/response/FetchPostsRespose';
+import { setActivePostNull, setUploadProgress } from './slice';
 import { setPostCreateModalStatus } from '../modals/slice';
 import { IAuthError } from '../../models/auth/IAuthError';
+import { IPost, IPostEdit } from '../../models/IPost';
+import { IImage } from '../../models/IImage';
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const fetchPosts = createAsyncThunk<
   FetchPostsResponse,
@@ -15,7 +17,7 @@ export const fetchPosts = createAsyncThunk<
   { rejectValue: IAuthError }
 >('posts/fetchPosts', async (params, { rejectWithValue }) => {
   try {
-    const response = await $api.get<FetchPostsResponse>(API_URL + 'api/posts/', { params });
+    const response = await $api.get<FetchPostsResponse>(apiUrl + 'api/posts/', { params });
     return response.data;
   } catch (error: any) {
     if (!error.response) {

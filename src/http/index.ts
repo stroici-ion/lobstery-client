@@ -1,14 +1,13 @@
 import axios from 'axios';
 
-import { API_URL } from '../utils/consts';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const $api = axios.create({
-  baseURL: API_URL,
+  baseURL: apiUrl,
 });
 
 $api.interceptors.request.use((config) => {
-  if (config.headers)
-    config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+  if (config.headers) config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
   return config;
 });
 
@@ -22,7 +21,7 @@ $api.interceptors.response.use(
       originalRequest._isRetry = true;
       const refreshToken = localStorage.getItem('refreshToken');
       try {
-        const response = await axios.post(`${API_URL}api/token/refresh/`, {
+        const response = await axios.post(`${apiUrl}api/token/refresh/`, {
           refresh: refreshToken,
         });
         localStorage.setItem('accessToken', response.data.access);

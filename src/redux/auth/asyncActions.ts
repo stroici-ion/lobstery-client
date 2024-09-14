@@ -1,15 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_URL } from '../../utils/consts';
 import jwt_decode from 'jwt-decode';
+
 import { IAuthError } from '../../models/auth/IAuthError';
 import { IAuthResponse } from '../../models/auth/AuthResonse';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const fetchAuthLogin = createAsyncThunk<number, Record<string, string>, { rejectValue: IAuthError }>(
   'auth/fetchAuthLogin',
   async (params, { rejectWithValue }) => {
     try {
-      const response = await axios.post<IAuthResponse>(API_URL + 'api/token/', params);
+      const response = await axios.post<IAuthResponse>(apiUrl + 'api/token/', params);
       localStorage.setItem('accessToken', response.data.access);
       localStorage.setItem('refreshToken', response.data.refresh);
       const decoded: any = jwt_decode(response.data.access);
@@ -27,7 +28,7 @@ export const fetchAuthRegister = createAsyncThunk<{}, Record<string, string>, { 
   'auth/fetchAuthRegister',
   async (params, { rejectWithValue }) => {
     try {
-      await axios.post<IAuthResponse>(API_URL + 'api/register/', params);
+      await axios.post<IAuthResponse>(apiUrl + 'api/register/', params);
     } catch (error: any) {
       if (!error.response) {
         throw error;
@@ -46,7 +47,7 @@ export const fetchAuthRefresh = createAsyncThunk<number, {}, { rejectValue: IAut
   async (params, { rejectWithValue }) => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
-      const response = await axios.post<IAuthResponse>(API_URL + 'api/token/refresh/', {
+      const response = await axios.post<IAuthResponse>(apiUrl + 'api/token/refresh/', {
         refresh: refreshToken,
       });
       localStorage.setItem('accessToken', response.data.access);
