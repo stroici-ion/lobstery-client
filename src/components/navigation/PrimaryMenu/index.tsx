@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 
-import MenuButton from './core/MenuButton';
+import MenuButton from '../MenuButton';
 import styles from './styles.module.scss';
 
 import {
@@ -11,12 +11,10 @@ import {
   SettingsSvg,
   LogoSvg,
   LogOutSvg,
-  ChessSvg,
   UserSvg,
   GamesSvg,
   CloseAsidePanelSvg,
   OpenAsidePanelSvg,
-  LogoTextSvg,
 } from '../../../icons';
 import { GAMES_ROUTE, HOME_ROUTE, LOGIN_ROUTE, POSTS_ROUTE, USER_SETTINGS_ROUTE } from '../../../utils/consts';
 import { logOut } from '../../../redux/auth/slice';
@@ -28,15 +26,35 @@ import classNames from 'classnames';
 import { selectAuthStatus } from '../../../redux/auth/selectors';
 import UserImage from '../../UserImage';
 import { FetchStatusEnum } from '../../../models/response/FetchStatus';
-import SmallButton from '../Buttons/SmallButton';
+import useSwipe from '../../../hooks/useSwipe';
 
-const Aside: React.FC = () => {
+const PrimaryMenu: React.FC = () => {
+  const [activeButton, setAcitveButton] = useState(0);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [activeButton, setAcitveButton] = useState(0);
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(true);
+
   const user = useSelector(selectUserProfile);
   const isPanelCollapsedRef = useRef(false);
+
+  const handleSwipeToRight = () => {
+    setIsPanelCollapsed(false);
+  };
+  const handleSwipeToLeft = () => {
+    setIsPanelCollapsed(true);
+  };
+
+  useSwipe({
+    onSwipe: handleSwipeToRight,
+    direction: 'right',
+    threshold: 100, // Optional
+  });
+
+  useSwipe({
+    onSwipe: handleSwipeToLeft,
+    direction: 'left',
+    threshold: 100, // Optional
+  });
 
   const authorizationStatus = useSelector(selectAuthStatus);
   const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
@@ -46,22 +64,23 @@ const Aside: React.FC = () => {
     navigate(LOGIN_ROUTE);
   };
 
-  const handleWindowOnResize = () => {
-    if (window.innerWidth <= 768) {
-      setIsPanelCollapsed(true);
-    } else {
-      setIsPanelCollapsed(false);
-    }
-  };
+  // const handleWindowOnResize = () => {
+  //   if (window.innerWidth <= 768) {
+  //     setIsPanelCollapsed(true);
+  //   } else {
+  //     setIsPanelCollapsed(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (window.innerWidth > 768) setIsPanelCollapsed(false);
-    window.addEventListener('resize', handleWindowOnResize);
-    return () => window.removeEventListener('resize', handleWindowOnResize);
-  }, []);
+  // useEffect(() => {
+  //   if (window.innerWidth > 768) setIsPanelCollapsed(false);
+  //   window.addEventListener('resize', handleWindowOnResize);
+  //   return () => window.removeEventListener('resize', handleWindowOnResize);
+  // }, []);
 
   const handleToggleAsidePanel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     isPanelCollapsedRef.current = !isPanelCollapsed;
     setIsPanelCollapsed(!isPanelCollapsed);
   };
@@ -86,14 +105,6 @@ const Aside: React.FC = () => {
       <div className={classNames(styles.padding, isPanelCollapsed && styles.collapsed)} />
       <aside className={classNames(styles.aside, isPanelCollapsed && styles.collapsed)}>
         <div className={classNames(styles.aside__top, styles.top, isPanelCollapsed && styles.collapsed)}>
-          <button
-            className={classNames(styles.top__menuButton, !isPanelCollapsed && styles.collapsed)}
-            onClick={handleToggleAsidePanel}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
           <Link to={HOME_ROUTE} className={styles.top__logo}>
             <div className={styles.top__logoSvg}>
               <LogoSvg />
@@ -101,14 +112,14 @@ const Aside: React.FC = () => {
             <div className={styles.top__logoTextSvg}>Lobstery</div>
           </Link>
         </div>
-        <div className={classNames(styles.aside__asideBody, styles.asideBody, isPanelCollapsed && styles.collapsed)}>
-          <div className={styles.asideBody__collapse}>
-            <button className={classNames(styles.asideBody__collapseButton)} onClick={handleToggleAsidePanel}>
+        <div className={classNames(styles.aside__body, styles.body, isPanelCollapsed && styles.collapsed)}>
+          <div className={styles.body__collapse}>
+            <button className={classNames(styles.body__collapseButton)} onClick={handleToggleAsidePanel}>
               {isPanelCollapsed ? <OpenAsidePanelSvg /> : <CloseAsidePanelSvg />}
             </button>
           </div>
-          <div className={styles.asideBody__buttons}>
-            <span className={styles.asideBody__buttonsDecoration} style={{ top: 50 * activeButton }} />
+          <div className={styles.body__buttons}>
+            <span className={styles.body__buttonsDecoration} style={{ top: 50 * activeButton }} />
             <Link to={HOME_ROUTE}>
               <MenuButton
                 collapsed={isPanelCollapsed}
@@ -160,6 +171,8 @@ const Aside: React.FC = () => {
               </MenuButton>
             </Link>
           </div>
+        </div>
+        <div className={classNames(styles.aside__bottom, styles.bottom, isPanelCollapsed && styles.collapsed)}>
           {isAuth && user.id ? (
             <div className={classNames(styles.user, isPanelCollapsed && styles.collapsed)}>
               <ContextMenu
@@ -180,7 +193,7 @@ const Aside: React.FC = () => {
             <div className={classNames(styles.guest, isPanelCollapsed && styles.collapsed)}>
               <ContextMenu
                 openButton={(onClick: any) => (
-                  <div className={styles.guest__icon} onClick={onClick}>
+                  <div className={classNames(styles.guest__icon, styles.contextMenu)} onClick={onClick}>
                     <UserSvg />
                   </div>
                 )}
@@ -188,7 +201,7 @@ const Aside: React.FC = () => {
                 {userContextMenu}
               </ContextMenu>
 
-              <p className={styles.guest__text}>
+              <p className={styles.guest__collapsableInfo}>
                 <span>Guest</span>
                 <Link to={LOGIN_ROUTE} className={styles.guest__link}>
                   Sign In
@@ -202,4 +215,4 @@ const Aside: React.FC = () => {
   );
 };
 
-export default Aside;
+export default PrimaryMenu;

@@ -9,7 +9,7 @@ interface IMenuButton {
   active?: boolean;
   onClick: any;
   className?: string;
-  collapsed: boolean;
+  collapsed?: boolean;
 }
 
 const MenuButton: React.FC<IMenuButton> = ({ active = false, children, onClick, icon, collapsed, className }) => {

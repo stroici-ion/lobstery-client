@@ -54,9 +54,10 @@ const ContextMenuBody: React.FC<IContextMenuBody> = ({ children, close, width, m
   const popupRef = useRef<HTMLDivElement>(null);
   const [bodyStyles, setBodyStyles] = useState({
     left: 'auto',
-    right: '0',
-    top: 'calc(100% + 5px)',
+    right: 'auto',
+    top: 'auto',
     bottom: 'auto',
+    display: 'none',
     width,
     maxHeight,
   });
@@ -79,15 +80,39 @@ const ContextMenuBody: React.FC<IContextMenuBody> = ({ children, close, width, m
   useEffect(() => {
     if (popupRef.current) {
       const boundsBlock = popupRef.current.getBoundingClientRect();
-      if (boundsBlock.x < 200) {
-        setBodyStyles({
-          ...bodyStyles,
-          left: '0',
-          right: 'auto',
-          bottom: 'calc(100% + 5px)',
-          top: 'auto',
-        });
+
+      const positionStyles = {
+        left: 'auto',
+        right: 'auto',
+        top: 'auto',
+        bottom: 'auto',
+      };
+      if (boundsBlock.x < window.innerWidth / 2) {
+        positionStyles.left = '0';
+        positionStyles.right = 'auto';
+      } else {
+        if (window.innerWidth - boundsBlock.x > 250) {
+          positionStyles.left = '0';
+          positionStyles.right = 'auto';
+        } else {
+          positionStyles.left = 'auto';
+          positionStyles.right = '0';
+        }
       }
+
+      if (boundsBlock.y < window.innerHeight / 2) {
+        positionStyles.top = 'calc(100% + 10px)';
+        positionStyles.bottom = 'auto';
+      } else {
+        positionStyles.top = 'auto';
+        positionStyles.bottom = 'calc(100% + 10px)';
+      }
+
+      setBodyStyles({
+        ...bodyStyles,
+        ...positionStyles,
+        display: 'block',
+      });
     }
   }, [popupRef.current]);
 

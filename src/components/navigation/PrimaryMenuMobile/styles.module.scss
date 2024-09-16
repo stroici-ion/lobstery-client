@@ -1,0 +1,47 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/mixins.scss';
+
+.menu {
+  background-color: $lightColor;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  @media (min-width: 768px) {
+    display: none;
+  }
+
+  &__body {
+    display: flex;
+    gap: 5px;
+    height: 100%;
+  }
+}
+
+.link {
+  background-color: $lightColor;
+  height: 100%;
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 30px;
+    height: 30px;
+    @include svgcolor($cyanColor);
+  }
+}
+
+.contextMenu {
+  background-color: $lightColor;
+  &__link {
+    svg {
+      width: 17px;
+      height: 17px;
+    }
+  }
+}

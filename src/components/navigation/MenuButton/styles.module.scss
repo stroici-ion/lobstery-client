@@ -1,5 +1,5 @@
-@import '../../../../../styles/colors.scss';
-@import '../../../../../styles/mixins.scss';
+@import '../../../styles/colors.scss';
+@import '../../../styles/mixins.scss';
 
 .root {
   width: 100%;
@@ -44,7 +44,7 @@
   }
 
   &.collapsed {
-    // display: flex;
-    padding-left: 10px;
+    padding: 0px;
+    padding-left: 15px;
   }
 }

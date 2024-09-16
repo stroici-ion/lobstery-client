@@ -8,42 +8,46 @@
 }
 
 @mixin scrollBar {
-  &::-webkit-scrollbar {
-    width: 15px;
-    z-index: 200;
-  }
+  @media (min-width: 768px) {
+    &::-webkit-scrollbar {
+      width: 15px;
+      z-index: 200;
+    }
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
 
-  &::-webkit-scrollbar-thumb {
-    background: $cyanColorDarken;
-    border-radius: 10px;
-    border: 4px solid $lightColor;
-  }
+    &::-webkit-scrollbar-thumb {
+      background: $cyanColorDarken;
+      border-radius: 10px;
+      border: 4px solid $lightColor;
+    }
 
-  &::-webkit-scrollbar-thumb:hover {
-    background: darken($color: $cyanColorDarken, $amount: 10);
+    &::-webkit-scrollbar-thumb:hover {
+      background: darken($color: $cyanColorDarken, $amount: 10);
+    }
   }
 }
 
 @mixin scrollBarSmall {
-  &::-webkit-scrollbar {
-    width: 5px;
-    z-index: 200;
-  }
+  @media (min-width: 768px) {
+    &::-webkit-scrollbar {
+      width: 5px;
+      z-index: 200;
+    }
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
 
-  &::-webkit-scrollbar-thumb {
-    background: $cyanColorDarken;
-    border: 2px solid $cyanColorDarken;
-  }
+    &::-webkit-scrollbar-thumb {
+      background: $cyanColorDarken;
+      border: 2px solid $cyanColorDarken;
+    }
 
-  &::-webkit-scrollbar-thumb:hover {
-    background: darken($color: $cyanColorDarken, $amount: 10);
+    &::-webkit-scrollbar-thumb:hover {
+      background: darken($color: $cyanColorDarken, $amount: 10);
+    }
   }
 }

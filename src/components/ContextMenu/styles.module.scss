@@ -4,7 +4,6 @@
   flex-direction: column;
   position: relative;
   transition: 0.3s;
-  z-index: 2;
   text-align: center;
   &__button {
     transform: rotate(0deg);
@@ -31,12 +30,11 @@
   &__body {
     position: absolute;
     overflow: hidden;
-    right: 0;
-    top: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 2px 2px 5px 2px transparentize($darkColor, 0.8);
 
-    & > button {
+    & > * {
+      display: block;
       border-bottom: 1px solid $grayColorLighten;
       width: 100%;
       transition: 0.2s;
