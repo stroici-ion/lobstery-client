@@ -15,7 +15,7 @@ type CommentTextType = {
 const CommentText: React.FC<CommentTextType> = ({ text, refUser, className }) => {
   const [isFullText, setIsFullText] = useState(false);
   const [height, setHeight] = useState(0);
-  const textRef = useRef<HTMLSpanElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const onlyEmojis = stripEmojis(text).length === 0;
 
   const onClickSeeeMore = () => {
@@ -29,21 +29,12 @@ const CommentText: React.FC<CommentTextType> = ({ text, refUser, className }) =>
 
   return (
     <>
-      <p
-        className={classNames(
-          styles.text,
-          isFullText && styles.fullText,
-          onlyEmojis && styles.bigText,
-          className
-        )}
-      >
+      <div className={classNames(styles.text, isFullText && styles.fullText, onlyEmojis && styles.bigText, className)}>
         {refUser && (
-          <span className={styles.text__userRef}>
-            {refUser?.id && `@${refUser.first_name} ${refUser.last_name}`}
-          </span>
+          <span className={styles.text__userRef}>{refUser?.id && `@${refUser.first_name} ${refUser.last_name}`}</span>
         )}
-        <span ref={textRef}>{emoji(text)}</span>
-      </p>
+        <div ref={textRef}>{emoji(text)}</div>
+      </div>
 
       {height > 80 && (
         <>

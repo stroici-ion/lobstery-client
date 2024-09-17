@@ -126,12 +126,7 @@
   }
 
   &__description {
-    max-height: 200px;
     overflow: hidden;
-    font-size: 12px;
-    @media (min-width: 768px) {
-      font-size: 14px;
-    }
   }
 
   &__bottom {
