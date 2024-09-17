@@ -166,7 +166,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
         </div>
         <div className={styles.post__text}>
           <h4 className={styles.post__title}>{post.title}</h4>
-          <CommentText text={post.text} />
+          <CommentText text={post.text} className={styles.post__description} />
         </div>
         <div>
           {/* WEGEWGEWGWEGHW */}

@@ -64,7 +64,7 @@ const PrimaryMenu: React.FC = () => {
             onClick={() => setActiveLink(primaryMenuMobileLinks.links.length)}
             to={primaryMenuMobileLinks.user.path}
           >
-            <UserImage user={user} />
+            <UserImage className={styles.user} user={user} />
           </Link>
         ) : (
           <ContextMenu

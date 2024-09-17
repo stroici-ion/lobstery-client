@@ -32,29 +32,9 @@ const PrimaryMenu: React.FC = () => {
   const [activeButton, setAcitveButton] = useState(0);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [isPanelCollapsed, setIsPanelCollapsed] = useState(true);
+  const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
 
   const user = useSelector(selectUserProfile);
-  const isPanelCollapsedRef = useRef(false);
-
-  const handleSwipeToRight = () => {
-    setIsPanelCollapsed(false);
-  };
-  const handleSwipeToLeft = () => {
-    setIsPanelCollapsed(true);
-  };
-
-  useSwipe({
-    onSwipe: handleSwipeToRight,
-    direction: 'right',
-    threshold: 100, // Optional
-  });
-
-  useSwipe({
-    onSwipe: handleSwipeToLeft,
-    direction: 'left',
-    threshold: 100, // Optional
-  });
 
   const authorizationStatus = useSelector(selectAuthStatus);
   const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
@@ -64,24 +44,9 @@ const PrimaryMenu: React.FC = () => {
     navigate(LOGIN_ROUTE);
   };
 
-  // const handleWindowOnResize = () => {
-  //   if (window.innerWidth <= 768) {
-  //     setIsPanelCollapsed(true);
-  //   } else {
-  //     setIsPanelCollapsed(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (window.innerWidth > 768) setIsPanelCollapsed(false);
-  //   window.addEventListener('resize', handleWindowOnResize);
-  //   return () => window.removeEventListener('resize', handleWindowOnResize);
-  // }, []);
-
   const handleToggleAsidePanel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    isPanelCollapsedRef.current = !isPanelCollapsed;
     setIsPanelCollapsed(!isPanelCollapsed);
   };
 

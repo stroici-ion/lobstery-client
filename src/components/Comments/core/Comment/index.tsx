@@ -18,6 +18,7 @@ import { IUser } from '../../../../models/IUser';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import { IComment } from '../../../../models/comments/IComment';
 import UserImage from '../../../UserImage';
+import toast from 'react-hot-toast';
 
 interface ICommentFC {
   isPinned?: boolean;
@@ -61,16 +62,37 @@ const Comment: React.FC<ICommentFC> = ({
     // showModal(MODAL_TYPES.DIALOG_MODAL, {
     //   title: 'Are you sure tou want to update comment?',
     //   callBack: async () => {
-    setIsEditingCommentLoading(true);
-    const removed = await removeComment(comment.id);
-    if (removed) {
-      setComments((comments) => comments.filter((item) => item.id !== comment.id));
-    }
-    setIsEditingCommentLoading(false);
-    setIsEditing(false);
+    toast((t) => (
+      <div className={styles.toast}>
+        Are you sure you want to delete this commet!
+        <div className={styles.toast__row}>
+          <button
+            className={styles.toast__yes}
+            onClick={async () => {
+              setIsEditingCommentLoading(true);
+              const removed = await removeComment(comment.id);
+              if (removed) {
+                setComments((comments) => comments.filter((item) => item.id !== comment.id));
+              }
+              setIsEditingCommentLoading(false);
+              setIsEditing(false);
+              toast.dismiss(t.id);
+            }}
+          >
+            Yes
+          </button>
+          <button className={styles.toast__no} onClick={() => toast.dismiss(t.id)}>
+            No
+          </button>
+        </div>
+      </div>
+    ));
+
     //   },
     // });
   };
+
+  const handeReportComment = async () => {};
 
   const handleToogleEditComment = () => {
     setIsEditing(!isEditing);
@@ -128,7 +150,7 @@ const Comment: React.FC<ICommentFC> = ({
       </button>
     ),
     reportButton: (
-      <button className={styles.submenu__report} onClick={handleRemoveComment}>
+      <button className={styles.submenu__report} onClick={handeReportComment}>
         <ReportSvg />
         Report comment
       </button>

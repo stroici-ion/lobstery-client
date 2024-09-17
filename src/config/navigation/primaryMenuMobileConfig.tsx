@@ -1,5 +1,5 @@
 import { GallerySvg, GuestSvg, HomeSvg, MessagingSvg, SignInSvg } from '../../icons';
-import { HOME_ROUTE, LOGIN_ROUTE, POSTS_ROUTE } from '../../utils/consts';
+import { HOME_ROUTE, LOGIN_ROUTE, POSTS_ROUTE, USER_SETTINGS_ROUTE } from '../../utils/consts';
 
 export const primaryMenuMobileLinks = {
   links: [
@@ -12,6 +12,6 @@ export const primaryMenuMobileLinks = {
     contextMenuLinks: [{ id: 0, icon: <SignInSvg />, path: LOGIN_ROUTE, text: 'Sign In' }],
   },
   user: {
-    path: HOME_ROUTE,
+    path: USER_SETTINGS_ROUTE,
   },
 };

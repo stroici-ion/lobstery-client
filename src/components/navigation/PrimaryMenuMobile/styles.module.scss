@@ -3,14 +3,16 @@
 
 .menu {
   background-color: $lightColor;
+  border-top: 1px solid $grayColorLighten;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   height: 50px;
-  z-index: 0;
+  z-index: 999;
   display: flex;
   justify-content: center;
+
   @media (min-width: 768px) {
     display: none;
   }
@@ -44,4 +46,9 @@
       height: 17px;
     }
   }
+}
+
+.user {
+  width: 30px;
+  height: 30px;
 }

@@ -11,8 +11,13 @@
   flex-direction: column;
   transition: 0.3s;
   max-height: 100%;
-  width: 240px;
+  width: 190px;
   border-right: 1px solid $grayColorLighten;
+  z-index: 999;
+
+  @media (min-width: 856px) {
+    width: 240px;
+  }
 
   @media (min-width: 768px) {
     display: flex;
@@ -42,10 +47,15 @@
 
 .padding {
   transition: 0.3s;
-  flex: 0 0 240px;
+  flex: 0 0 190px;
+  width: 190px;
   display: none;
   &.collapsed {
     flex: 0 0 50px;
+  }
+  @media (min-width: 856px) {
+    flex: 0 0 240px;
+    width: 240px;
   }
   @media (min-width: 768px) {
     display: block;

@@ -5,6 +5,7 @@
   position: relative;
   transition: 0.3s;
   text-align: center;
+  z-index: 998;
   &__button {
     transform: rotate(0deg);
     width: 20px;

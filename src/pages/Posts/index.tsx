@@ -51,7 +51,7 @@ const Posts: React.FC = () => {
           <AddPostForm />
         </Modal>
       )}
-      <div className={classNames(styles.root, 'container')}>
+      <div className={styles.root}>
         <div className={styles.root__posts}>
           {posts && posts.map((post) => <Post key={post.id} post={{ ...post, viewsCount: 10 }} />)}
         </div>
