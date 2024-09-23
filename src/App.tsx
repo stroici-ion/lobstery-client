@@ -13,7 +13,7 @@ import { fetchAuthRefresh } from './redux/auth/asyncActions';
 import { fetchUserProfile } from './redux/profile/asyncActions';
 import classNames from 'classnames';
 import styles from './App.module.scss';
-import Modal from './components/Modals/Modal';
+import Modal from './components/UI/Modal';
 import EditImagesForm from './components/EditImagesForm';
 import { selectActiveImage } from './redux/images/selectors';
 import { selectImagesModalStatus, selectPostCreateModalStatus } from './redux/modals/selectors';
@@ -50,11 +50,12 @@ const App: React.FC = () => {
 
   return (
     <div className={classNames(styles.scrollArea, (imagesModalStatus || postCreateModalStatus) && styles.lockScroll)}>
-      {imagesModalStatus && activeImage && (
+      {/* {imagesModalStatus && activeImage && (
         <Modal fullSize={true} onHide={handleImagesModalHide}>
           <EditImagesForm onHide={handleImagesModalHide} />
         </Modal>
-      )}
+      )} */}
+
       <div>
         <Toaster />
       </div>
@@ -70,7 +71,7 @@ const App: React.FC = () => {
             {isAuth &&
               privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element} />)}
           </Route>
-          <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
+          <Route path='*' element={<Navigate to={HOME_ROUTE} />} />
         </Routes>
       </BrowserRouter>
     </div>

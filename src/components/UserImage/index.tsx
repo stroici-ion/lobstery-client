@@ -3,6 +3,7 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 import { IUser } from '../../models/IUser';
+import getUserAcronyms from '../user/utils/getUserAcronyms';
 
 interface IUserImage {
   user: IUser;
@@ -12,9 +13,7 @@ interface IUserImage {
 const UserImage: React.FC<IUserImage> = ({ user, className }) => {
   if (user.profile?.avatar_thumbnail)
     return <img className={classNames(styles.image, className)} src={user.profile.avatar_thumbnail} />;
-  return (
-    <div className={classNames(styles.acronyms, className)}>{user.first_name[0] || '' + user.last_name[0] || ''}</div>
-  );
+  return <div className={classNames(styles.acronyms, className)}>{getUserAcronyms(user)}</div>;
 };
 
 export default UserImage;

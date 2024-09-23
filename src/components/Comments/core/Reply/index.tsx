@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { createReply, editComment, removeComment } from '../../../../services/CommentsServices';
 import { getTime } from '../../../../utils/getTime';
 import CommentActions from '../CommentActions';
-import CommentText from '../CommentText';
+import ExtensibleText from '../ExtensibleText';
 import WriteComment from '../WriteComment';
 import styles from './styles.module.scss';
 import { EditSvg, ReportSvg } from '../../../../icons';
@@ -201,7 +201,7 @@ const Reply: React.FC<IReplyFC> = ({
                 buttons={replyContextMenuButtons}
               />
             </div>
-            <CommentText className={styles.comment__text} refUser={reply.reply_to} text={reply.text} />
+            <ExtensibleText className={styles.comment__text} refUser={reply.reply_to} text={reply.text} />
             <CommentActions
               isMultimedia={isMultimedia}
               owner={owner}

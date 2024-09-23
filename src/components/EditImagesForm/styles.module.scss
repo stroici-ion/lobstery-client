@@ -19,11 +19,17 @@
     height: 45px;
     line-height: 45px;
   }
+
   &__body {
     overflow: hidden;
     flex: 1 1 auto;
     display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
   }
+
   &__left {
     position: relative;
     flex: 1 1 auto;
@@ -34,13 +40,19 @@
     border: 20px;
     background-color: $lightColor;
   }
+
   &__right {
     margin: 10px 20px;
-    flex: 0 0 360px;
+    flex: 1 1 auto;
+    @media (min-width: 768px) {
+      flex: 0 0 360px;
+    }
   }
+
   &__image {
     flex: 1 1 auto;
   }
+
   &__return {
     position: absolute;
     background-color: $cyanColor;

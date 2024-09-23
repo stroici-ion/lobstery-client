@@ -14,6 +14,7 @@ import { setFeeling } from '../../../../redux/posts/slice';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import PostUsername from '../../../PostUsername';
 import UserImage from '../../../UserImage';
+import ScrollArea from '../../../UI/ScrollArea';
 
 const FeelingTab: React.FC = () => {
   const user = useSelector(selectUserProfile);
@@ -51,7 +52,7 @@ const FeelingTab: React.FC = () => {
       <p className={styles.root__title}>How are you feeling?</p>
       <div className={styles.root__search}>
         <SearchSvg />
-        <input placeholder="Search feeling" className={styles.root__input} onChange={debouncedChangeHandler} />
+        <input placeholder='Search feeling' className={styles.root__input} onChange={debouncedChangeHandler} />
       </div>
       <div className={classNames(styles.root__selectedPeoples, styles.selectedFeeling, feeling && styles.active)}>
         <div className={styles.selectedFeeling__scrollArea}>
@@ -68,14 +69,16 @@ const FeelingTab: React.FC = () => {
         </div>
       </div>
       <div className={styles.root__emojis}>
-        <div className={styles.root__scrollArea}>
-          {feelings.map((feeling) => (
-            <button onClick={() => handleSelectFeeling(feeling)} className={styles.root__button} key={feeling.id}>
-              <span>{emoji(String.fromCodePoint(parseInt(feeling.code, 16)))}</span>
-              {feeling.name}
-            </button>
-          ))}
-        </div>
+        <ScrollArea>
+          <div className={styles.root__emojisBody}>
+            {feelings.map((feeling) => (
+              <button onClick={() => handleSelectFeeling(feeling)} className={styles.root__button} key={feeling.id}>
+                <span>{emoji(String.fromCodePoint(parseInt(feeling.code, 16)))}</span>
+                {feeling.name}
+              </button>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
     </div>
   );

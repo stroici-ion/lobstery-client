@@ -2,14 +2,19 @@ import { useSelector } from 'react-redux';
 import React, { Suspense, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { selectActiveImage, selectActiveImageIndex, selectImageEditOperationType, selectImages } from '../../redux/images/selectors';
+import {
+  selectActiveImage,
+  selectActiveImageIndex,
+  selectImageEditOperationType,
+  selectImages,
+} from '../../redux/images/selectors';
 import { addImages, setActiveImageIndex, setImageEditOperationType } from '../../redux/images/slice';
 import ImageTagFriends from './Core/ImageTagFriends';
 import { ImageEditOperationsEnum } from '../../models/ImageEditOperationsEnum';
 import ImageToolBar from './Core/ImageToolBar';
 import { IImage } from '../../models/IImage';
 import { useAppDispatch } from '../../redux';
-import { ArrowDownSvg, CloseSvg } from '../../icons';
+import { ArrowDownSvg, ReturnBackSvg } from '../../icons';
 import styles from './styles.module.scss';
 import Loader from '../Loader';
 const ImageEditor = React.lazy(() => import('../ImageEditor'));
@@ -55,7 +60,7 @@ const EditImagesForm: React.FC<IEditImagesForm> = ({ onHide }) => {
     <div className={styles.root}>
       {activeImage && onHide && (
         <button className={classNames(styles.root__return)} onClick={onHide}>
-          <CloseSvg />
+          <ReturnBackSvg />
         </button>
       )}
       <p className={styles.root__title}>
@@ -104,11 +109,9 @@ const EditImagesForm: React.FC<IEditImagesForm> = ({ onHide }) => {
                   ))}
               </div>
             </div>
-            {imageEditOperationType === ImageEditOperationsEnum.TAG && (
-              <div className={styles.root__right}>
-                <ImageToolBar activeImage={activeImage} />
-              </div>
-            )}
+            <div className={styles.root__right}>
+              <ImageToolBar activeImage={activeImage} />
+            </div>
           </>
         )}
       </div>

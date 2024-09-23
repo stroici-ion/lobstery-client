@@ -43,27 +43,35 @@
 
 .root {
   position: absolute;
-  top: 5px;
-  bottom: 5px;
-  z-index: 1;
-  width: 50px;
-  border-radius: 20px;
+  top: auto;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
   display: flex;
-  flex-direction: column;
-  box-shadow: 0 0 2px 2px $grayColor;
+  border: 1px solid $grayColorLighten;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px;
   gap: 5px;
   background-color: $lightColor;
   transition: 1s;
-  left: 3px;
-  &.active {
-    left: calc(100% - 53px);
+  justify-content: center;
+
+  @media (min-width: 768px) {
+    justify-content: flex-start;
+    border-radius: 20px;
+    flex-direction: column;
+    width: 50px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
   }
 
   &__button {
     width: 40px;
     height: 40px;
+    flex: 0 0 40px;
     display: flex;
     align-items: center;
     justify-content: center;

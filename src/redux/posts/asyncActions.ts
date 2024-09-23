@@ -71,7 +71,7 @@ export const fetchCreatePost = createAsyncThunk<
       await dispatch(fetchRemoveImage(id));
     }
 
-    const finalResult = await $api.get<IPost>(`/api/posts/${newPost.data.id}/details/`);
+    const finalResult = await $api.get<IPost>(`/api/posts/${newPost.data.id}`);
 
     dispatch(setPostCreateModalStatus(false));
     dispatch(setActivePostNull());

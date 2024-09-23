@@ -36,7 +36,8 @@
   }
 
   &__text {
-    padding-bottom: 10px;
+    // padding-bottom: 10px;
+    margin-bottom: 10px;
   }
 
   &__body {
@@ -86,6 +87,7 @@
       font-weight: 500;
     }
   }
+
   &__feeling {
     font-size: 20px;
   }
@@ -126,7 +128,8 @@
   }
 
   &__description {
-    overflow: hidden;
+    line-height: 16px;
+    font-size: 14px;
   }
 
   &__bottom {

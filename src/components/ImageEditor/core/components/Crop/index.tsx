@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import classNames from "classnames";
+import React, { useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 
 import {
   IAdjustments,
@@ -9,32 +9,32 @@ import {
   IFilterHistory,
   IMarkupLine,
   IPosition,
-} from "../../types/interfaces";
-import { loadHistoryStepPosition } from "../../historyFunctions/loadHistoryStepPosition";
-import { initialCanvasContextLoad } from "./core/actions/initialCanvasContextLoad";
-import { FlipVerticalSvg, RotateSvg } from "../../../../../icons/imageEditor";
-import { getCurentHistoryStep } from "./core/actions/addCropStateToHistory";
-import { initailPostitionLoad } from "./core/actions/initailPostitionLoad";
-import { getNullObject } from "../../initialStateFunctions/getNullObject";
-import { setCropAspectRatio } from "./core/actions/setCropAspectRatio";
-import { getCursorStyle } from "./core/mouseMoveType/getCursorStyle";
-import { resetActions } from "./core/resetFunctions/resetActions";
-import { getMoveType } from "./core/mouseMoveType/getMoveType";
-import { EnumAspectRatios } from "../../types/enumerations";
-import { canvasDrawDegrees } from "./core/draw/drawDegrees";
-import { canvasDrawImage } from "./core/draw/drawImage";
-import { fillParent } from "./core/actions/fillParent";
-import { canvasDrawCrop } from "./core/draw/drawCrop";
-import { mouseMoove } from "./core/actions/mouseMove";
-import { aspectRatioList } from "../AspectRatiosList";
-import { imageFlip } from "./core/actions/imageFlip";
-import { mouseDown } from "./core/actions/mouseDown";
-import { imageZoom } from "./core/actions/imageZoom";
-import AspectRatiosPanel from "../AspectRatiosPanel";
-import { mouseUp } from "./core/actions/mouseUp";
-import { rotate } from "./core/actions/rotate";
-import styles from "./styles.module.scss";
-import { dpr } from "../../consts";
+} from '../../types/interfaces';
+import { loadHistoryStepPosition } from '../../historyFunctions/loadHistoryStepPosition';
+import { initialCanvasContextLoad } from './core/actions/initialCanvasContextLoad';
+import { FlipVerticalSvg, RotateSvg } from '../../../../../icons/imageEditor';
+import { getCurentHistoryStep } from './core/actions/addCropStateToHistory';
+import { initailPostitionLoad } from './core/actions/initailPostitionLoad';
+import { getNullObject } from '../../initialStateFunctions/getNullObject';
+import { setCropAspectRatio } from './core/actions/setCropAspectRatio';
+import { getCursorStyle } from './core/mouseMoveType/getCursorStyle';
+import { resetActions } from './core/resetFunctions/resetActions';
+import { getMoveType } from './core/mouseMoveType/getMoveType';
+import { EnumAspectRatios } from '../../types/enumerations';
+import { canvasDrawDegrees } from './core/draw/drawDegrees';
+import { canvasDrawImage } from './core/draw/drawImage';
+import { fillParent } from './core/actions/fillParent';
+import { canvasDrawCrop } from './core/draw/drawCrop';
+import { mouseMoove } from './core/actions/mouseMove';
+import { aspectRatioList } from '../AspectRatiosList';
+import { imageFlip } from './core/actions/imageFlip';
+import { mouseDown } from './core/actions/mouseDown';
+import { imageZoom } from './core/actions/imageZoom';
+import AspectRatiosPanel from '../AspectRatiosPanel';
+import { mouseUp } from './core/actions/mouseUp';
+import { rotate } from './core/actions/rotate';
+import styles from './styles.module.scss';
+import { dpr } from '../../consts';
 
 interface ICrop {
   zoomTrigger: number;
@@ -72,7 +72,7 @@ const Crop: React.FC<ICrop> = ({
   let imageCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   let cropCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   let degreesCtxRef = useRef<CanvasRenderingContext2D | null>(null);
-  const degressColor = useRef("rgba(0,0,0,1)");
+  const degressColor = useRef('rgba(0,0,0,1)');
 
   const cropStepRef = useRef<IEditorStep>(getNullObject());
   const cropStep = cropStepRef.current;
@@ -120,17 +120,27 @@ const Crop: React.FC<ICrop> = ({
   };
 
   useEffect(() => {
-    window.addEventListener("mouseup", canvasOnMouseUp);
-    window.addEventListener("mousemove", canvasOnMouseMove);
-    window.addEventListener("mousedown", canvasOnMouseDown);
-    window.addEventListener("resize", onWindowResize);
-    document.addEventListener("wheel", canvasWheel, { passive: false });
+    window.addEventListener('mouseup', canvasOnMouseUp);
+    window.addEventListener('mousemove', canvasOnMouseMove);
+    window.addEventListener('mousedown', canvasOnMouseDown);
+
+    window.addEventListener('touchstart', canvasOnTouchDown);
+    window.addEventListener('touchmove', canvasOnTouchMoove);
+    window.addEventListener('touchend', canvasOnMouseUp);
+
+    window.addEventListener('resize', onWindowResize);
+    document.addEventListener('wheel', canvasWheel, { passive: false });
     return () => {
-      window.removeEventListener("mouseup", canvasOnMouseUp);
-      window.removeEventListener("mousemove", canvasOnMouseMove);
-      window.removeEventListener("mousedown", canvasOnMouseDown);
-      window.removeEventListener("resize", onWindowResize);
-      document.removeEventListener("wheel", canvasWheel);
+      window.removeEventListener('mouseup', canvasOnMouseUp);
+      window.removeEventListener('mousemove', canvasOnMouseMove);
+      window.removeEventListener('mousedown', canvasOnMouseDown);
+
+      window.removeEventListener('touchstart', canvasOnTouchDown);
+      window.removeEventListener('touchmove', canvasOnTouchMoove);
+      window.removeEventListener('touchend', canvasOnMouseUp);
+
+      window.removeEventListener('resize', onWindowResize);
+      document.removeEventListener('wheel', canvasWheel);
     };
   }, []);
 
@@ -156,12 +166,12 @@ const Crop: React.FC<ICrop> = ({
 
   useEffect(() => {
     if (degreesCanvasRef.current) {
-      degreesCtxRef.current = degreesCanvasRef.current.getContext("2d");
+      degreesCtxRef.current = degreesCanvasRef.current.getContext('2d');
       degreesCanvasRef.current.width = 800 * dpr;
       degreesCanvasRef.current.height = 60 * dpr;
-      degreesCanvasRef.current.style.width = "800px";
-      degreesCanvasRef.current.style.height = "60px";
-      degressColor.current = window.getComputedStyle(degreesCanvasRef.current).getPropertyValue("color");
+      degreesCanvasRef.current.style.width = '800px';
+      degreesCanvasRef.current.style.height = '60px';
+      degressColor.current = window.getComputedStyle(degreesCanvasRef.current).getPropertyValue('color');
 
       drawDegrees();
     }
@@ -201,6 +211,19 @@ const Crop: React.FC<ICrop> = ({
     mouseDown(cursor, startCursor.current, cropStep, drawImage);
   };
 
+  const canvasOnTouchDown = (event: TouchEvent) => {
+    if (activeActions.isAnimation) return;
+    if (event.target !== cropCanvasRef.current && event.target !== degreesCanvasRef.current) return;
+
+    isMouseDown.current = true;
+    const cursor: IPosition = {
+      x: event.touches[0].clientX - parentPositiom.current.x,
+      y: event.touches[0].clientY - parentPositiom.current.y,
+    };
+
+    mouseDown(cursor, startCursor.current, cropStep, drawImage);
+  };
+
   const canvasOnMouseMove = (event: MouseEvent) => {
     if (activeActions.isAnimation) return;
 
@@ -217,6 +240,24 @@ const Crop: React.FC<ICrop> = ({
       return;
     }
     document.body.style.cursor = getCursorStyle(getMoveType(cursor, cropStep));
+  };
+
+  const canvasOnTouchMoove = (event: TouchEvent) => {
+    if (activeActions.isAnimation) return;
+
+    const cursor: IPosition = {
+      x: event.touches[0].clientX - parentPositiom.current.x,
+      y: event.touches[0].clientY - parentPositiom.current.y,
+    };
+
+    if (cropStep.activeActions.isCroping) {
+      const cursorDistance = {
+        x: (cursor.x - startCursor.current.x) * dpr,
+        y: (cursor.y - startCursor.current.y) * dpr,
+      };
+      mouseMoove(cursor, cursorDistance, cropStep, drawDegrees, drawImage);
+      return;
+    }
   };
 
   const canvasOnMouseUp = () => {

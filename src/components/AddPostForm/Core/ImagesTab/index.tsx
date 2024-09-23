@@ -11,13 +11,9 @@ import ImagesPreview from '../../../ImagesPreview';
 import { getExtension, isVideo } from '../../../../utils/filesTypes';
 import { getMetadata, getThumbnails } from 'video-metadata-thumbnails';
 import { IImage } from '../../../../models/IImage';
-import {
-  addImages,
-  removeImage,
-  setActiveImageId,
-  setImages,
-} from '../../../../redux/images/slice';
+import { addImages, removeImage, setActiveImageId, setImages } from '../../../../redux/images/slice';
 import { selectImages } from '../../../../redux/images/selectors';
+import ScrollArea from '../../../UI/ScrollArea';
 
 interface IImagesTab {
   setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
@@ -124,13 +120,7 @@ const ImagesTab: React.FC<IImagesTab> = ({ setSelectedTab }) => {
       <p className={styles.root__title}>Add images</p>
       <div {...getRootProps()} className={styles.root__dropzone} {...dropZoneProps}>
         {(images.length === 0 || isDragActive) && (
-          <div
-            className={classNames(
-              styles.root__placeholder,
-              styles.placeholder,
-              isDragActive && styles.active
-            )}
-          >
+          <div className={classNames(styles.root__placeholder, styles.placeholder, isDragActive && styles.active)}>
             <p className={styles.placeholder__drag_active_text}>Drop the files here ...</p>
             {images.length === 0 && (
               <>
@@ -141,16 +131,12 @@ const ImagesTab: React.FC<IImagesTab> = ({ setSelectedTab }) => {
             )}
           </div>
         )}
-        <div className={styles.root__scrollArea}>
+        <ScrollArea>
           {images.length > 0 && (
-            <ImagesPreview
-              onRemove={handleRemoveImage}
-              onSelect={handleSelectImage}
-              images={images}
-            />
+            <ImagesPreview onRemove={handleRemoveImage} onSelect={handleSelectImage} images={images} />
           )}
-        </div>
-        <input {...getInputProps()} accept="image/*, video/*" />
+        </ScrollArea>
+        <input {...getInputProps()} accept='image/*, video/*' />
       </div>
       {images.length > 0 && (
         <button className={styles.root__add} onClick={() => inputRef.current?.click()}>
@@ -161,7 +147,7 @@ const ImagesTab: React.FC<IImagesTab> = ({ setSelectedTab }) => {
             style={{ display: 'none' }}
             onChange={handleOnChangeImages}
             multiple
-            accept="image/*, video/*"
+            accept='image/*, video/*'
           />
         </button>
       )}

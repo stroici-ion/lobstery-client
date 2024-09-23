@@ -8,6 +8,7 @@ export const REGISTRATION_ROUTE = AUTH_LAYOUT_ROUTE + '/register/';
 export const HOME_ROUTE = '/';
 export const PRODUCTS_ROUTE = '/products/';
 export const POSTS_ROUTE = '/posts/';
+export const POST_DETAIL_ROUTE = '/posts/:id';
 export const ADD_POST_ROUTE = '/add-post/';
 export const GAMES_ROUTE = '/games/';
 

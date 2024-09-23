@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 import Aside from './Core/Aside';
 import UploadProgress from './Core/UploadProgress';
 import TagsTab from './Core/TagsTab';
-import { ReturnBackSvg } from '../../icons';
+import { CloseSvg } from '../../icons';
 import { useSelector } from 'react-redux';
 import EditImagesForm from '../EditImagesForm';
 import TextTab from './Core/TextTab';
@@ -21,16 +21,16 @@ import { selectActiveImage } from '../../redux/images/selectors';
 import { setImages } from '../../redux/images/slice';
 import { selectActivePost } from '../../redux/posts/selectors';
 
-const AddPostForm: React.FC = () => {
+interface IAddPostForm {
+  onHide: () => void;
+}
+
+const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
   const [selectedTab, setSelectedtab] = useState(0);
   const dispatch = useAppDispatch();
   const newPost = useSelector(selectActivePost);
   const activeImage = useSelector(selectActiveImage);
   const userId = useSelector(selectUserId);
-
-  const handleReturnToMainTab = () => {
-    setSelectedtab(0);
-  };
 
   useEffect(() => {
     if (userId) {
@@ -44,27 +44,20 @@ const AddPostForm: React.FC = () => {
       <Aside selectedTab={selectedTab} setSelectedtab={setSelectedtab} />
       <div className={styles.root__body}>
         {selectedTab !== 10 && (
-          <button
-            className={classNames(styles.root__return, selectedTab >= 0 && styles.active)}
-            onClick={handleReturnToMainTab}
-          >
-            <ReturnBackSvg />
+          <button className={styles.root__return} onClick={onHide}>
+            <CloseSvg />
           </button>
         )}
-        <div className={classNames(styles.root__main_form, selectedTab < 0 && styles.active)}>
+        <div className={styles.root__form}>
           {selectedTab === -1 && <UploadProgress />}
           {selectedTab === -2 && <PreviewTab setSelectedtab={setSelectedtab} />}
-        </div>
-        <div className={classNames(styles.root__form, selectedTab >= 0 && styles.active)}>
           {selectedTab === 0 && <TextTab />}
           {selectedTab === 1 && <AudienceTab />}
           {selectedTab === 2 && <ImagesTab setSelectedTab={setSelectedtab} />}
           {selectedTab === 3 && <TagsTab />}
           {selectedTab === 4 && <FeelingTab />}
           {selectedTab === 5 && <TagFriendsTab />}
-          {selectedTab === 10 && activeImage?.id && (
-            <EditImagesForm onHide={() => setSelectedtab(2)} />
-          )}
+          {selectedTab === 10 && activeImage?.id && <EditImagesForm onHide={() => setSelectedtab(2)} />}
         </div>
       </div>
     </div>

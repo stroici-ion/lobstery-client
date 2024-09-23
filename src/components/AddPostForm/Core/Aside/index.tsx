@@ -33,7 +33,6 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
   const images = useSelector(selectImages);
   const defaultAudience = useSelector(selectDefaultAudience);
   const selectedAudience = newPost.audience !== -1 ? newPost.audience : defaultAudience.default_audience;
-  console.log(selectedAudience);
 
   const handleSelectTab = (tabIndex: number) => {
     setSelectedtab(tabIndex);
@@ -124,21 +123,11 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
       >
         <CheckedSvg />
       </button>
-      <button
+      {/* <button
         onClick={() => handleSelectTab(-1)}
         className={classNames(styles.root__button, styles.checked, selectedTab === -1 && styles.active)}
       >
         <CheckedSvg />
-      </button>
-      {/* <button
-        onClick={() => handleSelectTab(10)}
-        className={classNames(
-          styles.root__button,
-          styles.tag_people,
-          selectedTab === 5 && styles.active
-        )}
-      >
-        <TagPeopleSvg />
       </button> */}
     </div>
   );

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { USER_PROFILE_ROUTE } from '../../../../utils/consts';
 import CommentActions from '../CommentActions';
-import CommentText from '../CommentText';
+import CommentText from '../ExtensibleText';
 import { getTime } from '../../../../utils/getTime';
 import Replies from '../Replies';
 import styles from './styles.module.scss';

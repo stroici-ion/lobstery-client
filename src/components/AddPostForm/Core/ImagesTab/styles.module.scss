@@ -3,6 +3,7 @@
 
 .root {
   height: 100%;
+  position: relative;
   padding: 10px;
   &__title {
     text-align: center;
@@ -41,15 +42,6 @@
     z-index: 1;
     top: 0;
     height: 100%;
-    width: 100%;
-  }
-
-  &__scrollArea {
-    padding: 5px 0;
-    overflow: hidden;
-    overflow-y: auto;
-    @include scrollBar;
-    position: relative;
     width: 100%;
   }
 }

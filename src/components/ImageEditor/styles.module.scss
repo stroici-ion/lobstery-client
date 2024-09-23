@@ -17,7 +17,9 @@
   display: flex;
   padding: 5px;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
+
 .canvas__crop {
   image-rendering: pixelated;
 }
@@ -27,13 +29,21 @@
 }
 
 .zoomTools {
+  order: 1;
   background-color: $panelColor;
   display: flex;
   border-radius: 10px;
   padding: 0 5px;
   border: $mainColorActive;
-  box-shadow: -4px 4px 10px 0px $panelShadowColor;
+  box-shadow: -2px 2px 5px 0px $panelShadowColor;
   align-items: center;
+  @media (max-width: 767px) {
+    flex: 0 0 45%;
+  }
+  @media (min-width: 768px) {
+    box-shadow: -4px 4px 10px 0px $panelShadowColor;
+  }
+
   &__in,
   &__out,
   &__undo,
@@ -105,8 +115,16 @@
 }
 
 .saveTools {
+  order: 2;
+  @media (max-width: 767px) {
+    flex: 1 1 auto;
+  }
+  @media (min-width: 768px) {
+    order: 3;
+  }
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   &__save {
     color: $saveButtonTextColor;
@@ -114,7 +132,10 @@
     height: 30px;
     border-radius: 5px;
     background-color: $saveButtonColor;
-    padding: 0 100px;
+    padding: 0 30px;
+    @media (min-width: 768px) {
+      padding: 0 100px;
+    }
     &:hover {
       background-color: $saveButtonColorHover;
     }

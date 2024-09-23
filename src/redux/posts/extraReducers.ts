@@ -27,7 +27,7 @@ export const extraReducres = (builder: ActionReducerMapBuilder<IPostsState>) => 
   });
   builder.addCase(fetchCreatePost.fulfilled, (state, action) => {
     state.status = FetchStatusEnum.SUCCESS;
-    state.posts = [action.payload, ...state.posts];
+    state.posts = [action.payload, ...state.posts.filter((p) => p.id === action.payload.id)];
     state.count++;
     state.errors = undefined;
   });

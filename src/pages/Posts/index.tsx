@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -6,7 +6,6 @@ import {} from '../../redux/app/selectors';
 import { useAppDispatch } from '../../redux';
 import { selectPosts } from '../../redux/posts/selectors';
 import { fetchPosts } from '../../redux/posts/asyncActions';
-import Modal from '../../components/Modals/Modal';
 import styles from './styles.module.scss';
 import { PlusSvg } from '../../icons';
 import AddPostForm from '../../components/AddPostForm';
@@ -17,11 +16,13 @@ import { setActivePostNull } from '../../redux/posts/slice';
 import { selectAuthStatus, selectUserId } from '../../redux/auth/selectors';
 import toast from 'react-hot-toast';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
+import Modal from '../../components/UI/Modal';
 
 const Posts: React.FC = () => {
   const posts = useSelector(selectPosts);
   const dispatch = useAppDispatch();
   const postCreateModalStatus = useSelector(selectPostCreateModalStatus);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const authorizationStatus = useSelector(selectAuthStatus);
   const pendingAuth = authorizationStatus === FetchStatusEnum.PENDING;
@@ -35,8 +36,9 @@ const Posts: React.FC = () => {
 
   const handleShowAddPostModal = () => {
     if (userId) {
-      dispatch(setPostCreateModalStatus(true));
-      dispatch(setActivePostNull());
+      setModalOpen(true);
+      // dispatch(setPostCreateModalStatus(true));
+      // dispatch(setActivePostNull());
     } else toast.error('You are not authorized');
   };
 
@@ -44,13 +46,19 @@ const Posts: React.FC = () => {
     dispatch(setPostCreateModalStatus(false));
   };
 
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleHide = () => {
+    setModalOpen(false);
+  };
   return (
     <>
-      {postCreateModalStatus && (
-        <Modal onHide={handleHideModal}>
-          <AddPostForm />
-        </Modal>
-      )}
+      {/* <Modal isOpen={isModalVisible} onHide={handleHideModal}>
+       
+      </Modal> */}
+      <Modal isOpen={isModalOpen} onHide={handleHide} className='custom-modal-class'>
+        {(onHide) => <AddPostForm onHide={onHide} />}
+      </Modal>
       <div className={styles.root}>
         <div className={styles.root__posts}>
           {posts && posts.map((post) => <Post key={post.id} post={{ ...post, viewsCount: 10 }} />)}

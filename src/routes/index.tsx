@@ -12,9 +12,11 @@ import {
   REGISTRATION_ROUTE,
   USER_SETTINGS_ROUTE,
   GAMES_ROUTE,
+  POST_DETAIL_ROUTE,
 } from '../utils/consts';
 import Posts from '../pages/Posts';
 import Games from '../pages/Games';
+import PostDetail from '../pages/PostDetail';
 
 export const authRoutes = [
   { path: LOGIN_ROUTE, element: <Auth /> },
@@ -25,6 +27,7 @@ export const publicRoutes = [
   { path: HOME_ROUTE, element: <Posts /> },
   { path: PRODUCTS_ROUTE, element: <Posts /> },
   { path: POSTS_ROUTE, element: <Posts /> },
+  { path: POST_DETAIL_ROUTE, element: <PostDetail /> },
   { path: ADD_POST_ROUTE, element: <AddPost /> },
 ];
 

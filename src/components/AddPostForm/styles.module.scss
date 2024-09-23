@@ -1,29 +1,58 @@
 @import '../../styles/colors.scss';
 
 .root {
-  width: 550px;
-  height: 550px;
+  width: calc(100vw);
+  height: calc(100vh);
   position: relative;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  background-color: transparent;
-  // transition: width 0.5s, height 0.5s;
+
   &.fullScreen {
-    width: calc(100vw - 20px);
-    height: calc(100vh - 20px);
+    width: 100vw;
+    height: 100vh;
+  }
+
+  @media (min-width: 768px) {
+    width: 600px;
+    height: 650px;
+
+    &.fullScreen {
+      width: calc(100vw - 20px);
+      height: calc(100vh - 20px);
+    }
   }
 
   &__body {
-    margin: 5px 15px;
-    border-radius: 20px;
-    height: calc(100% - 10px);
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    position: relative;
+    background-color: $lightColor;
+    @media (min-width: 768px) {
+      margin: 5px;
+      border-radius: 20px;
+    }
+  }
+
+  &__form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 5px;
+    margin-bottom: 62px;
+    @media (min-width: 768px) {
+      margin-bottom: 0px;
+      padding: 5px;
+      padding-left: 50px;
+    }
   }
 
   &__return {
     position: absolute;
     background-color: $cyanColor;
-    z-index: 1;
+    z-index: 2;
     width: 30px;
     height: 30px;
     right: 10px;
@@ -33,42 +62,14 @@
     align-items: center;
     justify-content: center;
     svg {
-      padding: 5px;
+      padding: 8px;
       path {
         stroke: $lightColor;
         fill: $lightColor;
       }
     }
-    transform: translate(50px, 0);
-    transition: 0.5s;
-    &.active {
-      transform: translate(0px, 0);
-    }
     &:hover {
       background-color: $cyanColorDarken;
-    }
-  }
-  &__main_form,
-  &__form {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    padding: 15px;
-    background-color: $lightColor;
-    transition: 1s;
-  }
-  &__main_form {
-    padding-right: 45px;
-    left: -100%;
-    &.active {
-      left: 0%;
-    }
-  }
-  &__form {
-    padding-left: 45px;
-    right: -100%;
-    &.active {
-      right: 0%;
     }
   }
 }

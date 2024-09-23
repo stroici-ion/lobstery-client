@@ -4,13 +4,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 50px;
+  flex: 1 1 auto;
+  gap: 20px;
+  order: 3;
+  margin-top: 15px;
+
+  @media (min-width: 768px) {
+    margin-top: 0px;
+    order: 2;
+    gap: 50px;
+  }
+
   &__tab {
-    font-size: 14px;
-    height: 35px;
+    font-size: 12px;
+    height: 30px;
+    align-items: center;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 5px;
     color: $mainTextColor;
     position: relative;
     svg {
@@ -19,6 +30,11 @@
         stroke: $mainTextColor;
         fill: $mainTextColor;
       }
+    }
+    @media (min-width: 768px) {
+      font-size: 14px;
+      height: 35px;
+      gap: 10px;
     }
     &:hover {
       color: $mainTextColorHover;

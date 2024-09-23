@@ -16,12 +16,26 @@ interface ISlider {
   step?: number;
 }
 
-const Slider: React.FC<ISlider> = ({ id, value, initialValue, title = '', icon, maxValue = 100, minValue = -100, onChange, onMouseUp, step = 1 }) => {
+const Slider: React.FC<ISlider> = ({
+  id,
+  value,
+  initialValue,
+  title = '',
+  icon,
+  maxValue = 100,
+  minValue = -100,
+  onChange,
+  onMouseUp,
+  step = 1,
+}) => {
   const barRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const valueRef = useRef(value);
 
-  const initialRel = useMemo(() => (initialValue - minValue) / (maxValue - minValue), [initialValue, minValue, maxValue]);
+  const initialRel = useMemo(
+    () => (initialValue - minValue) / (maxValue - minValue),
+    [initialValue, minValue, maxValue]
+  );
 
   const getPositionByValue = (x: number) => {
     if (x === initialValue) return initialRel;
@@ -111,21 +125,31 @@ const Slider: React.FC<ISlider> = ({ id, value, initialValue, title = '', icon, 
     }
   }, [barRef.current]);
 
-  const mouseDown = useCallback((e: MouseEvent) => {
-    if (barRef.current && e.target && (barRef.current.contains(e.target as Node) || barRef.current === e.target)) {
-      isMouseDown.current = true;
-
-      getComputedStyles(getCursorRelativePosition(e.clientX));
-      updateValue();
-    }
+  const onMouseDown = useCallback((e: MouseEvent) => {
+    if (barRef.current && e.target && (barRef.current.contains(e.target as Node) || barRef.current === e.target))
+      mouseDown(e.clientX);
   }, []);
 
-  const mouseMove = useCallback((e: MouseEvent) => {
+  const onTouchDown = useCallback((e: TouchEvent) => {
+    if (barRef.current && e.target && (barRef.current.contains(e.target as Node) || barRef.current === e.target))
+      mouseDown(e.touches[0].clientX);
+  }, []);
+
+  const mouseDown = (x: number) => {
+    isMouseDown.current = true;
+    getComputedStyles(getCursorRelativePosition(x));
+    updateValue();
+  };
+
+  const mouseMoove = useCallback((x: number) => {
     if (isMouseDown.current) {
-      getComputedStyles(getCursorRelativePosition(e.clientX));
+      getComputedStyles(getCursorRelativePosition(x));
       updateValue();
     }
   }, []);
+
+  const onMouseMove = (e: MouseEvent) => mouseMoove(e.clientX);
+  const onTouchMove = (e: TouchEvent) => mouseMoove(e.touches[0].clientX);
 
   const mouseUp = useCallback(() => {
     if (isMouseDown.current && onMouseUp) onMouseUp();
@@ -141,17 +165,27 @@ const Slider: React.FC<ISlider> = ({ id, value, initialValue, title = '', icon, 
   }, []);
 
   useEffect(() => {
-    window.addEventListener('mousedown', mouseDown);
-    window.addEventListener('mousemove', mouseMove);
+    window.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', mouseUp);
+
+    window.addEventListener('touchstart', onTouchDown);
+    window.addEventListener('touchmove', onTouchMove);
+    window.addEventListener('touchend', mouseUp);
+
     window.addEventListener('resize', resize);
     return () => {
-      window.removeEventListener('mousedown', mouseDown);
-      window.removeEventListener('mousemove', mouseMove);
+      window.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', mouseUp);
+
+      window.removeEventListener('touchstart', onTouchDown);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', mouseUp);
+
       window.removeEventListener('resize', resize);
     };
-  }, [mouseDown, mouseMove, mouseUp, resize]);
+  }, [onMouseDown, onMouseMove, onTouchDown, onTouchMove, mouseUp, resize]);
 
   return (
     <div className={styles.slider} ref={sliderRef}>
@@ -166,8 +200,14 @@ const Slider: React.FC<ISlider> = ({ id, value, initialValue, title = '', icon, 
         <div className={styles.bar__control} style={{ left: `${position.point * 100}%` }}>
           <div className={styles.bar__controlPoint} />
         </div>
-        <div className={styles.bar__left} style={{ left: `${initialRel * 100}%`, width: `${position.left * 100}%` }}></div>
-        <div className={styles.bar__right} style={{ left: `${initialRel * 100}%`, width: `${position.right * 100}%` }}></div>
+        <div
+          className={styles.bar__left}
+          style={{ left: `${initialRel * 100}%`, width: `${position.left * 100}%` }}
+        ></div>
+        <div
+          className={styles.bar__right}
+          style={{ left: `${initialRel * 100}%`, width: `${position.right * 100}%` }}
+        ></div>
       </div>
     </div>
   );
