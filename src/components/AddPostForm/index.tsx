@@ -22,7 +22,7 @@ import { setImages } from '../../redux/images/slice';
 import { selectActivePost } from '../../redux/posts/selectors';
 
 interface IAddPostForm {
-  onHide: () => void;
+  onHide?: () => void;
 }
 
 const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
@@ -40,24 +40,26 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
   }, []);
 
   return (
-    <div className={classNames(styles.root, selectedTab === 10 && styles.fullScreen)}>
-      <Aside selectedTab={selectedTab} setSelectedtab={setSelectedtab} />
-      <div className={styles.root__body}>
-        {selectedTab !== 10 && (
-          <button className={styles.root__return} onClick={onHide}>
-            <CloseSvg />
-          </button>
-        )}
-        <div className={styles.root__form}>
-          {selectedTab === -1 && <UploadProgress />}
-          {selectedTab === -2 && <PreviewTab setSelectedtab={setSelectedtab} />}
-          {selectedTab === 0 && <TextTab />}
-          {selectedTab === 1 && <AudienceTab />}
-          {selectedTab === 2 && <ImagesTab setSelectedTab={setSelectedtab} />}
-          {selectedTab === 3 && <TagsTab />}
-          {selectedTab === 4 && <FeelingTab />}
-          {selectedTab === 5 && <TagFriendsTab />}
-          {selectedTab === 10 && activeImage?.id && <EditImagesForm onHide={() => setSelectedtab(2)} />}
+    <div className={styles.root__wrapper}>
+      <div className={classNames(styles.root, selectedTab === 10 && styles.fullScreen)}>
+        <Aside selectedTab={selectedTab} setSelectedtab={setSelectedtab} />
+        <div className={styles.root__body}>
+          {selectedTab !== 10 && (
+            <button className={styles.root__return} onClick={onHide}>
+              <CloseSvg />
+            </button>
+          )}
+          <div className={styles.root__form}>
+            {selectedTab === -1 && <UploadProgress />}
+            {selectedTab === -2 && <PreviewTab setSelectedtab={setSelectedtab} />}
+            {selectedTab === 0 && <TextTab />}
+            {selectedTab === 1 && <AudienceTab />}
+            {selectedTab === 2 && <ImagesTab setSelectedTab={setSelectedtab} />}
+            {selectedTab === 3 && <TagsTab />}
+            {selectedTab === 4 && <FeelingTab />}
+            {selectedTab === 5 && <TagFriendsTab />}
+            {selectedTab === 10 && activeImage?.id && <EditImagesForm onHide={() => setSelectedtab(2)} />}
+          </div>
         </div>
       </div>
     </div>

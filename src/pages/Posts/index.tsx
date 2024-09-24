@@ -17,6 +17,8 @@ import { selectAuthStatus, selectUserId } from '../../redux/auth/selectors';
 import toast from 'react-hot-toast';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
 import Modal from '../../components/UI/Modal';
+import { Link, Outlet } from 'react-router-dom';
+import { POSTS_CREATE_ROUTE } from '../../utils/consts';
 
 const Posts: React.FC = () => {
   const posts = useSelector(selectPosts);
@@ -36,7 +38,7 @@ const Posts: React.FC = () => {
 
   const handleShowAddPostModal = () => {
     if (userId) {
-      setModalOpen(true);
+      // setModalOpen(true);
       // dispatch(setPostCreateModalStatus(true));
       // dispatch(setActivePostNull());
     } else toast.error('You are not authorized');
@@ -56,16 +58,19 @@ const Posts: React.FC = () => {
       {/* <Modal isOpen={isModalVisible} onHide={handleHideModal}>
        
       </Modal> */}
-      <Modal isOpen={isModalOpen} onHide={handleHide} className='custom-modal-class'>
+      {/* <Modal isOpen={isModalOpen} onHide={handleHide} className='custom-modal-class'>
         {(onHide) => <AddPostForm onHide={onHide} />}
-      </Modal>
+      </Modal> */}
+      <Outlet />
       <div className={styles.root}>
         <div className={styles.root__posts}>
           {posts && posts.map((post) => <Post key={post.id} post={{ ...post, viewsCount: 10 }} />)}
         </div>
 
         <button className={styles.add_post_button} onClick={handleShowAddPostModal}>
-          <PlusSvg />
+          <Link to={POSTS_CREATE_ROUTE}>
+            <PlusSvg />
+          </Link>
         </button>
       </div>
     </>

@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Routes, BrowserRouter, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { Routes, BrowserRouter, Route, Navigate, useLocation } from 'react-router-dom';
 
-import { AUTH_LAYOUT_ROUTE, HOME_ROUTE, LOGIN_ROUTE, MAIN_LAYOUT_ROUTE } from './utils/consts';
+import { AUTH_LAYOUT_ROUTE, HOME_ROUTE, MAIN_LAYOUT_ROUTE } from './utils/consts';
 import { authRoutes, privateRoutes, publicRoutes } from './routes';
 import { selectAuthStatus, selectUserId } from './redux/auth/selectors';
 import MainLayout from './layouts/MainLayout';
@@ -11,16 +13,13 @@ import './styles/styles.scss';
 import { useAppDispatch } from './redux';
 import { fetchAuthRefresh } from './redux/auth/asyncActions';
 import { fetchUserProfile } from './redux/profile/asyncActions';
-import classNames from 'classnames';
 import styles from './App.module.scss';
-import Modal from './components/UI/Modal';
-import EditImagesForm from './components/EditImagesForm';
 import { selectActiveImage } from './redux/images/selectors';
 import { selectImagesModalStatus, selectPostCreateModalStatus } from './redux/modals/selectors';
 import { setImagesModalStatus } from './redux/modals/slice';
-import { Toaster } from 'react-hot-toast';
 import { FetchStatusEnum } from './models/response/FetchStatus';
 import { setGuestStatus } from './redux/auth/slice';
+import AddPostForm from './components/AddPostForm';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -50,12 +49,6 @@ const App: React.FC = () => {
 
   return (
     <div className={classNames(styles.scrollArea, (imagesModalStatus || postCreateModalStatus) && styles.lockScroll)}>
-      {/* {imagesModalStatus && activeImage && (
-        <Modal fullSize={true} onHide={handleImagesModalHide}>
-          <EditImagesForm onHide={handleImagesModalHide} />
-        </Modal>
-      )} */}
-
       <div>
         <Toaster />
       </div>
@@ -66,10 +59,16 @@ const App: React.FC = () => {
           </Route>
           <Route path={MAIN_LAYOUT_ROUTE} element={<MainLayout />}>
             {publicRoutes.map((route) => (
-              <Route key={route.path} {...route} />
+              <Route key={route.path} path={route.path} element={route.element} />
             ))}
             {isAuth &&
-              privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element} />)}
+              privateRoutes.map((route) => (
+                <Route key={route.path} path={route.path} element={route.element}>
+                  {route.children?.map((route) => (
+                    <Route key={route.path} path={route.path} element={route.element} />
+                  ))}
+                </Route>
+              ))}
           </Route>
           <Route path='*' element={<Navigate to={HOME_ROUTE} />} />
         </Routes>

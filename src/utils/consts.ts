@@ -6,14 +6,13 @@ export const LOGIN_ROUTE = AUTH_LAYOUT_ROUTE + '/login/';
 export const REGISTRATION_ROUTE = AUTH_LAYOUT_ROUTE + '/register/';
 
 export const HOME_ROUTE = '/';
-export const PRODUCTS_ROUTE = '/products/';
-export const POSTS_ROUTE = '/posts/';
+export const PRODUCTS_ROUTE = '/products';
+export const POSTS_ROUTE = '/posts';
+export const POSTS_CREATE_ROUTE = POSTS_ROUTE + '/create';
 export const POST_DETAIL_ROUTE = '/posts/:id';
-export const ADD_POST_ROUTE = '/add-post/';
-export const GAMES_ROUTE = '/games/';
-
-export const USER_SETTINGS_ROUTE = '/user-settings/';
-export const USER_PROFILE_ROUTE = '/user-settings/';
+export const GAMES_ROUTE = '/games';
+export const USER_SETTINGS_ROUTE = '/user-settings';
+export const USER_PROFILE_ROUTE = '/user-settings';
 
 //CONTEXT MENU
 export const defaultContextMenuWidth = 150;
