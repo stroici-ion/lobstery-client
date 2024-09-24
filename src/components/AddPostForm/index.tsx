@@ -27,12 +27,20 @@ interface IAddPostForm {
 
 const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
   const [selectedTab, setSelectedtab] = useState(0);
+  const [height, setHeight] = useState(0);
   const dispatch = useAppDispatch();
   const newPost = useSelector(selectActivePost);
   const activeImage = useSelector(selectActiveImage);
   const userId = useSelector(selectUserId);
 
+  const setPopupHeight = () => {
+    const popup = document.querySelector('.popup');
+    // popup.style.height = `${window.innerHeight}px`;
+  };
+
   useEffect(() => {
+    window.addEventListener('resize', setPopupHeight);
+    window.addEventListener('load', setPopupHeight);
     if (userId) {
       dispatch(fetchDefaultAudience({ userId }));
       dispatch(setImages(newPost.image_set));

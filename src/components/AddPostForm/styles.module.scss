@@ -2,14 +2,14 @@
 
 .root {
   width: 100%;
-  height: calc(100vh - env(safe-area-inset-bottom));
+  height: 100svh;
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   &.fullScreen {
     width: 100%;
-    height: calc(100vh - env(safe-area-inset-bottom));
+    height: 100%;
   }
 
   &__wrapper {
