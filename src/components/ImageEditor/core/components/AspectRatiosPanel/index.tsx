@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { EnumAspectRatios } from '../../types/enumerations';
 import { aspectRatioList } from '../AspectRatiosList';
 import styles from './styles.module.scss';
+import ScrollAreaHorizontal from '../../../../UI/ScrollAreaHorizontal';
 
 interface IAspectRatiosPanel {
   selected: EnumAspectRatios | undefined;
@@ -25,18 +26,21 @@ const AspectRatiosPanel: React.FC<IAspectRatiosPanel> = ({ selected, setAspectRa
 
   return (
     <div className={styles.root}>
-      <div className={classNames(styles.root__row, styles.root__list)}>
-        {aspectRatioList.map((aspectRatioType) => (
-          <button
-            className={classNames(styles.root__button, selectedAspectRatioId === aspectRatioType.id && styles.active)}
-            key={aspectRatioType.title}
-            onClick={() => hanldeSelectAspectRatio(aspectRatioType.id)}
-          >
-            {aspectRatioType.icon}
-            {aspectRatioType.title}
-          </button>
-        ))}
-      </div>
+      <ScrollAreaHorizontal className={styles.root__scrollArea}>
+        <div className={styles.root__list}>
+          {aspectRatioList.map((aspectRatioType) => (
+            <button
+              className={classNames(styles.root__button, selectedAspectRatioId === aspectRatioType.id && styles.active)}
+              key={aspectRatioType.title}
+              onClick={() => hanldeSelectAspectRatio(aspectRatioType.id)}
+            >
+              {aspectRatioType.icon}
+              {aspectRatioType.title}
+            </button>
+          ))}
+        </div>
+      </ScrollAreaHorizontal>
+
       <div className={styles.root__row}>
         <button className={styles.root__done} onClick={hide}>
           Done

@@ -4,10 +4,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1 1 auto;
   gap: 20px;
   order: 3;
   margin-top: 15px;
+  flex: 1 1 auto;
 
   @media (min-width: 768px) {
     margin-top: 0px;

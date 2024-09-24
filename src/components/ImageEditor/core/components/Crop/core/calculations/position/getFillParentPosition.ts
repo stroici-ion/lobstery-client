@@ -79,8 +79,6 @@ export const getFillParentPosition = (O: IPosition, crop: ICropShape, image: IIm
     }
   }
 
-  // console.log(newCrop);
-
   return {
     crop: newCrop,
     image: newImage,

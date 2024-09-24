@@ -26,7 +26,6 @@ const WriteComment: React.FC<WriteIComment> = ({
   hide,
 }) => {
   const user = useSelector(selectUserProfile);
-  console.log(user);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);

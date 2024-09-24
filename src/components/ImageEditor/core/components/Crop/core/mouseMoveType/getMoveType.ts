@@ -15,7 +15,10 @@ export const getMoveType = (c: IPosition, cropStep: IEditorStep) => {
 
   const size = iESBS;
   const overcrop =
-    cursor.x >= crop.x - size && cursor.y >= crop.y - size && cursor.x <= crop.x + crop.width + size && cursor.y <= crop.y + crop.height + size;
+    cursor.x >= crop.x - size &&
+    cursor.y >= crop.y - size &&
+    cursor.x <= crop.x + crop.width + size &&
+    cursor.y <= crop.y + crop.height + size;
 
   if (overcrop) {
     const left = cursor.x >= crop.x - size && cursor.x <= crop.x + size;
@@ -23,7 +26,10 @@ export const getMoveType = (c: IPosition, cropStep: IEditorStep) => {
     const right = cursor.x >= crop.x + crop.width - size && cursor.x <= crop.x + crop.width + size;
     const bottom = cursor.y >= crop.y + crop.height - size && cursor.y <= crop.y + crop.height + size;
     const image =
-      cursor.x > crop.x + size && cursor.x < crop.x + crop.width - size && cursor.y > crop.y + size && cursor.y < crop.y + crop.height - size;
+      cursor.x > crop.x + size &&
+      cursor.x < crop.x + crop.width - size &&
+      cursor.y > crop.y + size &&
+      cursor.y < crop.y + crop.height - size;
 
     if (left && top) return EnumMoveTypes.leftTop;
     if (left && bottom) return EnumMoveTypes.leftBottom;
@@ -51,16 +57,22 @@ export const getMoveType = (c: IPosition, cropStep: IEditorStep) => {
       bottom: imageBottom < maxBottom ? imageBottom : maxBottom,
     };
 
-    if (cursor.x >= borders.left && cursor.y >= borders.top && cursor.x <= borders.right && cursor.y <= borders.bottom) return EnumMoveTypes.image;
+    if (cursor.x >= borders.left && cursor.y >= borders.top && cursor.x <= borders.right && cursor.y <= borders.bottom)
+      return EnumMoveTypes.image;
 
     const rangeBorders = {
       left: parentSize.width / 2 - 450 * dpr,
-      top: parentSize.height - iEBSB + 40 * dpr,
+      top: parentSize.height - iEBSB + 10 * dpr,
       right: parentSize.width / 2 + 450 * dpr,
       bottom: parentSize.height - iEBSB + 80 * dpr,
     };
 
-    if (cursor.x >= rangeBorders.left && cursor.y >= rangeBorders.top && cursor.x <= rangeBorders.right && cursor.y <= rangeBorders.bottom)
+    if (
+      cursor.x >= rangeBorders.left &&
+      cursor.y >= rangeBorders.top &&
+      cursor.x <= rangeBorders.right &&
+      cursor.y <= rangeBorders.bottom
+    )
       return EnumMoveTypes.range;
 
     return EnumMoveTypes.default;

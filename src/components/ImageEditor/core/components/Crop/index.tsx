@@ -243,7 +243,11 @@ const Crop: React.FC<ICrop> = ({
   };
 
   const canvasOnTouchMoove = (event: TouchEvent) => {
-    event.preventDefault();
+    if (bottomRef.current && !bottomRef.current.contains(event.targetTouches[0].target as Node)) {
+      console.log('Prevent');
+      event.preventDefault();
+    }
+
     if (activeActions.isAnimation) return;
 
     const cursor: IPosition = {
@@ -395,6 +399,8 @@ const Crop: React.FC<ICrop> = ({
     }
   };
 
+  const bottomRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className={styles.root}>
       <img ref={adjustedImageRef} hidden />
@@ -404,7 +410,7 @@ const Crop: React.FC<ICrop> = ({
           <canvas ref={cropCanvasRef} className={styles.canvas__crop} />
         </div>
       </div>
-      <div className={styles.bottom}>
+      <div className={styles.bottom} ref={bottomRef}>
         {isPanelVisible && (
           <AspectRatiosPanel
             selected={selectedAspectRatio?.id}

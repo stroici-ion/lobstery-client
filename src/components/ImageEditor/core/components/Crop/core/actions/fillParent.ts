@@ -56,7 +56,5 @@ export const fillParent = (cropStep: IEditorStep, drawImage: (opacity: number) =
     }
   };
 
-  console.log(cropStep);
-
   fillParentAnimation(drawAnimationStep);
 };

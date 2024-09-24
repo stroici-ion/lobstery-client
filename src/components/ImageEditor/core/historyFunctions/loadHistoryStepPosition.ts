@@ -66,6 +66,4 @@ export const loadHistoryStepPosition = (
 
   image.x = Origin.x - r(image.width * historyStep.cropLeft);
   image.y = Origin.y - r(image.height * historyStep.cropTop);
-
-  console.log(cropStep);
 };

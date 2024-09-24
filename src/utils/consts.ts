@@ -21,7 +21,7 @@ export const defaultContextMenuMaxHeight = 150;
 
 //IMAGE EDIDOR
 export const dpr = window.devicePixelRatio;
-export const imageEditorMinSelectionSize = 101 * dpr;
+export const imageEditorMinSelectionSize = 101 * dpr; //px
 export const imageEditorBorderSizeLeftRight = 50 * dpr; //px
 export const imageEditorBorderSizeTop = 30 * dpr; //px
 export const imageEditorBorderSizeBottom = 130 * dpr; //px
