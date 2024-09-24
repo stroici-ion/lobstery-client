@@ -41,12 +41,12 @@ const TagsTab: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <p className={styles.root__title}>How are you feeling?</p>
+      <p className={styles.root__title}>Add tags!</p>
       <div className={styles.root__search}>
         <SearchSvg />
         <input
           className={styles.root__input}
-          placeholder="Search feeling"
+          placeholder='Search feeling'
           onKeyDown={handleInputKeyDown}
           onChange={handleInputOnChange}
           value={tagValue}

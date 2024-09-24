@@ -36,21 +36,33 @@ const AudienceTab: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <p className={styles.root__title}>Choose audience</p>
+      <p className={styles.root__title}>Set target audience!</p>
       <div className={styles.root__list}>
-        <button className={classNames(styles.root__button, styles.public, audience === 1 && styles.active)} onClick={() => handleChangeAudience(1)}>
+        <button
+          className={classNames(styles.root__button, styles.public, audience === 1 && styles.active)}
+          onClick={() => handleChangeAudience(1)}
+        >
           <GlobeSvg />
           Public
         </button>
-        <button className={classNames(styles.root__button, styles.private, audience === 0 && styles.active)} onClick={() => handleChangeAudience(0)}>
+        <button
+          className={classNames(styles.root__button, styles.private, audience === 0 && styles.active)}
+          onClick={() => handleChangeAudience(0)}
+        >
           <LockSvg />
           Private
         </button>
-        <button className={classNames(styles.root__button, styles.custom, audience === 4 && styles.active)} onClick={() => handleChangeAudience(4)}>
+        <button
+          className={classNames(styles.root__button, styles.custom, audience === 4 && styles.active)}
+          onClick={() => handleChangeAudience(4)}
+        >
           <CustomSettingsSvg />
           Custom
         </button>
-        <button className={classNames(styles.root__button, styles.friends, audience === 2 && styles.active)} onClick={() => handleChangeAudience(2)}>
+        <button
+          className={classNames(styles.root__button, styles.friends, audience === 2 && styles.active)}
+          onClick={() => handleChangeAudience(2)}
+        >
           <FriendsSvg />
           Friends
         </button>
@@ -75,8 +87,14 @@ const AudienceTab: React.FC = () => {
         className={classNames(styles.defaultAudience, defaultAudience.default_audience === audience && styles.active)}
         onClick={handleDefaultAudienceClick}
       >
-        <input checked={defaultAudience.default_audience === audience} className={styles.defaultAudience__checkbox} type="checkbox" />
-        <span className={styles.defaultAudience__label}>{defaultAudience.default_audience !== audience ? 'Set as default audience' : 'Default'}</span>
+        <input
+          checked={defaultAudience.default_audience === audience}
+          className={styles.defaultAudience__checkbox}
+          type='checkbox'
+        />
+        <span className={styles.defaultAudience__label}>
+          {defaultAudience.default_audience !== audience ? 'Set as default audience' : 'Default'}
+        </span>
       </div>
     </div>
   );

@@ -22,12 +22,8 @@ const TagFriendsTab: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <p className={styles.root__title}>Tag friends</p>
-      <SearchFirends
-        onSelect={handleSelectFriend}
-        taggedFriends={tagged_friends}
-        onRemove={handleRemoveFriend}
-      />
+      <p className={styles.root__title}>Mention friends!</p>
+      <SearchFirends onSelect={handleSelectFriend} taggedFriends={tagged_friends} onRemove={handleRemoveFriend} />
     </div>
   );
 };

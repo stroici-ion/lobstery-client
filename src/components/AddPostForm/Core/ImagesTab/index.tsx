@@ -117,7 +117,7 @@ const ImagesTab: React.FC<IImagesTab> = ({ setSelectedTab }) => {
 
   return (
     <div className={styles.root}>
-      <p className={styles.root__title}>Add images</p>
+      <p className={styles.root__title}>Add images!</p>
       <div {...getRootProps()} className={styles.root__dropzone} {...dropZoneProps}>
         {(images.length === 0 || isDragActive) && (
           <div className={classNames(styles.root__placeholder, styles.placeholder, isDragActive && styles.active)}>
