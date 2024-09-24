@@ -20,40 +20,46 @@ import { useAppDispatch } from '../../redux';
 import { selectActiveImage } from '../../redux/images/selectors';
 import { setImages } from '../../redux/images/slice';
 import { selectActivePost } from '../../redux/posts/selectors';
+import { useNavigate } from 'react-router-dom';
 
-interface IAddPostForm {
-  onHide?: () => void;
-}
+interface IAddPostForm {}
 
-const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
+const AddPostForm: React.FC<IAddPostForm> = ({}) => {
   const [selectedTab, setSelectedtab] = useState(0);
-  const [height, setHeight] = useState(0);
+  const [height, setHeight] = useState(650);
   const dispatch = useAppDispatch();
   const newPost = useSelector(selectActivePost);
   const activeImage = useSelector(selectActiveImage);
   const userId = useSelector(selectUserId);
+  const navigate = useNavigate();
+
+  const handleHide = () => {
+    navigate(-1);
+  };
 
   const setPopupHeight = () => {
-    const popup = document.querySelector('.popup');
-    // popup.style.height = `${window.innerHeight}px`;
+    setHeight(window.innerHeight);
   };
 
   useEffect(() => {
+    setPopupHeight();
     window.addEventListener('resize', setPopupHeight);
-    window.addEventListener('load', setPopupHeight);
     if (userId) {
       dispatch(fetchDefaultAudience({ userId }));
       dispatch(setImages(newPost.image_set));
     }
+    return () => {
+      window.removeEventListener('resize', setPopupHeight);
+    };
   }, []);
 
   return (
     <div className={styles.root__wrapper}>
-      <div className={classNames(styles.root, selectedTab === 10 && styles.fullScreen)}>
+      <div style={{ height }} className={classNames(styles.root, selectedTab === 10 && styles.fullScreen)}>
         <Aside selectedTab={selectedTab} setSelectedtab={setSelectedtab} />
         <div className={styles.root__body}>
           {selectedTab !== 10 && (
-            <button className={styles.root__return} onClick={onHide}>
+            <button className={styles.root__return} onClick={handleHide}>
               <CloseSvg />
             </button>
           )}

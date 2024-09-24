@@ -9,7 +9,6 @@
     padding-top: 0px;
   }
   &__content {
-    // z-index: 1000;
     flex: 1 1 auto;
     overflow-y: scroll;
     @include scrollBar;

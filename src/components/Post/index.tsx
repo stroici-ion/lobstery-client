@@ -23,7 +23,7 @@ import {
 } from '../../icons';
 import { useAppDispatch } from '../../redux';
 import { selectUserProfile } from '../../redux/profile/selectors';
-import { POSTS_ROUTE } from '../../utils/consts';
+import { POSTS_CREATE_ROUTE, POSTS_ROUTE } from '../../utils/consts';
 import { IPost } from '../../models/IPost';
 import ImagesPreview from '../ImagesPreview';
 import PostLikesInfo from '../PostLikesInfo';
@@ -67,7 +67,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
   const handleEditPost = () => {
     // dispatch(setPostCreateModalStatus(true));
     dispatch(setPostToEdit(post));
-    setIsModalVisible(true);
+    navigate(POSTS_CREATE_ROUTE);
   };
 
   const onClickFetchPosts = (tag: string) => {
@@ -95,9 +95,6 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
 
   return (
     <>
-      <Modal isOpen={isModalVisible} onHide={handleHideModal}>
-        {(onHide) => <AddPostForm onHide={onHide} />}
-      </Modal>
       <div className={classNames(styles.post, className)}>
         <div className={styles.post__content}>
           <div className={styles.post__top}>
