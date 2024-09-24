@@ -6,9 +6,9 @@ const imageEditorCropBordersSize = 30 * devicePixelRatio;
 
 const imageEditorMinSelectionSize = imageEditorCropCornersSize * 2;
 
-const imageEditorBorderSizeLeftRight = 50 * devicePixelRatio; //px
-const imageEditorBorderSizeTop = 50 * devicePixelRatio; //px
-const imageEditorBorderSizeBottom = 130 * devicePixelRatio; //px
+const imageEditorBorderSizeLeftRight = 5 * devicePixelRatio; //px
+const imageEditorBorderSizeTop = 10 * devicePixelRatio; //px
+const imageEditorBorderSizeBottom = 100 * devicePixelRatio; //px
 const imageEditorSelectionBorderSize = 20 * devicePixelRatio; //px
 const imageEditorSelectionBorderAutoDock = 3 * devicePixelRatio; //px
 const imageEditorSlectedImagePreviewBorderSize = 30 * devicePixelRatio; //px

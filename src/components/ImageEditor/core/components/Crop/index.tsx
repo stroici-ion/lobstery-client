@@ -125,7 +125,7 @@ const Crop: React.FC<ICrop> = ({
     window.addEventListener('mousedown', canvasOnMouseDown);
 
     window.addEventListener('touchstart', canvasOnTouchDown);
-    window.addEventListener('touchmove', canvasOnTouchMoove);
+    window.addEventListener('touchmove', canvasOnTouchMoove, { passive: false });
     window.addEventListener('touchend', canvasOnMouseUp);
 
     window.addEventListener('resize', onWindowResize);
@@ -243,6 +243,7 @@ const Crop: React.FC<ICrop> = ({
   };
 
   const canvasOnTouchMoove = (event: TouchEvent) => {
+    event.preventDefault();
     if (activeActions.isAnimation) return;
 
     const cursor: IPosition = {
