@@ -43,13 +43,13 @@ const FeelingTab: React.FC = () => {
 
   return (
     <div className={styles.root}>
+      <p className={styles.root__title}>How are you feeling?</p>
       <div className={classNames(styles.root__top, styles.user)}>
         <UserImage user={user} className={styles.user__avatar} />
         <div className={styles.user__info}>
           <PostUsername user={user} feeling={feeling} taggedFriends={tagged_friends} />
         </div>
       </div>
-      <p className={styles.root__title}>How are you feeling?</p>
       <div className={styles.root__search}>
         <SearchSvg />
         <input placeholder='Search feeling' className={styles.root__input} onChange={debouncedChangeHandler} />

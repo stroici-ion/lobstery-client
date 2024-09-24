@@ -16,21 +16,23 @@
 }
 
 .root {
-  overflow: hidden;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  &__top {
-    margin-bottom: 15px;
-  }
+  height: 100%;
+  overflow: hidden;
 
   &__title {
     text-align: center;
     font-size: 16px;
     font-weight: 700;
+    height: 30px;
     margin-bottom: 10px;
   }
 
+  &__top {
+    margin-bottom: 15px;
+  }
   &__emojis {
     position: relative;
     overflow: hidden;
