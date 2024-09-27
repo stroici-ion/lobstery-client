@@ -9,6 +9,7 @@ export const HOME_ROUTE = '/';
 export const PRODUCTS_ROUTE = '/products';
 export const POSTS_ROUTE = '/posts';
 export const POSTS_CREATE_ROUTE = POSTS_ROUTE + '/create';
+export const POSTS_CREATE_IMAGE_EDIT_ROUTE = POSTS_CREATE_ROUTE + '/edit-image';
 export const POST_DETAIL_ROUTE = '/posts/:id';
 export const GAMES_ROUTE = '/games';
 export const USER_SETTINGS_ROUTE = '/user-settings';

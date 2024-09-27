@@ -1,28 +1,32 @@
-import React, { useCallback, useRef } from 'react';
+import React, { Ref, useCallback, useRef, useState } from 'react';
 import { getImageSize } from 'react-image-size';
 import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../../../redux';
 import styles from './styles.module.scss';
-import { AddImageVideoSvg } from '../../../../icons';
+import { AddImageVideoSvg, CloseSvg, EditSvg, TagPeopleSvg } from '../../../../icons';
 import classNames from 'classnames';
 import ImagesPreview from '../../../ImagesPreview';
 import { getExtension, isVideo } from '../../../../utils/filesTypes';
 import { getMetadata, getThumbnails } from 'video-metadata-thumbnails';
 import { IImage } from '../../../../models/IImage';
-import { addImages, removeImage, setActiveImageId, setImages } from '../../../../redux/images/slice';
-import { selectImages } from '../../../../redux/images/selectors';
+import { addImages, removeImage, setActiveImageId } from '../../../../redux/images/slice';
+import { selectActiveImage, selectImages } from '../../../../redux/images/selectors';
 import ScrollArea from '../../../UI/ScrollArea';
+import DeleteSvg from '../../../../icons/DeleteSvg';
+import Modal from '../../../UI/Modal';
+import ImageEditor2 from '../../../media_tools/ImageEditor';
+import ContextMenu from '../../../UI/ContextMenu';
 
-interface IImagesTab {
-  setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const ImagesTab: React.FC<IImagesTab> = ({ setSelectedTab }) => {
+const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();
   const images = useSelector(selectImages);
   const inputRef = useRef<HTMLInputElement>(null);
+  const activeImage = useSelector(selectActiveImage);
+
+  const [contextRef, setContextRef] = useState<HTMLElement>();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const getVideoPreview = async (file: File) => {
     if (isVideo(file.name)) {
@@ -98,15 +102,30 @@ const ImagesTab: React.FC<IImagesTab> = ({ setSelectedTab }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleSelectImage = (image: IImage) => {
-    dispatch(setImages(images));
+  const handleSelectImage = (image: IImage, ref?: HTMLElement) => {
     dispatch(setActiveImageId(image.id));
-    setSelectedTab(10);
+    setContextRef(ref);
   };
 
-  const handleRemoveImage = (image: IImage) => {
-    dispatch(removeImage(image));
+  const handleRemoveImage = () => {
+    if (activeImage) {
+      dispatch(removeImage(activeImage));
+      dispatch(setActiveImageId(undefined));
+      setContextRef(undefined);
+    }
   };
+
+  const handleEditImage = () => {
+    if (activeImage) {
+      setContextRef(undefined);
+      setIsModalVisible(true);
+    }
+  };
+
+  const handleHideContextMenu = () => setContextRef(undefined);
+  const handleHideModal = () => setIsModalVisible(false);
+
+  const isContextVisible = contextRef && activeImage;
 
   const dropZoneProps =
     images.length > 0
@@ -116,42 +135,81 @@ const ImagesTab: React.FC<IImagesTab> = ({ setSelectedTab }) => {
       : {};
 
   return (
-    <div className={styles.root}>
-      <p className={styles.root__title}>Add images!</p>
-      <div {...getRootProps()} className={styles.root__dropzone} {...dropZoneProps}>
-        {(images.length === 0 || isDragActive) && (
-          <div className={classNames(styles.root__placeholder, styles.placeholder, isDragActive && styles.active)}>
-            <p className={styles.placeholder__drag_active_text}>Drop the files here ...</p>
-            {images.length === 0 && (
-              <>
-                <AddImageVideoSvg />
-                <p className={styles.placeholder__title}>Click to upload an image.</p>
-                <p className={styles.placeholder__subtitle}>Or drag and drop here.</p>
-              </>
+    <>
+      {activeImage && isModalVisible && (
+        <div className={styles.modal__body}>
+          <button className={styles.modal__return} onClick={handleHideModal}>
+            <CloseSvg />
+          </button>
+          <ImageEditor2 image={activeImage} onSave={(image) => {}} />
+        </div>
+      )}
+      {isContextVisible && (
+        <ContextMenu triggerRef={contextRef} onHide={handleHideContextMenu}>
+          <div className={classNames(styles.contextMenu, isContextVisible && styles.contextMenu__active)}>
+            <button
+              className={classNames(styles.contextMenu__button, styles.contextMenu__close)}
+              onClick={handleHideContextMenu}
+            >
+              <CloseSvg />
+            </button>
+            <button
+              className={classNames(styles.contextMenu__button, styles.contextMenu__delete)}
+              onClick={handleRemoveImage}
+            >
+              <DeleteSvg />
+            </button>
+            <button
+              className={classNames(styles.contextMenu__button, styles.contextMenu__edit)}
+              onClick={handleEditImage}
+            >
+              <EditSvg />
+            </button>
+            <button className={classNames(styles.contextMenu__button, styles.contextMenu__tag)}>
+              <TagPeopleSvg />
+            </button>
+          </div>
+        </ContextMenu>
+      )}
+      <div className={styles.root}>
+        <p className={styles.root__title}>Add images!</p>
+        <div {...getRootProps()} className={styles.root__dropzone} {...dropZoneProps}>
+          {(images.length === 0 || isDragActive) && (
+            <div className={classNames(styles.root__placeholder, styles.placeholder, isDragActive && styles.active)}>
+              <p className={styles.placeholder__drag_active_text}>Drop the files here ...</p>
+              {images.length === 0 && (
+                <>
+                  <AddImageVideoSvg />
+                  <p className={styles.placeholder__title}>Click to upload an image.</p>
+                  <p className={styles.placeholder__subtitle}>Or drag and drop here.</p>
+                </>
+              )}
+            </div>
+          )}
+          <ScrollArea>
+            {images.length > 0 && (
+              <ImagesPreview onRemove={handleRemoveImage} onSelect={handleSelectImage} images={images} />
             )}
+          </ScrollArea>
+          <input {...getInputProps()} accept='image/*, video/*' />
+        </div>
+        {images.length > 0 && (
+          <div className={classNames(styles.root__tools, styles.tools)}>
+            <button className={styles.tools__button} onClick={() => inputRef.current?.click()}>
+              <AddImageVideoSvg />
+              <input
+                ref={inputRef}
+                type={'file'}
+                style={{ display: 'none' }}
+                onChange={handleOnChangeImages}
+                multiple
+                accept='image/*, video/*'
+              />
+            </button>
           </div>
         )}
-        <ScrollArea>
-          {images.length > 0 && (
-            <ImagesPreview onRemove={handleRemoveImage} onSelect={handleSelectImage} images={images} />
-          )}
-        </ScrollArea>
-        <input {...getInputProps()} accept='image/*, video/*' />
       </div>
-      {images.length > 0 && (
-        <button className={styles.root__add} onClick={() => inputRef.current?.click()}>
-          <AddImageVideoSvg />
-          <input
-            ref={inputRef}
-            type={'file'}
-            style={{ display: 'none' }}
-            onChange={handleOnChangeImages}
-            multiple
-            accept='image/*, video/*'
-          />
-        </button>
-      )}
-    </div>
+    </>
   );
 };
 

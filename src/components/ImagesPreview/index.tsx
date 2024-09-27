@@ -6,7 +6,7 @@ import VideoImagesGrid from './core/VideoImageGrid';
 
 interface IImages {
   images: IImage[];
-  onSelect?: (image: IImage) => void;
+  onSelect?: (image: IImage, ref?: HTMLElement) => void;
   onRemove?: (image: IImage) => void;
 }
 

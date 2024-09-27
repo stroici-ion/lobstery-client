@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PlaySvg } from '../../../../icons';
 import { IImage } from '../../../../models/IImage';
 
@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 
 interface IImagesGrid {
   images: IImage[];
-  onSelect?: (image: IImage) => void;
+  onSelect?: (image: IImage, ref?: HTMLElement) => void;
   onRemove?: (image: IImage) => void;
 }
 
@@ -36,7 +36,7 @@ type ImagesGridType = {
 
 const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
   const [localImages, setLocalImages] = useState<IImage[]>(images);
-  const isEditable = !!onRemove;
+  const isEditable = false;
   const [isVisible, setIsVisible] = useState(false);
 
   const sortByAspectRatio = (array: IImage[]) => {
@@ -60,9 +60,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
         const otherImages = sortedImages.filter((image) => image.image != mainImage?.image);
         const horizontalImages = otherImages.filter((image) => image.aspect_ratio > 1.2);
         const verticalImages = otherImages.filter((image) => image.aspect_ratio < 0.8);
-        const squareImages = otherImages.filter(
-          (image) => image.aspect_ratio <= 1.2 && image.aspect_ratio >= 0.8
-        );
+        const squareImages = otherImages.filter((image) => image.aspect_ratio <= 1.2 && image.aspect_ratio >= 0.8);
 
         if (mainImage.aspect_ratio > 1.2) {
           if (squareImages.length > 1) {
@@ -94,9 +92,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
               fristRowImages = [mainImage, ...squareImages.slice(0, 1)];
               mainImage = verticalImages[0];
               firstRowType = FirstRowTypeEnum.DOUBLE_SQUARE;
-              secondRowImages = otherImages.filter(
-                (image) => !fristRowImages.includes(image) && image !== mainImage
-              );
+              secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image) && image !== mainImage);
             } else {
               fristRowImages = squareImages.slice(0, 1);
               firstRowType = FirstRowTypeEnum.SINGLE_SQUARE;
@@ -129,9 +125,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
       } else {
         mainImage = sortedImages.find((image) => image.is_video_file);
         if (!mainImage) mainImage = sortedImages[0];
-        const otherImages = sortedImages.filter(
-          (image) => image.image_thumbnail != mainImage?.image_thumbnail
-        );
+        const otherImages = sortedImages.filter((image) => image.image_thumbnail != mainImage?.image_thumbnail);
         gridType = GridTypeEnum.VERTICAL;
         fristRowImages = [mainImage, ...otherImages];
       }
@@ -185,7 +179,9 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
               <img
                 className={styles.verticalGrid__image}
                 src={image.image_thumbnail}
-                onClick={() => onSelect?.(image)}
+                onClick={(event) => {
+                  onSelect?.(image, event.target as HTMLElement);
+                }}
               />
               {image.is_video_file && (
                 <button className={styles.videoButton}>
@@ -193,10 +189,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
                 </button>
               )}
               {isEditable && (
-                <div
-                  className={styles.imageParent__decorationRemove}
-                  onClick={() => onRemove(image)}
-                >
+                <div className={styles.imageParent__decorationRemove} onClick={() => onRemove?.(image)}>
                   🗙
                 </div>
               )}
@@ -205,12 +198,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
         ))
       ) : (
         <>
-          <div
-            className={classNames(
-              styles.root__row,
-              !imagesGrid.secondRowImages.length && styles.single
-            )}
-          >
+          <div className={classNames(styles.root__row, !imagesGrid.secondRowImages.length && styles.single)}>
             <div
               className={styles.row__decorationLeft}
               style={{ backgroundImage: `url('${imagesGrid.mainImage.image_thumbnail}')` }}
@@ -219,8 +207,8 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
               className={styles.row__decorationRight}
               style={{
                 backgroundImage: `url('${
-                  imagesGrid.fristRowImages[imagesGrid.fristRowImages.length - 1]
-                    ?.image_thumbnail || imagesGrid.mainImage.image_thumbnail
+                  imagesGrid.fristRowImages[imagesGrid.fristRowImages.length - 1]?.image_thumbnail ||
+                  imagesGrid.mainImage.image_thumbnail
                 }')`,
               }}
             />
@@ -228,7 +216,9 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
               <img
                 src={imagesGrid.mainImage.image_thumbnail}
                 className={styles.root__nearVideoBlock_image}
-                onClick={() => onSelect?.(imagesGrid.mainImage)}
+                onClick={(event) => {
+                  onSelect?.(imagesGrid.mainImage, event.target as HTMLElement);
+                }}
               />
               {imagesGrid.mainImage.is_video_file && (
                 <button className={styles.videoButton}>
@@ -236,10 +226,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
                 </button>
               )}
               {isEditable && (
-                <div
-                  className={styles.imageParent__decorationRemove}
-                  onClick={() => onRemove(imagesGrid.mainImage)}
-                >
+                <div className={styles.imageParent__decorationRemove} onClick={() => onRemove?.(imagesGrid.mainImage)}>
                   🗙
                 </div>
               )}
@@ -253,16 +240,16 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
                     key={image.image}
                     className={classNames(styles.tripleVertical__block, styles.imageParent)}
                     style={{
-                      maxHeight:
-                        (400 * (1 / image.aspect_ratio)) /
-                        getToatalHeight(imagesGrid.fristRowImages),
+                      maxHeight: (400 * (1 / image.aspect_ratio)) / getToatalHeight(imagesGrid.fristRowImages),
                     }}
                   >
                     <img
-                      alt=""
+                      alt=''
                       src={image.image_thumbnail}
                       className={styles.root__nearVideoBlock_image}
-                      onClick={() => onSelect?.(image)}
+                      onClick={(event) => {
+                        onSelect?.(image, event.target as HTMLElement);
+                      }}
                     />
                     {image.is_video_file && (
                       <button className={styles.videoButton}>
@@ -270,10 +257,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
                       </button>
                     )}
                     {isEditable && (
-                      <div
-                        className={styles.imageParent__decorationRemove}
-                        onClick={() => onRemove(image)}
-                      >
+                      <div className={styles.imageParent__decorationRemove} onClick={() => onRemove?.(image)}>
                         🗙
                       </div>
                     )}
@@ -285,21 +269,17 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
               imagesGrid.firstRowType !== FirstRowTypeEnum.DOUBLE_SQUARE && (
                 <>
                   {imagesGrid.fristRowImages.map((image) => (
-                    <div
-                      key={image.image}
-                      className={classNames(styles.root__nearVideoBlock, styles.imageParent)}
-                    >
+                    <div key={image.image} className={classNames(styles.root__nearVideoBlock, styles.imageParent)}>
                       <img
-                        alt=""
+                        alt=''
                         src={image.image_thumbnail}
                         className={styles.root__nearVideoBlock_image}
-                        onClick={() => onSelect?.(image)}
+                        onClick={(event) => {
+                          onSelect?.(image, event.target as HTMLElement);
+                        }}
                       />
                       {isEditable && (
-                        <div
-                          className={styles.imageParent__decorationRemove}
-                          onClick={() => onRemove(image)}
-                        >
+                        <div className={styles.imageParent__decorationRemove} onClick={() => onRemove?.(image)}>
                           🗙
                         </div>
                       )}
@@ -320,21 +300,19 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
                 className={styles.row__decorationRight}
                 style={{
                   backgroundImage: `url('${
-                    imagesGrid.secondRowImages[imagesGrid.secondRowImages.length - 1]
-                      .image_thumbnail
+                    imagesGrid.secondRowImages[imagesGrid.secondRowImages.length - 1].image_thumbnail
                   }')`,
                 }}
               />
               {imagesGrid.secondRowImages.map((image) => (
-                <div
-                  key={image.image_thumbnail}
-                  className={classNames(styles.root__imageBlock, styles.imageParent)}
-                >
+                <div key={image.image_thumbnail} className={classNames(styles.root__imageBlock, styles.imageParent)}>
                   <img
-                    alt=""
+                    alt=''
                     src={image.image_thumbnail}
                     className={styles.root__imageBlock_image}
-                    onClick={() => onSelect?.(image)}
+                    onClick={(event) => {
+                      onSelect?.(image, event.target as HTMLElement);
+                    }}
                   />
                   {image.is_video_file && (
                     <button className={styles.videoButton}>
@@ -342,10 +320,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
                     </button>
                   )}
                   {isEditable && (
-                    <div
-                      className={styles.imageParent__decorationRemove}
-                      onClick={() => onRemove(image)}
-                    >
+                    <div className={styles.imageParent__decorationRemove} onClick={() => onRemove?.(image)}>
                       🗙
                     </div>
                   )}

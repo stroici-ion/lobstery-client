@@ -7,6 +7,7 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  position: relative;
 
   &__title {
     text-align: center;
@@ -49,6 +50,15 @@
     height: 100%;
     width: 100%;
   }
+
+  &__tools {
+    position: absolute;
+    right: 20px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .placeholder {
@@ -90,29 +100,143 @@
   }
 }
 
-.root__add {
-  position: absolute;
-  right: 20px;
-  bottom: 30px;
-  width: 50px;
-  height: 50px;
-  background-color: $greenColor;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid $lightColor;
+.tools {
+  &__button {
+    width: 50px;
+    height: 50px;
+    background-color: $greenColor;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid $lightColor;
 
-  svg {
-    width: 22px;
-    height: 45px;
-    path {
-      fill: $lightColor;
-      stroke: $lightColor;
+    svg {
+      width: 22px;
+      height: 45px;
+      path {
+        fill: $lightColor;
+        stroke: $lightColor;
+      }
+    }
+    transition: 0.3s;
+    &:hover {
+      background-color: $greenColorDarken;
     }
   }
-  transition: 0.3s;
-  &:hover {
-    background-color: $greenColorDarken;
+}
+
+.contextMenu {
+  width: 40px;
+  height: 40px;
+  position: relative;
+
+  &__button {
+    background-color: $lightColor;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    width: 40px;
+    height: 40px;
+    transition: 0.1s;
+    transform: translate(0%);
+    box-shadow: 2px 2px 5px 2px transparentize($color: $darkColor, $amount: 0.8);
+    svg {
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+    }
+  }
+  &__close {
+    svg {
+      @include svgcolor($redColor);
+    }
+  }
+  &__delete {
+    animation: moveInDelete 0.2s;
+    transform: translate(120%, -150%);
+    svg {
+      @include svgcolor($redColor);
+    }
+  }
+  &__edit {
+    animation: moveInEdit 0.2s;
+    transform: translate(190%, -30%);
+    svg {
+      @include svgcolor($greenColor);
+    }
+  }
+  &__tag {
+    animation: moveInTag 0.2s;
+    transform: translate(160%, 100%);
+    svg {
+      @include svgcolor($blueColor);
+    }
+  }
+}
+
+@keyframes moveInDelete {
+  from {
+    transform: translate(0%, 0%) scale(0.3);
+  }
+  to {
+    transform: translate(120%, -150%) scale(1);
+  }
+}
+
+@keyframes moveInEdit {
+  from {
+    transform: translate(0%, 0%) scale(0.3);
+  }
+  to {
+    transform: translate(190%, -30%) scale(1);
+  }
+}
+
+@keyframes moveInTag {
+  from {
+    transform: translate(0%, 0%) scale(0.3);
+  }
+  to {
+    transform: translate(160%, 100%) scale(1);
+  }
+}
+
+.modal {
+  &__body {
+    display: flex;
+    z-index: 3;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $lightColor;
+  }
+
+  &__return {
+    position: absolute;
+    background-color: $redColor;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    right: 10px;
+    top: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      padding: 8px;
+      path {
+        stroke: $lightColor;
+        fill: $lightColor;
+      }
+    }
+    &:hover {
+      background-color: $redColorDarken;
+    }
   }
 }

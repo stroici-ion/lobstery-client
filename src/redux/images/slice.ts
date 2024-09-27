@@ -38,7 +38,9 @@ const imagesSlice = createSlice({
     removeImageTaggedFriend: (state, action: PayloadAction<number>) => {
       if (state.activeImage) {
         state.activeImage.isUpdated = true;
-        state.activeImage.tagged_friends = state.activeImage.tagged_friends?.filter((item) => item.user.id !== action.payload);
+        state.activeImage.tagged_friends = state.activeImage.tagged_friends?.filter(
+          (item) => item.user.id !== action.payload
+        );
       }
     },
     addImageTaggedFriend: (state, action: PayloadAction<{ user: IUser; top: number; left: number }>) => {
@@ -69,7 +71,7 @@ const imagesSlice = createSlice({
       const candidate = state.images.find((image) => image.id === action.payload.id);
       if (candidate) candidate.upload_progress = action.payload.progress;
     },
-    setActiveImage: (state, action: PayloadAction<IImage>) => {
+    setActiveImage: (state, action: PayloadAction<IImage | undefined>) => {
       state.activeImage = action.payload;
     },
   },

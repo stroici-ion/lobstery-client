@@ -2,37 +2,20 @@
 
 .root {
   width: 100%;
-  height: 100dvh;
-  position: relative;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  &.fullScreen {
-    width: 100%;
-    height: 100%;
-  }
-
-  &__wrapper {
-    z-index: 999;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparentize($darkColor, 0.4);
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
   @media (min-width: 768px) {
+    position: relative;
     width: 600px;
     height: 650px;
-
-    &.fullScreen {
-      width: calc(100vw - 20px);
-      height: calc(100vh - 20px);
-    }
   }
 
   &__body {
@@ -62,7 +45,7 @@
 
   &__return {
     position: absolute;
-    background-color: $cyanColor;
+    background-color: $redColor;
     z-index: 2;
     width: 30px;
     height: 30px;
@@ -80,7 +63,7 @@
       }
     }
     &:hover {
-      background-color: $cyanColorDarken;
+      background-color: $redColorDarken;
     }
   }
 }

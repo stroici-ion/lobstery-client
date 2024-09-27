@@ -1,0 +1,53 @@
+@import '../../../styles/colors.scss';
+.contextMenu {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  .fullscreenOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .rect {
+    width: 100vw;
+    height: 100vh;
+  }
+  // Overlay div with the mask applied
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparentize($color: $darkColor, $amount: 0.4); // Semi-transparent black
+    z-index: 1;
+    pointer-events: none;
+    mask: url(#mask);
+    -webkit-mask: url(#mask); // For WebKit browsers
+  }
+
+  // Body of the context menu (can be positioned dynamically)
+  &__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color: transparent; // Transparent cutout
+    z-index: 2;
+    pointer-events: auto; // Make it clickable
+    &.isLeft {
+      transform: scale(-1, 1);
+    }
+  }
+}

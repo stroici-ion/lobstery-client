@@ -24,7 +24,6 @@ const Posts: React.FC = () => {
   const posts = useSelector(selectPosts);
   const dispatch = useAppDispatch();
   const postCreateModalStatus = useSelector(selectPostCreateModalStatus);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const authorizationStatus = useSelector(selectAuthStatus);
   const pendingAuth = authorizationStatus === FetchStatusEnum.PENDING;
@@ -38,9 +37,9 @@ const Posts: React.FC = () => {
 
   const handleShowAddPostModal = () => {
     if (userId) {
-      // setModalOpen(true);
+      dispatch(setActivePostNull());
+      setModalOpen(true);
       // dispatch(setPostCreateModalStatus(true));
-      // dispatch(setActivePostNull());
     } else toast.error('You are not authorized');
   };
 
@@ -55,12 +54,9 @@ const Posts: React.FC = () => {
   };
   return (
     <>
-      {/* <Modal isOpen={isModalVisible} onHide={handleHideModal}>
-       
-      </Modal> */}
-      {/* <Modal isOpen={isModalOpen} onHide={handleHide} className='custom-modal-class'>
+      <Modal isOpen={isModalOpen} onHide={handleHide}>
         {(onHide) => <AddPostForm onHide={onHide} />}
-      </Modal> */}
+      </Modal>
       <Outlet />
       <div className={styles.root}>
         <div className={styles.root__posts}>
@@ -68,9 +64,9 @@ const Posts: React.FC = () => {
         </div>
 
         <button className={styles.add_post_button} onClick={handleShowAddPostModal}>
-          <Link to={POSTS_CREATE_ROUTE}>
-            <PlusSvg />
-          </Link>
+          {/* <Link to={POSTS_CREATE_ROUTE}> */}
+          <PlusSvg />
+          {/* </Link> */}
         </button>
       </div>
     </>

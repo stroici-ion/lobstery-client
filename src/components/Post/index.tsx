@@ -67,7 +67,9 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
   const handleEditPost = () => {
     // dispatch(setPostCreateModalStatus(true));
     dispatch(setPostToEdit(post));
-    navigate(POSTS_CREATE_ROUTE);
+    setIsModalVisible(true);
+
+    // navigate(POSTS_CREATE_ROUTE);
   };
 
   const onClickFetchPosts = (tag: string) => {
@@ -95,6 +97,9 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
 
   return (
     <>
+      <Modal isOpen={isModalVisible} onHide={handleHideModal}>
+        {(onHide) => <AddPostForm onHide={onHide} />}
+      </Modal>
       <div className={classNames(styles.post, className)}>
         <div className={styles.post__content}>
           <div className={styles.post__top}>

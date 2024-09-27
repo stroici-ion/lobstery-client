@@ -1,93 +1,93 @@
-# Getting Started with Create React App
+# Lobstery Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Lobstery Client is a React application designed to provide a rich user experience with various media-related functionalities. This application allows users to create and manage posts, edit media content, comment, tag, and more. It serves as the front-end counterpart to the Lobstery Server (Django-based API), offering seamless interaction with the back-end API.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### 1. **Post Management**
 
-### `npm start`
+- **View Posts:** Users can view posts in a dynamic feed, with options to interact via comments or reactions.
+- **Create Posts:** Allows users to create new posts with text and media attachments (images/videos).
+- **Edit Posts:** Edit existing posts with a user-friendly interface to update the content.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2. **Image Editor**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Cropping:** Users can crop images to desired dimensions.
+- **Adjustments:** Modify image attributes such as brightness, contrast, saturation, etc.
+- **Filtering:** Apply various filters to images, including grayscale, sepia, etc.
+- **Drawing:** Freeform drawing capabilities on images.
+- **Borders:** Add and customize borders around images.
+- **History Management:** Undo/redo functionality to make image editing flexible.
 
-### `npm test`
+### 3. **MediaTools**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+A set of tools focused on managing and editing media (images, videos) with the following functionalities:
 
-### `npm run build`
+- **Naming and Tagging:** Add meaningful names and tags to images and videos.
+- **Commenting:** Users can comment on media files.
+- **Video Editing:** Basic tools for trimming, cutting, and adjusting videos.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 4. **Comments and Interactions**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Post Comments:** Users can add, edit, or delete comments on posts.
+- **Real-time Updates:** Comment threads update in real time without the need for page reloads.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 5. **User Authentication**
 
-### `npm run eject`
+- Integrated with [Lobstery Server](https://github.com/stroici-ion/lobstery-server.git) for user authentication using **JWT (JSON Web Tokens)**.
+- **Login/Logout** functionality to manage user sessions.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 6. **Chess Game**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+A lightweight chess game integrated into the app that allows users to:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Play chess with local multiplayer functionality.
+- Save and load games.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 7. **Navigation**
 
-## Learn More
+- Organized navigation structure using **react-router-dom** for dynamic routing.
+- Multi-level routing for ease of use across the app's features.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 8. **Responsive Design**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The entire app is built with responsive design principles, ensuring an optimal experience on both desktop and mobile devices.
 
-https://townint-seeds.govpredict.com/seeds/114559
-https://townint-seeds.govpredict.com/seeds/9239
-https://townint-seeds.govpredict.com/seeds/9240
-https://townint-seeds.govpredict.com/seeds/114557
-https://townint-seeds.govpredict.com/seeds/206985
-https://townint-seeds.govpredict.com/seeds/199804
-https://townint-seeds.govpredict.com/seeds/200591
-https://townint-seeds.govpredict.com/seeds/192937
-https://townint-seeds.govpredict.com/seeds/199095
-https://townint-seeds.govpredict.com/seeds/197963
-https://townint-seeds.govpredict.com/seeds/198583
-https://townint-seeds.govpredict.com/seeds/198592
-https://townint-seeds.govpredict.com/seeds/200372
-https://townint-seeds.govpredict.com/seeds/192852
-https://townint-seeds.govpredict.com/seeds/138641
-https://townint-seeds.govpredict.com/seeds/198342
-https://townint-seeds.govpredict.com/seeds/202478
-https://townint-seeds.govpredict.com/seeds/192857
-https://townint-seeds.govpredict.com/seeds/199767
-https://townint-seeds.govpredict.com/seeds/197759
-https://townint-seeds.govpredict.com/seeds/199846
-https://townint-seeds.govpredict.com/seeds/202532
-https://townint-seeds.govpredict.com/seeds/196735
-https://townint-seeds.govpredict.com/seeds/192502
-https://townint-seeds.govpredict.com/seeds/196944
-https://townint-seeds.govpredict.com/seeds/198613
-https://townint-seeds.govpredict.com/seeds/193112
-https://townint-seeds.govpredict.com/seeds/199109
-https://townint-seeds.govpredict.com/seeds/202555
-https://townint-seeds.govpredict.com/seeds/198081
-https://townint-seeds.govpredict.com/seeds/198682
-https://townint-seeds.govpredict.com/seeds/202509
-https://townint-seeds.govpredict.com/seeds/207050
-https://townint-seeds.govpredict.com/seeds/193795
-https://townint-seeds.govpredict.com/seeds/197308
-https://townint-seeds.govpredict.com/seeds/198296
-https://townint-seeds.govpredict.com/seeds/191706
-https://townint-seeds.govpredict.com/seeds/191597
-https://townint-seeds.govpredict.com/seeds/197317
-https://townint-seeds.govpredict.com/seeds/197623
-https://townint-seeds.govpredict.com/seeds/202446
-https://townint-seeds.govpredict.com/seeds/201312
-https://townint-seeds.govpredict.com/seeds/201237
-https://townint-seeds.govpredict.com/seeds/201981
-https://townint-seeds.govpredict.com/seeds/201446
-https://townint-seeds.govpredict.com/seeds/201102
+## Technology Stack
+
+### Front-end
+
+- **React.js** with **TypeScript** for strongly-typed, component-based UI.
+- **Redux Toolkit** for state management.
+- **Axios** for handling HTTP requests.
+- **Sass** for styling.
+
+### Back-end
+
+- This project is powered by the [Lobstery Server](https://github.com/stroici-ion/lobstery-server.git), a Django REST API.
+
+### Dependencies
+
+- **@reduxjs/toolkit**: For state management.
+- **axios**: For API requests.
+- **jwt-decode**: For decoding JWT tokens.
+- **lodash**: For utility functions.
+- **react-hook-form**: For form validation and management.
+- **react-router-dom**: For navigation and routing.
+- **sass**: For styling and CSS pre-processing.
+
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/stroici-ion/lobstery-client.git
+   cd lobstery-client
+   ```
+   q

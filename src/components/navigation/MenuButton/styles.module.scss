@@ -29,7 +29,6 @@
   }
 
   @media (hover: none) {
-    /* Your hover-related styles go here */
     &:hover {
       @include svgcolor($grayColorSoft);
       background-color: transparent;
