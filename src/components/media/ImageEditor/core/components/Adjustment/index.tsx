@@ -34,6 +34,7 @@ import {
   TintSvg,
   WarmthSvg,
 } from '../../../../../../icons/imageEditor';
+import AdjustemntsMobile from '../AdjustemntsMobile';
 
 interface IAdjustment {
   optimizedImageData: ImageData;
@@ -443,9 +444,8 @@ const Adjustment: React.FC<IAdjustment> = ({
         <canvas ref={adjustedImageCanvasRef} style={{ visibility: 'hidden' }} className={styles.canvas} />
       </div>
       <div className={styles.root__aside}>
-        <div className={styles.root__scrollArea}>
-          <Aside controlList={controlsList} />
-        </div>
+        {/* <Aside controlList={controlsList} /> */}
+        <AdjustemntsMobile controlList={controlsList} />
       </div>
     </div>
   );

@@ -48,7 +48,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={classNames(styles.scrollArea, (imagesModalStatus || postCreateModalStatus) && styles.lockScroll)}>
+    <div className={classNames(styles.scrollArea)}>
       <div>
         <Toaster />
       </div>

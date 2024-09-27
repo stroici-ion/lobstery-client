@@ -10,8 +10,11 @@
     gap: 20px;
   }
 
-  @media (min-width: 767px) {
+  @media (min-width: 540px) {
     justify-content: center;
+  }
+
+  @media (min-width: 767px) {
     margin-top: 0px;
     gap: 40px;
   }
@@ -32,9 +35,14 @@
     align-items: center;
     display: flex;
     justify-content: center;
-    gap: 5px;
+    gap: 10px;
     color: $mainTextColor;
     position: relative;
+    padding: 0 20px;
+
+    span {
+      display: none;
+    }
     svg {
       height: 20px;
       path {
@@ -42,10 +50,16 @@
         fill: $mainTextColor;
       }
     }
+    @media (min-width: 450px) {
+      padding: 0;
+      span {
+        display: inline;
+      }
+    }
     @media (min-width: 768px) {
+      gap: 10px;
       font-size: 14px;
       height: 35px;
-      gap: 10px;
     }
     &:hover {
       color: $mainTextColorHover;
@@ -65,7 +79,7 @@
       &::before {
         content: '';
         position: absolute;
-        width: 30px;
+        width: 90%;
         height: 2px;
         bottom: 0;
         background-color: $themeColor;

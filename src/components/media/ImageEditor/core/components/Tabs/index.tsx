@@ -13,17 +13,30 @@ interface ITabs {
 const Tabs: React.FC<ITabs> = ({ tab, setTab }) => {
   return (
     <div className={styles.tabs}>
-      <button className={classNames(styles.tabs__tab, tab === EnumTabs.crop && styles.active)} onClick={() => setTab(EnumTabs.crop)}>
-        <CropSvg /> Crop
+      <button
+        className={classNames(styles.tabs__tab, tab === EnumTabs.crop && styles.active)}
+        onClick={() => setTab(EnumTabs.crop)}
+      >
+        <CropSvg /> <span>Crop</span>
       </button>
-      <button className={classNames(styles.tabs__tab, tab === EnumTabs.adjustment && styles.active)} onClick={() => setTab(EnumTabs.adjustment)}>
-        <AdjustmentSvg /> Adjustment
+      <button
+        className={classNames(styles.tabs__tab, tab === EnumTabs.adjustment && styles.active)}
+        onClick={() => setTab(EnumTabs.adjustment)}
+      >
+        <AdjustmentSvg /> <span>Adjustment</span>
       </button>
-      <button className={classNames(styles.tabs__tab, tab === EnumTabs.filter && styles.active)} onClick={() => setTab(EnumTabs.filter)}>
-        <FilterSvg /> Filter
+      <button
+        className={classNames(styles.tabs__tab, tab === EnumTabs.filter && styles.active)}
+        onClick={() => setTab(EnumTabs.filter)}
+      >
+        <FilterSvg /> <span>Filter</span>
       </button>
-      <button className={classNames(styles.tabs__tab, tab === EnumTabs.markup && styles.active)} onClick={() => setTab(EnumTabs.markup)}>
-        <MarkupSvg /> Markup
+      <button
+        className={classNames(styles.tabs__tab, tab === EnumTabs.markup && styles.active)}
+        onClick={() => setTab(EnumTabs.markup)}
+      >
+        <MarkupSvg />
+        <span>Markup</span>
       </button>
     </div>
   );

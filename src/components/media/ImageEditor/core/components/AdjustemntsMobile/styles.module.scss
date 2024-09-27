@@ -1,0 +1,60 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/mixins.scss';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+
+  &__row {
+    margin-top: 10px;
+    flex: 1 1 auto;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__slider {
+    display: none;
+    margin: 0 10px;
+    &.active {
+      display: block;
+    }
+  }
+
+  &__button {
+    position: relative;
+    padding: 8px;
+    &:last-child {
+      padding-right: 20px;
+    }
+    &:first-child {
+      padding-left: 20px;
+    }
+    flex: 0 0 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 12px;
+    svg {
+      width: 18px;
+      height: 18px;
+      @include svgcolor($panelTextColor);
+    }
+    &.active {
+      svg {
+        @include svgcolor($panelTextColorActive);
+      }
+      &::before {
+        border-radius: 10px;
+        content: '';
+        z-index: -1;
+        position: absolute;
+        width: 80px;
+        height: 100%;
+        background-color: $panelColorHover;
+      }
+    }
+  }
+}

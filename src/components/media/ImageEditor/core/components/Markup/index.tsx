@@ -61,6 +61,8 @@ const Markup: React.FC<IMarkup> = ({
   const isDrawing = useRef<boolean>(false);
   const lines = useRef<IMarkupLine[]>([]);
   const previewLine = useRef<IPosition[]>([]);
+  const prevPoint = useRef<IPosition>({ x: 0, y: 0 });
+  const touchPrevPoint = useRef<IPosition>({ x: 0, y: 0 });
 
   let imageCanvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   let canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -175,8 +177,6 @@ const Markup: React.FC<IMarkup> = ({
     mouseDown(previewCanvasCtxRef.current, cursor, prevPoint.current, previewLine);
   };
 
-  const prevPoint = useRef<IPosition>({ x: 0, y: 0 });
-
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isDrawing.current || !activeBrush) return;
 
@@ -210,6 +210,51 @@ const Markup: React.FC<IMarkup> = ({
       cropStep
     );
     addMarkupStateToHistory();
+  };
+
+  const onTouchEnd = () => {
+    if (!isDrawing.current) return;
+    isDrawing.current = false;
+    if (!previewCanvasCtxRef.current || !canvasCtxRef.current || !activeBrush) return;
+
+    endDrawing(
+      previewCanvasCtxRef.current,
+      canvasCtxRef.current,
+      touchPrevPoint.current,
+      previewLine,
+      lines.current,
+      activeBrush,
+      cropStep
+    );
+    addMarkupStateToHistory();
+  };
+
+  const onTouchDown = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!activeBrush) return;
+    if (!previewCanvasCtxRef.current) return;
+
+    const cursor: IPosition = {
+      x: (e.touches[0].clientX - parentPosition.current.x) * dpr,
+      y: (e.touches[0].clientY - parentPosition.current.y) * dpr,
+    };
+    isDrawing.current = true;
+
+    mouseDown(previewCanvasCtxRef.current, cursor, prevPoint.current, previewLine);
+  };
+
+  const onTouchMoove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isDrawing.current || !activeBrush) return;
+
+    if (!previewCanvasCtxRef.current) return;
+
+    const cursor: IPosition = {
+      x: (e.touches[0].clientX - parentPosition.current.x) * dpr,
+      y: (e.touches[0].clientY - parentPosition.current.y) * dpr,
+    };
+    touchPrevPoint.current.x = cursor.x;
+    touchPrevPoint.current.y = cursor.y;
+
+    mouseMove(previewCanvasCtxRef.current, cursor, prevPoint.current, previewLine.current, activeBrush);
   };
 
   const setActiveBrushCallback = useCallback((brush: IMarkupBrush) => {
@@ -287,6 +332,9 @@ const Markup: React.FC<IMarkup> = ({
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseLeave={handleEndDrawing}
+        onTouchStart={onTouchDown}
+        onTouchMove={onTouchMoove}
+        onTouchEnd={onTouchEnd}
         onMouseUp={handleEndDrawing}
         onClick={handleMouseClick}
       >
