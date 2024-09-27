@@ -1,4 +1,4 @@
-import { iEBSB, iEMSS } from '../../../../../../consts';
+import { iEBSB, iEMSS } from '../../../../../../config';
 import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
 import { resetShape } from '../resizeCrop';
 

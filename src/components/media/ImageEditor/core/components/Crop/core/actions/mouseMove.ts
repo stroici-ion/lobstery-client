@@ -5,7 +5,7 @@ import { resizeImage } from '../calculations/resizeImage/resizeImage';
 import { resizeCrop } from '../calculations/resizeCrop/resizeCrop';
 import { EnumMoveTypes } from '../../../../types/enumerations';
 import { changeAngle } from './changeAngle';
-import { dpr } from '../../../../consts';
+import { dpr } from '../../../../config';
 
 export const mouseMoove = (
   cursor: IPosition,

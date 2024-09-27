@@ -1,5 +1,5 @@
 import { degrees_to_radians } from '../../../../../calculationFunctions/converters';
-import { iESBAD } from '../../../../../consts';
+import { iESBAD } from '../../../../../config';
 import { IBorders, IImageShape, IPosition } from '../../../../../types/interfaces';
 import { adjustShapePostion } from '../../../../../utils/calc';
 

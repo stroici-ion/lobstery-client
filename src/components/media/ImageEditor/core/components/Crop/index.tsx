@@ -34,7 +34,7 @@ import AspectRatiosPanel from '../AspectRatiosPanel';
 import { mouseUp } from './core/actions/mouseUp';
 import { rotate } from './core/actions/rotate';
 import styles from './styles.module.scss';
-import { dpr } from '../../consts';
+import { dpr } from '../../config';
 
 interface ICrop {
   zoomTrigger: number;

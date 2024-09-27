@@ -14,7 +14,7 @@ import { canvasDrawImage } from '../Crop/core/draw/drawImage';
 import { filtersList } from '../FiltersList/filtersList';
 import FiltersAside from '../FiltersAside';
 import styles from './styles.module.scss';
-import { dpr } from '../../consts';
+import { dpr } from '../../config';
 
 interface IFilter {
   optimizedImageData: ImageData;

@@ -1,7 +1,7 @@
 import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
 import { EnumMoveTypes } from '../../../../../../types/enumerations';
 import { resetShape } from '../resizeCrop';
-import { iEBSLR, iEMSS } from '../../../../../../consts';
+import { iEBSLR, iEMSS } from '../../../../../../config';
 
 export const resizeLeft = (
   moveType: EnumMoveTypes,

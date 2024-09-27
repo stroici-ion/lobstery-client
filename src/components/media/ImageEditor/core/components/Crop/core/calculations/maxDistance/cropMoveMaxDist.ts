@@ -13,7 +13,7 @@ import { resizeLeftOverView } from '../resizeCrop/directions/left';
 import { EnumMoveTypes } from '../../../../../types/enumerations';
 import { resizeTopOverView } from '../resizeCrop/directions/top';
 import { getRotatedShape } from '../position/getRotatedShape';
-import { iEBSB, iEBSLR, iEBST } from '../../../../../consts';
+import { iEBSB, iEBSLR, iEBST } from '../../../../../config';
 import { getDistanceToCenter } from './distToCenter';
 
 export const getCropMaxDistanceToBorders = (crop: ICropShape, parentSize: { width: number; height: number }) => {

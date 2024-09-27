@@ -1,5 +1,5 @@
 import { getRotatedShape } from '../components/Crop/core/calculations/position/getRotatedShape';
-import { iEBSB, iEBSLR, iEBST, iESIPBS } from '../consts';
+import { iEBSB, iEBSLR, iEBST, iESIPBS } from '../config';
 import { ICropHistory, IEditorStep } from '../types/interfaces';
 import { r } from '../utils/calc';
 

@@ -1,4 +1,4 @@
-import { dpr } from '../../../../consts';
+import { dpr } from '../../../../config';
 import { IEditorStep } from '../../../../types/interfaces';
 
 export const initailPostitionLoad = (

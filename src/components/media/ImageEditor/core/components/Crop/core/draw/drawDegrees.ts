@@ -1,4 +1,4 @@
-import { dpr } from '../../../../consts';
+import { dpr } from '../../../../config';
 
 export const canvasDrawDegrees = (ctx: CanvasRenderingContext2D, angle: number, color: string) => {
   const gap = 15 * dpr;

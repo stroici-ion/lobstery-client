@@ -1,7 +1,7 @@
 import { updateStartPosition } from '../../resetFunctions/updateStartPosition';
 import { adjustShapePostion } from '../../../../../utils/calc';
 import { IEditorStep } from '../../../../../types/interfaces';
-import { iEBSB, iEBSLR, iEBST } from '../../../../../consts';
+import { iEBSB, iEBSLR, iEBST } from '../../../../../config';
 
 const getInitialPosition = (cropStep: IEditorStep) => {
   const parentSize = cropStep.parentSize;

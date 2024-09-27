@@ -1,7 +1,7 @@
 import { ICropShape, IDimension, IImageShape, IPosition } from '../../../../../types/interfaces';
 import { getDistanceToRotatedAxis } from '../../../../../calculationFunctions/distances';
 import { getDistanceToCenter } from '../maxDistance/distToCenter';
-import { iEBSB, iEBSLR, iEBST } from '../../../../../consts';
+import { iEBSB, iEBSLR, iEBST } from '../../../../../config';
 
 export const getFillParentPosition = (O: IPosition, crop: ICropShape, image: IImageShape, parentSize: IDimension) => {
   //Calculating new selection position/size

@@ -25,7 +25,7 @@ import { mouseMove } from './core/actions/mouseMove';
 import { mouseDown } from './core/actions/mouseDown';
 import { eraseAll } from './core/actions/eraseAll';
 import styles from './styles.module.scss';
-import { dpr } from '../../consts';
+import { dpr } from '../../config';
 
 interface IMarkup {
   canvasAsImage?: HTMLCanvasElement;

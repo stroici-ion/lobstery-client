@@ -1,7 +1,7 @@
 import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
 import { degrees_to_radians } from '../../../../calculationFunctions/converters';
 import { IEditorStep, IShape } from '../../../../types/interfaces';
-import { dpr, iECBS, iECCS } from '../../../../consts';
+import { dpr, iECBS, iECCS } from '../../../../config';
 
 export const canvasDrawCrop = (
   cropStep: IEditorStep,

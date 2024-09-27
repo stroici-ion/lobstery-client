@@ -1,6 +1,6 @@
 import { IMarkupBrush, IPosition } from '../../../../types/interfaces';
 import { EnumMarkupBrushType } from '../../../../types/enumerations';
-import { iEML } from '../../../../consts';
+import { iEML } from '../../../../config';
 
 export const mouseMove = (
   ctx: CanvasRenderingContext2D,

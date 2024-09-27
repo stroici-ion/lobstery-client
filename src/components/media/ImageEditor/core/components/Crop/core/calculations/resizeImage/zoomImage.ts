@@ -9,7 +9,7 @@ import { getImageLimits } from '../maxDistance/cropMoveMaxDist';
 import { adjustShapePostion } from '../../../../../utils/calc';
 import { TZoomProperties } from '../../../../../types/types';
 import { zoomOut } from '../resizeCrop/directions/zoom';
-import { iEZPS } from '../../../../../consts';
+import { iEZPS } from '../../../../../config';
 
 export const zoomImage = (
   step: number,

@@ -10,7 +10,7 @@ import { EnumMoveTypes } from '../../../../../../types/enumerations';
 import { getDistanceToCenter } from '../../maxDistance/distToCenter';
 import { getRotatedShape } from '../../position/getRotatedShape';
 import { TZoomProperties } from '../../../../../../types/types';
-import { iEZPS } from '../../../../../../consts';
+import { iEZPS } from '../../../../../../config';
 
 export const zoomOut = (
   crop: ICropShape,
