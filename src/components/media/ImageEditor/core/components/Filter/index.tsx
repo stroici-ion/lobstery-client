@@ -371,20 +371,18 @@ const Filter: React.FC<IFilter> = ({
         <canvas ref={adjustedImageCanvasRef} style={{ visibility: 'hidden' }} className={styles.canvas} />
       </div>
       <div className={styles.root__aside}>
-        <div className={styles.root__scrollArea}>
-          {previewFilterData && (
-            <FiltersAside
-              imageData={previewFilterData}
-              filtersList={filtersList}
-              initialValue={0}
-              value={filterValue}
-              setValue={setFilterValueCallback}
-              filterId={filterId}
-              setFilterId={setFilterIdCallback}
-              addToHisotry={addFilterStateToHistoryCallback}
-            />
-          )}
-        </div>
+        {previewFilterData && (
+          <FiltersAside
+            imageData={previewFilterData}
+            filtersList={filtersList}
+            initialValue={0}
+            value={filterValue}
+            setValue={setFilterValueCallback}
+            filterId={filterId}
+            setFilterId={setFilterIdCallback}
+            addToHisotry={addFilterStateToHistoryCallback}
+          />
+        )}
       </div>
     </div>
   );

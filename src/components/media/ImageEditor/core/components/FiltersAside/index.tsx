@@ -4,6 +4,8 @@ import { IFilterListItem } from '../../types/interfaces';
 import FilterPreview from '../FilterPreview';
 import styles from './styles.module.scss';
 import Slider from '../../../../../UI/Slider';
+import ScrollArea from '../../../../../UI/ScrollArea';
+import ScrollAreaHorizontal from '../../../../../UI/ScrollAreaHorizontal';
 
 interface IFiltersAside {
   filtersList: IFilterListItem[];
@@ -66,21 +68,23 @@ const FiltersAside: React.FC<IFiltersAside> = ({
               onMouseUp={addToHisotry}
             />
           </div>
-          <div className={styles.root__row}>
-            {filtersList.map((filter) => (
-              <div className={styles.root__filter} key={filter.id}>
-                <FilterPreview
-                  setActiveFilter={setActiveFilter}
-                  isActive={filter.id === filterId}
-                  filter={filter}
-                  imageData={imageData}
-                />
-              </div>
-            ))}
-          </div>
+          <ScrollAreaHorizontal>
+            <div className={styles.root__row}>
+              {filtersList.map((filter) => (
+                <div className={styles.root__filter} key={filter.id}>
+                  <FilterPreview
+                    setActiveFilter={setActiveFilter}
+                    isActive={filter.id === filterId}
+                    filter={filter}
+                    imageData={imageData}
+                  />
+                </div>
+              ))}
+            </div>
+          </ScrollAreaHorizontal>
         </>
       ) : (
-        <>
+        <ScrollArea>
           <div className={styles.root__row}>
             {filtersList.map(
               (filter, index) =>
@@ -125,7 +129,7 @@ const FiltersAside: React.FC<IFiltersAside> = ({
                 )
             )}
           </div>
-        </>
+        </ScrollArea>
       )}
     </div>
   );

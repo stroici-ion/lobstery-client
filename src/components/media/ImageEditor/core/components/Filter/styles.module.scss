@@ -4,7 +4,13 @@
 .root {
   flex: 1 1 auto;
   display: flex;
+  overflow: hidden;
   position: relative;
+  flex-direction: column;
+
+  @media (min-width: 1200px) {
+    flex-direction: row;
+  }
 
   &__body {
     flex: 1 1 auto;
@@ -13,19 +19,14 @@
   }
 
   &__aside {
-    background-color: $panelColor;
-    border-radius: 20px;
-    width: 420px;
-    padding: 20px;
-  }
-
-  &__scrollArea {
-    height: 100%;
-    @include scrollBar;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 5px 0;
+    flex: 0 0 200px;
+    @media (min-width: 1200px) {
+      background-color: $panelColor;
+      border-radius: 20px;
+      width: 420px;
+      flex: 0 0 420px;
+      padding: 20px;
+    }
   }
 }
 .canvas {

@@ -7,10 +7,15 @@
   position: relative;
   cursor: pointer;
   &__preview {
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
     margin-bottom: 5px;
     border-radius: 6px;
+
+    @media (min-width: 1200px) {
+      width: 100px;
+      height: 100px;
+    }
   }
 
   &__active {
@@ -35,15 +40,23 @@
     .filter__preview {
       margin: 5px;
       margin-bottom: 10px;
-      width: 90px;
-      height: 90px;
+      width: 50px;
+      height: 50px;
+      @media (min-width: 1200px) {
+        width: 90px;
+        height: 90px;
+      }
     }
   }
 
   &__title {
     text-align: center;
     color: $panelTextColor;
-    font-size: 14px;
+    font-size: 12px;
+
+    @media (min-width: 1200px) {
+      font-size: 14px;
+    }
   }
 
   &.active {

@@ -4,6 +4,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 0 10px;
+    @media (min-width: 1200px) {
+      padding: 0;
+    }
   }
   &__icon {
     width: 20px;
@@ -26,9 +30,16 @@
   }
   &__title {
     flex: 1 1 auto;
+    font-size: 14px;
+    @media (min-width: 1200px) {
+      margin-bottom: 16px;
+    }
   }
   &__value {
-    font-size: 14px;
+    font-size: 12px;
+    @media (min-width: 1200px) {
+      margin-bottom: 14px;
+    }
   }
 }
 
@@ -46,7 +57,10 @@
     transform: translate(0, -50%);
     right: 0;
     left: 0;
-    height: 5px;
+    height: 3px;
+    @media (min-width: 1200px) {
+      height: 5px;
+    }
   }
 
   &__control {
@@ -54,47 +68,61 @@
     top: 50%;
     left: 50%;
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     background-color: transparentize(#578b2a, 0.5);
     border-radius: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    @media (min-width: 1200px) {
+      width: 20px;
+      height: 20px;
+    }
     &:hover {
       & > div {
-        width: 13px;
-        height: 13px;
+        width: 11px;
+        height: 11px;
       }
     }
   }
   &__controlPoint {
     transition: 0.2s;
     border-radius: 50px;
-    width: 11px;
-    height: 11px;
+    width: 8px;
+    height: 8px;
     background-color: #578b2a;
+    @media (min-width: 1200px) {
+      width: 11px;
+      height: 11px;
+    }
   }
 
   &__left {
     position: absolute;
-    height: 5px;
     width: 0px;
     top: 50%;
     right: 0%;
     background-color: #578b2a;
     transform: translate(-100%, -50%);
     border-radius: 5px;
+    height: 3px;
+    @media (min-width: 1200px) {
+      height: 5px;
+    }
   }
   &__right {
     position: absolute;
-    height: 5px;
     width: 0px;
     left: 0%;
     top: 50%;
     background-color: #578b2a;
     border-radius: 5px;
     transform: translate(0, -50%);
+    height: 3px;
+    @media (min-width: 1200px) {
+      height: 5px;
+    }
   }
 }
