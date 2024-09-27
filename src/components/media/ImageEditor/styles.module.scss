@@ -40,13 +40,13 @@
 }
 
 .bottom {
-  padding: 5px;
+  padding: 10px 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
   @media (min-width: 480px) {
-    padding: 5px 25px;
+    padding: 10px 25px;
   }
   @media (min-width: 867px) {
     display: none;

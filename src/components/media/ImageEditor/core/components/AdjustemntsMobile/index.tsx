@@ -21,11 +21,10 @@ const AdjustemntsMobile: React.FC<IAdjustemntsMobile> = ({ controlList }) => {
   return (
     <div className={styles.root}>
       {controlList.map((panel) =>
-        panel.sliders.map((slider) => (
-          <div className={classNames(styles.root__slider, activeSlider?.id === slider.id && styles.active)}>
-            <Slider {...slider} title={' '} icon={undefined} />
-          </div>
-        ))
+        panel.sliders.map(
+          (slider) =>
+            activeSlider?.id === slider.id && <Slider {...slider} key={slider.title} title={' '} icon={undefined} />
+        )
       )}
       <ScrollAreaHorizontal>
         <div className={styles.root__row}>

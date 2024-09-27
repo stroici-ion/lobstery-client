@@ -14,10 +14,10 @@
   }
 
   &__slider {
-    display: none;
+    visibility: collapse;
     margin: 0 10px;
     &.active {
-      display: block;
+      visibility: visible;
     }
   }
 

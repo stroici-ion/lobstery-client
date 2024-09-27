@@ -4,15 +4,19 @@
   &__row {
     justify-content: space-between;
     display: flex;
-    gap: 10px;
-
+    gap: 15px;
     @media (min-width: 1200px) {
       flex-wrap: wrap;
     }
+    &:last-child {
+      padding-right: 20px;
+    }
+    &:first-child {
+      padding-left: 20px;
+    }
   }
   &__filter {
-    width: 100px;
-    height: 100px;
+    width: 60px;
     @media (min-width: 1200px) {
       width: auto;
       height: auto;
