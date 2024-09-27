@@ -1,23 +1,22 @@
+import { getMetadata, getThumbnails } from 'video-metadata-thumbnails';
 import React, { Ref, useCallback, useRef, useState } from 'react';
 import { getImageSize } from 'react-image-size';
 import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
-
-import { useAppDispatch } from '../../../../redux';
-import styles from './styles.module.scss';
-import { AddImageVideoSvg, CloseSvg, EditSvg, TagPeopleSvg } from '../../../../icons';
 import classNames from 'classnames';
-import ImagesPreview from '../../../ImagesPreview';
-import { getExtension, isVideo } from '../../../../utils/filesTypes';
-import { getMetadata, getThumbnails } from 'video-metadata-thumbnails';
-import { IImage } from '../../../../models/IImage';
+
 import { addImages, removeImage, setActiveImageId } from '../../../../redux/images/slice';
+import { AddImageVideoSvg, CloseSvg, EditSvg, TagPeopleSvg } from '../../../../icons';
 import { selectActiveImage, selectImages } from '../../../../redux/images/selectors';
-import ScrollArea from '../../../UI/ScrollArea';
+import { getExtension, isVideo } from '../../../../utils/filesTypes';
+import ImageEditor2 from '../../../media/ImageEditor';
 import DeleteSvg from '../../../../icons/DeleteSvg';
-import Modal from '../../../UI/Modal';
-import ImageEditor2 from '../../../media_tools/ImageEditor';
+import { useAppDispatch } from '../../../../redux';
+import { IImage } from '../../../../models/IImage';
+import ImagesPreview from '../../../ImagesPreview';
 import ContextMenu from '../../../UI/ContextMenu';
+import ScrollArea from '../../../UI/ScrollArea';
+import styles from './styles.module.scss';
 
 const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();

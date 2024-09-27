@@ -5,6 +5,10 @@
   flex: 1 1 auto;
   display: flex;
   position: relative;
+  flex-direction: column;
+  @media (min-width: 1200px) {
+    flex-direction: row;
+  }
 
   &__body {
     flex: 1 1 auto;
@@ -13,10 +17,13 @@
   }
 
   &__aside {
-    background-color: $panelColor;
-    border-radius: 20px;
-    width: 420px;
-    padding: 20px;
+    padding: 10px 30px;
+    @media (min-width: 1200px) {
+      border-radius: 20px;
+      flex: 0 0 420px;
+      width: 420px;
+      background-color: $panelColor;
+    }
   }
 
   &__scrollArea {

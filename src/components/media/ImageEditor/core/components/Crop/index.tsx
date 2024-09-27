@@ -147,7 +147,7 @@ const Crop: React.FC<ICrop> = ({
   }, []);
 
   const onWindowResize = () => {
-    if (window.innerWidth < 800) reininitializePosition.current = true;
+    reininitializePosition.current = true;
     setCropInitialPosition();
     reininitializePosition.current = false;
   };

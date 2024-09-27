@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 
 import TagFriendsTab from './Core/TagFriendsTab';
 import FeelingTab from './Core/FeelingsTab';
 import PreviewTab from './Core/PreviewTab';
-import classNames from 'classnames';
 import ImagesTab from './Core/ImagesTab';
 import styles from './styles.module.scss';
 import Aside from './Core/Aside';
 import UploadProgress from './Core/UploadProgress';
 import TagsTab from './Core/TagsTab';
 import { CloseSvg } from '../../icons';
-import { useSelector } from 'react-redux';
-// import EditImagesForm from '../EditImagesForm';
 import TextTab from './Core/TextTab';
 import AudienceTab from './Core/AudienceTab';
 import { selectUserId } from '../../redux/auth/selectors';
@@ -20,9 +19,6 @@ import { useAppDispatch } from '../../redux';
 import { selectActiveImage } from '../../redux/images/selectors';
 import { setImages } from '../../redux/images/slice';
 import { selectActivePost } from '../../redux/posts/selectors';
-import { Outlet, useNavigate } from 'react-router-dom';
-import EditImages from '../media_tools/EditImages';
-import Modal from '../UI/Modal';
 
 interface IAddPostForm {
   onHide: () => void;
