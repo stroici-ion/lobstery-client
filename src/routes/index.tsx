@@ -16,7 +16,7 @@ import Posts from '../pages/Posts';
 import Games from '../pages/Games';
 import AddPostForm from '../components/AddPostForm';
 import PostDetail from '../pages/PostDetail';
-import EditImages from '../components/media_tools/EditImages';
+import EditImages from '../components/media/EditImages';
 
 export const authRoutes = [
   { path: LOGIN_ROUTE, element: <Auth /> },
