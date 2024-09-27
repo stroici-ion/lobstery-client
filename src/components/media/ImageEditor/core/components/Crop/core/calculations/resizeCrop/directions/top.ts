@@ -1,6 +1,6 @@
-import { iEBST, iEMSS } from "../../../../../../consts";
-import { IBorders, ICropShape, IDynamicShape, IPosition } from "../../../../../../types/interfaces";
-import { resetShape } from "../resizeCrop";
+import { iEBST, iEMSS } from '../../../../../../consts';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
+import { resetShape } from '../resizeCrop';
 
 export const resizeTop = (
   cursorDistance: IPosition,
@@ -57,9 +57,9 @@ export const resizeTopOverView = (progress: number, image: IDynamicShape, crop: 
   if (remainigDistanceX < imageBorders.top * helperAR) {
     const newDistance = (remainigDistanceX / 100) * progress;
 
-    const startDistX = crop.startPosition.width / (isCenter ? 2 : 1) + imageBorders[isLeft ? "left" : "right"];
+    const startDistX = crop.startPosition.width / (isCenter ? 2 : 1) + imageBorders[isLeft ? 'left' : 'right'];
 
-    const startDistOpositeX = imageBorders[isLeft ? "right" : "left"] + (isCenter ? crop.startPosition.width / 2 : 0);
+    const startDistOpositeX = imageBorders[isLeft ? 'right' : 'left'] + (isCenter ? crop.startPosition.width / 2 : 0);
 
     const diffPasive = (startDistOpositeX * newDistance) / startDistX;
     const diffX = isLeft ? newDistance : diffPasive;

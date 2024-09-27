@@ -2,7 +2,13 @@ import { IMarkupBrush, IPosition } from '../../../../types/interfaces';
 import { EnumMarkupBrushType } from '../../../../types/enumerations';
 import { iEML } from '../../../../consts';
 
-export const mouseMove = (ctx: CanvasRenderingContext2D, cursor: IPosition, prevPoint: IPosition, previewLine: IPosition[], brush: IMarkupBrush) => {
+export const mouseMove = (
+  ctx: CanvasRenderingContext2D,
+  cursor: IPosition,
+  prevPoint: IPosition,
+  previewLine: IPosition[],
+  brush: IMarkupBrush
+) => {
   if (!ctx) return;
   switch (brush.type) {
     case EnumMarkupBrushType.freeHand:
@@ -18,7 +24,12 @@ export const mouseMove = (ctx: CanvasRenderingContext2D, cursor: IPosition, prev
   }
 };
 
-const drawFreeHandLine = (ctx: CanvasRenderingContext2D, cursor: IPosition, prevPoint: IPosition, previewLine: IPosition[]) => {
+const drawFreeHandLine = (
+  ctx: CanvasRenderingContext2D,
+  cursor: IPosition,
+  prevPoint: IPosition,
+  previewLine: IPosition[]
+) => {
   const distanceX = cursor.x - prevPoint.x;
   const distanceY = cursor.y - prevPoint.y;
 

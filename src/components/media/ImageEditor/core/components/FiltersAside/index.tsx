@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { IFilterListItem } from '../../types/interfaces';
 import FilterPreview from '../FilterPreview';
@@ -28,6 +28,7 @@ const FiltersAside: React.FC<IFiltersAside> = ({
 }) => {
   const selectedFilterPosition = filtersList.find((f) => f.id === filterId)?.id || 0;
   const sliderPosition = selectedFilterPosition + 2 - (selectedFilterPosition % 3);
+  const [isMobilePanelVisible, setIsMobilePanelVisible] = useState(false);
 
   const setActiveFilter = (id: number) => {
     setFilterId(id);
@@ -37,12 +38,36 @@ const FiltersAside: React.FC<IFiltersAside> = ({
     setValue(value);
   };
 
+  const checkDeviceWidth = () => {
+    if (window.innerWidth < 1200) setIsMobilePanelVisible(true);
+    else setIsMobilePanelVisible(false);
+  };
+
+  useEffect(() => {
+    checkDeviceWidth();
+    window.addEventListener('resize', checkDeviceWidth);
+
+    return () => window.removeEventListener('resize', checkDeviceWidth);
+  }, []);
+
   return (
     <div className={styles.root}>
-      <div className={styles.root__row}>
-        {filtersList.map(
-          (filter, index) =>
-            index <= sliderPosition && (
+      {isMobilePanelVisible ? (
+        <>
+          <div className={styles.root__slider}>
+            <Slider
+              title='Intensity'
+              id={0}
+              value={value}
+              initialValue={initialValue}
+              minValue={0}
+              maxValue={100}
+              onChange={hanldeSliderOnChange}
+              onMouseUp={addToHisotry}
+            />
+          </div>
+          <div className={styles.root__row}>
+            {filtersList.map((filter) => (
               <div className={styles.root__filter} key={filter.id}>
                 <FilterPreview
                   setActiveFilter={setActiveFilter}
@@ -51,38 +76,57 @@ const FiltersAside: React.FC<IFiltersAside> = ({
                   imageData={imageData}
                 />
               </div>
-            )
-        )}
-      </div>
-      {!!filterId && (
-        <div className={styles.root__slider}>
-          <Slider
-            title='Intensity'
-            id={0}
-            value={value}
-            initialValue={initialValue}
-            minValue={0}
-            maxValue={100}
-            onChange={hanldeSliderOnChange}
-            onMouseUp={addToHisotry}
-          />
-        </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={styles.root__row}>
+            {filtersList.map(
+              (filter, index) =>
+                index <= sliderPosition && (
+                  <div className={styles.root__filter} key={filter.id}>
+                    <FilterPreview
+                      setActiveFilter={setActiveFilter}
+                      isActive={filter.id === filterId}
+                      filter={filter}
+                      imageData={imageData}
+                    />
+                  </div>
+                )
+            )}
+          </div>
+          {!!filterId && (
+            <div className={styles.root__slider}>
+              <Slider
+                title='Intensity'
+                id={0}
+                value={value}
+                initialValue={initialValue}
+                minValue={0}
+                maxValue={100}
+                onChange={hanldeSliderOnChange}
+                onMouseUp={addToHisotry}
+              />
+            </div>
+          )}
+          <div className={styles.root__row}>
+            {filtersList.map(
+              (filter, index) =>
+                index > sliderPosition && (
+                  <div className={styles.root__filter} key={filter.id}>
+                    <FilterPreview
+                      setActiveFilter={setActiveFilter}
+                      isActive={filter.id === filterId}
+                      filter={filter}
+                      imageData={imageData}
+                    />
+                  </div>
+                )
+            )}
+          </div>
+        </>
       )}
-      <div className={styles.root__row}>
-        {filtersList.map(
-          (filter, index) =>
-            index > sliderPosition && (
-              <div className={styles.root__filter} key={filter.id}>
-                <FilterPreview
-                  setActiveFilter={setActiveFilter}
-                  isActive={filter.id === filterId}
-                  filter={filter}
-                  imageData={imageData}
-                />
-              </div>
-            )
-        )}
-      </div>
     </div>
   );
 };

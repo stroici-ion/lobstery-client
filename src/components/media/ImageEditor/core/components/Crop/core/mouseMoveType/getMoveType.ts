@@ -1,6 +1,6 @@
 import { IEditorStep, IPosition } from '../../../../types/interfaces';
-import { iEBSB, iEBSLR, iEBST, iESBS } from '../../../../consts';
 import { EnumMoveTypes } from '../../../../types/enumerations';
+import { iEBSB, iEBSLR, iEBST, iESBS } from '../../../../consts';
 
 export const getMoveType = (c: IPosition, cropStep: IEditorStep) => {
   const dpr = window.devicePixelRatio;

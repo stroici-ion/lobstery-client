@@ -1,5 +1,5 @@
-import { iEBSB, iEMAR, iEMSS, iESBAD } from "../../../../../../consts";
-import { IBorders, ICropShape, IDynamicShape, IPosition } from "../../../../../../types/interfaces";
+import { iEBSB, iEMAR, iEMSS, iESBAD } from '../../../../../../consts';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
 
 export const resizeBottomFree = (
   cursorDistance: IPosition,

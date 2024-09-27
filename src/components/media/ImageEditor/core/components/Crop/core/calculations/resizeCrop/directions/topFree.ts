@@ -1,5 +1,5 @@
-import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
 import { iEBST, iEMAR, iEMSS, iESBAD } from '../../../../../../consts';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
 
 export const resizeTopFree = (
   cursorDistance: IPosition,
@@ -57,7 +57,12 @@ export const resizeTopFree = (
   }
 };
 
-export const resizeTopFreeOverView = (progress: number, image: IDynamicShape, crop: ICropShape, viewBorders: IBorders) => {
+export const resizeTopFreeOverView = (
+  progress: number,
+  image: IDynamicShape,
+  crop: ICropShape,
+  viewBorders: IBorders
+) => {
   const remainigDistance = crop.startPosition.y - image.startPosition.y - viewBorders.top * 2;
   const cropStretchDist = viewBorders.top * -1;
   const cropY = crop.startPosition.y + cropStretchDist;

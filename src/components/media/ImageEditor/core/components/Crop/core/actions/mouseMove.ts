@@ -83,7 +83,13 @@ export const mouseMoove = (
       if (resizedCrop.isImageChanged) {
         const newImage = resizedCrop.newImage;
         if (image.angle) {
-          const inscriptedImage = getInscriptedImage(newImage, image.angle, image.aspectRatio, image.outerImage.ratio, Origin);
+          const inscriptedImage = getInscriptedImage(
+            newImage,
+            image.angle,
+            image.aspectRatio,
+            image.outerImage.ratio,
+            Origin
+          );
 
           image.x = inscriptedImage.x;
           image.y = inscriptedImage.y;

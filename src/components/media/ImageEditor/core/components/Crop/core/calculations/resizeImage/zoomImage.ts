@@ -1,15 +1,15 @@
-import { IBorders, ICropShape, IDynamicShape, IImageShape, IPosition, IShape } from "../../../../../types/interfaces";
-import { resizeBottomOverView } from "../resizeCrop/directions/bottom";
-import { resizeRightOverView } from "../resizeCrop/directions/right";
-import { getInscriptedImage } from "../position/getInscriptedImage";
-import { resizeLeftOverView } from "../resizeCrop/directions/left";
-import { EnumMoveTypes } from "../../../../../types/enumerations";
-import { resizeTopOverView } from "../resizeCrop/directions/top";
-import { getImageLimits } from "../maxDistance/cropMoveMaxDist";
-import { adjustShapePostion } from "../../../../../utils/calc";
-import { TZoomProperties } from "../../../../../types/types";
-import { zoomOut } from "../resizeCrop/directions/zoom";
-import { iEZPS } from "../../../../../consts";
+import { IBorders, ICropShape, IDynamicShape, IImageShape, IPosition, IShape } from '../../../../../types/interfaces';
+import { resizeBottomOverView } from '../resizeCrop/directions/bottom';
+import { resizeRightOverView } from '../resizeCrop/directions/right';
+import { getInscriptedImage } from '../position/getInscriptedImage';
+import { resizeLeftOverView } from '../resizeCrop/directions/left';
+import { EnumMoveTypes } from '../../../../../types/enumerations';
+import { resizeTopOverView } from '../resizeCrop/directions/top';
+import { getImageLimits } from '../maxDistance/cropMoveMaxDist';
+import { adjustShapePostion } from '../../../../../utils/calc';
+import { TZoomProperties } from '../../../../../types/types';
+import { zoomOut } from '../resizeCrop/directions/zoom';
+import { iEZPS } from '../../../../../consts';
 
 export const zoomImage = (
   step: number,

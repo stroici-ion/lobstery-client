@@ -1,6 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { IAdjustments, ICropHistory, IEditorStep, IFilterHistory, IMarkupBrush, IMarkupLine, IMarkupTool, IPosition } from '../../types/interfaces';
+import {
+  IAdjustments,
+  ICropHistory,
+  IEditorStep,
+  IFilterHistory,
+  IMarkupBrush,
+  IMarkupLine,
+  IMarkupTool,
+  IPosition,
+} from '../../types/interfaces';
 import { loadHistoryStepPosition } from '../../historyFunctions/loadHistoryStepPosition';
 import { initialCanvasContextLoad } from './core/actions/initialCanvasContextLoad';
 import { initailPostitionLoad } from './core/actions/initailPostitionLoad';
@@ -72,10 +81,24 @@ const Markup: React.FC<IMarkup> = ({
   };
 
   const setCropInitialPosition = () => {
-    if (!imageRef.current || !imageCanvasRef.current || !canvasRef.current || !previewCanvasRef.current || !parentDivRef.current) return;
+    if (
+      !imageRef.current ||
+      !imageCanvasRef.current ||
+      !canvasRef.current ||
+      !previewCanvasRef.current ||
+      !parentDivRef.current
+    )
+      return;
 
     //Get initail position determinated by div parent (Origin, width, height) that is changed when window is resized
-    initailPostitionLoad(cropStep, imageRef.current, imageCanvasRef.current, canvasRef.current, previewCanvasRef.current, parentDivRef.current);
+    initailPostitionLoad(
+      cropStep,
+      imageRef.current,
+      imageCanvasRef.current,
+      canvasRef.current,
+      previewCanvasRef.current,
+      parentDivRef.current
+    );
 
     //Get initail styles and context of canvas
     initialCanvasContextLoad(
@@ -177,7 +200,15 @@ const Markup: React.FC<IMarkup> = ({
       y: (e.clientY - parentPosition.current.y) * dpr,
     };
 
-    endDrawing(previewCanvasCtxRef.current, canvasCtxRef.current, cursor, previewLine, lines.current, activeBrush, cropStep);
+    endDrawing(
+      previewCanvasCtxRef.current,
+      canvasCtxRef.current,
+      cursor,
+      previewLine,
+      lines.current,
+      activeBrush,
+      cropStep
+    );
     addMarkupStateToHistory();
   };
 

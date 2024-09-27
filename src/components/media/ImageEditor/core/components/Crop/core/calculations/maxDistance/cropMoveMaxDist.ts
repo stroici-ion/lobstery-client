@@ -37,7 +37,13 @@ export const getImageLimits = (crop: IShape, image: IShape) => {
   return max;
 };
 
-export const getRotatedImageLimits = (crop: ICropShape, image: IImageShape, O: IPosition, moveType: EnumMoveTypes, viewBorders: IBorders) => {
+export const getRotatedImageLimits = (
+  crop: ICropShape,
+  image: IImageShape,
+  O: IPosition,
+  moveType: EnumMoveTypes,
+  viewBorders: IBorders
+) => {
   const newCrop = {
     ...crop,
     startPosition: {
@@ -170,7 +176,8 @@ export const getRotatedImageLimits = (crop: ICropShape, image: IImageShape, O: I
         let availableDirection = getAvailableResizeDirection(image.angle, dist);
 
         if (moveType === EnumMoveTypes.leftTop || moveType === EnumMoveTypes.leftBottom) {
-          if (availableDirection !== moveType && availableDirection !== EnumMoveTypes.default) availableDirection = undefined;
+          if (availableDirection !== moveType && availableDirection !== EnumMoveTypes.default)
+            availableDirection = undefined;
         } else
           switch (availableDirection) {
             case EnumMoveTypes.leftTop:
@@ -206,7 +213,8 @@ export const getRotatedImageLimits = (crop: ICropShape, image: IImageShape, O: I
 
         let availableDirection = getAvailableResizeDirection(image.angle, dist);
         if (moveType === EnumMoveTypes.rightTop || moveType === EnumMoveTypes.rightBottom) {
-          if (availableDirection !== moveType && availableDirection !== EnumMoveTypes.default) availableDirection = undefined;
+          if (availableDirection !== moveType && availableDirection !== EnumMoveTypes.default)
+            availableDirection = undefined;
         } else
           switch (availableDirection) {
             case EnumMoveTypes.rightTop:

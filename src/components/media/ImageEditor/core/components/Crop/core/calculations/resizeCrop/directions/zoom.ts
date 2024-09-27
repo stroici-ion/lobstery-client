@@ -1,4 +1,8 @@
-import { calculateDiagonalLength, calculateHelperAngle, getCropRotatedDistToImage } from '../../maxDistance/cropRotatedDistToImage';
+import {
+  calculateDiagonalLength,
+  calculateHelperAngle,
+  getCropRotatedDistToImage,
+} from '../../maxDistance/cropRotatedDistToImage';
 import { ICropShape, IDynamicShape, IImageShape } from '../../../../../../types/interfaces';
 import { getImageLimits, getRotatedImageLimits } from '../../maxDistance/cropMoveMaxDist';
 import { degrees_to_radians } from '../../../../../../calculationFunctions/converters';
@@ -8,7 +12,11 @@ import { getRotatedShape } from '../../position/getRotatedShape';
 import { TZoomProperties } from '../../../../../../types/types';
 import { iEZPS } from '../../../../../../consts';
 
-export const zoomOut = (crop: ICropShape, image: IDynamicShape & { angle: number }, stepProperties: TZoomProperties) => {
+export const zoomOut = (
+  crop: ICropShape,
+  image: IDynamicShape & { angle: number },
+  stepProperties: TZoomProperties
+) => {
   const ar = image.startPosition.width / image.startPosition.height;
 
   const O = {
@@ -33,7 +41,9 @@ export const zoomOut = (crop: ICropShape, image: IDynamicShape & { angle: number
 
   const startImageDC = getDistanceToCenter(image.startPosition, O);
   const rotatedCrop = getRotatedShape(crop, image.angle);
-  const startImageLimits = image.angle ? getCropRotatedDistToImage(rotatedCrop, startImageDC) : getImageLimits(crop, image.startPosition);
+  const startImageLimits = image.angle
+    ? getCropRotatedDistToImage(rotatedCrop, startImageDC)
+    : getImageLimits(crop, image.startPosition);
 
   minX.type = EnumMoveTypes[startImageLimits.left < startImageLimits.right ? 'left' : 'right'];
   minX.value = startImageLimits[startImageLimits.left < startImageLimits.right ? 'left' : 'right'];
@@ -62,9 +72,12 @@ export const zoomOut = (crop: ICropShape, image: IDynamicShape & { angle: number
   image.x = O.x - image.width * relX;
   image.y = O.y - image.height * relY;
 
-  const imageLimits = image.angle ? getCropRotatedDistToImage(rotatedCrop, getDistanceToCenter(image, O)) : getImageLimits(crop, image);
+  const imageLimits = image.angle
+    ? getCropRotatedDistToImage(rotatedCrop, getDistanceToCenter(image, O))
+    : getImageLimits(crop, image);
 
-  const noIntersected = imageLimits.top >= 0 && imageLimits.right >= 0 && imageLimits.bottom >= 0 && imageLimits.left >= 0;
+  const noIntersected =
+    imageLimits.top >= 0 && imageLimits.right >= 0 && imageLimits.bottom >= 0 && imageLimits.left >= 0;
 
   if (!noIntersected) {
     if (image.angle) {

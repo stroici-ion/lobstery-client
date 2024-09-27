@@ -186,7 +186,13 @@ const Filter: React.FC<IFilter> = ({
       optimizedImageData.height
     );
 
-    getAdjustedImageData(optimizedImageData, adjustedImageData.current, historyAdjustmentState, oldSharpnessValue, sharpnessImageData);
+    getAdjustedImageData(
+      optimizedImageData,
+      adjustedImageData.current,
+      historyAdjustmentState,
+      oldSharpnessValue,
+      sharpnessImageData
+    );
 
     adjustedImageCtxRef.current.putImageData(adjustedImageData.current, 0, 0);
   };

@@ -1,6 +1,5 @@
 import { IPosition, IShape } from '../../../../../types/interfaces';
 import { adjustShapePostion } from '../../../../../utils/calc';
-import { getRotatedShape } from './getRotatedShape';
 
 export const adjustCropPosition = (crop: IShape, image: IShape, angle: number, Origin: IPosition) => {
   adjustShapePostion(crop);

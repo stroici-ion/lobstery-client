@@ -53,7 +53,12 @@ export const resizeLeftFree = (
   }
 };
 
-export const resizeLeftFreeOverView = (progress: number, image: IDynamicShape, crop: ICropShape, viewBorders: IBorders) => {
+export const resizeLeftFreeOverView = (
+  progress: number,
+  image: IDynamicShape,
+  crop: ICropShape,
+  viewBorders: IBorders
+) => {
   const remainigDistance = crop.startPosition.x - image.startPosition.x - viewBorders.left * 2;
   const cropStretchDist = viewBorders.left * -1;
   const cropX = crop.startPosition.x + cropStretchDist;

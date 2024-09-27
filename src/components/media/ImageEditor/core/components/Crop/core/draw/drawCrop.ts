@@ -1,7 +1,7 @@
-import { getDistanceToCenter } from "../calculations/maxDistance/distToCenter";
-import { degrees_to_radians } from "../../../../calculationFunctions/converters";
-import { IEditorStep, IShape } from "../../../../types/interfaces";
-import { dpr, iECBS, iECCS } from "../../../../consts";
+import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
+import { degrees_to_radians } from '../../../../calculationFunctions/converters';
+import { IEditorStep, IShape } from '../../../../types/interfaces';
+import { dpr, iECBS, iECCS } from '../../../../consts';
 
 export const canvasDrawCrop = (
   cropStep: IEditorStep,
@@ -115,7 +115,7 @@ export const canvasDrawCrop = (
       ctx.beginPath();
       ctx.lineWidth = 1;
       if (activeActions.isChangingAngle) ctx.setLineDash([10, 5]);
-      ctx.strokeStyle = "#ffffff55";
+      ctx.strokeStyle = '#ffffff55';
       drawGrid(activeActions.isChangingAngle);
       ctx.stroke();
       ctx.closePath();
@@ -123,7 +123,7 @@ export const canvasDrawCrop = (
       if (!activeActions.isChangingAngle) {
         ctx.beginPath();
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "#fff";
+        ctx.strokeStyle = '#fff';
         ctx.setLineDash([10, 5]);
         drawGrid(activeActions.isChangingAngle);
         ctx.stroke();
@@ -136,8 +136,8 @@ export const canvasDrawCrop = (
       const textCenter = { x: crop.x + crop.width / 2, y: crop.y + crop.height - 17 * dpr };
       ctx.fillStyle = `rgba(0,0,0,${1 - opacity})`;
       ctx.fillRect(crop.x + crop.width / 2 - 40 * dpr, crop.y + crop.height - 30 * dpr, 80 * dpr, 20 * dpr);
-      ctx.fillStyle = "#fff";
-      ctx.font = "18px Monospace";
+      ctx.fillStyle = '#fff';
+      ctx.font = '18px Monospace';
 
       if (imageSize.width > 999) textCenter.x -= 28 * dpr;
       else if (imageSize.width > 99) textCenter.x -= 22 * dpr;
@@ -147,7 +147,7 @@ export const canvasDrawCrop = (
 
     ctx.beginPath();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "#000";
+    ctx.strokeStyle = '#000';
 
     ctx.moveTo(crop.x - 0.5, crop.y - 0.5);
     ctx.lineTo(crop.x + crop.width + 0.5, crop.y - 0.5);
@@ -161,7 +161,7 @@ export const canvasDrawCrop = (
     // Left top
     ctx.beginPath();
     ctx.lineWidth = 4;
-    ctx.strokeStyle = "#000";
+    ctx.strokeStyle = '#000';
 
     // Left top
     ctx.moveTo(crop.x - 3, crop.y + iECCS);
