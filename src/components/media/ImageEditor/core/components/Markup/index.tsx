@@ -212,7 +212,9 @@ const Markup: React.FC<IMarkup> = ({
     addMarkupStateToHistory();
   };
 
-  const onTouchEnd = () => {
+  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!isDrawing.current) return;
     isDrawing.current = false;
     if (!previewCanvasCtxRef.current || !canvasCtxRef.current || !activeBrush) return;
@@ -230,6 +232,8 @@ const Markup: React.FC<IMarkup> = ({
   };
 
   const onTouchDown = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!activeBrush) return;
     if (!previewCanvasCtxRef.current) return;
 
