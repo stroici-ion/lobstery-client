@@ -14,18 +14,11 @@ import { useAppDispatch } from './redux';
 import { fetchAuthRefresh } from './redux/auth/asyncActions';
 import { fetchUserProfile } from './redux/profile/asyncActions';
 import styles from './App.module.scss';
-import { selectActiveImage } from './redux/images/selectors';
-import { selectImagesModalStatus, selectPostCreateModalStatus } from './redux/modals/selectors';
-import { setImagesModalStatus } from './redux/modals/slice';
 import { FetchStatusEnum } from './models/response/FetchStatus';
 import { setGuestStatus } from './redux/auth/slice';
-import AddPostForm from './components/AddPostForm';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
-  const activeImage = useSelector(selectActiveImage);
-  const imagesModalStatus = useSelector(selectImagesModalStatus);
-  const postCreateModalStatus = useSelector(selectPostCreateModalStatus);
 
   const authorizationStatus = useSelector(selectAuthStatus);
   const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
@@ -43,10 +36,6 @@ const App: React.FC = () => {
       }
   }, [isAuth]);
 
-  const handleImagesModalHide = () => {
-    dispatch(setImagesModalStatus(false));
-  };
-
   return (
     <div className={classNames(styles.scrollArea)}>
       <div>
@@ -62,22 +51,9 @@ const App: React.FC = () => {
               <Route key={route.path} path={route.path} element={route.element} />
             ))}
             {isAuth &&
-              privateRoutes.map((route) => (
-                <Route key={route.path} path={route.path} element={route.element}>
-                  {/* {route.children?.map(
-                    (route) =>
-                      route && (
-                        <Route key={route.path} path={route.path} element={route.element}>
-                          {route.children?.map(
-                            (route) => route && <Route key={route.path} path={route.path} element={route.element} />
-                          )}
-                        </Route>
-                      )
-                  )} */}
-                </Route>
-              ))}
+              privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
           </Route>
-          <Route path='*' element={<Navigate to={HOME_ROUTE} />} />
+          <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
         </Routes>
       </BrowserRouter>
     </div>

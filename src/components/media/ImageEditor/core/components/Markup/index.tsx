@@ -312,9 +312,9 @@ const Markup: React.FC<IMarkup> = ({
   };
 
   const onTounchMove = (e: TouchEvent) => {
-    if (parentDivRef.current && !parentDivRef.current.contains(e.targetTouches[0].target as Node)) {
-      e.preventDefault();
-    }
+    // if (parentDivRef.current && !parentDivRef.current.contains(e.targetTouches[0].target as Node)) {
+    e.preventDefault();
+    // }
   };
 
   useEffect(() => {
