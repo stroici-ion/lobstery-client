@@ -31,6 +31,7 @@ const AdjustemntsMobile: React.FC<IAdjustemntsMobile> = ({ controlList }) => {
           {controlList.map((panel) =>
             panel.sliders.map((slider) => (
               <button
+                key={slider.id}
                 className={classNames(styles.root__button, activeSliderId === slider.id && styles.active)}
                 onClick={() => setActiveSliderId(slider.id)}
               >

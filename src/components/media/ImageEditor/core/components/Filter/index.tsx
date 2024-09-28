@@ -368,7 +368,7 @@ const Filter: React.FC<IFilter> = ({
         <canvas ref={canvasRef} className={styles.canvas} />
         <canvas ref={markupCanvasRef} className={styles.canvas} />
         <canvas ref={canvasPrevieFilterRef} className={styles.canvas} hidden />
-        <canvas ref={adjustedImageCanvasRef} style={{ visibility: 'hidden' }} className={styles.canvas} />
+        <canvas ref={adjustedImageCanvasRef} hidden className={styles.canvas} />
       </div>
       <div className={styles.root__aside}>
         {previewFilterData && (

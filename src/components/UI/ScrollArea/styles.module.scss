@@ -10,10 +10,13 @@
 
   &__content {
     padding: 20px 0;
-    padding-right: 5pxs;
+    padding-right: 5px;
     overflow: hidden;
     overflow-y: auto;
     @include scrollBarSmall;
+    @media (min-width: 768px) {
+      padding-right: 15px;
+    }
   }
 
   &::before,

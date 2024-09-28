@@ -3,9 +3,16 @@
 .root {
   display: flex;
   gap: 30px;
-  @media (min-width: 1200px) {
-    padding-right: 20px;
-    display: block;
+  overflow: hidden;
+  display: block;
+
+  &__scrollArea {
+    &::before {
+      background-image: linear-gradient($panelColor, transparent);
+    }
+    &::after {
+      background-image: linear-gradient(transparent, $panelColor);
+    }
   }
 
   &__category {

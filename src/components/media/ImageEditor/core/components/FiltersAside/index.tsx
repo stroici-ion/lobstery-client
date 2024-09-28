@@ -30,7 +30,7 @@ const FiltersAside: React.FC<IFiltersAside> = ({
 }) => {
   const selectedFilterPosition = filtersList.find((f) => f.id === filterId)?.id || 0;
   const sliderPosition = selectedFilterPosition + 2 - (selectedFilterPosition % 3);
-  const [isMobilePanelVisible, setIsMobilePanelVisible] = useState(false);
+  const [deviceType, setDeviceType] = useState<string>('');
 
   const setActiveFilter = (id: number) => {
     setFilterId(id);
@@ -41,8 +41,8 @@ const FiltersAside: React.FC<IFiltersAside> = ({
   };
 
   const checkDeviceWidth = () => {
-    if (window.innerWidth < 1200) setIsMobilePanelVisible(true);
-    else setIsMobilePanelVisible(false);
+    if (window.innerWidth < 1200) setDeviceType('mobile');
+    else setDeviceType('desktop');
   };
 
   useEffect(() => {
@@ -54,20 +54,22 @@ const FiltersAside: React.FC<IFiltersAside> = ({
 
   return (
     <div className={styles.root}>
-      {isMobilePanelVisible ? (
+      {deviceType === 'mobile' && (
         <>
-          <div className={styles.root__slider}>
-            <Slider
-              title='Intensity'
-              id={0}
-              value={value}
-              initialValue={initialValue}
-              minValue={0}
-              maxValue={100}
-              onChange={hanldeSliderOnChange}
-              onMouseUp={addToHisotry}
-            />
-          </div>
+          {!!filterId && (
+            <div className={styles.root__slider}>
+              <Slider
+                title="Intensity"
+                id={0}
+                value={value}
+                initialValue={initialValue}
+                minValue={0}
+                maxValue={100}
+                onChange={hanldeSliderOnChange}
+                onMouseUp={addToHisotry}
+              />
+            </div>
+          )}
           <ScrollAreaHorizontal>
             <div className={styles.root__row}>
               {filtersList.map((filter) => (
@@ -83,8 +85,9 @@ const FiltersAside: React.FC<IFiltersAside> = ({
             </div>
           </ScrollAreaHorizontal>
         </>
-      ) : (
-        <ScrollArea>
+      )}
+      {deviceType === 'desktop' && (
+        <ScrollArea className={styles.root__scrollArea}>
           <div className={styles.root__row}>
             {filtersList.map(
               (filter, index) =>
@@ -103,7 +106,7 @@ const FiltersAside: React.FC<IFiltersAside> = ({
           {!!filterId && (
             <div className={styles.root__slider}>
               <Slider
-                title='Intensity'
+                title="Intensity"
                 id={0}
                 value={value}
                 initialValue={initialValue}

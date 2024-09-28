@@ -18,6 +18,7 @@
   }
 
   &__aside {
+    flex: 0 0 120px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -30,6 +31,7 @@
     }
   }
 }
+
 .canvas {
   position: absolute;
   left: 0;

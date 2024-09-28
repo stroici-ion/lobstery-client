@@ -1,20 +1,42 @@
+@import '../../../styles/colors.scss';
+
 .root {
-  padding: 10px 0;
-  padding-right: 20px;
+  padding: 10px 10px;
+  overflow: hidden;
+
+  &__scrollArea {
+    &::before {
+      background-image: linear-gradient($panelColor, transparent);
+    }
+    &::after {
+      background-image: linear-gradient(transparent, $panelColor);
+    }
+  }
+
   &__row {
     justify-content: space-between;
     display: flex;
     gap: 15px;
-    @media (min-width: 1200px) {
-      flex-wrap: wrap;
-    }
+
     &:last-child {
       padding-right: 20px;
     }
     &:first-child {
       padding-left: 20px;
     }
+
+    @media (min-width: 1200px) {
+      flex-wrap: wrap;
+      gap: 0px;
+      &:last-child {
+        padding: 0;
+      }
+      &:first-child {
+        padding: 0;
+      }
+    }
   }
+
   &__filter {
     width: 60px;
     @media (min-width: 1200px) {
@@ -25,6 +47,7 @@
       margin-bottom: 15px;
     }
   }
+
   &__slider {
     margin-bottom: 15px;
     @media (min-width: 1200px) {

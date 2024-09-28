@@ -99,6 +99,13 @@ const ImagesTab: React.FC = () => {
     getSelectedFiles(acceptedFiles);
   }, []);
 
+  const dropZoneProps =
+    images.length > 0
+      ? {
+          onClick: (event: React.MouseEvent) => images.length > 0 && event.stopPropagation(),
+        }
+      : {};
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleSelectImage = (image: IImage, ref?: HTMLElement) => {
@@ -120,18 +127,15 @@ const ImagesTab: React.FC = () => {
       setIsModalVisible(true);
     }
   };
+  const hanldeSaveEditedImage = (image: IImage) => {
+    dispatch(addImages([image]));
+    setIsModalVisible(false);
+  };
 
   const handleHideContextMenu = () => setContextRef(undefined);
   const handleHideModal = () => setIsModalVisible(false);
 
   const isContextVisible = contextRef && activeImage;
-
-  const dropZoneProps =
-    images.length > 0
-      ? {
-          onClick: (event: React.MouseEvent) => images.length > 0 && event.stopPropagation(),
-        }
-      : {};
 
   return (
     <>
@@ -140,7 +144,7 @@ const ImagesTab: React.FC = () => {
           <button className={styles.modal__return} onClick={handleHideModal}>
             <CloseSvg />
           </button>
-          <ImageEditor2 image={activeImage} onSave={(image) => {}} />
+          <ImageEditor2 image={activeImage} onSave={hanldeSaveEditedImage} />
         </div>
       )}
       {isContextVisible && (
@@ -190,7 +194,7 @@ const ImagesTab: React.FC = () => {
               <ImagesPreview onRemove={handleRemoveImage} onSelect={handleSelectImage} images={images} />
             )}
           </ScrollArea>
-          <input {...getInputProps()} accept='image/*, video/*' />
+          <input {...getInputProps()} accept="image/*, video/*" />
         </div>
         {images.length > 0 && (
           <div className={classNames(styles.root__tools, styles.tools)}>
@@ -202,7 +206,7 @@ const ImagesTab: React.FC = () => {
                 style={{ display: 'none' }}
                 onChange={handleOnChangeImages}
                 multiple
-                accept='image/*, video/*'
+                accept="image/*, video/*"
               />
             </button>
           </div>

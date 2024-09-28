@@ -11,6 +11,7 @@
   @media (min-width: 768px) {
     &::-webkit-scrollbar {
       width: 15px;
+      height: 15px;
       z-index: 200;
     }
 
@@ -19,13 +20,13 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $cyanColorDarken;
+      background: $grayColorDarken;
       border-radius: 10px;
       border: 4px solid $lightColor;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: darken($color: $cyanColorDarken, $amount: 10);
+      background: darken($color: $grayColorDarken, $amount: 10);
     }
   }
 }
@@ -34,6 +35,7 @@
   @media (min-width: 768px) {
     &::-webkit-scrollbar {
       width: 5px;
+      height: 5px;
       z-index: 200;
     }
 
@@ -42,12 +44,12 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $cyanColorDarken;
-      border: 2px solid $cyanColorDarken;
+      background: $grayColorDarken;
+      border: 2px solid $grayColorDarken;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: darken($color: $cyanColorDarken, $amount: 10);
+      background: darken($color: $grayColorDarken, $amount: 10);
     }
   }
 }

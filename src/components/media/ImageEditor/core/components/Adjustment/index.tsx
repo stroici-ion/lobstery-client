@@ -444,8 +444,7 @@ const Adjustment: React.FC<IAdjustment> = ({
         <canvas ref={adjustedImageCanvasRef} style={{ visibility: 'hidden' }} className={styles.canvas} />
       </div>
       <div className={styles.root__aside}>
-        {/* <Aside controlList={controlsList} /> */}
-        <AdjustemntsMobile controlList={controlsList} />
+        <Aside controlList={controlsList} />
       </div>
     </div>
   );

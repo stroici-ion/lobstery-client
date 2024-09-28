@@ -4,10 +4,8 @@
 .root {
   flex: 1 1 auto;
   display: flex;
-  overflow: hidden;
-  position: relative;
   flex-direction: column;
-
+  overflow: hidden;
   @media (min-width: 1200px) {
     flex-direction: row;
   }
@@ -16,9 +14,14 @@
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   &__aside {
+    flex: 0 0 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     @media (min-width: 1200px) {
       background-color: $panelColor;
       border-radius: 20px;
