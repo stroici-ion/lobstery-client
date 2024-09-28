@@ -213,8 +213,6 @@ const Markup: React.FC<IMarkup> = ({
   };
 
   const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
     if (!isDrawing.current) return;
     isDrawing.current = false;
     if (!previewCanvasCtxRef.current || !canvasCtxRef.current || !activeBrush) return;
@@ -232,8 +230,6 @@ const Markup: React.FC<IMarkup> = ({
   };
 
   const onTouchDown = (e: React.TouchEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
     if (!activeBrush) return;
     if (!previewCanvasCtxRef.current) return;
 
@@ -247,8 +243,6 @@ const Markup: React.FC<IMarkup> = ({
   };
 
   const onTouchMoove = (e: React.TouchEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
     if (!isDrawing.current || !activeBrush) return;
 
     if (!previewCanvasCtxRef.current) return;
@@ -317,10 +311,18 @@ const Markup: React.FC<IMarkup> = ({
     drawMarkup();
   };
 
+  const onTounchMove = (e: TouchEvent) => {
+    if (parentDivRef.current && !parentDivRef.current.contains(e.targetTouches[0].target as Node)) {
+      e.preventDefault();
+    }
+  };
+
   useEffect(() => {
     window.addEventListener('resize', onWindowResize);
+    window.addEventListener('touchmove', onTounchMove, { passive: false });
     return () => {
       window.removeEventListener('resize', onWindowResize);
+      window.removeEventListener('touchmove', onTounchMove);
     };
   }, []);
 

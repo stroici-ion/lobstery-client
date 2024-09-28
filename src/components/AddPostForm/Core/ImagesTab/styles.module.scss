@@ -148,6 +148,11 @@
       height: 30px;
       padding: 5px;
     }
+    @media (hover: hover) {
+      &:hover {
+        background-color: $grayColorLighten;
+      }
+    }
   }
   &__close {
     svg {
