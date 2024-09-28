@@ -244,6 +244,7 @@ const Markup: React.FC<IMarkup> = ({
 
   const onTouchMoove = (e: React.TouchEvent<HTMLDivElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     if (!isDrawing.current || !activeBrush) return;
 
     if (!previewCanvasCtxRef.current) return;
