@@ -25,6 +25,9 @@ import { IImage } from '../../../models/IImage';
 import styles from './styles.module.scss';
 import Tabs from './core/components/Tabs';
 import Loader from '../../Loader';
+import DialogModalForm from '../../UI/modals/forms/DialogModalForm';
+import Modal from '../../UI/modals/Modal';
+import { EnumModalDialogOptionType, ModalDialogOption, useModalDialog } from '../../../hooks/useModalDialog';
 
 interface IImageEditor2 {
   image: IImage;
@@ -364,7 +367,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
 
   const canvasAsImage = getImageToRender();
 
-  const handleSaveImage = () => {
+  const saveImage = () => {
     if (!historyIndex.current || !imageRef.current) return;
     historyIndexesState.current.adjustment = 0;
     historyIndexesState.current.markup = 0;
@@ -402,26 +405,128 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
       const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
       const newImage = {
         ...image,
-        id: Math.random() * -1,
         image_thumbnail: dataUrl,
         thumbnail_width: canvas.width,
         thumbnail_height: canvas.height,
         image: dataUrl,
         aspect_ratio: historyCropValue.cropAR,
       };
+      return newImage;
+    }
+  };
 
+  const handleOnSavesCopyDialogResult = () => {
+    const newImage = saveImage();
+    if (newImage) {
+      newImage.id = Math.random() * -1;
       onSave(newImage);
     }
   };
 
+  const handleOnSavesDialogResult = () => {
+    const newImage = saveImage();
+    if (newImage) onSave(newImage);
+  };
+
+  const [isSavedDialofOpen, setIsSaveDialogOpen] = useState(false);
+  const onShowSaveDialog = () => setIsSaveDialogOpen(true);
+  const onHideSaveDialog = () => setIsSaveDialogOpen(false);
+
+  // const dialogOptions: ModalDialogOption[] = [
+  //   {
+  //     type: EnumModalDialogOptionType.RETURN,
+  //     title: 'Cancel',
+  //     callback: onHideSaveDialog,
+  //     className: styles.dialogResult_cancel,
+  //   },
+  //   {
+  //     type: 0,
+
+  //     title: 'Save',
+  //     callback: handleOnSavesDialogResult,
+  //     className: styles.dialogResult_save,
+  //   },
+  //   {
+  //     type: 0,
+  //     title: 'Save copy',
+  //     callback: handleOnSavesCopyDialogResult,
+  //     className: styles.dialogResult_saveCopy,
+  //   },
+  // ];
+
+  // const modal = useModalDialog('Choose save method!', {
+  //   description: 'Save - to keep only edited image. Save copy - to keep original image',
+  //   dialogOptions: dialogOptions,
+  // });
+
   return (
-    <div className={styles.root}>
-      <canvas ref={originalImageCanvasRef} hidden />
-      <canvas ref={optimizedImageCanvasRef} hidden />
-      <canvas ref={canvasMarkupRef} hidden />
-      <img hidden crossOrigin='anonymous' src={image.image} ref={imageRef} onLoad={imageOnLoad} />
-      <div className={styles.header}>
-        <div className={styles.header__body}>
+    <>
+      <div className={styles.root}>
+        <canvas ref={originalImageCanvasRef} hidden />
+        <canvas ref={optimizedImageCanvasRef} hidden />
+        <canvas ref={canvasMarkupRef} hidden />
+        <img hidden crossOrigin='anonymous' src={image.image} ref={imageRef} onLoad={imageOnLoad} />
+        <div className={styles.header}>
+          <div className={styles.header__body}>
+            <div className={styles.zoomTools}>
+              {tab === EnumTabs.crop && (
+                <>
+                  <button className={styles.zoomTools__in} onClick={handleClickZoomIn}>
+                    <ZoomInSvg />
+                  </button>
+                  <button className={styles.zoomTools__out} onClick={handleClickZoomOut}>
+                    <ZoomOutSvg />
+                  </button>
+                </>
+              )}
+              <button
+                className={classNames(styles.zoomTools__reset, isUndoAvailable && styles.active)}
+                onClick={handleResetToFirstStep}
+              >
+                Reset
+              </button>
+              <button
+                className={classNames(styles.zoomTools__undo, isUndoAvailable && styles.active)}
+                onClick={handleUndo}
+              >
+                <RevertSvg />
+              </button>
+              <button
+                className={classNames(styles.zoomTools__redo, isRedoAvailable && styles.active)}
+                onClick={handleRedo}
+              >
+                <RevertSvg />
+              </button>
+            </div>
+            <div className={styles.saveTools}>
+              <button className={styles.saveTools__save} onClick={onShowSaveDialog}>
+                Save
+              </button>
+              {/* <button className={styles.saveTools__cancel}>Cancel</button> */}
+            </div>
+          </div>
+          <Tabs tab={tab} setTab={handleSetTab} />
+        </div>
+        {!selectedHistoryCropStep ? (
+          <Loader height={200} size={200} />
+        ) : (
+          <div className={styles.tabContent}>
+            <TabItems
+              tab={tab}
+              zoomTrigger={zoomTrigger}
+              canvasAsImage={canvasAsImage}
+              optimizedImageData={optimizedImageData.current}
+              selectedHistoryCropStep={selectedHistoryCropStep}
+              selectedHistoryAdjStep={selectedHistoryAdjStep}
+              selectedHistoryMarkupStep={selectedHistoryMarkupStep}
+              selectedHistoryFilterStep={selectedHistoryFilterStep}
+              imageRef={imageRef}
+              canvasMarkup={canvasMarkupRef.current || undefined}
+              addToHistory={addToHistory}
+            />
+          </div>
+        )}
+        <div className={styles.bottom}>
           <div className={styles.zoomTools}>
             {tab === EnumTabs.crop && (
               <>
@@ -453,65 +558,13 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
             </button>
           </div>
           <div className={styles.saveTools}>
-            <button className={styles.saveTools__save} onClick={handleSaveImage}>
+            <button className={styles.saveTools__save} onClick={onShowSaveDialog}>
               Save
             </button>
-            {/* <button className={styles.saveTools__cancel}>Cancel</button> */}
           </div>
         </div>
-        <Tabs tab={tab} setTab={handleSetTab} />
       </div>
-      {!selectedHistoryCropStep ? (
-        <Loader height={200} size={200} />
-      ) : (
-        <div className={styles.tabContent}>
-          <TabItems
-            tab={tab}
-            zoomTrigger={zoomTrigger}
-            canvasAsImage={canvasAsImage}
-            optimizedImageData={optimizedImageData.current}
-            selectedHistoryCropStep={selectedHistoryCropStep}
-            selectedHistoryAdjStep={selectedHistoryAdjStep}
-            selectedHistoryMarkupStep={selectedHistoryMarkupStep}
-            selectedHistoryFilterStep={selectedHistoryFilterStep}
-            imageRef={imageRef}
-            canvasMarkup={canvasMarkupRef.current || undefined}
-            addToHistory={addToHistory}
-          />
-        </div>
-      )}
-      <div className={styles.bottom}>
-        <div className={styles.zoomTools}>
-          {tab === EnumTabs.crop && (
-            <>
-              <button className={styles.zoomTools__in} onClick={handleClickZoomIn}>
-                <ZoomInSvg />
-              </button>
-              <button className={styles.zoomTools__out} onClick={handleClickZoomOut}>
-                <ZoomOutSvg />
-              </button>
-            </>
-          )}
-          <button
-            className={classNames(styles.zoomTools__reset, isUndoAvailable && styles.active)}
-            onClick={handleResetToFirstStep}
-          >
-            Reset
-          </button>
-          <button className={classNames(styles.zoomTools__undo, isUndoAvailable && styles.active)} onClick={handleUndo}>
-            <RevertSvg />
-          </button>
-          <button className={classNames(styles.zoomTools__redo, isRedoAvailable && styles.active)} onClick={handleRedo}>
-            <RevertSvg />
-          </button>
-        </div>
-        <div className={styles.saveTools}>
-          <button className={styles.saveTools__save} onClick={handleSaveImage}>
-            Save
-          </button>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 

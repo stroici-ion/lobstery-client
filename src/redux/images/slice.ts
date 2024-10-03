@@ -22,6 +22,7 @@ const imagesSlice = createSlice({
       state.images = action.payload;
     },
     addImages: (state, action: PayloadAction<IImage[]>) => {
+      state.images = state.images.filter((image) => action.payload.find((i) => i.id !== image.id));
       state.images = [...state.images, ...action.payload];
     },
     updateImage: (state, action: PayloadAction<IImage>) => {

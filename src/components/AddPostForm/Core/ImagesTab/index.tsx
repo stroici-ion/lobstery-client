@@ -17,6 +17,8 @@ import ImagesPreview from '../../../ImagesPreview';
 import ContextMenu from '../../../UI/ContextMenu';
 import ScrollArea from '../../../UI/ScrollArea';
 import styles from './styles.module.scss';
+import { EnumModalDialogOptionType, ModalDialogOption, useModalDialog } from '../../../../hooks/useModalDialog';
+import Modal from '../../../UI/modals/Modal';
 
 const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +27,6 @@ const ImagesTab: React.FC = () => {
   const activeImage = useSelector(selectActiveImage);
 
   const [contextRef, setContextRef] = useState<HTMLElement>();
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const getVideoPreview = async (file: File) => {
     if (isVideo(file.name)) {
@@ -124,28 +125,58 @@ const ImagesTab: React.FC = () => {
   const handleEditImage = () => {
     if (activeImage) {
       setContextRef(undefined);
-      setIsModalVisible(true);
+      modal.open();
     }
   };
+
   const hanldeSaveEditedImage = (image: IImage) => {
     dispatch(addImages([image]));
-    setIsModalVisible(false);
+    modal.onHide();
   };
 
   const handleHideContextMenu = () => setContextRef(undefined);
-  const handleHideModal = () => setIsModalVisible(false);
+  const [modalDialog, setModalDialog] = useState({
+    title: 'Choose save method!',
+    description: 'Save - to keep only edited image. Save copy - to keep original image',
+    options: [
+      {
+        type: EnumModalDialogOptionType.OTHER,
+        title: 'Ok',
+        callback: () => {},
+        className: styles.dialogResult_save,
+      },
+      {
+        type: EnumModalDialogOptionType.RETURN,
+        title: 'Return',
+        callback: () => {},
+        className: styles.dialogResult_cancel,
+      },
+    ],
+  });
 
   const isContextVisible = contextRef && activeImage;
 
+  const modal = useModalDialog(modalDialog);
+
   return (
     <>
-      {activeImage && isModalVisible && (
+      {/* {activeImage && isModalVisible && (
         <div className={styles.modal__body}>
           <button className={styles.modal__return} onClick={handleHideModal}>
             <CloseSvg />
           </button>
           <ImageEditor2 image={activeImage} onSave={hanldeSaveEditedImage} />
         </div>
+      )} */}
+      {activeImage && (
+        <Modal {...modal}>
+          <div className={styles.modal__body}>
+            <button className={styles.modal__return} onClick={modal.onHide}>
+              <CloseSvg />
+            </button>
+            <ImageEditor2 image={activeImage} onSave={hanldeSaveEditedImage} />
+          </div>
+        </Modal>
       )}
       {isContextVisible && (
         <ContextMenu triggerRef={contextRef} onHide={handleHideContextMenu}>
@@ -194,7 +225,7 @@ const ImagesTab: React.FC = () => {
               <ImagesPreview onRemove={handleRemoveImage} onSelect={handleSelectImage} images={images} />
             )}
           </ScrollArea>
-          <input {...getInputProps()} accept="image/*, video/*" />
+          <input {...getInputProps()} accept='image/*, video/*' />
         </div>
         {images.length > 0 && (
           <div className={classNames(styles.root__tools, styles.tools)}>
@@ -206,7 +237,7 @@ const ImagesTab: React.FC = () => {
                 style={{ display: 'none' }}
                 onChange={handleOnChangeImages}
                 multiple
-                accept="image/*, video/*"
+                accept='image/*, video/*'
               />
             </button>
           </div>

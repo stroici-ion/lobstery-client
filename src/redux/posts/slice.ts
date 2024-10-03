@@ -38,8 +38,8 @@ const postsSlice = createSlice({
         tags: [],
         tagged_friends: [],
         audience: -1,
-        fetched_images_id: [],
         custom_audience: -1,
+        fetched_images_id: [],
         upload_progress: 0,
       };
     },
@@ -47,9 +47,7 @@ const postsSlice = createSlice({
       state.editPost = action.payload;
       state.activePost = {
         upload_progress: 0,
-        fetched_images_id: action.payload.image_set
-          .filter((image) => image.id >= 0)
-          .map((image) => image.id),
+        fetched_images_id: action.payload.image_set.filter((image) => image.id >= 0).map((image) => image.id),
         ...action.payload,
       };
     },

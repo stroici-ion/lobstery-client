@@ -23,24 +23,22 @@ import {
 } from '../../icons';
 import { useAppDispatch } from '../../redux';
 import { selectUserProfile } from '../../redux/profile/selectors';
-import { POSTS_CREATE_ROUTE, POSTS_ROUTE } from '../../utils/consts';
+import { POSTS_ROUTE } from '../../utils/consts';
 import { IPost } from '../../models/IPost';
 import ImagesPreview from '../ImagesPreview';
 import PostLikesInfo from '../PostLikesInfo';
-import { fetchDeletePost } from '../../services/PostServices';
 import PostUsername from '../PostUsername';
-// import { setIsEditing, setNewPost } from '../../redux/app/slice';
-// import { selectExistsNewPostDraft } from '../../redux/app/selectors';
 import classNames from 'classnames';
 import { IImage } from '../../models/IImage';
 import { setActiveImageId, setImages } from '../../redux/images/slice';
-import { setImagesModalStatus, setPostCreateModalStatus } from '../../redux/modals/slice';
+import { setImagesModalStatus } from '../../redux/modals/slice';
 import { fetchRemovePost } from '../../redux/posts/asyncActions';
 import { setPostToEdit } from '../../redux/posts/slice';
 import SmallButton from '../UI/Buttons/SmallButton';
 import UserImage from '../UserImage';
-import Modal from '../UI/Modal';
 import AddPostForm from '../AddPostForm';
+import Modal from '../UI/modals/Modal';
+import { EnumModalDialogOptionType, useModalDialog } from '../../hooks/useModalDialog';
 
 interface IPostFC {
   small?: boolean;
@@ -95,11 +93,30 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     navigate(POSTS_ROUTE + post.id);
   };
 
+  const [modalDialog, setModalDialog] = useState({
+    title: 'Are you sure ypu want to leave?',
+    description: 'If you leave, changes will be lost!',
+    options: [
+      {
+        type: EnumModalDialogOptionType.OTHER,
+        title: 'Ok',
+        callback: () => {},
+        className: styles.dialogResult_save,
+      },
+      {
+        type: EnumModalDialogOptionType.RETURN,
+        title: 'Return',
+        callback: () => {},
+        className: styles.dialogResult_cancel,
+      },
+    ],
+  });
+
+  const modal = useModalDialog(modalDialog);
+
   return (
     <>
-      <Modal isOpen={isModalVisible} onHide={handleHideModal}>
-        {(onHide) => <AddPostForm onHide={onHide} />}
-      </Modal>
+      <Modal {...modal}>{<AddPostForm onHide={modal.onHide} />}</Modal>
       <div className={classNames(styles.post, className)}>
         <div className={styles.post__content}>
           <div className={styles.post__top}>

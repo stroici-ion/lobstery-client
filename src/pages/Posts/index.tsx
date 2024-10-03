@@ -1,72 +1,89 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import classNames from 'classnames';
+import toast from 'react-hot-toast';
 
-import {} from '../../redux/app/selectors';
 import { useAppDispatch } from '../../redux';
-import { selectPosts } from '../../redux/posts/selectors';
+import { getIsDirty, selectActivePost, selectPosts } from '../../redux/posts/selectors';
 import { fetchPosts } from '../../redux/posts/asyncActions';
-import styles from './styles.module.scss';
-import { PlusSvg } from '../../icons';
-import AddPostForm from '../../components/AddPostForm';
-import Post from '../../components/Post';
-import { setPostCreateModalStatus } from '../../redux/modals/slice';
-import { selectPostCreateModalStatus } from '../../redux/modals/selectors';
 import { setActivePostNull } from '../../redux/posts/slice';
 import { selectAuthStatus, selectUserId } from '../../redux/auth/selectors';
-import toast from 'react-hot-toast';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
-import Modal from '../../components/UI/Modal';
-import { Link, Outlet } from 'react-router-dom';
-import { POSTS_CREATE_ROUTE } from '../../utils/consts';
+import Modal from '../../components/UI/modals/Modal';
+import DialogModalForm from '../../components/UI/modals/forms/DialogModalForm';
+import AddPostForm from '../../components/AddPostForm';
+import Post from '../../components/Post';
+import { PlusSvg } from '../../icons';
+import styles from './styles.module.scss';
+import { useModalDialogYeReturn } from '../../hooks/useModalDialogYeReturn';
+import { EnumModalDialogOptionType, IModalDialogType, useModalDialog } from '../../hooks/useModalDialog';
 
 const Posts: React.FC = () => {
   const posts = useSelector(selectPosts);
   const dispatch = useAppDispatch();
-  const postCreateModalStatus = useSelector(selectPostCreateModalStatus);
-
   const authorizationStatus = useSelector(selectAuthStatus);
-  const pendingAuth = authorizationStatus === FetchStatusEnum.PENDING;
   const userId = useSelector(selectUserId);
+  const pendingAuth = authorizationStatus === FetchStatusEnum.PENDING;
+  const isAddPostFormDirty = useSelector(getIsDirty);
 
   useEffect(() => {
     if (pendingAuth) return;
-    if (userId) dispatch(fetchPosts({ user: `${userId}` }));
-    else dispatch(fetchPosts({}));
-  }, [pendingAuth, userId]);
+    if (userId) {
+      dispatch(fetchPosts({ user: `${userId}` }));
+    } else {
+      dispatch(fetchPosts({}));
+    }
+  }, [pendingAuth, userId, dispatch]);
+
+  const [modalDialog, setModalDialog] = useState<IModalDialogType>();
+
+  const modal = useModalDialog(modalDialog);
+
+  useEffect(() => {
+    console.log('Is Dirty');
+    if (isAddPostFormDirty)
+      setModalDialog({
+        title: 'Are you sure ypu want to leave?',
+        description: 'If you leave, changes will be lost!',
+        options: [
+          {
+            type: EnumModalDialogOptionType.OTHER,
+            title: 'Yes',
+            callback: () => {},
+            className: styles.dialogOptions__yes,
+          },
+          {
+            type: EnumModalDialogOptionType.RETURN,
+            title: 'Return',
+            callback: () => {},
+            className: styles.dialogOptions__return,
+          },
+        ],
+      });
+    else setModalDialog(undefined);
+  }, [isAddPostFormDirty]);
 
   const handleShowAddPostModal = () => {
     if (userId) {
       dispatch(setActivePostNull());
-      setModalOpen(true);
-      // dispatch(setPostCreateModalStatus(true));
-    } else toast.error('You are not authorized');
+      modal.open();
+    } else {
+      toast.error('You are not authorized');
+    }
   };
 
-  const handleHideModal = () => {
-    dispatch(setPostCreateModalStatus(false));
-  };
-
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const handleHide = () => {
-    setModalOpen(false);
-  };
   return (
     <>
-      <Modal isOpen={isModalOpen} onHide={handleHide}>
-        {(onHide) => <AddPostForm onHide={onHide} />}
+      <Modal {...modal}>
+        <AddPostForm onHide={modal.onHide} />
       </Modal>
-      <Outlet />
+
       <div className={styles.root}>
         <div className={styles.root__posts}>
           {posts && posts.map((post) => <Post key={post.id} post={{ ...post, viewsCount: 10 }} />)}
         </div>
 
         <button className={styles.add_post_button} onClick={handleShowAddPostModal}>
-          {/* <Link to={POSTS_CREATE_ROUTE}> */}
           <PlusSvg />
-          {/* </Link> */}
         </button>
       </div>
     </>

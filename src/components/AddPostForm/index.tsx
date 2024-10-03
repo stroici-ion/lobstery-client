@@ -14,9 +14,7 @@ import { CloseSvg } from '../../icons';
 import TextTab from './Core/TextTab';
 import AudienceTab from './Core/AudienceTab';
 import { selectUserId } from '../../redux/auth/selectors';
-import { fetchDefaultAudience } from '../../redux/defaultAudience/asyncActions';
 import { useAppDispatch } from '../../redux';
-import { selectActiveImage } from '../../redux/images/selectors';
 import { setImages } from '../../redux/images/slice';
 import { selectActivePost } from '../../redux/posts/selectors';
 
@@ -28,21 +26,17 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
   const [selectedTab, setSelectedTab] = useState(0);
   const dispatch = useAppDispatch();
   const newPost = useSelector(selectActivePost);
-  const activeImage = useSelector(selectActiveImage);
   const userId = useSelector(selectUserId);
-
-  const handleHide = () => onHide();
 
   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
-    event.returnValue = ''; // Standard way to trigger the confirmation dialog
+    event.returnValue = '';
   };
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     if (userId) {
-      dispatch(fetchDefaultAudience({ userId }));
       dispatch(setImages(newPost.image_set));
     }
 
@@ -56,7 +50,7 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
       <div className={classNames(styles.root)}>
         <Aside selectedTab={selectedTab} setSelectedtab={setSelectedTab} />
         <div className={styles.root__body}>
-          <button className={styles.root__return} onClick={handleHide}>
+          <button className={styles.root__return} onClick={onHide}>
             <CloseSvg />
           </button>
           <div className={styles.root__form}>

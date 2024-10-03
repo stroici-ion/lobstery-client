@@ -42,3 +42,29 @@
     background-color: $greenColorDarken;
   }
 }
+
+.dialogOptions {
+  &__yes {
+    border: 1px solid $redColor;
+    color: $redColor;
+    flex: 0 0 70px;
+    width: 70px;
+    @media (hover: hover) {
+      &:hover {
+        background-color: $redColor;
+        color: $lightColor;
+      }
+    }
+  }
+
+  &__return {
+    background-color: $greenColor;
+    color: $lightColor;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: $greenColor;
+      }
+    }
+  }
+}

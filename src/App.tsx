@@ -16,6 +16,7 @@ import { fetchUserProfile } from './redux/profile/asyncActions';
 import styles from './App.module.scss';
 import { FetchStatusEnum } from './models/response/FetchStatus';
 import { setGuestStatus } from './redux/auth/slice';
+import { fetchDefaultAudience } from './redux/defaultAudience/asyncActions';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +34,7 @@ const App: React.FC = () => {
     if (isAuth)
       if (userId) {
         dispatch(fetchUserProfile(userId));
+        dispatch(fetchDefaultAudience({ userId }));
       }
   }, [isAuth]);
 
@@ -53,7 +55,7 @@ const App: React.FC = () => {
             {isAuth &&
               privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
           </Route>
-          <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
+          <Route path='*' element={<Navigate to={HOME_ROUTE} />} />
         </Routes>
       </BrowserRouter>
     </div>
