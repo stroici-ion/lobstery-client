@@ -35,7 +35,7 @@ const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedtab }) => {
 
   return (
     <div className={styles.root}>
-      <p className={styles.root__title}>How are you feeling?</p>
+      <p className={styles.root__title}>This is what the post will look like!</p>
       <ScrollArea className={styles.root__scrollArea}>
         <Post
           className={styles.root__postPreview}

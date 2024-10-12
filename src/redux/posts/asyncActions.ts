@@ -3,7 +3,7 @@ import $api from '../../http';
 
 import { fetchCreateImage, fetchRemoveImage, fetchUpdateImage } from '../images/asyncActions';
 import { FetchPostsResponse } from '../../models/response/FetchPostsRespose';
-import { setActivePostNull, setUploadProgress } from './slice';
+import { setActivePost, setUploadProgress } from './slice';
 import { setPostCreateModalStatus } from '../modals/slice';
 import { IAuthError } from '../../models/auth/IAuthError';
 import { IPost, IPostEdit } from '../../models/IPost';
@@ -74,7 +74,7 @@ export const fetchCreatePost = createAsyncThunk<
     const finalResult = await $api.get<IPost>(`/api/posts/${newPost.data.id}`);
 
     dispatch(setPostCreateModalStatus(false));
-    dispatch(setActivePostNull());
+    dispatch(setActivePost());
     return finalResult.data;
   } catch (error: any) {
     if (!error.response) {

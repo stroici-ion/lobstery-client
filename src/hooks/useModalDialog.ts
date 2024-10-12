@@ -21,32 +21,40 @@ export type IModalDialogType = {
 };
 
 export interface IModal {
-  dialogOptions: Omit<ModalDialogOption, 'type'>[];
   modalRef: React.MutableRefObject<null>;
-  dialogRef: React.MutableRefObject<null>;
-  description?: string | undefined;
-  icon?: React.ReactNode;
-  title?: string;
   isOpen: boolean;
+  isDialogOpen: boolean;
   open: () => void;
   onHide: () => void;
-  isDialogOpen: boolean;
+  dialog: {
+    ref: React.MutableRefObject<null>;
+    isOpen: boolean;
+    title: string | undefined;
+    description: string | undefined;
+    className: string | undefined;
+    options: ModalDialogOption[];
+    setDialogParams: (dp: IModalDialogType | undefined, showInstantly?: boolean) => void;
+  };
 }
 
-type IUseModalDialog = (dialog?: IModalDialogType) => IModal;
+type IUseModalDialog = (dialogProps?: IModalDialogType) => IModal;
 
-export const useModalDialog: IUseModalDialog = (dialog) => {
+export const useModalDialog: IUseModalDialog = (dialogProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogParams, setDialogParams] = useState<IModalDialogType | undefined>(dialogProps);
 
   const modalRef = useRef(null);
   const dialogRef = useRef(null);
 
   const showModal = () => setIsModalOpen(true);
 
-  const onModalHide = () => {
-    dialog ? setIsDialogOpen(true) : setIsModalOpen(false);
+  const handleSetDialogParams = (dp: IModalDialogType | undefined, showInstantly?: boolean) => {
+    setDialogParams(dp);
+    if (showInstantly) setIsDialogOpen(true);
   };
+
+  const onModalHide = () => (dialogParams ? setIsDialogOpen(true) : setIsModalOpen(false));
 
   const onDialogHide = () => setIsDialogOpen(false);
 
@@ -58,13 +66,13 @@ export const useModalDialog: IUseModalDialog = (dialog) => {
   useClickOutside(modalRef, onModalHide);
   useClickOutside(dialogRef, onDialogHide);
 
-  const dialogOptions = [];
+  const options = [];
 
-  if (dialog?.options?.length) {
-    dialog.options.forEach((option) => {
+  if (dialogParams?.options?.length) {
+    dialogParams.options.forEach((option) => {
       switch (option.type) {
         case EnumModalDialogOptionType.RETURN: {
-          dialogOptions.push({
+          options.push({
             ...option,
             callback: () => {
               option.callback();
@@ -74,7 +82,7 @@ export const useModalDialog: IUseModalDialog = (dialog) => {
           break;
         }
         default:
-          dialogOptions.push({
+          options.push({
             ...option,
             callback: () => {
               option.callback();
@@ -83,113 +91,22 @@ export const useModalDialog: IUseModalDialog = (dialog) => {
           });
       }
     });
-  } else dialogOptions.push({ title: 'Ok', callback: onDialogFullfill });
+  } else options.push({ title: 'Ok', callback: onDialogFullfill });
 
   return {
     modalRef,
-    dialogRef,
     isOpen: isModalOpen,
     isDialogOpen,
     open: showModal,
     onHide: onModalHide,
-    title: dialog?.title,
-    description: dialog?.description,
-    className: dialog?.className,
-    dialogOptions,
+    dialog: {
+      ref: dialogRef,
+      isOpen: isDialogOpen,
+      title: dialogParams?.title,
+      description: dialogParams?.description,
+      className: dialogParams?.className,
+      options,
+      setDialogParams: handleSetDialogParams,
+    },
   };
 };
-
-// import { useRef, useState } from 'react';
-// import useClickOutside from './useClickOutside';
-
-// export enum EnumModalDialogOptionType {
-//   RETURN = 0,
-//   OTHER = 1,
-// }
-
-// export type ModalDialogOption = {
-//   type?: EnumModalDialogOptionType;
-//   title: string;
-//   callback: () => void;
-//   className?: string;
-// };
-
-// export interface IModalDialog {
-//   id: number;
-//   title: string;
-//   description?: string;
-//   className?: string;
-//   dialogOptions: ModalDialogOption[];
-// }
-
-// export interface IModal {
-//   modalRef: React.MutableRefObject<null>;
-//   isOpen: boolean;
-//   open: () => void;
-//   onHide: () => void;
-//   dialog: {
-//     id?: number | undefined;
-//     title?: string | undefined;
-//     description?: string | undefined;
-//     className?: string | undefined;
-//     dialogOptions?: ModalDialogOption[] | undefined;
-//     isDialogOpen: boolean;
-//     dialogRef: React.MutableRefObject<null>;
-//   };
-// }
-// type IUseModalDialog = (dialogType: number, dialogs: IModalDialog[]) => IModal;
-
-// export const useModalDialog: IUseModalDialog = (dialogType, dialogs) => {
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-//   const modalRef = useRef(null);
-//   const dialogRef = useRef(null);
-
-//   const showModal = () => setIsModalOpen(true);
-
-//   const onModalHide = () => setIsDialogOpen(true);
-
-//   const onDialogHide = () => setIsDialogOpen(false);
-
-//   const onDialogFullfill = () => {
-//     setIsModalOpen(false);
-//     setIsDialogOpen(false);
-//   };
-
-//   useClickOutside(modalRef, onModalHide);
-//   useClickOutside(dialogRef, onDialogHide);
-
-//   const dialog = dialogs.find((d) => d.id === dialogType);
-
-//   if (dialog) {
-//     dialog.dialogOptions.map((o) =>
-//       o.type === EnumModalDialogOptionType.RETURN
-//         ? {
-//             ...o,
-//             callback: () => {
-//               o.callback();
-//               onDialogHide();
-//             },
-//           }
-//         : {
-//             ...o,
-//             callback: () => {
-//               o.callback();
-//               onDialogFullfill();
-//             },
-//           }
-//     );
-//   }
-//   return {
-//     modalRef,
-//     isOpen: isModalOpen,
-//     open: showModal,
-//     onHide: onModalHide,
-//     dialog: {
-//       isDialogOpen,
-//       dialogRef,
-//       ...dialog,
-//     },
-//   };
-// };

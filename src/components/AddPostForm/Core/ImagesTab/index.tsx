@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { addImages, removeImage, setActiveImageId } from '../../../../redux/images/slice';
 import { AddImageVideoSvg, CloseSvg, EditSvg, TagPeopleSvg } from '../../../../icons';
 import { selectActiveImage, selectImages } from '../../../../redux/images/selectors';
-import { getExtension, isVideo } from '../../../../utils/filesTypes';
+import { getExtension, isImage, isVideo } from '../../../../utils/filesTypes';
 import ImageEditor2 from '../../../media/ImageEditor';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import { useAppDispatch } from '../../../../redux';
@@ -17,8 +17,10 @@ import ImagesPreview from '../../../ImagesPreview';
 import ContextMenu from '../../../UI/ContextMenu';
 import ScrollArea from '../../../UI/ScrollArea';
 import styles from './styles.module.scss';
-import { EnumModalDialogOptionType, ModalDialogOption, useModalDialog } from '../../../../hooks/useModalDialog';
+import { EnumModalDialogOptionType, useModalDialog } from '../../../../hooks/useModalDialog';
 import Modal from '../../../UI/modals/Modal';
+import { dirtyFormWarningDialog } from '../../../UI/modals/dialog-options';
+import ImageGrid from '../../../media/ImageGrid';
 
 const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -109,9 +111,14 @@ const ImagesTab: React.FC = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleSelectImage = (image: IImage, ref?: HTMLElement) => {
-    dispatch(setActiveImageId(image.id));
-    setContextRef(ref);
+  const handleSelectImage = (src: string, ref?: HTMLElement) => {
+    console.log(src);
+
+    const img = images.find((i) => i.image_thumbnail === src);
+    if (img) {
+      dispatch(setActiveImageId(img.id));
+      setContextRef(ref);
+    }
   };
 
   const handleRemoveImage = () => {
@@ -129,49 +136,56 @@ const ImagesTab: React.FC = () => {
     }
   };
 
-  const hanldeSaveEditedImage = (image: IImage) => {
-    dispatch(addImages([image]));
+  const handleHideModal = () => {
+    modal.dialog.setDialogParams(dirtyFormWarningDialog);
     modal.onHide();
   };
 
+  const hanldeSaveEditedImage = (image: IImage) => {
+    const dialogParams = {
+      title: 'Save Image!',
+      description: 'Save as - to keep the original image',
+      options: [
+        {
+          type: EnumModalDialogOptionType.RETURN,
+          title: 'Cancel',
+          callback: () => {},
+          className: styles.cancel,
+        },
+        {
+          type: EnumModalDialogOptionType.OTHER,
+          title: 'Save',
+          callback: () => {
+            dispatch(addImages([image]));
+          },
+          className: styles.save,
+        },
+        {
+          type: EnumModalDialogOptionType.OTHER,
+          title: 'Save copy',
+          callback: () => {
+            image.id = Math.random() * -1;
+            dispatch(addImages([image]));
+          },
+          className: styles.saveas,
+        },
+      ],
+    };
+
+    modal.dialog.setDialogParams(dialogParams, true);
+  };
+
+  const modal = useModalDialog();
+
   const handleHideContextMenu = () => setContextRef(undefined);
-  const [modalDialog, setModalDialog] = useState({
-    title: 'Choose save method!',
-    description: 'Save - to keep only edited image. Save copy - to keep original image',
-    options: [
-      {
-        type: EnumModalDialogOptionType.OTHER,
-        title: 'Ok',
-        callback: () => {},
-        className: styles.dialogResult_save,
-      },
-      {
-        type: EnumModalDialogOptionType.RETURN,
-        title: 'Return',
-        callback: () => {},
-        className: styles.dialogResult_cancel,
-      },
-    ],
-  });
-
   const isContextVisible = contextRef && activeImage;
-
-  const modal = useModalDialog(modalDialog);
 
   return (
     <>
-      {/* {activeImage && isModalVisible && (
-        <div className={styles.modal__body}>
-          <button className={styles.modal__return} onClick={handleHideModal}>
-            <CloseSvg />
-          </button>
-          <ImageEditor2 image={activeImage} onSave={hanldeSaveEditedImage} />
-        </div>
-      )} */}
       {activeImage && (
         <Modal {...modal}>
           <div className={styles.modal__body}>
-            <button className={styles.modal__return} onClick={modal.onHide}>
+            <button className={styles.modal__return} onClick={handleHideModal}>
               <CloseSvg />
             </button>
             <ImageEditor2 image={activeImage} onSave={hanldeSaveEditedImage} />
@@ -220,12 +234,12 @@ const ImagesTab: React.FC = () => {
               )}
             </div>
           )}
-          <ScrollArea>
-            {images.length > 0 && (
-              <ImagesPreview onRemove={handleRemoveImage} onSelect={handleSelectImage} images={images} />
-            )}
-          </ScrollArea>
-          <input {...getInputProps()} accept='image/*, video/*' />
+          {images.length > 0 && (
+            <ScrollArea>
+              <ImageGrid images={images} onSelect={handleSelectImage} />
+            </ScrollArea>
+          )}
+          <input {...getInputProps()} accept="image/*, video/*" />
         </div>
         {images.length > 0 && (
           <div className={classNames(styles.root__tools, styles.tools)}>
@@ -237,7 +251,7 @@ const ImagesTab: React.FC = () => {
                 style={{ display: 'none' }}
                 onChange={handleOnChangeImages}
                 multiple
-                accept='image/*, video/*'
+                accept="image/*, video/*"
               />
             </button>
           </div>

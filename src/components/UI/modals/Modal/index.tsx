@@ -8,15 +8,11 @@ import DialogModalForm from '../forms/DialogModalForm';
 
 const Modal: React.FC<IModal & { className?: string; children: ReactNode }> = ({
   modalRef,
-  dialogRef,
   isOpen,
-  onHide,
   className,
   isDialogOpen,
   children,
-  dialogOptions,
-  title,
-  description,
+  dialog,
 }) => {
   if (!isOpen) return <></>;
 
@@ -29,11 +25,11 @@ const Modal: React.FC<IModal & { className?: string; children: ReactNode }> = ({
           </div>
         </div>
       </div>
-      {isDialogOpen && title && (
+      {isDialogOpen && (
         <div className={classNames(styles.modal)}>
           <div className={styles.modal__column}>
-            <div className={styles.modal__content} ref={dialogRef}>
-              <DialogModalForm title={title} description={description} options={dialogOptions} />
+            <div className={styles.modal__content} ref={dialog.ref}>
+              <DialogModalForm title={dialog.title} description={dialog.description} options={dialog.options} />
             </div>
           </div>
         </div>

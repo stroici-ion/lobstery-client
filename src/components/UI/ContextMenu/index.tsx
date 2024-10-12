@@ -58,18 +58,18 @@ const ContextMenu: React.FC<IContextMenu> = ({ className, children, triggerRef, 
       {positionAndSize && (
         <>
           <div className={styles.fullscreenOverlay}>
-            <svg width='0' height='0'>
+            <svg width="0" height="0">
               <defs>
-                <mask id='mask'>
-                  <rect fill='white' className={styles.rect} />
+                <mask id="mask">
+                  <rect fill="white" className={styles.rect} />
                   <rect
                     x={positionAndSize.left}
                     y={positionAndSize.top}
-                    width={positionAndSize.width - 2}
-                    height={positionAndSize.height - 2}
-                    fill='black'
-                    rx='20'
-                    ry='20'
+                    width={positionAndSize.width - 0.5}
+                    height={positionAndSize.height - 0.5}
+                    fill="black"
+                    rx="7"
+                    ry="7"
                   />
                 </mask>
               </defs>

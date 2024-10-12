@@ -4,8 +4,7 @@ import { IImagesState } from './types';
 import { IImage } from '../../models/IImage';
 import { IUser } from '../../models/IUser';
 import { ImageEditOperationsEnum } from '../../models/ImageEditOperationsEnum';
-import { fetchCreateImage, fetchRemoveImage, fetchUpdateImage } from './asyncActions';
-import { stat } from 'fs';
+import { extraReducres } from './extraReducers';
 
 const initialState: IImagesState = {
   images: [],
@@ -76,21 +75,7 @@ const imagesSlice = createSlice({
       state.activeImage = action.payload;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(fetchCreateImage.fulfilled, (state, action: PayloadAction<IImage>) => {
-      let candidate = state.images.find((image) => image.id === action.payload.id);
-      if (candidate) candidate = action.payload;
-      else state.images = [action.payload, ...state.images];
-    });
-    builder.addCase(fetchUpdateImage.fulfilled, (state, action: PayloadAction<IImage>) => {
-      let candidate = state.images.find((image) => image.id === action.payload.id);
-      if (candidate) candidate = action.payload;
-      else state.images = [action.payload, ...state.images];
-    });
-    builder.addCase(fetchRemoveImage.fulfilled, (state, action: PayloadAction<number>) => {
-      state.images = state.images.filter((image) => image.id !== action.payload);
-    });
-  },
+  extraReducers: extraReducres,
 });
 export const {
   setActiveImageId,

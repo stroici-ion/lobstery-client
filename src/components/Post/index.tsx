@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getLikes } from '../../utils/getLikesCount';
@@ -33,12 +33,15 @@ import { IImage } from '../../models/IImage';
 import { setActiveImageId, setImages } from '../../redux/images/slice';
 import { setImagesModalStatus } from '../../redux/modals/slice';
 import { fetchRemovePost } from '../../redux/posts/asyncActions';
-import { setPostToEdit } from '../../redux/posts/slice';
 import SmallButton from '../UI/Buttons/SmallButton';
 import UserImage from '../UserImage';
 import AddPostForm from '../AddPostForm';
 import Modal from '../UI/modals/Modal';
-import { EnumModalDialogOptionType, useModalDialog } from '../../hooks/useModalDialog';
+import { useModalDialog } from '../../hooks/useModalDialog';
+import { dirtyFormWarningDialog } from '../UI/modals/dialog-options';
+import { setActivePost } from '../../redux/posts/slice';
+import { getIsPostFormDirty } from '../../redux/posts/selectors';
+import ImageGrid from '../media/ImageGrid';
 
 interface IPostFC {
   small?: boolean;
@@ -48,39 +51,22 @@ interface IPostFC {
 
 const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
   const dispatch = useAppDispatch();
-  // const existsNewPostDraft = useSelector(selectExistsNewPostDraft);
   const navigate = useNavigate();
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const userProfile = useSelector(selectUserProfile);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleHideModal = async () => {
-    setIsModalVisible(false);
-  };
+  const isAddPostFormDirty = useSelector(getIsPostFormDirty);
 
   const handleRemovePost = async () => {
     dispatch(fetchRemovePost(post.id));
   };
 
   const handleEditPost = () => {
-    // dispatch(setPostCreateModalStatus(true));
-    dispatch(setPostToEdit(post));
-    setIsModalVisible(true);
-
-    // navigate(POSTS_CREATE_ROUTE);
-  };
-
-  const onClickFetchPosts = (tag: string) => {
-    // dispatch(setTag(tag));
-    // navigate('/');
+    dispatch(setActivePost(post));
+    modal.open();
   };
 
   const handleViewComments = () => {
     setIsCommentsVisible(!isCommentsVisible);
-  };
-
-  const handleSetPost = (imageId: string) => {
-    // dispatch(setPost({ post, imageId }));
   };
 
   const handleSelectImage = (image: IImage) => {
@@ -93,26 +79,12 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     navigate(POSTS_ROUTE + post.id);
   };
 
-  const [modalDialog, setModalDialog] = useState({
-    title: 'Are you sure ypu want to leave?',
-    description: 'If you leave, changes will be lost!',
-    options: [
-      {
-        type: EnumModalDialogOptionType.OTHER,
-        title: 'Ok',
-        callback: () => {},
-        className: styles.dialogResult_save,
-      },
-      {
-        type: EnumModalDialogOptionType.RETURN,
-        title: 'Return',
-        callback: () => {},
-        className: styles.dialogResult_cancel,
-      },
-    ],
-  });
+  const modal = useModalDialog();
 
-  const modal = useModalDialog(modalDialog);
+  useEffect(() => {
+    if (isAddPostFormDirty) modal.dialog.setDialogParams(dirtyFormWarningDialog);
+    else modal.dialog.setDialogParams(undefined);
+  }, [isAddPostFormDirty]);
 
   return (
     <>
@@ -199,17 +171,13 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
 
             <ExtensibleText text={post.text} className={styles.post__description} showAll={handleViewPost} />
           </div>
-          <div>
-            {/* WEGEWGEWGWEGHW */}
-            <ImagesPreview images={post.image_set} onSelect={handleSelectImage} />
-          </div>
+          <ImageGrid images={post.image_set} />
+          {/* <ImagesPreview images={post.image_set} onSelect={handleSelectImage} /> */}
           <div className={styles.post__body}>
             {post.tags.length > 0 && (
               <p className={styles.post__tags}>
                 {post.tags.map((tag) => (
-                  <span key={tag} onClick={() => onClickFetchPosts(tag)}>
-                    #{tag}
-                  </span>
+                  <span key={tag}>#{tag}</span>
                 ))}
               </p>
             )}

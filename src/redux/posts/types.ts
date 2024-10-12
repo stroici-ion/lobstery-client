@@ -9,6 +9,5 @@ export interface IPostsState {
   status: FetchStatusEnum;
   errors: IAuthError | undefined;
   activePost: IPostEdit;
-  newPost?: IPost;
-  editPost?: IPost;
+  postSnapshot?: IPostEdit;
 }

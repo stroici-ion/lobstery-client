@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import classNames from 'classnames';
 
 interface IDialogModalForm {
-  title: string;
+  title?: string;
   description?: string;
   options: { title: string; callback: () => void; className?: string }[];
 }

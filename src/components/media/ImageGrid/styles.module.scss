@@ -1,0 +1,27 @@
+.grid {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #eee;
+}
+
+.cell {
+  position: absolute;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+
+  &__image {
+    backdrop-filter: blur(30px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}
+
+.mainCell {
+  overflow: hidden;
+  border-radius: 8px;
+}

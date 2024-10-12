@@ -415,49 +415,16 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
     }
   };
 
-  const handleOnSavesCopyDialogResult = () => {
-    const newImage = saveImage();
-    if (newImage) {
-      newImage.id = Math.random() * -1;
-      onSave(newImage);
+  const handlImageSave = () => {
+    if (isUndoAvailable) {
+      try {
+        const newImage = saveImage();
+        if (newImage) onSave(newImage);
+      } catch (e) {
+        window.alert('Something went wrong :(');
+      }
     }
   };
-
-  const handleOnSavesDialogResult = () => {
-    const newImage = saveImage();
-    if (newImage) onSave(newImage);
-  };
-
-  const [isSavedDialofOpen, setIsSaveDialogOpen] = useState(false);
-  const onShowSaveDialog = () => setIsSaveDialogOpen(true);
-  const onHideSaveDialog = () => setIsSaveDialogOpen(false);
-
-  // const dialogOptions: ModalDialogOption[] = [
-  //   {
-  //     type: EnumModalDialogOptionType.RETURN,
-  //     title: 'Cancel',
-  //     callback: onHideSaveDialog,
-  //     className: styles.dialogResult_cancel,
-  //   },
-  //   {
-  //     type: 0,
-
-  //     title: 'Save',
-  //     callback: handleOnSavesDialogResult,
-  //     className: styles.dialogResult_save,
-  //   },
-  //   {
-  //     type: 0,
-  //     title: 'Save copy',
-  //     callback: handleOnSavesCopyDialogResult,
-  //     className: styles.dialogResult_saveCopy,
-  //   },
-  // ];
-
-  // const modal = useModalDialog('Choose save method!', {
-  //   description: 'Save - to keep only edited image. Save copy - to keep original image',
-  //   dialogOptions: dialogOptions,
-  // });
 
   return (
     <>
@@ -465,7 +432,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
         <canvas ref={originalImageCanvasRef} hidden />
         <canvas ref={optimizedImageCanvasRef} hidden />
         <canvas ref={canvasMarkupRef} hidden />
-        <img hidden crossOrigin='anonymous' src={image.image} ref={imageRef} onLoad={imageOnLoad} />
+        <img hidden crossOrigin="anonymous" src={image.image} ref={imageRef} onLoad={imageOnLoad} />
         <div className={styles.header}>
           <div className={styles.header__body}>
             <div className={styles.zoomTools}>
@@ -499,10 +466,12 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
               </button>
             </div>
             <div className={styles.saveTools}>
-              <button className={styles.saveTools__save} onClick={onShowSaveDialog}>
+              <button
+                className={classNames(styles.saveTools__save, isUndoAvailable && styles.active)}
+                onClick={handlImageSave}
+              >
                 Save
               </button>
-              {/* <button className={styles.saveTools__cancel}>Cancel</button> */}
             </div>
           </div>
           <Tabs tab={tab} setTab={handleSetTab} />
@@ -558,7 +527,10 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
             </button>
           </div>
           <div className={styles.saveTools}>
-            <button className={styles.saveTools__save} onClick={onShowSaveDialog}>
+            <button
+              className={classNames(styles.saveTools__save, isUndoAvailable && styles.active)}
+              onClick={handlImageSave}
+            >
               Save
             </button>
           </div>

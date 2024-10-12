@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 
 import { useAppDispatch } from '../../redux';
-import { getIsDirty, selectActivePost, selectPosts } from '../../redux/posts/selectors';
+import { getIsPostFormDirty, selectPosts } from '../../redux/posts/selectors';
 import { fetchPosts } from '../../redux/posts/asyncActions';
-import { setActivePostNull } from '../../redux/posts/slice';
 import { selectAuthStatus, selectUserId } from '../../redux/auth/selectors';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
 import Modal from '../../components/UI/modals/Modal';
-import DialogModalForm from '../../components/UI/modals/forms/DialogModalForm';
 import AddPostForm from '../../components/AddPostForm';
 import Post from '../../components/Post';
 import { PlusSvg } from '../../icons';
 import styles from './styles.module.scss';
-import { useModalDialogYeReturn } from '../../hooks/useModalDialogYeReturn';
-import { EnumModalDialogOptionType, IModalDialogType, useModalDialog } from '../../hooks/useModalDialog';
+import { useModalDialog } from '../../hooks/useModalDialog';
+import { dirtyFormWarningDialog } from '../../components/UI/modals/dialog-options';
+import { setActivePost } from '../../redux/posts/slice';
 
 const Posts: React.FC = () => {
   const posts = useSelector(selectPosts);
@@ -23,7 +22,7 @@ const Posts: React.FC = () => {
   const authorizationStatus = useSelector(selectAuthStatus);
   const userId = useSelector(selectUserId);
   const pendingAuth = authorizationStatus === FetchStatusEnum.PENDING;
-  const isAddPostFormDirty = useSelector(getIsDirty);
+  const isAddPostFormDirty = useSelector(getIsPostFormDirty);
 
   useEffect(() => {
     if (pendingAuth) return;
@@ -34,37 +33,16 @@ const Posts: React.FC = () => {
     }
   }, [pendingAuth, userId, dispatch]);
 
-  const [modalDialog, setModalDialog] = useState<IModalDialogType>();
-
-  const modal = useModalDialog(modalDialog);
+  const modal = useModalDialog();
 
   useEffect(() => {
-    console.log('Is Dirty');
-    if (isAddPostFormDirty)
-      setModalDialog({
-        title: 'Are you sure ypu want to leave?',
-        description: 'If you leave, changes will be lost!',
-        options: [
-          {
-            type: EnumModalDialogOptionType.OTHER,
-            title: 'Yes',
-            callback: () => {},
-            className: styles.dialogOptions__yes,
-          },
-          {
-            type: EnumModalDialogOptionType.RETURN,
-            title: 'Return',
-            callback: () => {},
-            className: styles.dialogOptions__return,
-          },
-        ],
-      });
-    else setModalDialog(undefined);
+    if (isAddPostFormDirty) modal.dialog.setDialogParams(dirtyFormWarningDialog);
+    else modal.dialog.setDialogParams(undefined);
   }, [isAddPostFormDirty]);
 
   const handleShowAddPostModal = () => {
     if (userId) {
-      dispatch(setActivePostNull());
+      dispatch(setActivePost());
       modal.open();
     } else {
       toast.error('You are not authorized');

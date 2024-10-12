@@ -150,17 +150,25 @@
   justify-content: center;
   gap: 10px;
   &__save {
+    cursor: default;
     color: $saveButtonTextColor;
     font-weight: 700;
     height: 30px;
     border-radius: 5px;
-    background-color: $saveButtonColor;
+    background-color: $panelColor;
     padding: 0 40px;
     @media (min-width: 420px) {
       padding: 0 60px;
     }
-    &:hover {
-      background-color: $saveButtonColorHover;
+
+    &.active {
+      cursor: pointer;
+      background-color: $saveButtonColor;
+      @media (hover: hover) {
+        &:hover {
+          background-color: $saveButtonColorHover;
+        }
+      }
     }
   }
 }

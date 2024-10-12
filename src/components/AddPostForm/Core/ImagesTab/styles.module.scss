@@ -245,3 +245,37 @@
     }
   }
 }
+
+.cancel {
+  border: 1px solid $redColor;
+  color: $redColor;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: $redColor;
+      color: $lightColor;
+    }
+  }
+}
+
+.save {
+  background-color: $greenColor;
+  color: $lightColor;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: $greenColorDarken;
+    }
+  }
+}
+
+.saveas {
+  background-color: $orangeColor;
+  color: $lightColor;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: $orangeColorDarken;
+    }
+  }
+}
