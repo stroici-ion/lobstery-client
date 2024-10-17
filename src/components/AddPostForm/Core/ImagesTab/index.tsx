@@ -21,6 +21,7 @@ import { EnumModalDialogOptionType, useModalDialog } from '../../../../hooks/use
 import Modal from '../../../UI/modals/Modal';
 import { dirtyFormWarningDialog } from '../../../UI/modals/dialog-options';
 import ImageGrid from '../../../media/ImageGrid';
+import { convertToWebP } from './convertFunction';
 
 const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -48,48 +49,57 @@ const ImagesTab: React.FC = () => {
   const getSelectedFiles = async (acceptedFiles: File[]) => {
     const currentlyAddedImages: IImage[] = [];
     for await (const acceptedFile of acceptedFiles) {
-      const acceptedFileUrl = URL.createObjectURL(acceptedFile);
-      let image = '';
-      let aspect_ratio = 1;
-      let video = null;
-      let is_video_file = false;
-      let video_extension = undefined;
-      let thumbnail_width = 0;
-      let thumbnail_height = 0;
-      if (isVideo(acceptedFile.name)) {
-        const videoPreviewBlob = await getVideoPreview(acceptedFile);
-        video_extension = getExtension(acceptedFile.name);
-        if (videoPreviewBlob) {
-          image = URL.createObjectURL(videoPreviewBlob);
-          video = acceptedFileUrl;
-          is_video_file = true;
-        } else {
-          image = '';
+      if (acceptedFile) {
+        try {
+          const webpBlob = await convertToWebP(acceptedFile, 1200, 1200, 0.8);
+
+          const webpUrl = URL.createObjectURL(webpBlob);
+
+          let image = '';
+          let aspect_ratio = 1;
+          let video = null;
+          let is_video_file = false;
+          let video_extension = undefined;
+          let thumbnail_width = 0;
+          let thumbnail_height = 0;
+          if (isVideo(acceptedFile.name)) {
+            const videoPreviewBlob = await getVideoPreview(acceptedFile);
+            video_extension = getExtension(acceptedFile.name);
+            if (videoPreviewBlob) {
+              image = URL.createObjectURL(videoPreviewBlob);
+              video = webpUrl;
+              is_video_file = true;
+            } else {
+              image = '';
+            }
+          } else {
+            image = webpUrl;
+          }
+
+          await getImageSize(image).then(({ width, height }) => {
+            thumbnail_height = height;
+            thumbnail_width = width;
+            aspect_ratio = width / height;
+          });
+
+          currentlyAddedImages.push({
+            id: Math.random() * -1,
+            image_thumbnail: image,
+            upload_progress: 0,
+            image,
+            aspect_ratio,
+            caption: '',
+            video,
+            is_video_file,
+            video_extension,
+            thumbnail_width,
+            thumbnail_height,
+            isUpdated: true,
+          });
+        } catch (error) {
+          console.error('Error converting image:', error);
         }
-      } else {
-        image = acceptedFileUrl;
       }
-
-      await getImageSize(image).then(({ width, height }) => {
-        thumbnail_height = height;
-        thumbnail_width = width;
-        aspect_ratio = width / height;
-      });
-
-      currentlyAddedImages.push({
-        id: Math.random() * -1,
-        image_thumbnail: image,
-        upload_progress: 0,
-        image,
-        aspect_ratio,
-        caption: '',
-        video,
-        is_video_file,
-        video_extension,
-        thumbnail_width,
-        thumbnail_height,
-        isUpdated: true,
-      });
     }
     dispatch(addImages(currentlyAddedImages));
   };
@@ -112,8 +122,6 @@ const ImagesTab: React.FC = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleSelectImage = (src: string, ref?: HTMLElement) => {
-    console.log(src);
-
     const img = images.find((i) => i.image_thumbnail === src);
     if (img) {
       dispatch(setActiveImageId(img.id));

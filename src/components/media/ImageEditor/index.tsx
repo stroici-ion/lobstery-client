@@ -402,7 +402,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
       const markupCanvas = selectedHistoryMarkupStep && canvasMarkupRef.current ? canvasMarkupRef.current : undefined;
       canvasDrawImage(getImageToRender(), markupCanvas, imageRef.current, cropStep, 0, ctx, true);
 
-      const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+      const dataUrl = canvas.toDataURL('image/webp', 1.0);
       const newImage = {
         ...image,
         image_thumbnail: dataUrl,

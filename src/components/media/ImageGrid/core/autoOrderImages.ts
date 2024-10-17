@@ -1,3 +1,4 @@
+import { get } from 'http';
 import { IImage } from '../../../../models/IImage';
 import { GridCell } from '../../../../models/media-tools/images-grid/IGridCell';
 import layouts from './grid-layouts';
@@ -8,26 +9,56 @@ type MIImage = IImage & {
   arType: ImageArType;
 };
 
+type ImagesTypes = {
+  WU: MIImage[];
+  W: MIImage[];
+  S: MIImage[];
+  T: MIImage[];
+  TU: MIImage[];
+};
+
 export type Cell = {
-  type?: ImageArType | 'R' | 'M';
   isVertical?: boolean;
+  type?: ImageArType | 'R' | 'M';
   cells?: Cell[];
 };
 
 export type Layout = {
+  onlyRequired?: boolean;
   cell: Cell;
   mainType: ImageArType;
   requiredTypes: ImageArType[];
 };
 
-function getLayout(images: IImage[]) {
-  const { mImages, typesCount } = getModifiedImages(images);
+export function getLayout(images: IImage[]) {
+  const mImages = getModifiedImages(images);
   const mainImage = mImages[0];
-  typesCount[mainImage.arType]--;
-  const availableLayouts = layouts.filter((l) => l.mainType === mainImage.arType);
-}
 
-export function getImagesOrder(images: IImage[]) {
+  const rImages = mImages.slice(1);
+
+  const { iWU, iW, iS, iT, iTU } = getImageArrTypeOptions(rImages);
+  const imagesTypes: ImagesTypes = {
+    WU: iWU,
+    W: iW,
+    S: iS,
+    T: iT,
+    TU: iTU,
+  };
+
+  const typesCount: Record<string, number> = {
+    WU: iWU.length,
+    W: iW.length,
+    S: iS.length,
+    T: iT.length,
+    TU: iTU.length,
+  };
+
+  const availableLayouts = getAvailableLayouts(mainImage.arType, typesCount);
+
+  const currentLayout = availableLayouts[0];
+
+  //Cells
+
   const mainCell: GridCell = {
     id: 'keymain',
     src: '',
@@ -45,143 +76,132 @@ export function getImagesOrder(images: IImage[]) {
     direction: false,
     cells: [],
   };
-  if (images.length > 1) {
-    const { mImages } = getModifiedImages(images);
-    const mImg = mImages[0];
-    const mImgCell = {
-      id: 'key' + mImg.id,
-      src: mImg.image_thumbnail,
-      styles: {
-        top: '0%',
-        left: '0%',
-        width: '100%',
-        height: '100%',
-      },
-      width: 100,
-      height: 100,
-      x: 0,
-      y: 0,
-      ar: mImg.aspect_ratio,
-      direction: false,
-      cells: [],
-    };
-    const rImages = mImages.slice(1);
-    const { iWU, iW, iS, iT, iTU, isOnlyWideUltra, isOnlyWide, isOnlySquare, isOnlyTinny, isOnlyTinnyUltra } =
-      getImageArrTypeOptions(rImages);
 
-    switch (mImg.arType) {
-      case 'T':
-        {
-          if (iT.length === 1 && iW.length === 1) {
-            const sImg = iT[0];
-            const rest = getRemainedImages(rImages, sImg);
-            if (rest.length > 0) {
-              mainCell.cells.push(getRow(mImgCell, getCell(sImg)));
-              mainCell.direction = true;
-              mainCell.cells.push(getRow(...getCells(...rest)));
-            } else {
-              mainCell.cells.push(mImgCell, getCell(sImg));
-            }
-          } else if (iW.length) {
-            const sImg = iW[0];
-            const rest = getRemainedImages(rImages, sImg);
-            if (rest.length > 0) {
-              mainCell.cells.push(getRow(mImgCell, getCell(sImg)));
-              mainCell.direction = true;
-              mainCell.cells.push(getRow(...getCells(...rest)));
-            } else {
-              mainCell.cells.push(mImgCell, getCell(sImg));
-            }
-          } else if (iT.length > 0 && iS.length > 1) {
-            const sImg1 = iT[0];
-            const sImg2 = iS[0];
-            const sImg3 = iS[1];
-            const rest = getRemainedImages(rImages, sImg1, sImg2, sImg3);
-            if (rest.length > 0) {
-              mainCell.direction = true;
-              mainCell.cells.push(getRow(mImgCell, getCell(sImg1), getColumn(...getCells(sImg2, sImg3))));
-              mainCell.cells.push(getRow(...getCells(...rest)));
-            } else mainCell.cells.push(mImgCell, getCell(sImg1), getColumn(...getCells(sImg2, sImg3)));
-          } else if (iT.length > 2) {
-            const sImg1 = iT[0];
-            const sImg2 = iT[1];
-            const sImg3 = iT[2];
-            const rest = getRemainedImages(rImages, sImg1, sImg2, sImg3);
-            if (rest.length > 0) {
-              mainCell.direction = true;
-              mainCell.cells.push(getRow(mImgCell, ...getCells(sImg1, sImg2, sImg3)));
-              mainCell.cells.push(getRow(...getCells(...rest)));
-            } else {
-              mainCell.cells.push(mImgCell, ...getCells(sImg1, sImg2, sImg3));
-            }
-          } else if (iS.length > 1) {
-            const sImg1 = iS[0];
-            const sImg2 = iS[1];
-            const rest = getRemainedImages(rImages, sImg1, sImg2);
-            if (rest.length > 0) {
-              mainCell.direction = true;
-              mainCell.cells.push(getRow(mImgCell, ...getCells(sImg1, sImg2)));
-              mainCell.cells.push(getRow(...getCells(...rest)));
-            } else {
-              mainCell.cells.push(getRow(mImgCell, getColumn(...getCells(sImg1, sImg2))));
-            }
-          } else if (iWU.length) {
-            const sImg = iWU[0];
-            const rest = getRemainedImages(rImages, sImg);
-            if (rest.length > 0) {
-              mainCell.cells.push(getRow(mImgCell, getCell(sImg)));
-              mainCell.cells.push(getRow(...getCells(...rest)));
-            } else {
-              mainCell.cells.push(mImgCell, getCell(sImg));
-            }
-          } else {
-            mainCell.cells.push(...getCells(...mImages));
-          }
-        }
-        break;
-      case 'W':
-        if (iS.length > 1) {
-          const sImg1 = iS[0];
-          const sImg2 = iS[1];
-          const rest = getRemainedImages(rImages, sImg1, sImg2);
-          if (rest.length > 0) {
-            mainCell.direction = true;
-            mainCell.cells.push(getRow(mImgCell, ...getCells(sImg1, sImg2)));
-            mainCell.cells.push(getRow(...getCells(...rest)));
-          } else {
-            mainCell.cells.push(getRow(mImgCell, getColumn(...getCells(sImg1, sImg2))));
-          }
-        } else if (iT.length) {
-          const sImg = iT[0];
-          const rest = getRemainedImages(rImages, sImg);
-          if (rest.length > 0) {
-            mainCell.cells.push(getRow(mImgCell, getCell(sImg)));
-            mainCell.direction = true;
-            mainCell.cells.push(...getRemainedImagesRow(rest));
-          } else {
-            mainCell.cells.push(mImgCell, getCell(sImg));
-          }
-        } else mainCell.cells.push(...getCells(...mImages));
-        break;
-      default: {
-        mainCell.cells.push(...getCells(...mImages));
-      }
+  if (currentLayout) {
+    const imagesRest: MIImage[] = [];
+    const layoutTypesCount = getLayoutTypesCount(currentLayout);
+
+    for (let k in layoutTypesCount) {
+      const key = k as ImageArType;
+      if (key) imagesRest.push(...imagesTypes[key].slice(layoutTypesCount[k]));
     }
+
+    const getOrderedCell = (lCell: Cell) => {
+      const cell = getEmptyCell();
+      if (lCell.type) {
+        switch (lCell.type) {
+          case 'R':
+            if (!imagesRest.length) return;
+            if (lCell.isVertical) cell.direction = true;
+            cell.id = 'rest';
+            const totalAspectRatio = imagesRest.reduce((sum, c) => sum + c.aspect_ratio, 0);
+            if (totalAspectRatio > 7)
+              if (cell.direction) {
+                cell.direction = false;
+                cell.cells = [
+                  getColumn(...getCells(...imagesRest.filter((i, index) => index < imagesRest.length / 2))),
+                  getColumn(...getCells(...imagesRest.filter((i, index) => index >= imagesRest.length / 2))),
+                ];
+              } else {
+                cell.direction = true;
+                cell.cells = [
+                  getRow(...getCells(...imagesRest.filter((i, index) => index < imagesRest.length / 2))),
+                  getRow(...getCells(...imagesRest.filter((i, index) => index >= imagesRest.length / 2))),
+                ];
+              }
+            else cell.cells = getCells(...imagesRest);
+            break;
+          case 'M':
+            cell.id = 'm' + mainImage.id;
+            cell.ar = mainImage.aspect_ratio;
+            cell.src = mainImage.image_thumbnail;
+            break;
+          default:
+            const img = imagesTypes[lCell.type].shift();
+            if (img) {
+              cell.ar = img.aspect_ratio;
+              cell.id = 'c' + img.id;
+              cell.src = img.image_thumbnail;
+            }
+        }
+      } else {
+        if (lCell.isVertical) cell.direction = true;
+        const cells: GridCell[] = [];
+        lCell.cells?.forEach((lc) => {
+          const c = getOrderedCell(lc);
+          if (c) cells.push(c);
+        });
+        cell.id = 'c' + cells.map((cell) => cell.id).toString();
+        cell.cells = cells;
+      }
+      return cell;
+    };
+
+    const cell = getOrderedCell(currentLayout.cell);
+    if (cell) mainCell.cells.push(cell);
+    console.log(mainCell);
   } else {
-    mainCell.src = images[0].image_thumbnail;
-    mainCell.ar = images[0].aspect_ratio;
+    mainCell.src = mainImage.image_thumbnail;
+    mainCell.ar = mainImage.aspect_ratio;
   }
+
   return mainCell;
 }
 
-const getRemainedImagesRow = (imgs: MIImage[]): GridCell[] => {
-  const totalAspectRatio = imgs.reduce((sum, c) => sum + c.aspect_ratio, 0);
-  if (totalAspectRatio > 7)
-    return [
-      getRow(...getCells(...imgs.filter((i, index) => index < imgs.length / 2))),
-      getRow(...getCells(...imgs.filter((i, index) => index >= imgs.length / 2))),
-    ];
-  return [getRow(...getCells(...imgs))];
+const getEmptyCell = (): GridCell => {
+  return {
+    id: 'c',
+    src: '',
+    styles: {
+      top: '0%',
+      left: '0%',
+      width: '100%',
+      height: '100%',
+    },
+    width: 100,
+    height: 100,
+    x: 0,
+    y: 0,
+    ar: 1,
+    direction: false,
+    cells: [],
+  };
+};
+
+const getAvailableLayouts = (selectedArType: ImageArType, typesCount: Record<string, number>) => {
+  const selectedTypeLayouts = layouts.filter((l) => l.mainType === selectedArType);
+
+  const availableLayouts: Layout[] = [];
+  selectedTypeLayouts.forEach((l) => {
+    if (isLayoutMeetRequirements(l, typesCount)) availableLayouts.push(l);
+  });
+
+  return availableLayouts;
+};
+
+const isLayoutMeetRequirements = (l: Layout, typesCount: Record<string, number>) => {
+  const layoutTypesCount = getLayoutTypesCount(l);
+  let f = true;
+  for (let k in typesCount) {
+    if (l.onlyRequired) {
+      if (typesCount[k] !== layoutTypesCount[k]) f = false;
+    } else if (typesCount[k] < layoutTypesCount[k]) f = false;
+  }
+  return f;
+};
+
+const getLayoutTypesCount = (l: Layout) => {
+  const count: Record<string, number> = {
+    WU: 0,
+    W: 0,
+    S: 0,
+    T: 0,
+    TU: 0,
+  };
+  l.requiredTypes.forEach((t) => {
+    count[t]++;
+  });
+  return count;
 };
 
 const getCell = (img: IImage): GridCell => {
@@ -250,15 +270,7 @@ const getCells = (...images: MIImage[]): GridCell[] => {
   return images.map((i) => getCell(i));
 };
 
-const getModifiedImages = (images: IImage[]): { mImages: MIImage[]; typesCount: Record<string, number> } => {
-  const typesCount = {
-    WU: 0,
-    W: 0,
-    S: 0,
-    T: 0,
-    TU: 0,
-  };
-
+const getModifiedImages = (images: IImage[]): MIImage[] => {
   function getModifiedImage(i: IImage): MIImage {
     let arType: ImageArType;
     if (i.aspect_ratio > 2.2) {
@@ -272,18 +284,13 @@ const getModifiedImages = (images: IImage[]): { mImages: MIImage[]; typesCount: 
     } else {
       arType = 'TU';
     }
-    typesCount[arType]++;
     return {
       ...i,
       arType,
     };
   }
 
-  return { mImages: images.map((i) => getModifiedImage(i)), typesCount };
-};
-
-const getRemainedImages = (images: MIImage[], ...sImages: MIImage[]) => {
-  return images.filter((i) => !sImages.some((sI) => sI.image_thumbnail === i.image_thumbnail));
+  return images.map((i) => getModifiedImage(i));
 };
 
 const getImageArrTypeOptions = (images: MIImage[]) => {
@@ -293,28 +300,9 @@ const getImageArrTypeOptions = (images: MIImage[]) => {
   const iT = images.filter((i) => i.arType === 'T');
   const iTU = images.filter((i) => i.arType === 'TU');
 
-  const isOnlyWideUltra = !iW.length && !iS.length && !iT.length && !iTU.length;
-  const isOnlyWide = !iW.length && !iS.length && !iT.length && !iTU.length;
-  const isOnlySquare = !iW.length && !iS.length && !iT.length && !iTU.length;
-  const isOnlyTinny = !iW.length && !iS.length && !iT.length && !iTU.length;
-  const isOnlyTinnyUltra = !iW.length && !iS.length && !iT.length && !iTU.length;
-
-  return { iWU, iW, iS, iT, iTU, isOnlyWideUltra, isOnlyWide, isOnlySquare, isOnlyTinny, isOnlyTinnyUltra };
+  return { iWU, iW, iS, iT, iTU };
 };
 
-// function getColumn(...cells: GridCell[]) {
-//   const cell = getCell();
-//   cell.direction = true;
-//   cell.cells.push(...cells);
-// }
-
-// function getColumn(...cells: GridCell[]) {
-//   const cell = getCell();
-//   cell.direction = true;
-//   cell.cells.push(...cells);
-// }
-
-// function getRow(...cells: GridCell[]) {
-//   const cell = getCell();
-//   cell.cells.push(...cells);
-// }
+// const getRemainedImages = (images: MIImage[], ...sImages: MIImage[]) => {
+//   return images.filter((i) => !sImages.some((sI) => sI.image_thumbnail === i.image_thumbnail));
+// };

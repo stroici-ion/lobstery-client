@@ -3,7 +3,7 @@ import { IImage } from '../../../models/IImage';
 
 import styles from './styles.module.scss';
 import { GridCell } from '../../../models/media-tools/images-grid/IGridCell';
-import { getImagesOrder } from './core/autoOrderImages';
+import { getLayout } from './core/autoOrderImages';
 import { url } from 'inspector';
 import classNames from 'classnames';
 
@@ -83,9 +83,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
   };
 
   const getMainCell = () => {
-    const cell = getImagesOrder(images);
-    console.log(cell);
-
+    const cell = getLayout(images);
     const resizedCell = calculateCellSize(cell, true);
     setGrid(resizedCell);
   };
@@ -117,7 +115,6 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
         <div
           className={classNames(styles.cell, styles.mainCell)}
           style={{
-            background: `url(${grid.src}) center/150%  no-repeat`,
             width: grid.width,
             height: grid.height,
           }}
