@@ -154,9 +154,17 @@
       }
     }
   }
+
   &__close {
     svg {
       @include svgcolor($redColor);
+    }
+  }
+  &__makeMain {
+    animation: moveInMakeMain 0.2s;
+    transform: translate(-10%, -200%);
+    svg {
+      @include svgcolor($cyanColor);
     }
   }
   &__delete {
@@ -179,6 +187,15 @@
     svg {
       @include svgcolor($blueColor);
     }
+  }
+}
+
+@keyframes moveInMakeMain {
+  from {
+    transform: translate(0%, 0%) scale(0.3);
+  }
+  to {
+    transform: translate(-10%, -200%) scale(1);
   }
 }
 

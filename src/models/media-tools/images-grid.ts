@@ -1,4 +1,4 @@
-export type GridCell = {
+export type TGridCell = {
   id: string;
   src: string;
   x: number;
@@ -13,5 +13,5 @@ export type GridCell = {
   };
   ar: number;
   direction: boolean;
-  cells: GridCell[];
+  cells: TGridCell[];
 };

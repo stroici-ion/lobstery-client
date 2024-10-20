@@ -1,43 +1,23 @@
-import { get } from 'http';
 import { IImage } from '../../../../models/IImage';
-import { GridCell } from '../../../../models/media-tools/images-grid/IGridCell';
 import layouts from './grid-layouts';
+import { TGridCell } from '../../../../models/media-tools/images-grid';
+import {
+  TCell,
+  TImageArType,
+  TImagesTypes,
+  TLayout,
+  TMIImage,
+  TRemainedImagesLocation,
+} from '../../../../models/media-tools/images-auto-order';
 
-type ImageArType = 'WU' | 'W' | 'S' | 'T' | 'TU';
-
-type MIImage = IImage & {
-  arType: ImageArType;
-};
-
-type ImagesTypes = {
-  WU: MIImage[];
-  W: MIImage[];
-  S: MIImage[];
-  T: MIImage[];
-  TU: MIImage[];
-};
-
-export type Cell = {
-  isVertical?: boolean;
-  type?: ImageArType | 'R' | 'M';
-  cells?: Cell[];
-};
-
-export type Layout = {
-  onlyRequired?: boolean;
-  cell: Cell;
-  mainType: ImageArType;
-  requiredTypes: ImageArType[];
-};
-
-export function getLayout(images: IImage[]) {
+export function getLayout(images: IImage[], remainedImagesLocation: TRemainedImagesLocation) {
   const mImages = getModifiedImages(images);
   const mainImage = mImages[0];
 
   const rImages = mImages.slice(1);
 
   const { iWU, iW, iS, iT, iTU } = getImageArrTypeOptions(rImages);
-  const imagesTypes: ImagesTypes = {
+  const imagesTypes: TImagesTypes = {
     WU: iWU,
     W: iW,
     S: iS,
@@ -58,8 +38,7 @@ export function getLayout(images: IImage[]) {
   const currentLayout = availableLayouts[0];
 
   //Cells
-
-  const mainCell: GridCell = {
+  const mainCell: TGridCell = {
     id: 'keymain',
     src: '',
     styles: {
@@ -78,38 +57,36 @@ export function getLayout(images: IImage[]) {
   };
 
   if (currentLayout) {
-    const imagesRest: MIImage[] = [];
+    const imagesRest: TMIImage[] = [];
     const layoutTypesCount = getLayoutTypesCount(currentLayout);
 
     for (let k in layoutTypesCount) {
-      const key = k as ImageArType;
+      const key = k as TImageArType;
       if (key) imagesRest.push(...imagesTypes[key].slice(layoutTypesCount[k]));
     }
 
-    const getOrderedCell = (lCell: Cell) => {
+    let isRemainedImgLocationSet = false;
+    const getOrderedCell = (lCell: TCell) => {
       const cell = getEmptyCell();
       if (lCell.type) {
         switch (lCell.type) {
           case 'R':
+            isRemainedImgLocationSet = true;
             if (!imagesRest.length) return;
             if (lCell.isVertical) cell.direction = true;
             cell.id = 'rest';
             const totalAspectRatio = imagesRest.reduce((sum, c) => sum + c.aspect_ratio, 0);
-            if (totalAspectRatio > 7)
+            if (totalAspectRatio > 7) {
+              const cells1 = getCells(...imagesRest.filter((i, index) => index < imagesRest.length / 2));
+              const cells2 = getCells(...imagesRest.filter((i, index) => index >= imagesRest.length / 2));
               if (cell.direction) {
                 cell.direction = false;
-                cell.cells = [
-                  getColumn(...getCells(...imagesRest.filter((i, index) => index < imagesRest.length / 2))),
-                  getColumn(...getCells(...imagesRest.filter((i, index) => index >= imagesRest.length / 2))),
-                ];
+                cell.cells = [getColumn(...cells1), getColumn(...cells2)];
               } else {
                 cell.direction = true;
-                cell.cells = [
-                  getRow(...getCells(...imagesRest.filter((i, index) => index < imagesRest.length / 2))),
-                  getRow(...getCells(...imagesRest.filter((i, index) => index >= imagesRest.length / 2))),
-                ];
+                cell.cells = [getRow(...cells1), getRow(...cells2)];
               }
-            else cell.cells = getCells(...imagesRest);
+            } else cell.cells = getCells(...imagesRest);
             break;
           case 'M':
             cell.id = 'm' + mainImage.id;
@@ -126,7 +103,7 @@ export function getLayout(images: IImage[]) {
         }
       } else {
         if (lCell.isVertical) cell.direction = true;
-        const cells: GridCell[] = [];
+        const cells: TGridCell[] = [];
         lCell.cells?.forEach((lc) => {
           const c = getOrderedCell(lc);
           if (c) cells.push(c);
@@ -137,9 +114,61 @@ export function getLayout(images: IImage[]) {
       return cell;
     };
 
-    const cell = getOrderedCell(currentLayout.cell);
-    if (cell) mainCell.cells.push(cell);
-    console.log(mainCell);
+    console.log(currentLayout);
+
+    const mcell = getOrderedCell(currentLayout.cell);
+    if (!isRemainedImgLocationSet && mcell && imagesRest.length > 0) {
+      console.log('Ordering');
+
+      const cell = getEmptyCell();
+
+      const isVertical = remainedImagesLocation === 'top' || remainedImagesLocation === 'bottom';
+      cell.id = 'rest';
+
+      const totalAspectRatio = imagesRest.reduce(
+        (sum, c) => sum + (isVertical ? c.aspect_ratio : 1 / c.aspect_ratio),
+        0
+      );
+
+      const maxAr = isVertical ? 7 : 3.5;
+
+      if (totalAspectRatio > maxAr) {
+        const cells1 = getCells(...imagesRest.filter((i, index) => index < imagesRest.length / 2));
+        const cells2 = getCells(...imagesRest.filter((i, index) => index >= imagesRest.length / 2));
+        if (!isVertical) {
+          cell.direction = false;
+          cell.cells = [getColumn(...cells1), getColumn(...cells2)];
+        } else {
+          cell.direction = true;
+          cell.cells = [getRow(...cells1), getRow(...cells2)];
+        }
+      } else {
+        if (!isVertical) cell.direction = true;
+        else cell.direction = false;
+        cell.cells = getCells(...imagesRest);
+      }
+
+      switch (remainedImagesLocation) {
+        case 'left':
+          mcell.cells.unshift(cell);
+          mcell.direction = false;
+          break;
+        case 'right':
+          mcell.cells.push(cell);
+          mcell.direction = false;
+          break;
+        case 'top':
+          mcell.direction = true;
+          mcell.cells.unshift(cell);
+          break;
+        case 'bottom':
+          mcell.direction = true;
+          mcell.cells.push(cell);
+          break;
+      }
+    }
+
+    if (mcell) mainCell.cells.push(mcell);
   } else {
     mainCell.src = mainImage.image_thumbnail;
     mainCell.ar = mainImage.aspect_ratio;
@@ -148,7 +177,7 @@ export function getLayout(images: IImage[]) {
   return mainCell;
 }
 
-const getEmptyCell = (): GridCell => {
+const getEmptyCell = (): TGridCell => {
   return {
     id: 'c',
     src: '',
@@ -168,10 +197,10 @@ const getEmptyCell = (): GridCell => {
   };
 };
 
-const getAvailableLayouts = (selectedArType: ImageArType, typesCount: Record<string, number>) => {
+const getAvailableLayouts = (selectedArType: TImageArType, typesCount: Record<string, number>) => {
   const selectedTypeLayouts = layouts.filter((l) => l.mainType === selectedArType);
 
-  const availableLayouts: Layout[] = [];
+  const availableLayouts: TLayout[] = [];
   selectedTypeLayouts.forEach((l) => {
     if (isLayoutMeetRequirements(l, typesCount)) availableLayouts.push(l);
   });
@@ -179,7 +208,7 @@ const getAvailableLayouts = (selectedArType: ImageArType, typesCount: Record<str
   return availableLayouts;
 };
 
-const isLayoutMeetRequirements = (l: Layout, typesCount: Record<string, number>) => {
+const isLayoutMeetRequirements = (l: TLayout, typesCount: Record<string, number>) => {
   const layoutTypesCount = getLayoutTypesCount(l);
   let f = true;
   for (let k in typesCount) {
@@ -190,7 +219,7 @@ const isLayoutMeetRequirements = (l: Layout, typesCount: Record<string, number>)
   return f;
 };
 
-const getLayoutTypesCount = (l: Layout) => {
+const getLayoutTypesCount = (l: TLayout) => {
   const count: Record<string, number> = {
     WU: 0,
     W: 0,
@@ -204,7 +233,7 @@ const getLayoutTypesCount = (l: Layout) => {
   return count;
 };
 
-const getCell = (img: IImage): GridCell => {
+const getCell = (img: IImage): TGridCell => {
   return {
     id: 'key' + img.id,
     src: img.image_thumbnail,
@@ -224,7 +253,7 @@ const getCell = (img: IImage): GridCell => {
   };
 };
 
-const getRow = (...cells: GridCell[]): GridCell => {
+const getRow = (...cells: TGridCell[]): TGridCell => {
   const id = 'key' + cells.map((cell) => cell.id).toString();
   return {
     id,
@@ -245,7 +274,7 @@ const getRow = (...cells: GridCell[]): GridCell => {
   };
 };
 
-const getColumn = (...cells: GridCell[]): GridCell => {
+const getColumn = (...cells: TGridCell[]): TGridCell => {
   const id = 'key' + cells.map((cell) => cell.id).toString();
   return {
     id: id,
@@ -266,13 +295,13 @@ const getColumn = (...cells: GridCell[]): GridCell => {
   };
 };
 
-const getCells = (...images: MIImage[]): GridCell[] => {
+const getCells = (...images: TMIImage[]): TGridCell[] => {
   return images.map((i) => getCell(i));
 };
 
-const getModifiedImages = (images: IImage[]): MIImage[] => {
-  function getModifiedImage(i: IImage): MIImage {
-    let arType: ImageArType;
+const getModifiedImages = (images: IImage[]): TMIImage[] => {
+  function getModifiedImage(i: IImage): TMIImage {
+    let arType: TImageArType;
     if (i.aspect_ratio > 2.2) {
       arType = 'WU';
     } else if (i.aspect_ratio <= 2.2 && i.aspect_ratio > 1.5) {
@@ -293,7 +322,7 @@ const getModifiedImages = (images: IImage[]): MIImage[] => {
   return images.map((i) => getModifiedImage(i));
 };
 
-const getImageArrTypeOptions = (images: MIImage[]) => {
+const getImageArrTypeOptions = (images: TMIImage[]) => {
   const iWU = images.filter((i) => i.arType === 'WU');
   const iW = images.filter((i) => i.arType === 'W');
   const iS = images.filter((i) => i.arType === 'S');
@@ -302,7 +331,3 @@ const getImageArrTypeOptions = (images: MIImage[]) => {
 
   return { iWU, iW, iS, iT, iTU };
 };
-
-// const getRemainedImages = (images: MIImage[], ...sImages: MIImage[]) => {
-//   return images.filter((i) => !sImages.some((sI) => sI.image_thumbnail === i.image_thumbnail));
-// };

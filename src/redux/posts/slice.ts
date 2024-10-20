@@ -10,6 +10,8 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     setActivePost: (state, action: PayloadAction<IPost | undefined>) => {
+      console.log('Called set 0 progress for Post');
+
       if (action.payload)
         state.activePost = {
           upload_progress: 0,

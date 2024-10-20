@@ -1,8 +1,10 @@
-import { Layout } from '../autoOrderImages';
+import { TLayout } from '../../../../../models/media-tools/images-auto-order';
 
-export const thinLayouts: Layout[] = [
+const mainType = 'T';
+
+export const thinLayouts: TLayout[] = [
   {
-    mainType: 'T',
+    mainType,
     requiredTypes: ['T', 'T', 'T', 'T'],
     onlyRequired: true,
     cell: {
@@ -18,7 +20,7 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
+    mainType,
     requiredTypes: ['T', 'T', 'T', 'T', 'T'],
     onlyRequired: true,
     cell: {
@@ -34,7 +36,7 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
+    mainType,
     requiredTypes: ['T', 'T', 'T', 'T', 'T', 'T'],
     onlyRequired: true,
     cell: {
@@ -50,7 +52,7 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
+    mainType,
     requiredTypes: ['T', 'T', 'T', 'T', 'T', 'T'],
     onlyRequired: true,
     cell: {
@@ -66,7 +68,7 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
+    mainType,
     requiredTypes: ['S', 'S', 'S', 'S'],
     cell: {
       isVertical: true,
@@ -85,7 +87,7 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
+    mainType,
     requiredTypes: ['S', 'S', 'S', 'S'],
     cell: {
       isVertical: true,
@@ -109,7 +111,7 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
+    mainType,
     requiredTypes: ['T', 'T', 'T'],
     cell: {
       isVertical: true,
@@ -124,7 +126,7 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
+    mainType,
     requiredTypes: ['T', 'T'],
     cell: {
       isVertical: true,
@@ -139,13 +141,13 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
-    requiredTypes: [],
+    mainType,
+    requiredTypes: ['S', 'S'],
     cell: {
       isVertical: true,
       cells: [
         {
-          cells: [{ type: 'M' }],
+          cells: [{ type: 'M' }, { type: 'S' }, { type: 'S' }],
         },
         {
           type: 'R',
@@ -154,13 +156,28 @@ export const thinLayouts: Layout[] = [
     },
   },
   {
-    mainType: 'T',
-    requiredTypes: ['S', 'S'],
+    mainType,
+    requiredTypes: ['W'],
     cell: {
       isVertical: true,
       cells: [
         {
-          cells: [{ type: 'M' }, { type: 'S' }, { type: 'S' }],
+          cells: [{ type: 'M' }, { type: 'W' }],
+        },
+        {
+          type: 'R',
+        },
+      ],
+    },
+  },
+  {
+    mainType,
+    requiredTypes: [],
+    cell: {
+      isVertical: true,
+      cells: [
+        {
+          type: 'M',
         },
         {
           type: 'R',

@@ -1,7 +1,8 @@
 import { TLayout } from '../../../../../models/media-tools/images-auto-order';
-const mainType = 'W';
 
-export const wideLayouts: TLayout[] = [
+const mainType = 'WU';
+
+export const wideUltra: TLayout[] = [
   {
     mainType,
     requiredTypes: ['T'],
@@ -10,6 +11,9 @@ export const wideLayouts: TLayout[] = [
       cells: [
         {
           cells: [{ type: 'M' }, { type: 'T' }],
+        },
+        {
+          type: 'R',
         },
       ],
     },
@@ -23,6 +27,9 @@ export const wideLayouts: TLayout[] = [
         {
           cells: [{ type: 'T' }, { type: 'M' }],
         },
+        {
+          type: 'R',
+        },
       ],
     },
   },
@@ -41,6 +48,9 @@ export const wideLayouts: TLayout[] = [
             },
           ],
         },
+        {
+          type: 'R',
+        },
       ],
     },
   },
@@ -58,6 +68,9 @@ export const wideLayouts: TLayout[] = [
             },
             { type: 'M' },
           ],
+        },
+        {
+          type: 'R',
         },
       ],
     },
@@ -70,6 +83,9 @@ export const wideLayouts: TLayout[] = [
       cells: [
         {
           type: 'M',
+        },
+        {
+          type: 'R',
         },
       ],
     },

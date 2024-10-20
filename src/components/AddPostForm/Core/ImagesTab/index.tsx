@@ -5,23 +5,22 @@ import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { addImages, removeImage, setActiveImageId } from '../../../../redux/images/slice';
+import { EnumModalDialogOptionType, useModalDialog } from '../../../../hooks/useModalDialog';
+import { addImages, removeImage, setActiveImageId, setImages } from '../../../../redux/images/slice';
 import { AddImageVideoSvg, CloseSvg, EditSvg, TagPeopleSvg } from '../../../../icons';
 import { selectActiveImage, selectImages } from '../../../../redux/images/selectors';
-import { getExtension, isImage, isVideo } from '../../../../utils/filesTypes';
+import { getExtension, isVideo } from '../../../../utils/filesTypes';
+import { dirtyFormWarningDialog } from '../../../UI/modals/dialog-options';
 import ImageEditor2 from '../../../media/ImageEditor';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import { useAppDispatch } from '../../../../redux';
 import { IImage } from '../../../../models/IImage';
-import ImagesPreview from '../../../ImagesPreview';
-import ContextMenu from '../../../UI/ContextMenu';
-import ScrollArea from '../../../UI/ScrollArea';
-import styles from './styles.module.scss';
-import { EnumModalDialogOptionType, useModalDialog } from '../../../../hooks/useModalDialog';
-import Modal from '../../../UI/modals/Modal';
-import { dirtyFormWarningDialog } from '../../../UI/modals/dialog-options';
-import ImageGrid from '../../../media/ImageGrid';
 import { convertToWebP } from './convertFunction';
+import ContextMenu from '../../../UI/ContextMenu';
+import ImageGrid from '../../../media/ImageGrid';
+import ScrollArea from '../../../UI/ScrollArea';
+import Modal from '../../../UI/modals/Modal';
+import styles from './styles.module.scss';
 
 const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -121,6 +120,13 @@ const ImagesTab: React.FC = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  const handleMakeImageMain = () => {
+    if (activeImage) {
+      dispatch(setImages([activeImage, ...images.filter((i) => i.id !== activeImage.id)]));
+      setContextRef(undefined);
+    }
+  };
+
   const handleSelectImage = (src: string, ref?: HTMLElement) => {
     const img = images.find((i) => i.image_thumbnail === src);
     if (img) {
@@ -204,6 +210,12 @@ const ImagesTab: React.FC = () => {
         <ContextMenu triggerRef={contextRef} onHide={handleHideContextMenu}>
           <div className={classNames(styles.contextMenu, isContextVisible && styles.contextMenu__active)}>
             <button
+              className={classNames(styles.contextMenu__button, styles.contextMenu__makeMain)}
+              onClick={handleMakeImageMain}
+            >
+              Set as main
+            </button>
+            <button
               className={classNames(styles.contextMenu__button, styles.contextMenu__close)}
               onClick={handleHideContextMenu}
             >
@@ -247,7 +259,7 @@ const ImagesTab: React.FC = () => {
               <ImageGrid images={images} onSelect={handleSelectImage} />
             </ScrollArea>
           )}
-          <input {...getInputProps()} accept="image/*, video/*" />
+          <input {...getInputProps()} accept='image/*, video/*' />
         </div>
         {images.length > 0 && (
           <div className={classNames(styles.root__tools, styles.tools)}>
@@ -259,7 +271,7 @@ const ImagesTab: React.FC = () => {
                 style={{ display: 'none' }}
                 onChange={handleOnChangeImages}
                 multiple
-                accept="image/*, video/*"
+                accept='image/*, video/*'
               />
             </button>
           </div>

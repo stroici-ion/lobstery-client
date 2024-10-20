@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IImage } from '../../../models/IImage';
 
 import styles from './styles.module.scss';
-import { GridCell } from '../../../models/media-tools/images-grid/IGridCell';
 import { getLayout } from './core/autoOrderImages';
-import { url } from 'inspector';
 import classNames from 'classnames';
+import { TGridCell } from '../../../models/media-tools/images-grid';
+import { TRemainedImagesLocation } from '../../../models/media-tools/images-auto-order';
 
 type ImageGridProps = {
   images: IImage[];
@@ -13,19 +13,20 @@ type ImageGridProps = {
 };
 
 const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
-  const [grid, setGrid] = useState<GridCell>();
+  const [grid, setGrid] = useState<TGridCell>();
   const [parentWidth, setParentWidth] = useState<number>(0);
   const gridRef = useRef<HTMLDivElement>(null);
+  const [remainedImagesLocation, setRemainedImagesLocation] = useState<TRemainedImagesLocation>('left');
 
-  const calculateCellSize = (cell: GridCell, isMain: boolean = false) => {
+  const calculateCellSize = (cell: TGridCell, isMain: boolean = false) => {
     if (cell.cells.length) {
       const cells = cell.cells;
       for (let i = 0; i < cells.length; i++) {
         const c = cells[i];
         if (c.cells.length) cells[i] = calculateCellSize(c);
       }
-      // If the cell has children, calculate their size recursively
 
+      // If the cell has children, calculate their size recursively
       let totalAspectRatio = cells.reduce((sum, c) => sum + c.ar, 0);
       cell.ar = totalAspectRatio;
 
@@ -71,7 +72,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
     }
   };
 
-  const checkMainCellHeight = (cell: GridCell) => {
+  const checkMainCellHeight = (cell: TGridCell) => {
     let height = parentWidth / cell.ar;
     let width = parentWidth;
     if (parentWidth / cell.ar > 400) {
@@ -83,14 +84,51 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
   };
 
   const getMainCell = () => {
-    const cell = getLayout(images);
+    console.log(remainedImagesLocation);
+
+    const cell = getLayout(images, remainedImagesLocation);
     const resizedCell = calculateCellSize(cell, true);
     setGrid(resizedCell);
   };
 
+  const isMoveActive = useRef(false);
+  const isSelectBlocked = useRef(false);
+  const cursorPosition = useRef({ x: 0, y: 0 });
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const parent = (e.target as Node).parentNode as HTMLDivElement;
+    if (parent && parent.id === 'rest') {
+      isMoveActive.current = true;
+      cursorPosition.current.x = e.clientX;
+      cursorPosition.current.y = e.clientY;
+    }
+  };
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isMoveActive.current) {
+      isSelectBlocked.current = true;
+      if (e.clientX - cursorPosition.current.x > 50) setRemainedImagesLocation('right');
+      if (e.clientX - cursorPosition.current.x < -50) setRemainedImagesLocation('left');
+      if (e.clientY - cursorPosition.current.y > 50) setRemainedImagesLocation('bottom');
+      if (e.clientY - cursorPosition.current.y < -50) setRemainedImagesLocation('top');
+    }
+  };
+
+  const onMouseUp = () => {
+    isMoveActive.current = false;
+    isSelectBlocked.current = false;
+  };
+
+  const onMouseLeave = () => {
+    isMoveActive.current = false;
+    isSelectBlocked.current = false;
+  };
+
+  const handleOnSelect = (src: string, ref?: HTMLElement) => {
+    if (!isSelectBlocked.current) onSelect?.(src, ref);
+  };
+
   useEffect(() => {
     if (parentWidth) getMainCell();
-  }, [images]);
+  }, [images, remainedImagesLocation]);
 
   useEffect(() => {
     if (parentWidth) getMainCell();
@@ -105,6 +143,10 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
 
   return (
     <div
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseLeave}
       className={styles.grid}
       ref={gridRef}
       style={{
@@ -118,7 +160,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
             width: grid.width,
             height: grid.height,
           }}
-          onClick={(e) => onSelect?.(grid.src, e.target as HTMLElement)}
+          onClick={(e) => handleOnSelect?.(grid.src, e.target as HTMLElement)}
         >
           <div
             className={styles.cell__image}
@@ -128,7 +170,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
           />
           {/* Render top-level cells */}
           {grid.cells.map((cell) => (
-            <RecursiveCell key={cell.id} cell={cell} onSelect={onSelect} />
+            <RecursiveCell key={cell.id} cell={cell} onSelect={handleOnSelect} />
           ))}
         </div>
       )}
@@ -136,14 +178,15 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
   );
 };
 
-const RecursiveCell: React.FC<{ cell: GridCell; onSelect?: (src: string, ref?: HTMLElement) => void }> = ({
+const RecursiveCell: React.FC<{ cell: TGridCell; onSelect?: (src: string, ref?: HTMLElement) => void }> = ({
   cell,
   onSelect,
 }) => {
   return (
     <div
+      id={cell.id}
       key={cell.src}
-      className={styles.cell}
+      className={classNames(styles.cell, cell.id === 'rest' && styles.movable)}
       style={{
         background: cell.src && `url(${cell.src}) center/cover no-repeat`,
         ...cell.styles,

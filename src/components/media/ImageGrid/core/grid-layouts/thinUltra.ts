@@ -1,16 +1,26 @@
 import { TLayout } from '../../../../../models/media-tools/images-auto-order';
 
-const mainType = 'S';
+const mainType = 'TU';
 
-export const squareLayouts: TLayout[] = [
+export const thinUltraLayouts: TLayout[] = [
   {
     mainType,
-    requiredTypes: ['T'],
+    requiredTypes: ['S', 'S'],
     cell: {
       isVertical: true,
       cells: [
         {
-          cells: [{ type: 'M' }, { type: 'T' }],
+          cells: [
+            {
+              type: 'S',
+            },
+            {
+              type: 'M',
+            },
+            {
+              type: 'S',
+            },
+          ],
         },
         {
           type: 'R',
