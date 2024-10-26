@@ -4,6 +4,22 @@ const mainType = 'W';
 export const wideLayouts: TLayout[] = [
   {
     mainType,
+    requiredTypes: ['T', 'T'],
+    onlyRequired: true,
+    cell: {
+      isVertical: true,
+      cells: [
+        {
+          type: 'M',
+        },
+        {
+          cells: [{ type: 'T' }, { type: 'T' }],
+        },
+      ],
+    },
+  },
+  {
+    mainType,
     requiredTypes: ['T'],
     cell: {
       isVertical: true,
@@ -16,18 +32,6 @@ export const wideLayouts: TLayout[] = [
   },
   {
     mainType,
-    requiredTypes: ['T'],
-    cell: {
-      isVertical: true,
-      cells: [
-        {
-          cells: [{ type: 'T' }, { type: 'M' }],
-        },
-      ],
-    },
-  },
-  {
-    mainType,
     requiredTypes: ['S', 'S'],
     cell: {
       isVertical: true,
@@ -39,24 +43,6 @@ export const wideLayouts: TLayout[] = [
               isVertical: true,
               cells: [{ type: 'S' }, { type: 'S' }],
             },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    mainType,
-    requiredTypes: ['S', 'S'],
-    cell: {
-      isVertical: true,
-      cells: [
-        {
-          cells: [
-            {
-              isVertical: true,
-              cells: [{ type: 'S' }, { type: 'S' }],
-            },
-            { type: 'M' },
           ],
         },
       ],

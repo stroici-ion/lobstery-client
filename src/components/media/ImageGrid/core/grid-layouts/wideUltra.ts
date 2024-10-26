@@ -12,23 +12,21 @@ export const wideUltra: TLayout[] = [
         {
           cells: [{ type: 'M' }, { type: 'T' }],
         },
-        {
-          type: 'R',
-        },
       ],
     },
   },
   {
     mainType,
-    requiredTypes: ['T'],
+    requiredTypes: ['T', 'T'],
+    onlyRequired: true,
     cell: {
       isVertical: true,
       cells: [
         {
-          cells: [{ type: 'T' }, { type: 'M' }],
+          type: 'M',
         },
         {
-          type: 'R',
+          cells: [{ type: 'T' }, { type: 'T' }],
         },
       ],
     },
@@ -47,30 +45,6 @@ export const wideUltra: TLayout[] = [
               cells: [{ type: 'S' }, { type: 'S' }],
             },
           ],
-        },
-        {
-          type: 'R',
-        },
-      ],
-    },
-  },
-  {
-    mainType,
-    requiredTypes: ['S', 'S'],
-    cell: {
-      isVertical: true,
-      cells: [
-        {
-          cells: [
-            {
-              isVertical: true,
-              cells: [{ type: 'S' }, { type: 'S' }],
-            },
-            { type: 'M' },
-          ],
-        },
-        {
-          type: 'R',
         },
       ],
     },
@@ -83,9 +57,6 @@ export const wideUltra: TLayout[] = [
       cells: [
         {
           type: 'M',
-        },
-        {
-          type: 'R',
         },
       ],
     },

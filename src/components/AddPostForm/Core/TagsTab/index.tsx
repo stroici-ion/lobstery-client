@@ -32,6 +32,7 @@ const TagsTab: React.FC = () => {
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleAddTag();
+      e.preventDefault();
     }
   };
 
@@ -46,7 +47,7 @@ const TagsTab: React.FC = () => {
         <SearchSvg />
         <input
           className={styles.root__input}
-          placeholder='Search feeling'
+          placeholder="Search feeling"
           onKeyDown={handleInputKeyDown}
           onChange={handleInputOnChange}
           value={tagValue}

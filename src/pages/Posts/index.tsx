@@ -52,7 +52,7 @@ const Posts: React.FC = () => {
   return (
     <>
       <Modal {...modal}>
-        <AddPostForm onHide={modal.onHide} />
+        <AddPostForm onHide={modal.onHide} forceHide={modal.forceHide} />
       </Modal>
 
       <div className={styles.root}>

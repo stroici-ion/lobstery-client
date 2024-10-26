@@ -30,5 +30,4 @@ interface ExcludeKeys extends ILikesInfo {
 
 export interface IPostEdit extends Omit<IPost, keyof ExcludeKeys> {
   fetched_images_id: number[];
-  upload_progress: number;
 }

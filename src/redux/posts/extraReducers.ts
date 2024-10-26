@@ -23,31 +23,31 @@ export const extraReducres = (builder: ActionReducerMapBuilder<IPostsState>) => 
 
   //* CREATE POST
   builder.addCase(fetchCreatePost.pending, (state) => {
-    state.status = FetchStatusEnum.PENDING;
+    state.postCreateStatus = FetchStatusEnum.PENDING;
   });
   builder.addCase(fetchCreatePost.fulfilled, (state, action) => {
-    state.status = FetchStatusEnum.SUCCESS;
-    state.posts = [action.payload, ...state.posts.filter((p) => p.id === action.payload.id)];
+    state.postCreateStatus = FetchStatusEnum.SUCCESS;
+    state.posts = [action.payload, ...state.posts.filter((p) => p.id !== action.payload.id)];
     state.count++;
     state.errors = undefined;
   });
   builder.addCase(fetchCreatePost.rejected, (state, action) => {
-    state.status = FetchStatusEnum.ERROR;
     state.errors = action.payload;
+    state.postCreateStatus = FetchStatusEnum.ERROR;
   });
 
   //* REMOVE POST
   builder.addCase(fetchRemovePost.pending, (state) => {
-    state.status = FetchStatusEnum.PENDING;
+    state.postCreateStatus = FetchStatusEnum.PENDING;
   });
   builder.addCase(fetchRemovePost.fulfilled, (state, action) => {
     state.posts = state.posts.filter((post) => post.id !== action.payload);
     state.count--;
     state.errors = undefined;
-    state.status = FetchStatusEnum.SUCCESS;
+    state.postCreateStatus = FetchStatusEnum.SUCCESS;
   });
   builder.addCase(fetchRemovePost.rejected, (state, action) => {
     state.errors = action.payload;
-    state.status = FetchStatusEnum.ERROR;
+    state.postCreateStatus = FetchStatusEnum.ERROR;
   });
 };

@@ -4,17 +4,17 @@ import { IUser } from '../../models/IUser';
 import { IPost } from '../../models/IPost';
 
 import { initialState } from './initialState';
+import { FetchStatusEnum } from '../../models/response/FetchStatus';
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
     setActivePost: (state, action: PayloadAction<IPost | undefined>) => {
-      console.log('Called set 0 progress for Post');
-
+      state.postCreateStatus = FetchStatusEnum.PENDING;
+      state.uploadProgress = 0;
       if (action.payload)
         state.activePost = {
-          upload_progress: 0,
           fetched_images_id: action.payload.image_set.filter((image) => image.id >= 0).map((image) => image.id),
           ...action.payload,
         };
@@ -29,7 +29,6 @@ const postsSlice = createSlice({
           audience: -1,
           custom_audience: -1,
           fetched_images_id: [],
-          upload_progress: 0,
         };
 
       state.postSnapshot = {

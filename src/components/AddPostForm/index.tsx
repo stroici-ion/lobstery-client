@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -20,18 +20,34 @@ import { selectActivePost } from '../../redux/posts/selectors';
 
 interface IAddPostForm {
   onHide: () => void;
+  forceHide: () => void;
 }
 
-const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+const AddPostForm: React.FC<IAddPostForm> = ({ onHide, forceHide }) => {
+  const [selectedTab, setSelectedTab] = useState(2);
   const dispatch = useAppDispatch();
   const newPost = useSelector(selectActivePost);
   const userId = useSelector(selectUserId);
+  const isLoaded = useRef(false);
+
+  const handleError = () => initializeTab();
+  const handleFullfilled = () => forceHide();
 
   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     event.returnValue = '';
   };
+
+  const initializeTab = () => {
+    if (!newPost.image_set.length) setSelectedTab(0);
+  };
+
+  useEffect(() => {
+    if (newPost && !isLoaded.current) {
+      isLoaded.current = true;
+      initializeTab();
+    }
+  }, [newPost]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -54,7 +70,7 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide }) => {
             <CloseSvg />
           </button>
           <div className={styles.root__form}>
-            {selectedTab === -1 && <UploadProgress />}
+            {selectedTab === -1 && <UploadProgress handleError={handleError} handleFullfilled={handleFullfilled} />}
             {selectedTab === -2 && <PreviewTab setSelectedtab={setSelectedTab} />}
             {selectedTab === 0 && <TextTab />}
             {selectedTab === 1 && <AudienceTab />}

@@ -12,9 +12,6 @@ export const squareLayouts: TLayout[] = [
         {
           cells: [{ type: 'M' }, { type: 'T' }],
         },
-        {
-          type: 'R',
-        },
       ],
     },
   },
@@ -26,9 +23,6 @@ export const squareLayouts: TLayout[] = [
       cells: [
         {
           type: 'M',
-        },
-        {
-          type: 'R',
         },
       ],
     },

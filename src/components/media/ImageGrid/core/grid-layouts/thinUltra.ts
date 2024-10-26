@@ -22,9 +22,6 @@ export const thinUltraLayouts: TLayout[] = [
             },
           ],
         },
-        {
-          type: 'R',
-        },
       ],
     },
   },
@@ -36,9 +33,6 @@ export const thinUltraLayouts: TLayout[] = [
       cells: [
         {
           type: 'M',
-        },
-        {
-          type: 'R',
         },
       ],
     },

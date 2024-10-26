@@ -88,7 +88,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
 
   return (
     <>
-      <Modal {...modal}>{<AddPostForm onHide={modal.onHide} />}</Modal>
+      <Modal {...modal}>{<AddPostForm onHide={modal.onHide} forceHide={modal.forceHide} />}</Modal>
       <div className={classNames(styles.post, className)}>
         <div className={styles.post__content}>
           <div className={styles.post__top}>

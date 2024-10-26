@@ -80,9 +80,6 @@ export const thinLayouts: TLayout[] = [
             { isVertical: true, cells: [{ type: 'S' }, { type: 'S' }] },
           ],
         },
-        {
-          type: 'R',
-        },
       ],
     },
   },
@@ -104,9 +101,6 @@ export const thinLayouts: TLayout[] = [
             },
           ],
         },
-        {
-          type: 'R',
-        },
       ],
     },
   },
@@ -118,9 +112,6 @@ export const thinLayouts: TLayout[] = [
       cells: [
         {
           cells: [{ type: 'M' }, { type: 'T' }, { type: 'T' }, { type: 'T' }],
-        },
-        {
-          type: 'R',
         },
       ],
     },
@@ -134,8 +125,17 @@ export const thinLayouts: TLayout[] = [
         {
           cells: [{ type: 'M' }, { type: 'T' }, { type: 'T' }],
         },
+      ],
+    },
+  },
+  {
+    mainType,
+    requiredTypes: ['T'],
+    cell: {
+      isVertical: true,
+      cells: [
         {
-          type: 'R',
+          cells: [{ type: 'M' }, { type: 'T' }],
         },
       ],
     },
@@ -149,9 +149,6 @@ export const thinLayouts: TLayout[] = [
         {
           cells: [{ type: 'M' }, { type: 'S' }, { type: 'S' }],
         },
-        {
-          type: 'R',
-        },
       ],
     },
   },
@@ -164,9 +161,6 @@ export const thinLayouts: TLayout[] = [
         {
           cells: [{ type: 'M' }, { type: 'W' }],
         },
-        {
-          type: 'R',
-        },
       ],
     },
   },
@@ -178,9 +172,6 @@ export const thinLayouts: TLayout[] = [
       cells: [
         {
           type: 'M',
-        },
-        {
-          type: 'R',
         },
       ],
     },

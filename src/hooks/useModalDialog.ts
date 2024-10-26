@@ -25,6 +25,7 @@ export interface IModal {
   isOpen: boolean;
   isDialogOpen: boolean;
   open: () => void;
+  forceHide: () => void;
   onHide: () => void;
   dialog: {
     ref: React.MutableRefObject<null>;
@@ -57,6 +58,11 @@ export const useModalDialog: IUseModalDialog = (dialogProps) => {
   const onModalHide = () => (dialogParams ? setIsDialogOpen(true) : setIsModalOpen(false));
 
   const onDialogHide = () => setIsDialogOpen(false);
+
+  const forceHide = () => {
+    setIsModalOpen(false);
+    setIsDialogOpen(false);
+  };
 
   const onDialogFullfill = () => {
     setIsModalOpen(false);
@@ -99,6 +105,7 @@ export const useModalDialog: IUseModalDialog = (dialogProps) => {
     isDialogOpen,
     open: showModal,
     onHide: onModalHide,
+    forceHide,
     dialog: {
       ref: dialogRef,
       isOpen: isDialogOpen,

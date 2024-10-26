@@ -54,3 +54,5 @@ export { default as CloseAsidePanelSvg } from './CloseAsidePanelSvg';
 export { default as OpenAsidePanelSvg } from './OpenAsidePanelSvg';
 export { default as GuestSvg } from './GuestSvg';
 export { default as SignInSvg } from './SignInSvg';
+export { default as ToFrontSvg } from './ToFrontSvg';
+export { default as FulfilledSvgAnim } from './FulfilledSvgAnim';

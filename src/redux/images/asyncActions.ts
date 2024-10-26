@@ -14,7 +14,7 @@ export const fetchCreateImage = createAsyncThunk<
     //* SET FROM DATA FOR IMAGE
     const imageFile = await fetch(image.image);
     const imageBlob = await imageFile.blob();
-    const file = new File([imageBlob], v4() + '.png');
+    const file = new File([imageBlob], v4() + '.jpg');
     let video = null;
     if (image.is_video_file && image.video && image.video_extension) {
       const videoFile = await fetch(image.video);
@@ -59,19 +59,6 @@ export const fetchUpdateImage = createAsyncThunk<IImage, IImage, { rejectValue: 
   async (image, { rejectWithValue }) => {
     try {
       //* REMOVE IMAGE
-
-      const formData = new FormData();
-
-      formData.set('caption', image.caption || '');
-      formData.set(
-        'tagged_friends',
-        JSON.stringify(
-          image.tagged_friends?.map((obj) => {
-            return { ...obj, user: obj.user.id };
-          }) || []
-        )
-      );
-
       const update = {
         caption: image.caption,
         tagged_friends: JSON.stringify(

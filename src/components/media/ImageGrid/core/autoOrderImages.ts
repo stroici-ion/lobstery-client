@@ -11,6 +11,30 @@ import {
 } from '../../../../models/media-tools/images-auto-order';
 
 export function getLayout(images: IImage[], remainedImagesLocation: TRemainedImagesLocation) {
+  const mainCell: TGridCell = {
+    id: 'keymain',
+    src: '',
+    styles: {
+      top: '0%',
+      left: '0%',
+      width: '100%',
+      height: '100%',
+    },
+    width: 100,
+    height: 100,
+    x: 0,
+    y: 0,
+    ar: 1,
+    direction: false,
+    cells: [],
+  };
+
+  if (images.length === 1) {
+    mainCell.ar = images[0].aspect_ratio;
+    mainCell.src = images[0].image;
+    return mainCell;
+  }
+
   const mImages = getModifiedImages(images);
   const mainImage = mImages[0];
 
@@ -36,25 +60,6 @@ export function getLayout(images: IImage[], remainedImagesLocation: TRemainedIma
   const availableLayouts = getAvailableLayouts(mainImage.arType, typesCount);
 
   const currentLayout = availableLayouts[0];
-
-  //Cells
-  const mainCell: TGridCell = {
-    id: 'keymain',
-    src: '',
-    styles: {
-      top: '0%',
-      left: '0%',
-      width: '100%',
-      height: '100%',
-    },
-    width: 100,
-    height: 100,
-    x: 0,
-    y: 0,
-    ar: 1,
-    direction: false,
-    cells: [],
-  };
 
   if (currentLayout) {
     const imagesRest: TMIImage[] = [];
@@ -114,12 +119,8 @@ export function getLayout(images: IImage[], remainedImagesLocation: TRemainedIma
       return cell;
     };
 
-    console.log(currentLayout);
-
     const mcell = getOrderedCell(currentLayout.cell);
     if (!isRemainedImgLocationSet && mcell && imagesRest.length > 0) {
-      console.log('Ordering');
-
       const cell = getEmptyCell();
 
       const isVertical = remainedImagesLocation === 'top' || remainedImagesLocation === 'bottom';
@@ -304,9 +305,9 @@ const getModifiedImages = (images: IImage[]): TMIImage[] => {
     let arType: TImageArType;
     if (i.aspect_ratio > 2.2) {
       arType = 'WU';
-    } else if (i.aspect_ratio <= 2.2 && i.aspect_ratio > 1.5) {
+    } else if (i.aspect_ratio <= 2.2 && i.aspect_ratio > 1.2) {
       arType = 'W';
-    } else if (i.aspect_ratio <= 1.5 && i.aspect_ratio > 0.8) {
+    } else if (i.aspect_ratio <= 1.2 && i.aspect_ratio > 0.8) {
       arType = 'S';
     } else if (i.aspect_ratio <= 0.8 && i.aspect_ratio > 0.4) {
       arType = 'T';

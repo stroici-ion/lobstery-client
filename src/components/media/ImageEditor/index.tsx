@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -25,16 +25,14 @@ import { IImage } from '../../../models/IImage';
 import styles from './styles.module.scss';
 import Tabs from './core/components/Tabs';
 import Loader from '../../Loader';
-import DialogModalForm from '../../UI/modals/forms/DialogModalForm';
-import Modal from '../../UI/modals/Modal';
-import { EnumModalDialogOptionType, ModalDialogOption, useModalDialog } from '../../../hooks/useModalDialog';
 
 interface IImageEditor2 {
   image: IImage;
   onSave: (newImage: IImage) => void;
+  setIsModified: (isModified: boolean) => void;
 }
 
-const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
+const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified }) => {
   const [tab, setTab] = useState(EnumTabs.crop);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
@@ -366,6 +364,10 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave }) => {
   };
 
   const canvasAsImage = getImageToRender();
+
+  useEffect(() => {
+    setIsModified(true);
+  }, [isUndoAvailable]);
 
   const saveImage = () => {
     if (!historyIndex.current || !imageRef.current) return;

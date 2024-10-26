@@ -1,13 +1,19 @@
 import { getMetadata, getThumbnails } from 'video-metadata-thumbnails';
-import React, { Ref, useCallback, useRef, useState } from 'react';
+import React, { Ref, useCallback, useEffect, useRef, useState } from 'react';
 import { getImageSize } from 'react-image-size';
 import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 import { EnumModalDialogOptionType, useModalDialog } from '../../../../hooks/useModalDialog';
-import { addImages, removeImage, setActiveImageId, setImages } from '../../../../redux/images/slice';
-import { AddImageVideoSvg, CloseSvg, EditSvg, TagPeopleSvg } from '../../../../icons';
+import {
+  addImages,
+  removeImage,
+  setActiveImageId,
+  setImages,
+  updatedEditedImage,
+} from '../../../../redux/images/slice';
+import { AddImageVideoSvg, CloseSvg, EditSvg, TagPeopleSvg, ToFrontSvg } from '../../../../icons';
 import { selectActiveImage, selectImages } from '../../../../redux/images/selectors';
 import { getExtension, isVideo } from '../../../../utils/filesTypes';
 import { dirtyFormWarningDialog } from '../../../UI/modals/dialog-options';
@@ -29,6 +35,7 @@ const ImagesTab: React.FC = () => {
   const activeImage = useSelector(selectActiveImage);
 
   const [contextRef, setContextRef] = useState<HTMLElement>();
+  const [isActiveImageModified, setIsActiveImageModified] = useState(false);
 
   const getVideoPreview = async (file: File) => {
     if (isVideo(file.name)) {
@@ -151,7 +158,6 @@ const ImagesTab: React.FC = () => {
   };
 
   const handleHideModal = () => {
-    modal.dialog.setDialogParams(dirtyFormWarningDialog);
     modal.onHide();
   };
 
@@ -170,7 +176,7 @@ const ImagesTab: React.FC = () => {
           type: EnumModalDialogOptionType.OTHER,
           title: 'Save',
           callback: () => {
-            dispatch(addImages([image]));
+            dispatch(updatedEditedImage(image));
           },
           className: styles.save,
         },
@@ -189,6 +195,14 @@ const ImagesTab: React.FC = () => {
     modal.dialog.setDialogParams(dialogParams, true);
   };
 
+  useEffect(() => {
+    if (isActiveImageModified) modal.dialog.setDialogParams(dirtyFormWarningDialog);
+  }, [isActiveImageModified]);
+
+  const handleSetIsActiveImageModified = (isModified: boolean) => {
+    setIsActiveImageModified(isModified);
+  };
+
   const modal = useModalDialog();
 
   const handleHideContextMenu = () => setContextRef(undefined);
@@ -202,19 +216,26 @@ const ImagesTab: React.FC = () => {
             <button className={styles.modal__return} onClick={handleHideModal}>
               <CloseSvg />
             </button>
-            <ImageEditor2 image={activeImage} onSave={hanldeSaveEditedImage} />
+            <ImageEditor2
+              image={activeImage}
+              onSave={hanldeSaveEditedImage}
+              setIsModified={handleSetIsActiveImageModified}
+            />
           </div>
         </Modal>
       )}
       {isContextVisible && (
         <ContextMenu triggerRef={contextRef} onHide={handleHideContextMenu}>
           <div className={classNames(styles.contextMenu, isContextVisible && styles.contextMenu__active)}>
-            <button
-              className={classNames(styles.contextMenu__button, styles.contextMenu__makeMain)}
-              onClick={handleMakeImageMain}
-            >
-              Set as main
-            </button>
+            {activeImage.id !== images[0].id && (
+              <button
+                className={classNames(styles.contextMenu__button, styles.contextMenu__makeMain)}
+                onClick={handleMakeImageMain}
+              >
+                <ToFrontSvg />
+              </button>
+            )}
+
             <button
               className={classNames(styles.contextMenu__button, styles.contextMenu__close)}
               onClick={handleHideContextMenu}
@@ -259,7 +280,7 @@ const ImagesTab: React.FC = () => {
               <ImageGrid images={images} onSelect={handleSelectImage} />
             </ScrollArea>
           )}
-          <input {...getInputProps()} accept='image/*, video/*' />
+          <input {...getInputProps()} accept="image/*, video/*" />
         </div>
         {images.length > 0 && (
           <div className={classNames(styles.root__tools, styles.tools)}>
@@ -271,7 +292,7 @@ const ImagesTab: React.FC = () => {
                 style={{ display: 'none' }}
                 onChange={handleOnChangeImages}
                 multiple
-                accept='image/*, video/*'
+                accept="image/*, video/*"
               />
             </button>
           </div>

@@ -7,6 +7,7 @@ export interface IPostsState {
   count: number;
   posts: IPost[];
   status: FetchStatusEnum;
+  postCreateStatus: FetchStatusEnum;
   errors: IAuthError | undefined;
   activePost: IPostEdit;
   postSnapshot?: IPostEdit;

@@ -3,7 +3,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../redux';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
-import PostUsername from '../../../PostUsername';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import styles from './styles.module.scss';

@@ -123,12 +123,12 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
       >
         <CheckedSvg />
       </button>
-      {/* <button
+      <button
         onClick={() => handleSelectTab(-1)}
         className={classNames(styles.root__button, styles.checked, selectedTab === -1 && styles.active)}
       >
         <CheckedSvg />
-      </button> */}
+      </button>
     </div>
   );
 };

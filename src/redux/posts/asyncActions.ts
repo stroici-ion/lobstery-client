@@ -31,7 +31,7 @@ export const fetchCreatePost = createAsyncThunk<
   IPost,
   { post: IPostEdit; images: IImage[] },
   { rejectValue: IAuthError }
->('posts/fetchCreatePost', async ({ post, images }, { dispatch, getState, rejectWithValue }) => {
+>('posts/fetchCreatePost', async ({ post, images }, { dispatch, rejectWithValue }) => {
   try {
     const newPost = await $api[post.id && post.id >= 0 ? 'put' : 'post']<IPost>(
       `/api/posts/${post.id && post.id >= 0 ? post.id + '/update' : 'create'}/`,
@@ -47,17 +47,21 @@ export const fetchCreatePost = createAsyncThunk<
       {
         onUploadProgress: (data) => {
           if (data.total && data.loaded) {
-            const progress = Math.round((data.loaded * 100) / data.total);
+            const progress = Math.round((data.loaded / data.total) * 100);
             dispatch(setUploadProgress(progress));
           }
         },
       }
     );
 
+    dispatch(setUploadProgress(100));
+
     const newImages = images.filter((image) => image.id < 0);
     const updatedImages = images.filter((image) => image.isUpdated && image.id >= 0);
     const newPostImagesId = images.map((image) => image.id);
     const removedImagesId = post.fetched_images_id.filter((imageId) => !newPostImagesId.includes(imageId));
+
+    console.log(newImages);
 
     for await (const image of updatedImages) {
       await dispatch(fetchUpdateImage(image));
@@ -71,11 +75,12 @@ export const fetchCreatePost = createAsyncThunk<
       await dispatch(fetchRemoveImage(id));
     }
 
-    const finalResult = await $api.get<IPost>(`/api/posts/${newPost.data.id}`);
-
-    dispatch(setPostCreateModalStatus(false));
-    dispatch(setActivePost());
-    return finalResult.data;
+    try {
+      const finalResult = await $api.get<IPost>(`/api/posts/${newPost.data.id}/details/`);
+      return finalResult.data;
+    } catch {
+      return rejectWithValue({ message: 'Somethin went wrong' } as IAuthError);
+    }
   } catch (error: any) {
     if (!error.response) {
       throw error;

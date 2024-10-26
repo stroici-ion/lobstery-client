@@ -24,6 +24,10 @@ const imagesSlice = createSlice({
       state.images = state.images.filter((image) => action.payload.find((i) => i.id !== image.id));
       state.images = [...state.images, ...action.payload];
     },
+    updatedEditedImage: (state, action: PayloadAction<IImage>) => {
+      const image = action.payload;
+      state.images = state.images.map((i) => (i.id === image.id ? { ...image, id: Math.random() * -1 } : i));
+    },
     updateImage: (state, action: PayloadAction<IImage>) => {
       const x = state.images.map((i) => (i.id === action.payload.id ? action.payload : i));
       state.images = x;
@@ -85,6 +89,7 @@ export const {
   setImageCaption,
   setActiveImageIndex,
   setImageEditOperationType,
+  updatedEditedImage,
   setUploadProgress,
   addImages,
   updateImage,

@@ -1,15 +1,12 @@
 import { useSelector } from 'react-redux';
-import React, { useEffect } from 'react';
-import { v4 } from 'uuid';
+import React from 'react';
 
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import { selectUserId } from '../../../../redux/auth/selectors';
 import { useAppDispatch } from '../../../../redux';
 import styles from './styles.module.scss';
-import $api from '../../../../http';
 import Post from '../../../Post';
 import classNames from 'classnames';
-import { IImage } from '../../../../models/IImage';
 import { fetchCreatePost } from '../../../../redux/posts/asyncActions';
 import { selectActivePost } from '../../../../redux/posts/selectors';
 import { selectImages } from '../../../../redux/images/selectors';
