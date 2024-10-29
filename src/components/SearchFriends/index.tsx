@@ -10,6 +10,7 @@ import { fetchFriends } from '../../services/SearchFriends';
 import Loader from '../Loader';
 import { IUser } from '../../models/IUser';
 import SelectedUsers from '../SelectedUsers';
+import ScrollArea from '../UI/ScrollArea';
 
 interface ISearchFirends {
   className?: string;
@@ -58,9 +59,11 @@ const SearchFirends: React.FC<ISearchFirends> = ({ className, onSelect, taggedFr
         <SearchSvg />
         <input placeholder="Search friend" className={styles.root__input} onChange={debouncedChangeHandler} />
       </div>
-      <div className={styles.root__selectedPeoples}>{onRemove && <SelectedUsers taggedFriends={taggedFriends} onRemove={onRemove} />}</div>
+      <div className={styles.root__selectedPeoples}>
+        {onRemove && <SelectedUsers taggedFriends={taggedFriends} onRemove={onRemove} />}
+      </div>
       <div className={classNames(styles.root__peoples, styles.peoples)}>
-        <div className={styles.peoples__scrollArea}>
+        <ScrollArea>
           {isFriendsLoading ? (
             <Loader height={80} size={70} />
           ) : friends.length ? (
@@ -76,7 +79,7 @@ const SearchFirends: React.FC<ISearchFirends> = ({ className, onSelect, taggedFr
           ) : (
             <div className={styles.peoples__empty}>Not found</div>
           )}
-        </div>
+        </ScrollArea>
       </div>
     </div>
   );

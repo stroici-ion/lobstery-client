@@ -1,6 +1,6 @@
-import React from 'react';
+import { FC } from 'react';
 
-const SubmenuSvg = () => {
+const SubmenuSvg: FC = () => {
   return (
     <svg viewBox="0 0 18 66" fill="none">
       <path

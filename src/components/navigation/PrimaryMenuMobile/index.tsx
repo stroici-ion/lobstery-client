@@ -1,23 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
-import MenuButton from '../MenuButton';
 import styles from './styles.module.scss';
 
-import {
-  HomeSvg,
-  GallerySvg,
-  MessagingSvg,
-  SettingsSvg,
-  LogoSvg,
-  LogOutSvg,
-  UserSvg,
-  GamesSvg,
-  CloseAsidePanelSvg,
-  OpenAsidePanelSvg,
-  GuestSvg,
-} from '../../../icons';
-import { GAMES_ROUTE, HOME_ROUTE, LOGIN_ROUTE, POSTS_ROUTE, USER_SETTINGS_ROUTE } from '../../../utils/consts';
+import { LOGIN_ROUTE } from '../../../utils/consts';
 import { logOut } from '../../../redux/auth/slice';
 import { useAppDispatch } from '../../../redux';
 import { useSelector } from 'react-redux';

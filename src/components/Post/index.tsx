@@ -37,11 +37,13 @@ import SmallButton from '../UI/Buttons/SmallButton';
 import UserImage from '../UserImage';
 import AddPostForm from '../AddPostForm';
 import Modal from '../UI/modals/Modal';
-import { useModalDialog } from '../../hooks/useModalDialog';
+import { EnumModalDialogOptionType, useModalDialog } from '../../hooks/useModalDialog';
 import { dirtyFormWarningDialog } from '../UI/modals/dialog-options';
 import { setActivePost } from '../../redux/posts/slice';
 import { getIsPostFormDirty } from '../../redux/posts/selectors';
 import ImageGrid from '../media/ImageGrid';
+import dialogBtnStyles from '../../styles/components/buttons/dialogButtons.module.scss';
+import toast from 'react-hot-toast';
 
 interface IPostFC {
   small?: boolean;
@@ -55,14 +57,61 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const userProfile = useSelector(selectUserProfile);
   const isAddPostFormDirty = useSelector(getIsPostFormDirty);
+  const editModal = useModalDialog();
+  const dialogModal = useModalDialog();
 
   const handleRemovePost = async () => {
-    dispatch(fetchRemovePost(post.id));
+    const dialogParams = {
+      isMain: true,
+      title: 'Delete post?',
+      description: 'Are you sure you want to delete this post?',
+      options: [
+        {
+          type: EnumModalDialogOptionType.OTHER,
+          title: 'Yes',
+          callback: async () => {
+            await dispatch(fetchRemovePost(post.id));
+            toast.success('Post was successfully deleted');
+          },
+          className: dialogBtnStyles.solidRed,
+        },
+        {
+          type: EnumModalDialogOptionType.RETURN,
+          title: 'No',
+          className: dialogBtnStyles.solidGreen,
+          callback: () => dialogModal.onHide(),
+        },
+      ],
+    };
+    dialogModal.dialog.setDialogParams(dialogParams);
+    dialogModal.open();
   };
 
   const handleEditPost = () => {
-    dispatch(setActivePost(post));
-    modal.open();
+    const dialogParams = {
+      isMain: true,
+      title: 'Edit post?',
+      description: 'Are you sure you want to edit this post?',
+      options: [
+        {
+          type: EnumModalDialogOptionType.OTHER,
+          title: 'Yes',
+          callback: () => {
+            dispatch(setActivePost(post));
+            editModal.open();
+          },
+          className: dialogBtnStyles.lightOrange,
+        },
+        {
+          type: EnumModalDialogOptionType.RETURN,
+          title: 'No',
+          className: dialogBtnStyles.solidGreen,
+          callback: () => dialogModal.onHide(),
+        },
+      ],
+    };
+    dialogModal.dialog.setDialogParams(dialogParams);
+    dialogModal.open();
   };
 
   const handleViewComments = () => {
@@ -79,16 +128,15 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     navigate(POSTS_ROUTE + post.id);
   };
 
-  const modal = useModalDialog();
-
   useEffect(() => {
-    if (isAddPostFormDirty) modal.dialog.setDialogParams(dirtyFormWarningDialog);
-    else modal.dialog.setDialogParams(undefined);
+    if (isAddPostFormDirty) editModal.dialog.setDialogParams(dirtyFormWarningDialog);
+    else editModal.dialog.setDialogParams(undefined);
   }, [isAddPostFormDirty]);
 
   return (
     <>
-      <Modal {...modal}>{<AddPostForm onHide={modal.onHide} forceHide={modal.forceHide} />}</Modal>
+      <Modal {...dialogModal} />
+      <Modal {...editModal}>{<AddPostForm onHide={editModal.onHide} forceHide={editModal.forceHide} />}</Modal>
       <div className={classNames(styles.post, className)}>
         <div className={styles.post__content}>
           <div className={styles.post__top}>
@@ -194,9 +242,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
                 />
                 <button className={styles.post__comments} onClick={handleViewComments}>
                   <MessagingSvg />
-                  <span>
-                    {post.comments_count === 0 ? 'Leave Comment' : <>{isCommentsVisible ? 'Hide' : 'Show'} Comments</>}
-                  </span>
+                  <span>{post.comments_count === 0 ? 'Comment' : <>Comments</>}</span>
                   {post.comments_count > 0 && getLikes(post.comments_count)}
                 </button>
               </div>

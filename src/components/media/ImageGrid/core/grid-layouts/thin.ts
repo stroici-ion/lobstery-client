@@ -154,6 +154,18 @@ export const thinLayouts: TLayout[] = [
   },
   {
     mainType,
+    requiredTypes: ['W', 'W'],
+    cell: {
+      isVertical: true,
+      cells: [
+        {
+          cells: [{ type: 'M' }, { isVertical: true, cells: [{ type: 'W' }, { type: 'W' }] }],
+        },
+      ],
+    },
+  },
+  {
+    mainType,
     requiredTypes: ['W'],
     cell: {
       isVertical: true,

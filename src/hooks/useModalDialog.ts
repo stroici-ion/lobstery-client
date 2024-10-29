@@ -6,18 +6,19 @@ export enum EnumModalDialogOptionType {
   OTHER = 1,
 }
 
-export type ModalDialogOption = {
+export type TModalDialogOption = {
   type?: EnumModalDialogOptionType;
   title: string;
-  callback: () => void;
+  callback?: () => void;
   className?: string;
 };
 
 export type IModalDialogType = {
+  isMain?: boolean;
   title: string;
   description?: string;
   className?: string;
-  options: ModalDialogOption[];
+  options: TModalDialogOption[];
 };
 
 export interface IModal {
@@ -33,7 +34,7 @@ export interface IModal {
     title: string | undefined;
     description: string | undefined;
     className: string | undefined;
-    options: ModalDialogOption[];
+    options: TModalDialogOption[];
     setDialogParams: (dp: IModalDialogType | undefined, showInstantly?: boolean) => void;
   };
 }
@@ -55,7 +56,7 @@ export const useModalDialog: IUseModalDialog = (dialogProps) => {
     if (showInstantly) setIsDialogOpen(true);
   };
 
-  const onModalHide = () => (dialogParams ? setIsDialogOpen(true) : setIsModalOpen(false));
+  const onModalHide = () => (dialogParams && !dialogParams.isMain ? setIsDialogOpen(true) : setIsModalOpen(false));
 
   const onDialogHide = () => setIsDialogOpen(false);
 
@@ -81,7 +82,7 @@ export const useModalDialog: IUseModalDialog = (dialogProps) => {
           options.push({
             ...option,
             callback: () => {
-              option.callback();
+              option.callback?.();
               onDialogHide();
             },
           });
@@ -91,7 +92,7 @@ export const useModalDialog: IUseModalDialog = (dialogProps) => {
           options.push({
             ...option,
             callback: () => {
-              option.callback();
+              option.callback?.();
               onDialogFullfill();
             },
           });

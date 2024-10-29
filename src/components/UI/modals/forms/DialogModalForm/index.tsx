@@ -2,11 +2,12 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 import classNames from 'classnames';
+import { TModalDialogOption } from '../../../../../hooks/useModalDialog';
 
 interface IDialogModalForm {
   title?: string;
   description?: string;
-  options: { title: string; callback: () => void; className?: string }[];
+  options: TModalDialogOption[];
 }
 
 const DialogModalForm: React.FC<IDialogModalForm> = ({ title, description, options }) => {

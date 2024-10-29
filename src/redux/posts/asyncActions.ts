@@ -43,25 +43,13 @@ export const fetchCreatePost = createAsyncThunk<
         tagged_friends: post.tagged_friends?.map((friend) => friend.id) || [],
         audience: post.audience,
         custom_audience: post.custom_audience,
-      },
-      {
-        onUploadProgress: (data) => {
-          if (data.total && data.loaded) {
-            const progress = Math.round((data.loaded / data.total) * 100);
-            dispatch(setUploadProgress(progress));
-          }
-        },
       }
     );
-
-    dispatch(setUploadProgress(100));
 
     const newImages = images.filter((image) => image.id < 0);
     const updatedImages = images.filter((image) => image.isUpdated && image.id >= 0);
     const newPostImagesId = images.map((image) => image.id);
     const removedImagesId = post.fetched_images_id.filter((imageId) => !newPostImagesId.includes(imageId));
-
-    console.log(newImages);
 
     for await (const image of updatedImages) {
       await dispatch(fetchUpdateImage(image));
@@ -77,6 +65,7 @@ export const fetchCreatePost = createAsyncThunk<
 
     try {
       const finalResult = await $api.get<IPost>(`/api/posts/${newPost.data.id}/details/`);
+      dispatch(setUploadProgress(100));
       return finalResult.data;
     } catch {
       return rejectWithValue({ message: 'Somethin went wrong' } as IAuthError);

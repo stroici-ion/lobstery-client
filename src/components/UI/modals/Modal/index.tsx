@@ -6,7 +6,7 @@ import useClickOutside from '../../../../hooks/useClickOutside';
 import { IModal } from '../../../../hooks/useModalDialog';
 import DialogModalForm from '../forms/DialogModalForm';
 
-const Modal: React.FC<IModal & { className?: string; children: ReactNode }> = ({
+const Modal: React.FC<IModal & { className?: string; children?: ReactNode }> = ({
   modalRef,
   isOpen,
   className,
@@ -18,17 +18,29 @@ const Modal: React.FC<IModal & { className?: string; children: ReactNode }> = ({
 
   return (
     <>
-      <div className={classNames(styles.modal, className)}>
-        <div className={styles.modal__column}>
-          <div className={styles.modal__content} ref={modalRef}>
-            {children}
+      {children ? (
+        <>
+          <div className={classNames(styles.modal, className)}>
+            <div className={styles.modal__column}>
+              <div className={styles.modal__content} ref={modalRef}>
+                {children}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      {isDialogOpen && (
+          {isDialogOpen && (
+            <div className={classNames(styles.modal)}>
+              <div className={styles.modal__column}>
+                <div className={styles.modal__content} ref={dialog.ref}>
+                  <DialogModalForm title={dialog.title} description={dialog.description} options={dialog.options} />
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
         <div className={classNames(styles.modal)}>
           <div className={styles.modal__column}>
-            <div className={styles.modal__content} ref={dialog.ref}>
+            <div className={styles.modal__content} ref={modalRef}>
               <DialogModalForm title={dialog.title} description={dialog.description} options={dialog.options} />
             </div>
           </div>

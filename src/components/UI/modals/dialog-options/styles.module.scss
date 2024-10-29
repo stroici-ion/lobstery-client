@@ -4,30 +4,3 @@
   flex: 0 0 70px;
   width: 70px;
 }
-
-.exit {
-  @include buttonWidth;
-
-  border: 1px solid $redColor;
-  color: $redColor;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: $redColor;
-      color: $lightColor;
-    }
-  }
-}
-
-.return {
-  @include buttonWidth;
-
-  background-color: $greenColor;
-  color: $lightColor;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: $greenColor;
-    }
-  }
-}

@@ -1,4 +1,5 @@
 @import '../../styles/colors.scss';
+@import '../../styles/mixins.scss';
 
 .root {
   flex-direction: column;
@@ -18,10 +19,7 @@
     transition: 0.2s;
     svg {
       height: 12px;
-      path {
-        stroke: $cyanColorDarken;
-        fill: transparent;
-      }
+      @include svgcolor($cyanColor);
     }
     &:hover {
       background-color: $lightColor;
