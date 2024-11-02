@@ -17,6 +17,8 @@ import styles from './App.module.scss';
 import { FetchStatusEnum } from './models/response/FetchStatus';
 import { setGuestStatus } from './redux/auth/slice';
 import { fetchDefaultAudience } from './redux/defaultAudience/asyncActions';
+import useScrollDirection from './hooks/useScrollDirection';
+import useSwipe from './hooks/useSwipe';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +30,10 @@ const App: React.FC = () => {
   useEffect(() => {
     if (localStorage.getItem('refreshToken')) dispatch(fetchAuthRefresh({}));
     else dispatch(setGuestStatus());
+    const onTouchMoove = () => {
+      document.body.scroll(0, -10);
+    };
+    window.addEventListener('touchmove', onTouchMoove);
   }, []);
 
   useEffect(() => {
@@ -37,6 +43,16 @@ const App: React.FC = () => {
         dispatch(fetchDefaultAudience({ userId }));
       }
   }, [isAuth]);
+
+  // useScrollDirection();
+
+  // useEffect(() => {
+  //   if (scrollDirection === 'down') {
+  //     document.body.style.transform = 'translateY(-50px)'; // Adjust the offset to hide the URL bar
+  //   } else if (scrollDirection === 'up') {
+  //     document.body.style.transform = 'translateY(0)';
+  //   }
+  // }, [scrollDirection]);
 
   return (
     <div className={classNames(styles.scrollArea)}>
@@ -55,7 +71,7 @@ const App: React.FC = () => {
             {isAuth &&
               privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
           </Route>
-          <Route path='*' element={<Navigate to={HOME_ROUTE} />} />
+          <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
         </Routes>
       </BrowserRouter>
     </div>

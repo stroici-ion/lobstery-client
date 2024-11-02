@@ -43,7 +43,7 @@ const ExtensibleText: React.FC<CommentTextType> = ({
     }
   }, []);
 
-  useEffect(() => checkTextOverflows, [text, isExpaned]);
+  useEffect(() => checkTextOverflows, [text, isExpaned, textRef.current]);
   useWindowResize(checkTextOverflows);
 
   return (
@@ -71,7 +71,7 @@ const ExtensibleText: React.FC<CommentTextType> = ({
             </button>
             {isExpaned && (
               <button onClick={showAll} className={classNames(styles.text__button, styles.text__showAll)}>
-                Show allw
+                Show all
               </button>
             )}
           </>

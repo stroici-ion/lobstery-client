@@ -1,16 +1,12 @@
 @import '../../styles/mixins.scss';
 
 .root {
-  padding-top: 60px;
   display: flex;
-  max-height: 100vh;
-  overflow: hidden;
+
   @media (min-width: 768px) {
     padding-top: 0px;
   }
   &__content {
     flex: 1 1 auto;
-    overflow-y: scroll;
-    @include scrollBar;
   }
 }

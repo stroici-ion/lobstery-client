@@ -20,7 +20,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $grayColorDarken;
+      background: $grayColor;
       border-radius: 10px;
       border: 4px solid $lightColor;
     }
@@ -44,8 +44,8 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $grayColorDarken;
-      border: 2px solid $grayColorDarken;
+      background: $grayColor;
+      border: 2px solid $grayColor;
     }
 
     &::-webkit-scrollbar-thumb:hover {

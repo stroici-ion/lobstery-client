@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { startTransition, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -81,6 +81,7 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide, forceHide }) => {
           </div>
         </div>
       </div>
+      <div className={styles.wrapper} />
     </>
   );
 };

@@ -13,7 +13,6 @@ import classNames from 'classnames';
 import { selectAuthStatus } from '../../../redux/auth/selectors';
 import UserImage from '../../UserImage';
 import { FetchStatusEnum } from '../../../models/response/FetchStatus';
-import useSwipe from '../../../hooks/useSwipe';
 import { primaryMenuMobileLinks } from '../../../config/navigation/primaryMenuMobileConfig';
 
 const PrimaryMenu: React.FC = () => {
