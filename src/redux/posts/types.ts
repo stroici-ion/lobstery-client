@@ -1,5 +1,5 @@
 import { IAuthError } from '../../models/auth/IAuthError';
-import { IPost, IPostEdit } from '../../models/IPost';
+import { IPost, IPostEdit } from '../../models/posts/IPost';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
 
 export interface IPostsState {

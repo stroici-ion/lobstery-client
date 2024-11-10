@@ -1,10 +1,12 @@
-import $api from '../http';
-import { IComment, ILikesInfo, IReply } from '../models/comments/IComment';
+import $api from '../../http';
+import { IComment, IFetchedComment, IFetchedReply, IReply } from '../../models/comments/IComment';
+import { IFetchedLikesInfo, ILikesInfo } from '../../models/likes/ILikesInfo';
+import convertKeysToCamelCase from '../../utils/convertKeysToCamelCase';
 
 export const getComments = async (id: number, page: number, sortBy: string, user?: number) => {
   try {
     const { data } = await $api.get<{
-      results: IComment[];
+      results: IFetchedComment[];
       count: number;
     }>('api/posts/comments/' + id + '/', {
       params: {
@@ -15,7 +17,7 @@ export const getComments = async (id: number, page: number, sortBy: string, user
         user,
       },
     });
-    return data;
+    return convertKeysToCamelCase(data) as { count: number; results: IComment[] };
   } catch (e) {
     console.error(e);
   }
@@ -23,15 +25,9 @@ export const getComments = async (id: number, page: number, sortBy: string, user
 
 export const createComment = async (params: { text: string; post: number; user: number }) => {
   try {
-    const { data } = await $api.post<{
-      id: number;
-      text: string;
-      created_at: string;
-      updated_at: string;
-      post: number;
-    }>('api/posts/comments/', params);
+    const { data } = await $api.post<IFetchedComment>('api/posts/comments/', params);
     if (data) {
-      return data;
+      return convertKeysToCamelCase(data) as IComment;
     } else {
       console.error('Error sending comment');
     }
@@ -71,33 +67,25 @@ export const removeComment = async (id: number) => {
 
 export const putCommentLike = async (comment: number, like: boolean) => {
   try {
-    const { data } = await $api.post<ILikesInfo>('api/posts/comments/' + comment + '/likes/', {
+    const { data } = await $api.post<IFetchedLikesInfo>('api/posts/comments/' + comment + '/likes/', {
       like,
     });
-    return data;
+    return convertKeysToCamelCase(data) as ILikesInfo;
   } catch (e) {
     console.error(e);
   }
 };
 
-export const createReply = async (params: {
-  text: string;
-  post: number;
-  user: number;
-  parent: number;
-  reply_to?: number;
-}) => {
+export const createReply = async (postId: number, commentId: number, text: string, mentionedUserId?: number) => {
   try {
-    const { data } = await $api.post<{
-      id: number;
-      post: number;
-      parent: number;
-      text: string;
-      created_at: string;
-      updated_at: string;
-    }>('api/posts/comments/', params);
+    const { data } = await $api.post<IFetchedReply>('api/posts/comments/', {
+      text,
+      post: postId,
+      comment: commentId,
+      mentioned_user: mentionedUserId,
+    });
     if (data) {
-      return data;
+      return convertKeysToCamelCase(data) as IReply;
     } else {
       console.error('Error sending answer');
     }
@@ -127,10 +115,10 @@ export const getReplies = async (comment: number, page: number, user?: number) =
 
 export const putCommentLikeByAuthor = async (commentId: number) => {
   try {
-    const response = await $api.post<{ liked_by_author: boolean }>(
+    const response = await $api.post<{ is_liked_by_author: boolean }>(
       'api/posts/comments/' + commentId + '/like_by_author/'
     );
-    return { data: response.data, success: response.status === 200 };
+    return { isLikedByAuthor: response.data.is_liked_by_author, success: response.status === 200 };
   } catch (e) {
     console.error(e);
   }

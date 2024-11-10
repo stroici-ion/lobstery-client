@@ -57,7 +57,7 @@ const SearchFirends: React.FC<ISearchFirends> = ({ className, onSelect, taggedFr
     <div className={classNames(styles.root, className)}>
       <div className={styles.root__search}>
         <SearchSvg />
-        <input placeholder="Search friend" className={styles.root__input} onChange={debouncedChangeHandler} />
+        <input placeholder='Search friend' className={styles.root__input} onChange={debouncedChangeHandler} />
       </div>
       <div className={styles.root__selectedPeoples}>
         {onRemove && <SelectedUsers taggedFriends={taggedFriends} onRemove={onRemove} />}
@@ -71,8 +71,8 @@ const SearchFirends: React.FC<ISearchFirends> = ({ className, onSelect, taggedFr
               (friend) =>
                 !isFriendTagged(friend) && (
                   <button className={styles.peoples__button} key={friend.id} onClick={() => handleSelectFriend(friend)}>
-                    <img className={styles.avatar} src={friend.profile?.avatar_thumbnail} />
-                    {`${friend.first_name} ${friend.last_name}`}
+                    <img className={styles.avatar} src={friend.profile?.avatarThumbnail} alt='' />
+                    {`${friend.firstName} ${friend.lastName}`}
                   </button>
                 )
             )

@@ -1,6 +1,8 @@
 export type TGridCell = {
-  id: string;
-  src: string;
+  imageId: number;
+  orderId: number;
+  key: string;
+  imageSrc: string;
   x: number;
   y: number;
   width: number;

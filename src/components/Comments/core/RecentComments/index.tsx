@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { createComment } from '../../../../services/CommentsServices';
+import { createComment } from '../../../../services/comments/CommentsServices';
 import WriteComment from '../WriteComment';
 import Comment from '../Comment';
 import styles from './styles.module.scss';
-import { LineWave } from 'react-loader-spinner';
-import { IComment } from '../../../../models/comments/IComment';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import { IUser } from '../../../../models/IUser';
 import Loader from '../../../Loader';
+import { IComment } from '../../../../models/comments/IComment';
 
 interface IRecentComments {
   isMultimedia: boolean;
@@ -68,24 +67,26 @@ const RecentComments: React.FC<IRecentComments> = ({
       if (res) {
         const newComment: IComment = {
           ...res,
-          liked_by_author: false,
-          likes_count: 0,
-          dislikes_count: 0,
+          post: postId,
+          isPinnedByAuthor: false,
+          isLikedByAuthor: false,
+          likesCount: 0,
+          dislikesCount: 0,
           liked: false,
           disliked: false,
           //must chkeck later
           user: {
             id: userData.id,
-            first_name: userData.first_name,
-            last_name: userData.last_name,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
             profile: userData.profile && {
               avatar: userData.profile.avatar,
-              avatar_thumbnail: userData.profile.avatar_thumbnail,
+              avatarThumbnail: userData.profile.avatarThumbnail,
               cover: userData.profile.cover,
             },
           },
-          replies_count: 0,
-          is_replied_by_author: false,
+          repliesCount: 0,
+          isRepliedByAuthor: false,
         };
         setRecentComments([newComment, ...recentComments]);
       }
@@ -110,7 +111,7 @@ const RecentComments: React.FC<IRecentComments> = ({
         />
       ))}
       {recentComments
-        .filter((comment) => !comment.is_pinned_by_author)
+        .filter((comment) => !comment.isPinnedByAuthor)
         .map((comment) => (
           <Comment
             setPinnedComment={setPinnedComment}

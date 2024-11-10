@@ -21,7 +21,7 @@ import { filtersList } from './core/components/FiltersList/filtersList';
 import { RevertSvg, ZoomInSvg, ZoomOutSvg } from './core/icons';
 import { EnumTabs } from './core/types/enumerations';
 import TabItems from './core/components/TabItems';
-import { IImage } from '../../../models/IImage';
+import { IImage } from '../../../models/images/IImage';
 import styles from './styles.module.scss';
 import Tabs from './core/components/Tabs';
 import Loader from '../../Loader';
@@ -407,11 +407,11 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
       const dataUrl = canvas.toDataURL('image/webp', 1.0);
       const newImage = {
         ...image,
-        image_thumbnail: dataUrl,
-        thumbnail_width: canvas.width,
-        thumbnail_height: canvas.height,
+        imageThumbnail: dataUrl,
+        thumbnailWidth: canvas.width,
+        thumbnailHeight: canvas.height,
         image: dataUrl,
-        aspect_ratio: historyCropValue.cropAR,
+        aspectRatio: historyCropValue.cropAR,
       };
       return newImage;
     }
@@ -434,7 +434,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
         <canvas ref={originalImageCanvasRef} hidden />
         <canvas ref={optimizedImageCanvasRef} hidden />
         <canvas ref={canvasMarkupRef} hidden />
-        <img hidden crossOrigin="anonymous" src={image.image} ref={imageRef} onLoad={imageOnLoad} />
+        <img hidden crossOrigin='anonymous' src={image.image} ref={imageRef} onLoad={imageOnLoad} />
         <div className={styles.header}>
           <div className={styles.header__body}>
             <div className={styles.zoomTools}>

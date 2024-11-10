@@ -17,13 +17,7 @@ const SelectedUsers: React.FC<ISelectedUsers> = ({ taggedFriends, onRemove, clas
   };
 
   return (
-    <div
-      className={classNames(
-        className,
-        styles.selectedPeoples,
-        taggedFriends?.length && styles.active
-      )}
-    >
+    <div className={classNames(className, styles.selectedPeoples, taggedFriends?.length && styles.active)}>
       <div className={styles.selectedPeoples__scrollArea}>
         {taggedFriends?.map((friend) => (
           <button
@@ -31,7 +25,7 @@ const SelectedUsers: React.FC<ISelectedUsers> = ({ taggedFriends, onRemove, clas
             key={friend.id}
             onClick={() => handleRemovetFriend(friend)}
           >
-            <img className={styles.avatar} src={friend.profile?.avatar_thumbnail} />
+            <img className={styles.avatar} src={friend.profile?.avatarThumbnail} alt='' />
             <div className={styles.selectedPeoples__decoration}>
               <CheckedSvg />
             </div>

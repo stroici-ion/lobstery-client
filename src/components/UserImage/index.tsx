@@ -11,8 +11,8 @@ interface IUserImage {
 }
 
 const UserImage: React.FC<IUserImage> = ({ user, className }) => {
-  if (user.profile?.avatar_thumbnail)
-    return <img className={classNames(styles.image, className)} src={user.profile.avatar_thumbnail} />;
+  if (user.profile?.avatarThumbnail)
+    return <img className={classNames(styles.image, className)} src={user.profile.avatarThumbnail} alt='' />;
   return <div className={classNames(styles.acronyms, className)}>{getUserAcronyms(user)}</div>;
 };
 

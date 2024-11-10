@@ -1,26 +1,46 @@
-import { IUser } from '../IUser';
+import { IFetchedUser, IUser } from '../IUser';
+import { IFetchedLikesInfo, ILikesInfo } from '../likes/ILikesInfo';
 
-export interface IComment extends Omit<IReply, 'parent' | 'reply_to'> {
-  replies_count: number;
-  is_pinned_by_author?: boolean;
-  is_replied_by_author: boolean;
+export interface ICommentBase extends ILikesInfo {
+  id: number;
+  text: string;
+  createdAt: string;
+  updatedAt: string;
+  isLikedByAuthor: boolean;
+  user: IUser;
 }
 
-export interface IReply extends ILikesInfo {
+export interface IComment extends ICommentBase {
+  post: number;
+  repliesCount: number;
+  isPinnedByAuthor: boolean;
+  isRepliedByAuthor: boolean;
+}
+
+export interface IReply extends ICommentBase {
+  post: number;
+  comment: number;
+  mentionedUser?: IUser;
+}
+
+export interface IFetchedCommentBase extends IFetchedLikesInfo {
   id: number;
   text: string;
   created_at: string;
   updated_at: string;
-  liked_by_author: boolean;
-  post: number;
-  parent: number;
-  user: IUser;
-  reply_to?: IUser;
+  is_liked_by_author: boolean;
+  user: IFetchedUser;
 }
 
-export interface ILikesInfo {
-  liked: boolean;
-  disliked: boolean;
-  likes_count: number;
-  dislikes_count: number;
+export interface IFetchedComment extends IFetchedCommentBase {
+  post: number;
+  replies_count: number;
+  is_pinned_by_author: boolean;
+  is_replied_by_author: boolean;
+}
+
+export interface IFetchedReply extends IFetchedCommentBase {
+  post: number;
+  comment: number;
+  mentioned_user?: IFetchedUser;
 }

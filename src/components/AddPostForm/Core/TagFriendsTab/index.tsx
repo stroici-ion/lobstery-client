@@ -9,7 +9,7 @@ import { selectActivePost } from '../../../../redux/posts/selectors';
 import { addTaggedFriend, removeTaggedFriend } from '../../../../redux/posts/slice';
 
 const TagFriendsTab: React.FC = () => {
-  const { tagged_friends } = useSelector(selectActivePost);
+  const { taggedFriends } = useSelector(selectActivePost);
 
   const dispatch = useAppDispatch();
   const handleSelectFriend = (friend: IUser) => {
@@ -23,7 +23,7 @@ const TagFriendsTab: React.FC = () => {
   return (
     <div className={styles.root}>
       <p className={styles.root__title}>Mention friends!</p>
-      <SearchFirends onSelect={handleSelectFriend} taggedFriends={tagged_friends} onRemove={handleRemoveFriend} />
+      <SearchFirends onSelect={handleSelectFriend} taggedFriends={taggedFriends} onRemove={handleRemoveFriend} />
     </div>
   );
 };

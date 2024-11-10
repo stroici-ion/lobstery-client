@@ -11,14 +11,14 @@ import styles from './styles.module.scss';
 import { EditSvg, PinSvg, ReportSvg } from '../../../../icons';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import WriteComment from '../WriteComment';
-import { editComment, removeComment, togglePinnedComment } from '../../../../services/CommentsServices';
+import { editComment, removeComment, togglePinnedComment } from '../../../../services/comments/CommentsServices';
 import CommentContextMenu from '../CommentContextMenu';
 import { Link } from 'react-router-dom';
 import { IUser } from '../../../../models/IUser';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
-import { IComment } from '../../../../models/comments/IComment';
 import UserImage from '../../../UserImage';
 import toast from 'react-hot-toast';
+import { IComment } from '../../../../models/comments/IComment';
 
 interface ICommentFC {
   isPinned?: boolean;
@@ -44,18 +44,18 @@ const Comment: React.FC<ICommentFC> = ({
   const user = useSelector(selectUserProfile);
   const [isCreateReplyVisible, setIsCreateReplyVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isEditingCommentLoading, setIsEditingCommentLoading] = useState(false);
+  const [, setIsEditingCommentLoading] = useState(false);
 
-  const handleToggleCreateRelpy = () => {
+  const handleToggleCreateReply = () => {
     setIsCreateReplyVisible(!isCreateReplyVisible);
   };
 
   const likesInfo = {
     liked: comment.liked,
     disliked: comment.disliked,
-    likes_count: comment.likes_count,
-    dislikes_count: comment.dislikes_count,
-    liked_by_author: comment.liked_by_author,
+    likesCount: comment.likesCount,
+    dislikesCount: comment.dislikesCount,
+    isLikedByAuthor: comment.isLikedByAuthor,
   };
 
   const handleRemoveComment = async () => {
@@ -64,7 +64,7 @@ const Comment: React.FC<ICommentFC> = ({
     //   callBack: async () => {
     toast((t) => (
       <div className={styles.toast}>
-        Are you sure you want to delete this commet!
+        Are you sure you want to delete this comment!
         <div className={styles.toast__row}>
           <button
             className={styles.toast__yes}
@@ -92,9 +92,9 @@ const Comment: React.FC<ICommentFC> = ({
     // });
   };
 
-  const handeReportComment = async () => {};
+  const handleReportComment = async () => {};
 
-  const handleToogleEditComment = () => {
+  const handleToggleEditComment = () => {
     setIsEditing(!isEditing);
   };
 
@@ -107,12 +107,12 @@ const Comment: React.FC<ICommentFC> = ({
     if (result) {
       if (result.pinned_comment === comment.id) {
         setComments((comments) =>
-          comments.map((item) => (item.id === comment.id ? { ...item, is_pinned_by_author: true } : item))
+          comments.map((item) => (item.id === comment.id ? { ...item, isPinnedByAuthor: true } : item))
         );
-        setPinnedComment({ ...comment, is_pinned_by_author: true });
+        setPinnedComment({ ...comment, isPinnedByAuthor: true });
       } else {
         setComments((comments) =>
-          comments.map((item) => (item.id === comment.id ? { ...item, is_pinned_by_author: false } : item))
+          comments.map((item) => (item.id === comment.id ? { ...item, isPinnedByAuthor: false } : item))
         );
         setPinnedComment(undefined);
       }
@@ -138,7 +138,7 @@ const Comment: React.FC<ICommentFC> = ({
 
   const commentContextMenuButtons = {
     editButton: (
-      <button className={styles.submenu__edit} onClick={handleToogleEditComment}>
+      <button className={styles.submenu__edit} onClick={handleToggleEditComment}>
         <EditSvg />
         Edit comment
       </button>
@@ -150,7 +150,7 @@ const Comment: React.FC<ICommentFC> = ({
       </button>
     ),
     reportButton: (
-      <button className={styles.submenu__report} onClick={handeReportComment}>
+      <button className={styles.submenu__report} onClick={handleReportComment}>
         <ReportSvg />
         Report comment
       </button>
@@ -172,7 +172,7 @@ const Comment: React.FC<ICommentFC> = ({
   return (
     <>
       {isEditing ? (
-        <WriteComment initialValue={comment.text} hide={handleToogleEditComment} sendComment={handleEditComment} />
+        <WriteComment initialValue={comment.text} hide={handleToggleEditComment} sendComment={handleEditComment} />
       ) : (
         <div className={classNames(styles.comment, isPinned && styles.pinned)}>
           {isPinned && (
@@ -180,7 +180,7 @@ const Comment: React.FC<ICommentFC> = ({
               <PinSvg />
               {wasPinned ? 'Was' : 'Is'} pinned by{' '}
               <Link to={USER_PROFILE_ROUTE + '/' + owner.id} className={styles.comment__pinned_owner}>
-                {`${owner.first_name} ${owner.last_name}`}
+                {`${owner.firstName} ${owner.lastName}`}
               </Link>
             </div>
           )}
@@ -194,12 +194,12 @@ const Comment: React.FC<ICommentFC> = ({
                     comment.user.id === owner.id && styles.comment__nameInfo_owner
                   )}
                 >
-                  {`${comment.user.first_name} ${comment.user.last_name}`}
+                  {`${comment.user.firstName} ${comment.user.lastName}`}
                 </p>
-                <span className={styles.comment__timeInfo}>{getTime(comment.created_at)}</span>
+                <span className={styles.comment__timeInfo}>{getTime(comment.createdAt)}</span>
               </div>
               <CommentContextMenu
-                isPinnedByAuthor={comment.is_pinned_by_author}
+                isPinnedByAuthor={comment.isPinnedByAuthor}
                 ownerId={owner.id}
                 commentOwnerId={comment.user.id}
                 className={styles.submenu}
@@ -213,18 +213,18 @@ const Comment: React.FC<ICommentFC> = ({
               isOwner={user?.id === owner.id}
               id={comment.id}
               className={styles.root__actions}
-              handleToggleCreateRelpy={handleToggleCreateRelpy}
+              handleToggleCreateReply={handleToggleCreateReply}
               likesInfo={likesInfo}
             />
             <Replies
               postId={comment.post}
               isMultimedia={isMultimedia}
               owner={owner}
-              isRepliedByAuthor={comment.is_replied_by_author}
+              isRepliedByAuthor={comment.isRepliedByAuthor}
               isCreateReplyVisible={isCreateReplyVisible}
               setIsCreateReplyVisible={setIsCreateReplyVisible}
               commentId={comment.id}
-              repliesCount={comment.replies_count}
+              repliesCount={comment.repliesCount}
             />
           </div>
         </div>

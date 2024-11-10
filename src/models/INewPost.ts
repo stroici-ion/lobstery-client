@@ -3,11 +3,11 @@ export interface INewPost {
   // title: string;
   // text: string;
   // images: IImage[];
-  // fetched_images_id: number[];
+  // fetchedImagesId: number[];
   // selected_image?: IImage;
-  // tagged_friends: IUser[];
+  // taggedFriends: IUser[];
   // feeling?: IFeelig;
-  // upload_progress: number;
+  // uploadProgress: number;
   // tags: string[];
   // audience: number;
   // custom_audience: number;

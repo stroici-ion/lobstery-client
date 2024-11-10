@@ -1,5 +1,3 @@
-import { IModalCloseDialogOption } from './IModalCloseDialogOptions';
-
 export interface IModal {
   onHide: () => void;
   className?: string;

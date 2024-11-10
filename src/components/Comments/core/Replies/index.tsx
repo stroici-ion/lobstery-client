@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ArrowDownSvg, ReturnBackSvg } from '../../../../icons';
-import { createReply, getReplies } from '../../../../services/CommentsServices';
+import { createReply, getReplies } from '../../../../services/comments/CommentsServices';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import WriteComment from '../WriteComment';
 import { IUser } from '../../../../models/IUser';
 import styles from './styles.module.scss';
 import Reply from '../Reply';
-import { IReply } from '../../../../models/comments/IComment';
 import Loader from '../../../Loader';
 import UserImage from '../../../UserImage';
+import { IReply } from '../../../../models/comments/IComment';
 
 interface IReplies {
   isMultimedia: boolean;
@@ -39,7 +39,7 @@ const Replies: React.FC<IReplies> = ({
   const [isRepliesLoading, setIsRepliesLoading] = useState(false);
   const [isFetchedRepliesVisible, setIsFetchedRepliesVisible] = useState(false);
   const [recentReplies, setRecentReplies] = useState<IReply[]>([]);
-  const [feetchedReplies, setFeetchedReplies] = useState<IReply[]>([]);
+  const [fetchedReplies, setFetchedReplies] = useState<IReply[]>([]);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const totalPages = Math.ceil(repliesCount / limit);
@@ -47,23 +47,24 @@ const Replies: React.FC<IReplies> = ({
   const handleCreateReply = async (text: string) => {
     if (user) {
       setIsCreateReplyLoading(true);
-      const res = await createReply({ text, post: postId, parent: commentId, user: user.id });
+
+      const res = await createReply(postId, commentId, text);
+
       if (res) {
         const newReply: IReply = {
           ...res,
-          liked_by_author: false,
-          likes_count: 0,
-          dislikes_count: 0,
+          isLikedByAuthor: false,
+          likesCount: 0,
+          dislikesCount: 0,
           liked: false,
           disliked: false,
-          //must chkeck later
           user: {
             id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             profile: user.profile && {
               avatar: user.profile.avatar,
-              avatar_thumbnail: user.profile.avatar_thumbnail,
+              avatarThumbnail: user.profile.avatarThumbnail,
               cover: user.profile.cover,
             },
           },
@@ -76,20 +77,20 @@ const Replies: React.FC<IReplies> = ({
   };
 
   useEffect(() => {
-    if (isFetchedRepliesVisible && !feetchedReplies.length) {
+    if (isFetchedRepliesVisible && !fetchedReplies.length) {
       setIsRepliesLoading(true);
       getReplies(commentId, page, user.id).then((replies) => {
-        if (replies) setFeetchedReplies([...feetchedReplies, ...replies.results]);
+        if (replies) setFetchedReplies([...fetchedReplies, ...replies.results]);
         setIsRepliesLoading(false);
       });
     }
   }, [isFetchedRepliesVisible]);
 
   useEffect(() => {
-    if (feetchedReplies.length) {
+    if (fetchedReplies.length) {
       setIsRepliesLoading(true);
       getReplies(commentId, page, user.id).then((replies) => {
-        if (replies) setFeetchedReplies([...feetchedReplies, ...replies.results]);
+        if (replies) setFetchedReplies([...fetchedReplies, ...replies.results]);
         setIsRepliesLoading(false);
       });
     }
@@ -118,13 +119,13 @@ const Replies: React.FC<IReplies> = ({
       )}
       {isFetchedRepliesVisible && (
         <>
-          {feetchedReplies
+          {fetchedReplies
             .filter((reply) => !recentReplies.map((recent) => recent.id).includes(reply.id))
             .map((reply) => (
               <Reply
                 postId={postId}
                 isMultimedia={isMultimedia}
-                setFeetchedReplies={setFeetchedReplies}
+                setFetchedReplies={setFetchedReplies}
                 setRecentReplies={setRecentReplies}
                 key={reply.id}
                 commentId={commentId}

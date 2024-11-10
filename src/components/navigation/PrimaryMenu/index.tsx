@@ -50,7 +50,7 @@ const PrimaryMenu: React.FC = () => {
     setIsPanelCollapsed(!isPanelCollapsed);
   };
 
-  const userName = `${user.first_name}${user.last_name ? ' ' + user.last_name : ''}`;
+  const userName = `${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`;
 
   const userContextMenu = (
     <>

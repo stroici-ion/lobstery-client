@@ -1,10 +1,8 @@
-import React, { Suspense, useEffect, useState } from 'react';
-import { Await, useParams, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectPostById } from '../../redux/posts/selectors';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Post from '../../components/Post';
-import { IPost } from '../../models/IPost';
-import { fetchPostDetail } from '../../services/PostServices';
+import { IPost } from '../../models/posts/IPost';
+import { fetchPostDetail } from '../../services/posts/PostServices';
 
 const PostDetail: React.FC = () => {
   const { id } = useParams();

@@ -4,7 +4,7 @@ import { ReturnBackSvg } from '../../../../icons';
 import { IComment } from '../../../../models/comments/IComment';
 import { IUser } from '../../../../models/IUser';
 
-import { getComments } from '../../../../services/CommentsServices';
+import { getComments } from '../../../../services/comments/CommentsServices';
 import Loader from '../../../Loader';
 import Comment from '../Comment';
 import styles from './styles.module.scss';
@@ -21,21 +21,20 @@ interface IRecentComments {
 
 const RecentComments: React.FC<IRecentComments> = ({ sortBy, postId, owner, isMultimedia, setPinnedComment }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [feetchedComments, setFeetchedComments] = useState<IComment[]>([]);
+  const [fetchedComments, setFetchedComments] = useState<IComment[]>([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(10);
-  const isFeetched = useRef(false);
+  const isFetched = useRef(false);
   const user = useSelector(selectUserId);
 
   useEffect(() => {
-    setFeetchedComments([]);
+    setFetchedComments([]);
     if (page === 1) fetchComments();
     setPage(1);
   }, [sortBy, postId]);
 
   useEffect(() => {
-    if (isFeetched.current) fetchComments();
+    if (isFetched.current) fetchComments();
   }, [page]);
 
   const fetchComments = async () => {
@@ -44,17 +43,17 @@ const RecentComments: React.FC<IRecentComments> = ({ sortBy, postId, owner, isMu
     if (res) {
       if (!count) setCount(res.count);
       if (page === 1) {
-        setFeetchedComments(res.results);
+        setFetchedComments(res.results);
       } else {
-        setFeetchedComments([...feetchedComments, ...res.results]);
+        setFetchedComments([...fetchedComments, ...res.results]);
       }
-      const pinnedComment = res.results.find((comment) => comment.is_pinned_by_author);
+      const pinnedComment = res.results.find((comment) => comment.isPinnedByAuthor);
       if (pinnedComment) {
         setPinnedComment(pinnedComment);
       }
     }
     setIsLoading(false);
-    isFeetched.current = true;
+    isFetched.current = true;
   };
 
   if (isLoading)
@@ -66,13 +65,13 @@ const RecentComments: React.FC<IRecentComments> = ({ sortBy, postId, owner, isMu
 
   return (
     <div className={styles.root}>
-      {feetchedComments.length === 0 && <p className={styles.root__empty} children={'No comments...'} />}
-      {feetchedComments
-        .filter((comment) => !!comment.is_pinned_by_author === false)
+      {fetchedComments.length === 0 && <p className={styles.root__empty} children={'No comments...'} />}
+      {fetchedComments
+        .filter((comment) => !!comment.isPinnedByAuthor === false)
         .map((comment) => (
           <Comment
             isMultimedia={isMultimedia}
-            setComments={setFeetchedComments}
+            setComments={setFetchedComments}
             setPinnedComment={setPinnedComment}
             owner={owner}
             key={comment.id}
@@ -80,7 +79,7 @@ const RecentComments: React.FC<IRecentComments> = ({ sortBy, postId, owner, isMu
             comment={comment}
           />
         ))}
-      {sortBy !== SortCommentsByEnum.MOST_RELEVANT && count > feetchedComments.length && (
+      {sortBy !== SortCommentsByEnum.MOST_RELEVANT && count > fetchedComments.length && (
         <button className={styles.root__moreComments} onClick={() => setPage(page + 1)}>
           <span>•••</span>
           <ReturnBackSvg />

@@ -1,5 +1,5 @@
 import { getMetadata, getThumbnails } from 'video-metadata-thumbnails';
-import React, { Ref, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { getImageSize } from 'react-image-size';
 import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
@@ -20,17 +20,21 @@ import { dirtyFormWarningDialog } from '../../../UI/modals/dialog-options';
 import ImageEditor2 from '../../../media/ImageEditor';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import { useAppDispatch } from '../../../../redux';
-import { IImage } from '../../../../models/IImage';
+import { IImage } from '../../../../models/images/IImage';
 import { convertToWebP } from './convertFunction';
 import ContextMenu from '../../../UI/ContextMenu';
 import ImageGrid from '../../../media/ImageGrid';
 import ScrollArea from '../../../UI/ScrollArea';
 import Modal from '../../../UI/modals/Modal';
 import styles from './styles.module.scss';
+import { getOrderedGrid } from '../../../media/ImageGrid/core/getOrderedGrid';
+import { setImagesLayout } from '../../../../redux/posts/slice';
+import { selectActivePost } from '../../../../redux/posts/selectors';
 
 const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();
   const images = useSelector(selectImages);
+  const post = useSelector(selectActivePost);
   const inputRef = useRef<HTMLInputElement>(null);
   const activeImage = useSelector(selectActiveImage);
 
@@ -62,19 +66,19 @@ const ImagesTab: React.FC = () => {
           const webpUrl = URL.createObjectURL(webpBlob);
 
           let image = '';
-          let aspect_ratio = 1;
+          let aspectRatio = 1;
           let video = null;
-          let is_video_file = false;
-          let video_extension = undefined;
-          let thumbnail_width = 0;
-          let thumbnail_height = 0;
+          let isVideoFile = false;
+          let videoExtension = undefined;
+          let thumbnailWidth = 0;
+          let thumbnailHeight = 0;
           if (isVideo(acceptedFile.name)) {
             const videoPreviewBlob = await getVideoPreview(acceptedFile);
-            video_extension = getExtension(acceptedFile.name);
+            videoExtension = getExtension(acceptedFile.name);
             if (videoPreviewBlob) {
               image = URL.createObjectURL(videoPreviewBlob);
               video = webpUrl;
-              is_video_file = true;
+              isVideoFile = true;
             } else {
               image = '';
             }
@@ -83,23 +87,24 @@ const ImagesTab: React.FC = () => {
           }
 
           await getImageSize(image).then(({ width, height }) => {
-            thumbnail_height = height;
-            thumbnail_width = width;
-            aspect_ratio = width / height;
+            thumbnailHeight = height;
+            thumbnailWidth = width;
+            aspectRatio = width / height;
           });
-
+          const id = +(Math.random() + '').slice(2, 5) * -1;
           currentlyAddedImages.push({
-            id: Math.random() * -1,
-            image_thumbnail: image,
-            upload_progress: 0,
+            id,
+            orderId: id,
+            imageThumbnail: image,
+            uploadProgress: 0,
             image,
-            aspect_ratio,
+            aspectRatio,
             caption: '',
             video,
-            is_video_file,
-            video_extension,
-            thumbnail_width,
-            thumbnail_height,
+            isVideoFile,
+            videoExtension,
+            thumbnailWidth,
+            thumbnailHeight,
             isUpdated: true,
           });
         } catch (error) {
@@ -110,12 +115,19 @@ const ImagesTab: React.FC = () => {
     dispatch(addImages(currentlyAddedImages));
   };
 
+  useEffect(() => {
+    if (images.length) {
+      dispatch(setImagesLayout(getOrderedGrid(images, 'bottom')));
+    } else dispatch(setImagesLayout(undefined));
+  }, [images]);
+
   const handleOnChangeImages = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) getSelectedFiles(Array.from(e.target.files));
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     getSelectedFiles(acceptedFiles);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dropZoneProps =
@@ -134,10 +146,11 @@ const ImagesTab: React.FC = () => {
     }
   };
 
-  const handleSelectImage = (src: string, ref?: HTMLElement) => {
-    const img = images.find((i) => i.image_thumbnail === src);
+  const handleSelectImage = (id: number, ref?: HTMLElement) => {
+    const img = images.find((i) => i.id === id);
+
     if (img) {
-      dispatch(setActiveImageId(img.id));
+      dispatch(setActiveImageId(id));
       setContextRef(ref);
     }
   };
@@ -150,6 +163,8 @@ const ImagesTab: React.FC = () => {
     }
   };
 
+  const modal = useModalDialog();
+
   const handleEditImage = () => {
     if (activeImage) {
       setContextRef(undefined);
@@ -161,7 +176,7 @@ const ImagesTab: React.FC = () => {
     modal.onHide();
   };
 
-  const hanldeSaveEditedImage = (image: IImage) => {
+  const handleSaveEditedImage = (image: IImage) => {
     const dialogParams = {
       title: 'Save Image!',
       description: 'Save as - to keep the original image',
@@ -184,10 +199,12 @@ const ImagesTab: React.FC = () => {
           type: EnumModalDialogOptionType.OTHER,
           title: 'Save copy',
           callback: () => {
-            image.id = Math.random() * -1;
+            const id = +(Math.random() + '').slice(2, 5) * -1;
+            image.id = id;
+            image.orderId = id;
             dispatch(addImages([image]));
           },
-          className: styles.saveas,
+          className: styles.saveAs,
         },
       ],
     };
@@ -199,11 +216,7 @@ const ImagesTab: React.FC = () => {
     if (isActiveImageModified) modal.dialog.setDialogParams(dirtyFormWarningDialog);
   }, [isActiveImageModified]);
 
-  const handleSetIsActiveImageModified = (isModified: boolean) => {
-    setIsActiveImageModified(isModified);
-  };
-
-  const modal = useModalDialog();
+  const handleSetIsActiveImageModified = (isModified: boolean) => setIsActiveImageModified(isModified);
 
   const handleHideContextMenu = () => setContextRef(undefined);
   const isContextVisible = contextRef && activeImage;
@@ -218,7 +231,7 @@ const ImagesTab: React.FC = () => {
             </button>
             <ImageEditor2
               image={activeImage}
-              onSave={hanldeSaveEditedImage}
+              onSave={handleSaveEditedImage}
               setIsModified={handleSetIsActiveImageModified}
             />
           </div>
@@ -277,10 +290,10 @@ const ImagesTab: React.FC = () => {
           )}
           {images.length > 0 && (
             <ScrollArea>
-              <ImageGrid images={images} onSelect={handleSelectImage} />
+              <ImageGrid images={images} orderedGrid={post.imagesLayout} onSelect={handleSelectImage} />
             </ScrollArea>
           )}
-          <input {...getInputProps()} accept="image/*, video/*" />
+          <input {...getInputProps()} accept='image/*, video/*' />
         </div>
         {images.length > 0 && (
           <div className={classNames(styles.root__tools, styles.tools)}>
@@ -292,7 +305,7 @@ const ImagesTab: React.FC = () => {
                 style={{ display: 'none' }}
                 onChange={handleOnChangeImages}
                 multiple
-                accept="image/*, video/*"
+                accept='image/*, video/*'
               />
             </button>
           </div>

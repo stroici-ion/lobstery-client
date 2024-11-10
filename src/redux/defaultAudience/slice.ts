@@ -7,13 +7,13 @@ import {
   fetchDefaultAudience,
   fetchDeleteCustomAudience,
 } from './asyncActions';
-import { IAudience, IDefaultAudience } from '../../models/IAudience';
+import { IAudience, IDefaultAudience } from '../../models/audience/IAudience';
 import { IUser } from '../../models/IUser';
-import { IFetchCustomAudiencesList } from '../../models/response/FetchDefaultAudienceResponse';
+import { IFetchCustomAudiencesList } from '../../models/audience/FetchDefaultAudienceResponse';
 
 const initialState: IDefaultAudienceState = {
-  default_audience: -1,
-  default_custom_audience: -1,
+  defaultAudience: -1,
+  defaultCustomAudience: -1,
   customAudiencesCount: 0,
   customAudiencesList: [],
   activeCustomAudience: {
@@ -34,10 +34,10 @@ const audience = createSlice({
   initialState,
   reducers: {
     setDefaultAudience: (state, action: PayloadAction<number>) => {
-      state.default_audience = action.payload;
+      state.defaultAudience = action.payload;
     },
     setDefaultCustomAudience: (state, action: PayloadAction<number>) => {
-      state.default_custom_audience = action.payload;
+      state.defaultCustomAudience = action.payload;
     },
     setActiveCustomAudience: (state, action: PayloadAction<IAudience>) => {
       state.activeCustomAudience = action.payload;
@@ -49,10 +49,7 @@ const audience = createSlice({
       state.activeCustomAudience.audience = action.payload;
     },
     addActiveCustomAudienceFriend: (state, action: PayloadAction<IUser>) => {
-      state.activeCustomAudience.audience_list = [
-        ...state.activeCustomAudience.audience_list,
-        action.payload,
-      ];
+      state.activeCustomAudience.audience_list = [...state.activeCustomAudience.audience_list, action.payload];
     },
     removeActiveCustomAudienceFriend: (state, action: PayloadAction<number>) => {
       state.activeCustomAudience.audience_list = state.activeCustomAudience.audience_list.filter(
@@ -65,14 +62,11 @@ const audience = createSlice({
     builder.addCase(fetchDefaultAudience.pending, (state) => {
       state.defaultAudienceStatus = FetchStatusEnum.PENDING;
     });
-    builder.addCase(
-      fetchDefaultAudience.fulfilled,
-      (state, action: PayloadAction<IDefaultAudience>) => {
-        state.default_custom_audience = action.payload.default_custom_audience;
-        state.default_audience = action.payload.default_audience;
-        state.defaultAudienceStatus = FetchStatusEnum.SUCCESS;
-      }
-    );
+    builder.addCase(fetchDefaultAudience.fulfilled, (state, action: PayloadAction<IDefaultAudience>) => {
+      state.defaultCustomAudience = action.payload.defaultCustomAudience;
+      state.defaultAudience = action.payload.defaultAudience;
+      state.defaultAudienceStatus = FetchStatusEnum.SUCCESS;
+    });
     builder.addCase(fetchDefaultAudience.rejected, (state) => {
       state.defaultAudienceStatus = FetchStatusEnum.ERROR;
     });
@@ -83,9 +77,7 @@ const audience = createSlice({
     });
     builder.addCase(fetchCustomAudience.fulfilled, (state, action: PayloadAction<IAudience>) => {
       state.activeCustomAudience = action.payload;
-      const candidate = state.customAudiencesList.find(
-        (audience) => audience.id === action.payload.id
-      );
+      const candidate = state.customAudiencesList.find((audience) => audience.id === action.payload.id);
       if (candidate) {
         state.customAudiencesList = state.customAudiencesList.map((audience) =>
           audience.id === candidate.id ? action.payload : audience
@@ -103,21 +95,18 @@ const audience = createSlice({
     builder.addCase(fetchDeleteCustomAudience.pending, (state) => {
       state.customAudienceStatus = FetchStatusEnum.PENDING;
     });
-    builder.addCase(
-      fetchDeleteCustomAudience.fulfilled,
-      (state, action: PayloadAction<IAudience>) => {
-        state.customAudiencesList = state.customAudiencesList.filter(
-          (audience) => audience.id !== state.activeCustomAudience.id
-        );
-        state.activeCustomAudience = {
-          id: -1,
-          title: '',
-          audience: 0,
-          audience_list: [],
-        };
-        state.customAudienceStatus = FetchStatusEnum.SUCCESS;
-      }
-    );
+    builder.addCase(fetchDeleteCustomAudience.fulfilled, (state, action: PayloadAction<IAudience>) => {
+      state.customAudiencesList = state.customAudiencesList.filter(
+        (audience) => audience.id !== state.activeCustomAudience.id
+      );
+      state.activeCustomAudience = {
+        id: -1,
+        title: '',
+        audience: 0,
+        audience_list: [],
+      };
+      state.customAudienceStatus = FetchStatusEnum.SUCCESS;
+    });
     builder.addCase(fetchDeleteCustomAudience.rejected, (state) => {
       state.customAudienceStatus = FetchStatusEnum.ERROR;
     });
@@ -126,20 +115,15 @@ const audience = createSlice({
     builder.addCase(fetchCustomAudiencesList.pending, (state) => {
       state.customAudiencesListStatus = FetchStatusEnum.PENDING;
     });
-    builder.addCase(
-      fetchCustomAudiencesList.fulfilled,
-      (state, action: PayloadAction<IFetchCustomAudiencesList>) => {
-        state.customAudiencesCount = action.payload.count;
-        state.customAudiencesList = action.payload.results;
+    builder.addCase(fetchCustomAudiencesList.fulfilled, (state, action: PayloadAction<IFetchCustomAudiencesList>) => {
+      state.customAudiencesCount = action.payload.count;
+      state.customAudiencesList = action.payload.results;
 
-        //* SET ACTIVE AUDIENCE BY DEFAULT
-        const candidate = state.customAudiencesList.find(
-          (audience) => audience.id === state.default_custom_audience
-        );
-        if (candidate) state.activeCustomAudience = candidate;
-        state.customAudiencesListStatus = FetchStatusEnum.SUCCESS;
-      }
-    );
+      //* SET ACTIVE AUDIENCE BY DEFAULT
+      const candidate = state.customAudiencesList.find((audience) => audience.id === state.defaultCustomAudience);
+      if (candidate) state.activeCustomAudience = candidate;
+      state.customAudiencesListStatus = FetchStatusEnum.SUCCESS;
+    });
     builder.addCase(fetchCustomAudiencesList.rejected, (state) => {
       state.customAudiencesListStatus = FetchStatusEnum.ERROR;
     });

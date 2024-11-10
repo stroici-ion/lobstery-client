@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlaySvg } from '../../../../icons';
-import { IImage } from '../../../../models/IImage';
+import { IImage } from '../../../../models/images/IImage';
 
 import styles from './styles.module.scss';
 
@@ -17,7 +17,7 @@ enum GridTypeEnum {
 }
 
 enum FirstRowTypeEnum {
-  SIGLE_VERTICAL = 'SIGLE_VERTICAL',
+  SINGLE_VERTICAL = 'SINGLE_VERTICAL',
   SINGLE_SQUARE = 'SINGLE_SQUARE',
   DOUBLE_VERTICAL = 'DOUBLE_VERTICAL',
   DOUBLE_SQUARE = 'DOUBLE_SQUARE',
@@ -29,7 +29,7 @@ enum FirstRowTypeEnum {
 type ImagesGridType = {
   gridType: GridTypeEnum;
   mainImage: IImage;
-  fristRowImages: IImage[];
+  firstRowImages: IImage[];
   firstRowType: FirstRowTypeEnum;
   secondRowImages: IImage[];
 };
@@ -40,7 +40,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const sortByAspectRatio = (array: IImage[]) => {
-    return array.sort((a, b) => b.aspect_ratio - a.aspect_ratio);
+    return array.sort((a, b) => b.aspectRatio - a.aspectRatio);
   };
 
   // const onClickImage
@@ -48,93 +48,93 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
   const getImagesGrid = () => {
     if (localImages.length) {
       let gridType = GridTypeEnum.GRID;
-      let fristRowImages: IImage[] = [];
+      let firstRowImages: IImage[] = [];
       let firstRowType = FirstRowTypeEnum.NONE;
       let secondRowImages: IImage[] = [];
       const sortedImages = sortByAspectRatio([...localImages]);
       let mainImage: IImage | undefined = undefined;
-      mainImage = sortedImages.find((image) => image.is_video_file && image.aspect_ratio < 2.1);
-      if (!mainImage) mainImage = sortedImages.find((image) => image.aspect_ratio < 2.1);
+      mainImage = sortedImages.find((image) => image.isVideoFile && image.aspectRatio < 2.1);
+      if (!mainImage) mainImage = sortedImages.find((image) => image.aspectRatio < 2.1);
 
       if (mainImage) {
-        const otherImages = sortedImages.filter((image) => image.image != mainImage?.image);
-        const horizontalImages = otherImages.filter((image) => image.aspect_ratio > 1.2);
-        const verticalImages = otherImages.filter((image) => image.aspect_ratio < 0.8);
-        const squareImages = otherImages.filter((image) => image.aspect_ratio <= 1.2 && image.aspect_ratio >= 0.8);
+        const otherImages = sortedImages.filter((image) => image.image !== mainImage?.image);
+        const horizontalImages = otherImages.filter((image) => image.aspectRatio > 1.2);
+        const verticalImages = otherImages.filter((image) => image.aspectRatio < 0.8);
+        const squareImages = otherImages.filter((image) => image.aspectRatio <= 1.2 && image.aspectRatio >= 0.8);
 
-        if (mainImage.aspect_ratio > 1.2) {
+        if (mainImage.aspectRatio > 1.2) {
           if (squareImages.length > 1) {
-            fristRowImages = squareImages.slice(0, 2);
+            firstRowImages = squareImages.slice(0, 2);
             firstRowType = FirstRowTypeEnum.DOUBLE_SQUARE;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (verticalImages.length > 0) {
-            fristRowImages = verticalImages.slice(0, 1);
-            firstRowType = FirstRowTypeEnum.SIGLE_VERTICAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            firstRowImages = verticalImages.slice(0, 1);
+            firstRowType = FirstRowTypeEnum.SINGLE_VERTICAL;
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else {
             secondRowImages = otherImages;
           }
-        } else if (mainImage.aspect_ratio <= 1.2 && mainImage.aspect_ratio >= 0.8) {
+        } else if (mainImage.aspectRatio <= 1.2 && mainImage.aspectRatio >= 0.8) {
           if (horizontalImages.length >= 3) {
-            fristRowImages = horizontalImages.slice(0, 3);
+            firstRowImages = horizontalImages.slice(0, 3);
             firstRowType = FirstRowTypeEnum.ALL_HORIZONTAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (squareImages.length > 1) {
-            fristRowImages = squareImages.slice(0, 2);
+            firstRowImages = squareImages.slice(0, 2);
             firstRowType = FirstRowTypeEnum.DOUBLE_SQUARE;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (verticalImages.length > 1) {
-            fristRowImages = verticalImages.slice(0, 2);
+            firstRowImages = verticalImages.slice(0, 2);
             firstRowType = FirstRowTypeEnum.DOUBLE_VERTICAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (squareImages.length > 0) {
             if (verticalImages.length > 0) {
-              fristRowImages = [mainImage, ...squareImages.slice(0, 1)];
+              firstRowImages = [mainImage, ...squareImages.slice(0, 1)];
               mainImage = verticalImages[0];
               firstRowType = FirstRowTypeEnum.DOUBLE_SQUARE;
-              secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image) && image !== mainImage);
+              secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image) && image !== mainImage);
             } else {
-              fristRowImages = squareImages.slice(0, 1);
+              firstRowImages = squareImages.slice(0, 1);
               firstRowType = FirstRowTypeEnum.SINGLE_SQUARE;
-              secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+              secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
             }
           } else if (verticalImages.length > 0) {
-            fristRowImages = verticalImages.slice(0, 1);
-            firstRowType = FirstRowTypeEnum.SIGLE_VERTICAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            firstRowImages = verticalImages.slice(0, 1);
+            firstRowType = FirstRowTypeEnum.SINGLE_VERTICAL;
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else {
             secondRowImages = otherImages;
           }
         } else {
           if (squareImages.length > 0) {
-            fristRowImages = squareImages.slice(0, 2);
+            firstRowImages = squareImages.slice(0, 2);
             firstRowType = FirstRowTypeEnum.DOUBLE_SQUARE;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (horizontalImages.length >= 3) {
-            fristRowImages = horizontalImages.slice(0, 3);
+            firstRowImages = horizontalImages.slice(0, 3);
             firstRowType = FirstRowTypeEnum.ALL_HORIZONTAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (verticalImages.length > 0) {
-            fristRowImages = verticalImages.slice(0, 3);
+            firstRowImages = verticalImages.slice(0, 3);
             firstRowType = FirstRowTypeEnum.ALL_VERTICAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else {
             secondRowImages = otherImages;
           }
         }
       } else {
-        mainImage = sortedImages.find((image) => image.is_video_file);
+        mainImage = sortedImages.find((image) => image.isVideoFile);
         if (!mainImage) mainImage = sortedImages[0];
-        const otherImages = sortedImages.filter((image) => image.image_thumbnail != mainImage?.image_thumbnail);
+        const otherImages = sortedImages.filter((image) => image.imageThumbnail !== mainImage?.imageThumbnail);
         gridType = GridTypeEnum.VERTICAL;
-        fristRowImages = [mainImage, ...otherImages];
+        firstRowImages = [mainImage, ...otherImages];
       }
 
       if (mainImage) {
         const newImagesGrid: ImagesGridType = {
           mainImage,
           gridType,
-          fristRowImages,
+          firstRowImages,
           firstRowType,
           secondRowImages: secondRowImages.reverse(),
         };
@@ -156,12 +156,13 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
     if (localImages.length) {
       getImagesGrid();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localImages]);
 
   const getToatalHeight = (arr: IImage[]) => {
     let sum = 0;
     arr.forEach((element) => {
-      sum += 1 / element.aspect_ratio;
+      sum += 1 / element.aspectRatio;
     });
     return sum;
   };
@@ -173,17 +174,18 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
   return (
     <div className={styles.root} style={{ display: isVisible ? 'flex' : 'none' }}>
       {imagesGrid.gridType === GridTypeEnum.VERTICAL ? (
-        imagesGrid.fristRowImages.map((image) => (
+        imagesGrid.firstRowImages.map((image) => (
           <div className={classNames(styles.root__row, styles.verticalGrid)}>
             <div className={classNames(styles.verticalGrid__imageBlock, styles.imageParent)}>
               <img
                 className={styles.verticalGrid__image}
-                src={image.image_thumbnail}
+                src={image.imageThumbnail}
+                alt='Failed to upload'
                 onClick={(event) => {
                   onSelect?.(image, event.target as HTMLElement);
                 }}
               />
-              {image.is_video_file && (
+              {image.isVideoFile && (
                 <button className={styles.videoButton}>
                   <PlaySvg />
                 </button>
@@ -201,26 +203,27 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
           <div className={classNames(styles.root__row, !imagesGrid.secondRowImages.length && styles.single)}>
             <div
               className={styles.row__decorationLeft}
-              style={{ backgroundImage: `url('${imagesGrid.mainImage.image_thumbnail}')` }}
+              style={{ backgroundImage: `url('${imagesGrid.mainImage.imageThumbnail}')` }}
             />
             <div
               className={styles.row__decorationRight}
               style={{
                 backgroundImage: `url('${
-                  imagesGrid.fristRowImages[imagesGrid.fristRowImages.length - 1]?.image_thumbnail ||
-                  imagesGrid.mainImage.image_thumbnail
+                  imagesGrid.firstRowImages[imagesGrid.firstRowImages.length - 1]?.imageThumbnail ||
+                  imagesGrid.mainImage.imageThumbnail
                 }')`,
               }}
             />
             <div className={classNames(styles.root__nearVideoBlock, styles.imageParent)}>
               <img
-                src={imagesGrid.mainImage.image_thumbnail}
+                src={imagesGrid.mainImage.imageThumbnail}
+                alt='Failed to upload'
                 className={styles.root__nearVideoBlock_image}
                 onClick={(event) => {
                   onSelect?.(imagesGrid.mainImage, event.target as HTMLElement);
                 }}
               />
-              {imagesGrid.mainImage.is_video_file && (
+              {imagesGrid.mainImage.isVideoFile && (
                 <button className={styles.videoButton}>
                   <PlaySvg />
                 </button>
@@ -235,23 +238,23 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
             {(imagesGrid.firstRowType === FirstRowTypeEnum.ALL_HORIZONTAL ||
               imagesGrid.firstRowType === FirstRowTypeEnum.DOUBLE_SQUARE) && (
               <div className={classNames(styles.tripleVertical)}>
-                {imagesGrid.fristRowImages.map((image) => (
+                {imagesGrid.firstRowImages.map((image) => (
                   <div
                     key={image.image}
                     className={classNames(styles.tripleVertical__block, styles.imageParent)}
                     style={{
-                      maxHeight: (400 * (1 / image.aspect_ratio)) / getToatalHeight(imagesGrid.fristRowImages),
+                      maxHeight: (400 * (1 / image.aspectRatio)) / getToatalHeight(imagesGrid.firstRowImages),
                     }}
                   >
                     <img
-                      alt=''
-                      src={image.image_thumbnail}
+                      alt='Failed to upload'
+                      src={image.imageThumbnail}
                       className={styles.root__nearVideoBlock_image}
                       onClick={(event) => {
                         onSelect?.(image, event.target as HTMLElement);
                       }}
                     />
-                    {image.is_video_file && (
+                    {image.isVideoFile && (
                       <button className={styles.videoButton}>
                         <PlaySvg />
                       </button>
@@ -268,11 +271,11 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
             {imagesGrid.firstRowType !== FirstRowTypeEnum.ALL_HORIZONTAL &&
               imagesGrid.firstRowType !== FirstRowTypeEnum.DOUBLE_SQUARE && (
                 <>
-                  {imagesGrid.fristRowImages.map((image) => (
+                  {imagesGrid.firstRowImages.map((image) => (
                     <div key={image.image} className={classNames(styles.root__nearVideoBlock, styles.imageParent)}>
                       <img
-                        alt=''
-                        src={image.image_thumbnail}
+                        alt='Failed to upload'
+                        src={image.imageThumbnail}
                         className={styles.root__nearVideoBlock_image}
                         onClick={(event) => {
                           onSelect?.(image, event.target as HTMLElement);
@@ -293,28 +296,28 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
               <div
                 className={styles.row__decorationLeft}
                 style={{
-                  backgroundImage: `url('${imagesGrid.secondRowImages[0].image_thumbnail}')`,
+                  backgroundImage: `url('${imagesGrid.secondRowImages[0].imageThumbnail}')`,
                 }}
               />
               <div
                 className={styles.row__decorationRight}
                 style={{
                   backgroundImage: `url('${
-                    imagesGrid.secondRowImages[imagesGrid.secondRowImages.length - 1].image_thumbnail
+                    imagesGrid.secondRowImages[imagesGrid.secondRowImages.length - 1].imageThumbnail
                   }')`,
                 }}
               />
               {imagesGrid.secondRowImages.map((image) => (
-                <div key={image.image_thumbnail} className={classNames(styles.root__imageBlock, styles.imageParent)}>
+                <div key={image.imageThumbnail} className={classNames(styles.root__imageBlock, styles.imageParent)}>
                   <img
                     alt=''
-                    src={image.image_thumbnail}
+                    src={image.imageThumbnail}
                     className={styles.root__imageBlock_image}
                     onClick={(event) => {
                       onSelect?.(image, event.target as HTMLElement);
                     }}
                   />
-                  {image.is_video_file && (
+                  {image.isVideoFile && (
                     <button className={styles.videoButton}>
                       <PlaySvg />
                     </button>

@@ -3,36 +3,38 @@ import $api from '../../http';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
 import {
   FetchCustomAudienceResponse,
-  FetchDefaultAudienceResponse,
   IFetchCustomAudiencesList,
-} from '../../models/response/FetchDefaultAudienceResponse';
-import { IAudience } from '../../models/IAudience';
+} from '../../models/audience/FetchDefaultAudienceResponse';
+import {
+  IAudience,
+  IDefaultAudience,
+  IFetchedDefaultAudience,
+  IUpdateDefaultAudience,
+} from '../../models/audience/IAudience';
+import convertKeysToCamelCase from '../../utils/convertKeysToCamelCase';
 
 //*=========================================================CUSTOM
 export const fetchDefaultAudience = createAsyncThunk<
-  FetchDefaultAudienceResponse,
-  { userId: number; default_audience?: number; default_custom_audience?: number },
+  IDefaultAudience,
+  { userId: number } & IUpdateDefaultAudience,
   { rejectValue: FetchStatusEnum }
->(
-  'posts/fetchDefaultAudience',
-  async ({ userId, default_audience, default_custom_audience }, { rejectWithValue }) => {
-    try {
-      const response = await $api[
-        default_audience !== undefined || default_custom_audience !== undefined ? 'put' : 'get'
-      ]<{
-        default_audience: number;
-        default_custom_audience: number;
-      }>(`api/profiles/${userId}/audience/`, { default_audience, default_custom_audience });
+>('posts/fetchDefaultAudience', async ({ userId, defaultAudience, defaultCustomAudience }, { rejectWithValue }) => {
+  try {
+    const response = await $api[
+      defaultAudience !== undefined || defaultCustomAudience !== undefined ? 'put' : 'get'
+    ]<IFetchedDefaultAudience>(`api/profiles/${userId}/audience/`, {
+      default_audience: defaultAudience,
+      default_custom_audience: defaultCustomAudience,
+    });
 
-      return response.data;
-    } catch (error: any) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(FetchStatusEnum.ERROR);
+    return convertKeysToCamelCase(response.data) as IDefaultAudience;
+  } catch (error: any) {
+    if (!error.response) {
+      throw error;
     }
+    return rejectWithValue(FetchStatusEnum.ERROR);
   }
-);
+});
 
 //*=========================================================CUSTOM AUDIENCE CREATE/RETRIEVE/UPDATE
 export const fetchCustomAudience = createAsyncThunk<
@@ -43,13 +45,10 @@ export const fetchCustomAudience = createAsyncThunk<
   try {
     let response;
     if (update) {
-      response = await $api.put<FetchCustomAudienceResponse>(
-        `api/posts/audience/${customAudience.id}/update/`,
-        {
-          ...customAudience,
-          audience_list: customAudience.audience_list.map((friend) => friend.id),
-        }
-      );
+      response = await $api.put<FetchCustomAudienceResponse>(`api/posts/audience/${customAudience.id}/update/`, {
+        ...customAudience,
+        audience_list: customAudience.audience_list.map((friend) => friend.id),
+      });
       response.data.audience_list = response.data.users_list;
     } else if (customAudience.id > -1) {
       response = await $api.get<IAudience>(`api/posts/audience/${customAudience.id}/details/`);
@@ -76,9 +75,7 @@ export const fetchDeleteCustomAudience = createAsyncThunk<
   { rejectValue: FetchStatusEnum }
 >('posts/fetchDeleteCustomAudience', async ({ customAudience }, { rejectWithValue }) => {
   try {
-    const response = await $api.delete<IAudience>(
-      `api/posts/audience/${customAudience.id}/delete/`
-    );
+    const response = await $api.delete<IAudience>(`api/posts/audience/${customAudience.id}/delete/`);
     return response.data;
   } catch (error: any) {
     if (!error.response) {
@@ -95,9 +92,7 @@ export const fetchCustomAudiencesList = createAsyncThunk<
   { rejectValue: FetchStatusEnum }
 >('posts/fetchCustomAudiences', async (id, { rejectWithValue }) => {
   try {
-    const response = await $api.get<IFetchCustomAudiencesList>(
-      'api/posts/audience/' + id + '/list/'
-    );
+    const response = await $api.get<IFetchCustomAudiencesList>('api/posts/audience/' + id + '/list/');
     return response.data;
   } catch (error: any) {
     if (!error.response) {

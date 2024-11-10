@@ -1,29 +1,42 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { IImage } from '../../../models/IImage';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { TRemainedImagesLocation } from '../../../models/media-tools/images-auto-order';
 import { TGridCell } from '../../../models/media-tools/images-grid';
-import { getLayout } from './core/autoOrderImages';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
+import { IImage } from '../../../models/images/IImage';
 
 type ImageGridProps = {
   images: IImage[];
-  onSelect?: (src: string, ref?: HTMLElement) => void;
+  orderedGrid?: TGridCell;
+  onSelect?: (id: number, ref?: HTMLElement) => void;
 };
 
-const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
+const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) => {
   const [grid, setGrid] = useState<TGridCell>();
   const [parentWidth, setParentWidth] = useState<number>(0);
   const gridRef = useRef<HTMLDivElement>(null);
-  const [remainedImagesLocation, setRemainedImagesLocation] = useState<TRemainedImagesLocation>('bottom');
 
-  const calculateCellSize = (cell: TGridCell, isMain: boolean = false) => {
+  const checkMainCellHeight = useCallback(
+    (cell: TGridCell) => {
+      let height = parentWidth / cell.ar;
+      let width = parentWidth;
+      if (parentWidth / cell.ar > 400) {
+        width = 400 * cell.ar;
+        height = 400;
+      }
+
+      return { ...cell, height, width };
+    },
+    [parentWidth]
+  );
+
+  const getComputedGrid = (cell: TGridCell, isMain: boolean = false) => {
     if (cell.cells.length) {
       const cells = cell.cells;
       for (let i = 0; i < cells.length; i++) {
         const c = cells[i];
-        if (c.cells.length) cells[i] = calculateCellSize(c);
+        if (c.cells.length) cells[i] = getComputedGrid(c);
       }
 
       // If the cell has children, calculate their size recursively
@@ -39,6 +52,8 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
       for (let i = 0; i < cells.length; i++) {
         const prevCell = cells[i - 1];
         const currCell = cells[i];
+        currCell.imageSrc = getImageSrcByOrderId(currCell.orderId);
+
         if (cell.direction) {
           currCell.height = (1 / currCell.ar / totalAspectRatio) * 100;
           if (i) {
@@ -67,46 +82,38 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
       if (isMain) return checkMainCellHeight({ ...cell, cells });
       else return { ...cell, cells };
     } else {
-      if (isMain) return checkMainCellHeight(cell);
-      else return cell;
+      const imageSrc = getImageSrcByOrderId(cell.orderId);
+      console.log('imageSrc', imageSrc);
+
+      if (isMain) return checkMainCellHeight({ ...cell, imageSrc });
+      else return { ...cell, imageSrc };
     }
   };
 
-  const checkMainCellHeight = (cell: TGridCell) => {
-    let height = parentWidth / cell.ar;
-    let width = parentWidth;
-    if (parentWidth / cell.ar > 400) {
-      width = 400 * cell.ar;
-      height = 400;
-    }
-
-    return { ...cell, height, width };
-  };
-
-  const getMainCell = () => {
-    const cell = getLayout(images, remainedImagesLocation);
-    const resizedCell = calculateCellSize(cell, true);
-    setGrid(resizedCell);
-  };
-
-  const handleOnSelect = (src: string, node?: HTMLElement) => {
+  const handleOnSelect = (id: number, node?: HTMLElement) => {
     const parent = (node as Node).parentNode as HTMLDivElement;
-    onSelect?.(src, parent);
+    onSelect?.(id, parent);
   };
-  useEffect(() => {
-    if (images.length && parentWidth) getMainCell();
-  }, [images, remainedImagesLocation]);
 
   useEffect(() => {
-    if (images.length && parentWidth) getMainCell();
-  }, [parentWidth]);
+    console.log('orderedGrid', orderedGrid);
+
+    if (parentWidth && orderedGrid) setGrid(getComputedGrid(JSON.parse(JSON.stringify(orderedGrid)), true));
+  }, [parentWidth, orderedGrid, images]);
 
   useEffect(() => {
-    if (!images.length && !gridRef.current) return;
-    if (gridRef.current) {
-      setParentWidth(gridRef.current.getBoundingClientRect().width);
-    }
+    if (gridRef.current) setParentWidth(gridRef.current.getBoundingClientRect().width);
   }, [gridRef.current]);
+
+  const getImageSrcByOrderId = (orderId: number) => {
+    const candidate = images.find((i) => i.orderId === orderId);
+    console.log('orderId', orderId);
+    console.log('candidate', candidate);
+    console.log('images', images);
+
+    if (candidate) return candidate.imageThumbnail;
+    return '';
+  };
 
   return (
     <div
@@ -123,12 +130,12 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
             width: grid.width,
             height: grid.height,
           }}
-          onClick={(e) => handleOnSelect?.(grid.src, e.target as HTMLElement)}
+          onClick={(e) => handleOnSelect?.(grid.imageId, e.target as HTMLElement)}
         >
-          {grid.src && <img src={images[0].image} />}
+          {grid.imageSrc && <img src={images[0].image} alt='Failed o upload' />}
           {/* Render top-level cells */}
           {grid.cells.map((cell) => (
-            <RecursiveCell key={cell.id} cell={cell} onSelect={handleOnSelect} />
+            <RecursiveCell key={cell.key} cell={cell} onSelect={handleOnSelect} />
           ))}
         </div>
       )}
@@ -136,26 +143,30 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect }) => {
   );
 };
 
-const RecursiveCell: React.FC<{ cell: TGridCell; onSelect?: (src: string, node?: HTMLElement) => void }> = ({
+const RecursiveCell: React.FC<{ cell: TGridCell; onSelect?: (id: number, node?: HTMLElement) => void }> = ({
   cell,
   onSelect,
 }) => {
   return (
     <div
-      key={cell.src}
-      className={classNames(styles.cell, cell.src.length > 1 && styles.selectable)}
+      key={cell.key}
+      className={classNames(
+        styles.cell,
+        cell.orderId > -1 && styles.selectable
+        // cell.id.includes('rest') && styles.row
+      )}
       style={{
-        //   background: cell.src && `url(${cell.src}) center/cover no-repeat`,
+        // background: cell.src && `url(${cell.src}) center/cover no-repeat`,
         ...cell.styles,
       }}
       onClick={(e) => {
-        if (cell.src) onSelect?.(cell.src, e.target as HTMLElement);
+        if (cell.imageSrc) onSelect?.(cell.imageId, e.target as HTMLElement);
       }}
     >
-      {cell.src && <img src={cell.src} />}
+      {cell.imageSrc && <img src={cell.imageSrc} alt='Failed o upload' />}
       {/* Recursively render child cells */}
       {cell.cells.map((childCell) => (
-        <RecursiveCell key={childCell.id} cell={childCell} onSelect={onSelect} />
+        <RecursiveCell key={childCell.key} cell={childCell} onSelect={onSelect} />
       ))}
     </div>
   );

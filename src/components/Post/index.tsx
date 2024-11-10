@@ -24,14 +24,14 @@ import {
 import { useAppDispatch } from '../../redux';
 import { selectUserProfile } from '../../redux/profile/selectors';
 import { POSTS_ROUTE } from '../../utils/consts';
-import { IPost } from '../../models/IPost';
-import ImagesPreview from '../ImagesPreview';
+import { IPost } from '../../models/posts/IPost';
+// import ImagesPreview from '../ImagesPreview';
 import PostLikesInfo from '../PostLikesInfo';
 import PostUsername from '../PostUsername';
 import classNames from 'classnames';
-import { IImage } from '../../models/IImage';
-import { setActiveImageId, setImages } from '../../redux/images/slice';
-import { setImagesModalStatus } from '../../redux/modals/slice';
+// import { IImage } from '../../models/IImage';
+// import { setActiveImageId, setImages } from '../../redux/images/slice';
+// import { setImagesModalStatus } from '../../redux/modals/slice';
 import { fetchRemovePost } from '../../redux/posts/asyncActions';
 import SmallButton from '../UI/Buttons/SmallButton';
 import UserImage from '../UserImage';
@@ -118,11 +118,11 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     setIsCommentsVisible(!isCommentsVisible);
   };
 
-  const handleSelectImage = (image: IImage) => {
-    dispatch(setImages(post.image_set));
-    dispatch(setActiveImageId(image.id));
-    dispatch(setImagesModalStatus(true));
-  };
+  // const handleSelectImage = (image: IImage) => {
+  //   dispatch(setImages(post.imageSet));
+  //   dispatch(setActiveImageId(image.id));
+  //   dispatch(setImagesModalStatus(true));
+  // };
 
   const handleViewPost = () => {
     navigate(POSTS_ROUTE + post.id);
@@ -131,7 +131,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
   useEffect(() => {
     if (isAddPostFormDirty) editModal.dialog.setDialogParams(dirtyFormWarningDialog);
     else editModal.dialog.setDialogParams(undefined);
-  }, [isAddPostFormDirty]);
+  }, [editModal.dialog, isAddPostFormDirty]);
 
   return (
     <>
@@ -143,9 +143,9 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
             <div className={styles.post__top_right}>
               <UserImage user={post.user} className={styles.post__avatar} />
               <div className={styles.post__info}>
-                <PostUsername user={post.user} feeling={post.feeling} taggedFriends={post.tagged_friends} />
+                <PostUsername user={post.user} feeling={post.feeling} taggedFriends={post.taggedFriends} />
                 <div className={styles.post__date}>
-                  {getTime(post.created_at.toString())} <span>•</span>
+                  {getTime(post.createdAt.toString())} <span>•</span>
                   {userProfile?.id === post.user.id ? (
                     <ContextMenu
                       className={styles.post__submenu}
@@ -213,14 +213,14 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
             </ContextMenu>
           </div>
           <div className={styles.post__text}>
-            <Link to={POSTS_ROUTE + post.id}>
+            <Link to={`${POSTS_ROUTE}/${post.id}`}>
               <h4 className={styles.post__title}>{post.title}</h4>
             </Link>
 
             <ExtensibleText text={post.text} className={styles.post__description} showAll={handleViewPost} />
           </div>
-          <ImageGrid images={post.image_set} />
-          {/* <ImagesPreview images={post.image_set} onSelect={handleSelectImage} /> */}
+          <ImageGrid images={post.imageSet} orderedGrid={post.imagesLayout} />
+          {/* <ImagesPreview images={post.imageSet} onSelect={handleSelectImage} /> */}
           <div className={styles.post__body}>
             {post.tags.length > 0 && (
               <p className={styles.post__tags}>
@@ -236,14 +236,14 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
                   likesInfo={{
                     liked: post.liked,
                     disliked: post.disliked,
-                    likes_count: post.likes_count,
-                    dislikes_count: post.dislikes_count,
+                    likesCount: post.likesCount,
+                    dislikesCount: post.dislikesCount,
                   }}
                 />
                 <button className={styles.post__comments} onClick={handleViewComments}>
                   <MessagingSvg />
-                  <span>{post.comments_count === 0 ? 'Comment' : <>Comments</>}</span>
-                  {post.comments_count > 0 && getLikes(post.comments_count)}
+                  <span>{post.commentsCount === 0 ? 'Comment' : <>Comments</>}</span>
+                  {post.commentsCount > 0 && getLikes(post.commentsCount)}
                 </button>
               </div>
               <div className={styles.post__views}>

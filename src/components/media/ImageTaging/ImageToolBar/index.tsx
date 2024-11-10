@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import WriteText from '../../../WriteText';
 import SelectedUsers from '../../../SelectedUsers';
-import { IImage } from '../../../../models/IImage';
+import { IImage } from '../../../../models/images/IImage';
 import { IUser } from '../../../../models/IUser';
 import { useAppDispatch } from '../../../../redux';
 import { removeImageTaggedFriend, setImageCaption, setImageEditOperationType } from '../../../../redux/images/slice';
@@ -40,11 +40,11 @@ const ImageToolBar: React.FC<IImageToolBar> = ({ activeImage }) => {
       </button>
       <div className={styles.properties__taggedFriends}>
         <p>Tagged friends :</p>
-        <p className={styles.properties__taggedFriendCount}>{activeImage.tagged_friends?.length || 0}</p>
+        <p className={styles.properties__taggedFriendCount}>{activeImage.taggedFriends?.length || 0}</p>
       </div>
       <div className={styles.properties__selectedUsers}>
         <SelectedUsers
-          taggedFriends={activeImage.tagged_friends?.map((obj) => obj.user)}
+          taggedFriends={activeImage.taggedFriends?.map((obj) => obj.user)}
           onRemove={handleRemoveFriend}
         />
       </div>

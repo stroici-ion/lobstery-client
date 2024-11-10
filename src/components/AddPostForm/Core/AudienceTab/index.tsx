@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { FriendsSvg, GlobeSvg, KnownsSvg, LockSvg, CustomSettingsSvg } from '../../../../icons';
 import { useAppDispatch } from '../../../../redux';
 import { useSelector } from 'react-redux';
-import { IAudience } from '../../../../models/IAudience';
 import CustomAudienceForm from '../../../CustomAudienceForm';
 import { selectDefaultAudience } from '../../../../redux/defaultAudience/selectors';
 import { fetchDefaultAudience } from '../../../../redux/defaultAudience/asyncActions';
@@ -21,8 +20,8 @@ const AudienceTab: React.FC = () => {
 
   useEffect(() => {
     if (audience < 0)
-      if (defaultAudience.default_audience) {
-        dispatch(setAudience(defaultAudience.default_audience));
+      if (defaultAudience.defaultAudience) {
+        dispatch(setAudience(defaultAudience.defaultAudience));
       }
   }, []);
 
@@ -31,7 +30,7 @@ const AudienceTab: React.FC = () => {
   };
 
   const handleDefaultAudienceClick = () => {
-    dispatch(fetchDefaultAudience({ userId, default_audience: audience }));
+    dispatch(fetchDefaultAudience({ userId, defaultAudience: audience }));
   };
 
   return (
@@ -84,16 +83,16 @@ const AudienceTab: React.FC = () => {
         <CustomAudienceForm />
       </div>
       <div
-        className={classNames(styles.defaultAudience, defaultAudience.default_audience === audience && styles.active)}
+        className={classNames(styles.defaultAudience, defaultAudience.defaultAudience === audience && styles.active)}
         onClick={handleDefaultAudienceClick}
       >
         <input
-          checked={defaultAudience.default_audience === audience}
+          checked={defaultAudience.defaultAudience === audience}
           className={styles.defaultAudience__checkbox}
           type='checkbox'
         />
         <span className={styles.defaultAudience__label}>
-          {defaultAudience.default_audience !== audience ? 'Set as default audience' : 'Default'}
+          {defaultAudience.defaultAudience !== audience ? 'Set as default audience' : 'Default'}
         </span>
       </div>
     </div>

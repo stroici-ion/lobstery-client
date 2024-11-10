@@ -1,4 +1,4 @@
-import React, { startTransition, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -31,29 +31,29 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide, forceHide }) => {
   const isLoaded = useRef(false);
 
   const handleError = () => initializeTab();
-  const handleFullfilled = () => forceHide();
+  const handleFulfilled = () => forceHide();
 
   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     event.returnValue = '';
   };
 
-  const initializeTab = () => {
-    if (!newPost.image_set.length) setSelectedTab(0);
-  };
+  const initializeTab = useCallback(() => {
+    if (!newPost.imageSet.length) setSelectedTab(0);
+  }, [newPost.imageSet.length]);
 
   useEffect(() => {
     if (newPost && !isLoaded.current) {
       isLoaded.current = true;
       initializeTab();
     }
-  }, [newPost]);
+  }, [newPost, initializeTab]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     if (userId) {
-      dispatch(setImages(newPost.image_set));
+      dispatch(setImages(newPost.imageSet));
     }
 
     return () => {
@@ -64,14 +64,14 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide, forceHide }) => {
   return (
     <>
       <div className={classNames(styles.root)}>
-        <Aside selectedTab={selectedTab} setSelectedtab={setSelectedTab} />
+        <Aside selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
         <div className={styles.root__body}>
           <button className={styles.root__return} onClick={onHide}>
             <CloseSvg />
           </button>
           <div className={styles.root__form}>
-            {selectedTab === -1 && <UploadProgress handleError={handleError} handleFullfilled={handleFullfilled} />}
-            {selectedTab === -2 && <PreviewTab setSelectedtab={setSelectedTab} />}
+            {selectedTab === -1 && <UploadProgress handleError={handleError} handleFulfilled={handleFulfilled} />}
+            {selectedTab === -2 && <PreviewTab setSelectedTab={setSelectedTab} />}
             {selectedTab === 0 && <TextTab />}
             {selectedTab === 1 && <AudienceTab />}
             {selectedTab === 2 && <ImagesTab />}

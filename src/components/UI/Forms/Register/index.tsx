@@ -97,8 +97,8 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
       dispatch(
         fetchAuthRegister({
           username: username.value,
-          first_name: firstName.value,
-          last_name: lastName.value,
+          firstName: firstName.value,
+          lastName: lastName.value,
           email: email.value,
           password: password.value,
         })

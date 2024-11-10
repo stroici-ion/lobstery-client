@@ -1,4 +1,4 @@
-import { IImage } from '../IImage';
+import { IImage } from '../images/IImage';
 
 export type TRemainedImagesLocation = 'top' | 'right' | 'bottom' | 'left';
 

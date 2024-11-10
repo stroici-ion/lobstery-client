@@ -1,9 +1,9 @@
-import { IAudience } from '../../models/IAudience';
+import { IAudience } from '../../models/audience/IAudience';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
 
 export interface IDefaultAudienceState {
-  default_audience: number;
-  default_custom_audience: number;
+  defaultAudience: number;
+  defaultCustomAudience: number;
   customAudiencesCount: number;
   activeCustomAudience: IAudience;
   defaultAudienceStatus: FetchStatusEnum;

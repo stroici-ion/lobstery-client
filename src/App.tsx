@@ -17,8 +17,6 @@ import styles from './App.module.scss';
 import { FetchStatusEnum } from './models/response/FetchStatus';
 import { setGuestStatus } from './redux/auth/slice';
 import { fetchDefaultAudience } from './redux/defaultAudience/asyncActions';
-import useScrollDirection from './hooks/useScrollDirection';
-import useSwipe from './hooks/useSwipe';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -71,7 +69,7 @@ const App: React.FC = () => {
             {isAuth &&
               privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
           </Route>
-          <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
+          <Route path='*' element={<Navigate to={HOME_ROUTE} />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -12,22 +12,18 @@ interface IPostUsername {
 }
 
 const PostUsername: React.FC<IPostUsername> = ({ user, feeling, taggedFriends }) => {
-  const selectedFeeling =
-   feelings.find((item) => item.name === feeling)
+  const selectedFeeling = feelings.find((item) => item.name === feeling);
   const isFriendsTagged = taggedFriends?.length > 0;
-  
+
   return (
     <p className={styles.root__name}>
-      {`${user.first_name}${user.last_name ? ' ' + user.last_name : ''}`}
+      {`${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`}
       {selectedFeeling && (
         <>
           <span className={styles.root__feeling}>
             {emoji(
               String.fromCodePoint(
-                parseInt(
-                  feelings.find((item) => item.name === selectedFeeling.name)?.code || '',
-                  16
-                )
+                parseInt(feelings.find((item) => item.name === selectedFeeling.name)?.code || '', 16)
               )
             )}
           </span>
@@ -43,11 +39,9 @@ const PostUsername: React.FC<IPostUsername> = ({ user, feeling, taggedFriends })
           <span>{!selectedFeeling && 'is'} with </span>
           {taggedFriends.map((friend, index) => (
             <React.Fragment key={friend.id}>
-              {index > 0 && index < taggedFriends.length - 1 && (
-                <span className={styles.noMarginLeft}>, </span>
-              )}
+              {index > 0 && index < taggedFriends.length - 1 && <span className={styles.noMarginLeft}>, </span>}
               {index === taggedFriends.length - 1 && taggedFriends.length > 1 && <span>and</span>}
-              {`${friend.first_name}${friend.last_name ? ' ' + friend.last_name : ''}${
+              {`${friend.firstName}${friend.lastName ? ' ' + friend.lastName : ''}${
                 index === taggedFriends.length - 1 ? '.' : ''
               }`}
             </React.Fragment>

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { IImage } from '../../models/IImage';
+import { IImage } from '../../models/images/IImage';
 import ImagesGrid from './core/ImagesGrid';
-import VideoImagesGrid from './core/VideoImageGrid';
 
 interface IImages {
   images: IImage[];
@@ -11,7 +10,7 @@ interface IImages {
 }
 
 const ImagesPreview: React.FC<IImages> = ({ images, onSelect, onRemove }) => {
-  // const isVideo = Boolean(images.find((image) => image.is_video_file));
+  // const isVideo = Boolean(images.find((image) => image.isVideoFile));
   return <ImagesGrid images={images} onSelect={onSelect} onRemove={onRemove} />;
 };
 

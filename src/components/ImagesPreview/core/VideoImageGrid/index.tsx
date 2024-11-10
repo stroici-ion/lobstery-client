@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { PlaySvg } from '../../../../icons';
-import { IImage } from '../../../../models/IImage';
+import { IImage } from '../../../../models/images/IImage';
 
 import styles from './styles.module.scss';
 
@@ -16,7 +16,7 @@ enum GridTypeEnum {
 }
 
 enum FirstRowTypeEnum {
-  SIGLE_VERTICAL = 'SIGLE_VERTICAL',
+  SINGLE_VERTICAL = 'SINGLE_VERTICAL',
   SINGLE_SQUARE = 'SINGLE_SQUARE',
   DOUBLE_VERTICAL = 'DOUBLE_VERTICAL',
   DOUBLE_SQUARE = 'DOUBLE_SQUARE',
@@ -28,7 +28,7 @@ enum FirstRowTypeEnum {
 type ImagesGridType = {
   gridType: GridTypeEnum;
   mainImage: IImage;
-  fristRowImages: IImage[];
+  firstRowImages: IImage[];
   firstRowType: FirstRowTypeEnum;
   secondRowImages: IImage[];
 };
@@ -44,83 +44,79 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
   const [isIntersectedBottom, setIsIntersectedBottom] = useState(false);
 
   const sortByAspectRatio = (array: IImage[]) => {
-    return array.sort((a, b) => b.aspect_ratio - a.aspect_ratio);
+    return array.sort((a, b) => b.aspectRatio - a.aspectRatio);
   };
 
   const getImagesGrid = () => {
     if (localImages.length) {
       let gridType = GridTypeEnum.GRID;
-      let fristRowImages: IImage[] = [];
+      let firstRowImages: IImage[] = [];
       let firstRowType = FirstRowTypeEnum.NONE;
       let secondRowImages: IImage[] = [];
       const sortedImages = sortByAspectRatio([...localImages]);
-      let mainImage = sortedImages.find((image) => image.aspect_ratio < 1.8 && image.is_video_file);
+      let mainImage = sortedImages.find((image) => image.aspectRatio < 1.8 && image.isVideoFile);
       if (mainImage) {
         const otherImages = sortedImages.filter((image) => image.image != mainImage?.image);
-        const horizontalImages = otherImages.filter((image) => image.aspect_ratio > 1.2);
-        const verticalImages = otherImages.filter((image) => image.aspect_ratio < 0.8);
-        const squareImages = otherImages.filter(
-          (image) => image.aspect_ratio <= 1.2 && image.aspect_ratio >= 0.8
-        );
-        if (mainImage.aspect_ratio > 1.2) {
+        const horizontalImages = otherImages.filter((image) => image.aspectRatio > 1.2);
+        const verticalImages = otherImages.filter((image) => image.aspectRatio < 0.8);
+        const squareImages = otherImages.filter((image) => image.aspectRatio <= 1.2 && image.aspectRatio >= 0.8);
+        if (mainImage.aspectRatio > 1.2) {
           if (squareImages.length > 1) {
-            fristRowImages = squareImages.slice(0, 2);
+            firstRowImages = squareImages.slice(0, 2);
             firstRowType = FirstRowTypeEnum.DOUBLE_SQUARE;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (verticalImages.length > 0) {
-            fristRowImages = verticalImages.slice(0, 1);
-            firstRowType = FirstRowTypeEnum.SIGLE_VERTICAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            firstRowImages = verticalImages.slice(0, 1);
+            firstRowType = FirstRowTypeEnum.SINGLE_VERTICAL;
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else {
             secondRowImages = otherImages;
           }
-        } else if (mainImage.aspect_ratio <= 1.2 && mainImage.aspect_ratio >= 0.8) {
+        } else if (mainImage.aspectRatio <= 1.2 && mainImage.aspectRatio >= 0.8) {
           if (horizontalImages.length > 3) {
-            fristRowImages = horizontalImages.slice(0, 3);
+            firstRowImages = horizontalImages.slice(0, 3);
             firstRowType = FirstRowTypeEnum.ALL_HORIZONTAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (squareImages.length > 1) {
-            fristRowImages = squareImages.slice(0, 2);
+            firstRowImages = squareImages.slice(0, 2);
             firstRowType = FirstRowTypeEnum.DOUBLE_SQUARE;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (verticalImages.length > 1) {
-            fristRowImages = verticalImages.slice(0, 2);
+            firstRowImages = verticalImages.slice(0, 2);
             firstRowType = FirstRowTypeEnum.DOUBLE_VERTICAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (squareImages.length > 0) {
-            fristRowImages = squareImages.slice(0, 1);
+            firstRowImages = squareImages.slice(0, 1);
             firstRowType = FirstRowTypeEnum.SINGLE_SQUARE;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else if (verticalImages.length > 0) {
-            fristRowImages = verticalImages.slice(0, 1);
-            firstRowType = FirstRowTypeEnum.SIGLE_VERTICAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            firstRowImages = verticalImages.slice(0, 1);
+            firstRowType = FirstRowTypeEnum.SINGLE_VERTICAL;
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else {
             secondRowImages = otherImages;
           }
         } else {
           if (verticalImages.length > 0) {
-            fristRowImages = verticalImages.slice(0, 3);
+            firstRowImages = verticalImages.slice(0, 3);
             firstRowType = FirstRowTypeEnum.ALL_VERTICAL;
-            secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+            secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
           } else {
             secondRowImages = otherImages;
           }
         }
       } else {
         mainImage = sortedImages[0];
-        const otherImages = sortedImages.filter(
-          (image) => image.image_thumbnail != mainImage?.image_thumbnail
-        );
+        const otherImages = sortedImages.filter((image) => image.imageThumbnail !== mainImage?.imageThumbnail);
         gridType = GridTypeEnum.VERTICAL;
-        fristRowImages = otherImages.slice(0, 1);
-        secondRowImages = otherImages.filter((image) => !fristRowImages.includes(image));
+        firstRowImages = otherImages.slice(0, 1);
+        secondRowImages = otherImages.filter((image) => !firstRowImages.includes(image));
       }
       if (mainImage) {
         const newImagesGrid: ImagesGridType = {
           mainImage,
           gridType,
-          fristRowImages,
+          firstRowImages,
           firstRowType,
           secondRowImages: secondRowImages.reverse(),
         };
@@ -205,18 +201,10 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
               !imagesGrid.secondRowImages.length && styles.single
             )}
           >
-            <img
-              src={imagesGrid.mainImage.image_thumbnail}
-              className={styles.root__nearVideoBlock_image}
-            />
+            <img src={imagesGrid.mainImage.imageThumbnail} className={styles.root__nearVideoBlock_image} alt='' />
 
-            {imagesGrid.fristRowImages.map((image) => (
-              <img
-                key={image.image}
-                alt=""
-                src={image.image_thumbnail}
-                className={styles.root__nearVideoBlock_image}
-              />
+            {imagesGrid.firstRowImages.map((image) => (
+              <img key={image.image} alt='' src={image.imageThumbnail} className={styles.root__nearVideoBlock_image} />
             ))}
           </div>
           {imagesGrid.secondRowImages.length > 0 && (
@@ -224,21 +212,20 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
               <div
                 className={styles.row__decorationLeft}
                 style={{
-                  backgroundImage: `url('${imagesGrid.secondRowImages[0].image_thumbnail}')`,
+                  backgroundImage: `url('${imagesGrid.secondRowImages[0].imageThumbnail}')`,
                 }}
               />
               <div
                 className={styles.row__decorationRight}
                 style={{
                   backgroundImage: `url('${
-                    imagesGrid.secondRowImages[imagesGrid.secondRowImages.length - 1]
-                      .image_thumbnail
+                    imagesGrid.secondRowImages[imagesGrid.secondRowImages.length - 1].imageThumbnail
                   }')`,
                 }}
               />
               {imagesGrid.secondRowImages.map((image) => (
-                <div key={image.image_thumbnail} className={classNames(styles.root__imageBlock)}>
-                  <img src={image.image_thumbnail} className={styles.root__imageBlock_image} />
+                <div key={image.imageThumbnail} className={classNames(styles.root__imageBlock)}>
+                  <img src={image.imageThumbnail} className={styles.root__imageBlock_image} alt='' />
                 </div>
               ))}
             </div>
@@ -246,29 +233,21 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
         </>
       ) : (
         <>
-          <div
-            className={classNames(
-              styles.root__row,
-              !imagesGrid.secondRowImages.length && styles.single
-            )}
-          >
+          <div className={classNames(styles.root__row, !imagesGrid.secondRowImages.length && styles.single)}>
             <div
               className={styles.row__decorationLeft}
-              style={{ backgroundImage: `url('${imagesGrid.mainImage.image_thumbnail}')` }}
+              style={{ backgroundImage: `url('${imagesGrid.mainImage.imageThumbnail}')` }}
             />
             <div
               className={styles.row__decorationRight}
               style={{
                 backgroundImage: `url('${
-                  imagesGrid.fristRowImages[imagesGrid.fristRowImages.length - 1]
-                    ?.image_thumbnail || imagesGrid.mainImage.image_thumbnail
+                  imagesGrid.firstRowImages[imagesGrid.firstRowImages.length - 1]?.imageThumbnail ||
+                  imagesGrid.mainImage.imageThumbnail
                 }')`,
               }}
             />
-            <div
-              className={classNames(styles.root__nearVideoBlock)}
-              onClick={() => handlePlayVideo()}
-            >
+            <div className={classNames(styles.root__nearVideoBlock)} onClick={() => handlePlayVideo()}>
               <div
                 ref={topVideoRef}
                 style={{
@@ -278,11 +257,9 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
                 }}
               />
               <img
-                src={imagesGrid.mainImage.image_thumbnail}
-                className={classNames(
-                  styles.root__nearVideoBlock_image,
-                  isStarted && styles.invisible
-                )}
+                alt=''
+                src={imagesGrid.mainImage.imageThumbnail}
+                className={classNames(styles.root__nearVideoBlock_image, isStarted && styles.invisible)}
               />
               <button className={styles.videoButton}>
                 <PlaySvg />
@@ -307,25 +284,25 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
             {imagesGrid.firstRowType === FirstRowTypeEnum.DOUBLE_SQUARE && (
               <div className={classNames(styles.root__nearVideoBlock, styles.doubleSquare)}>
                 <img
-                  alt=""
-                  src={imagesGrid.fristRowImages[0].image_thumbnail}
+                  alt=''
+                  src={imagesGrid.firstRowImages[0].imageThumbnail}
                   className={styles.root__nearVideoBlock_image}
                 />
                 <div className={styles.doubleSquare__decoration}></div>
                 <img
-                  alt=""
-                  src={imagesGrid.fristRowImages[1].image_thumbnail}
+                  alt=''
+                  src={imagesGrid.firstRowImages[1].imageThumbnail}
                   className={styles.root__nearVideoBlock_image}
                 />
               </div>
             )}
             {imagesGrid.firstRowType === FirstRowTypeEnum.ALL_HORIZONTAL && (
               <div className={classNames(styles.root__nearVideoBlock, styles.tripleVertical)}>
-                {imagesGrid.fristRowImages.map((image) => (
+                {imagesGrid.firstRowImages.map((image) => (
                   <img
                     key={image.image}
-                    alt=""
-                    src={image.image_thumbnail}
+                    alt=''
+                    src={image.imageThumbnail}
                     className={styles.root__nearVideoBlock_image}
                   />
                 ))}
@@ -334,13 +311,9 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
             {imagesGrid.firstRowType !== FirstRowTypeEnum.ALL_HORIZONTAL &&
               imagesGrid.firstRowType !== FirstRowTypeEnum.DOUBLE_SQUARE && (
                 <>
-                  {imagesGrid.fristRowImages.map((image) => (
+                  {imagesGrid.firstRowImages.map((image) => (
                     <div key={image.image} className={classNames(styles.root__nearVideoBlock)}>
-                      <img
-                        alt=""
-                        src={image.image_thumbnail}
-                        className={styles.root__nearVideoBlock_image}
-                      />
+                      <img alt='' src={image.imageThumbnail} className={styles.root__nearVideoBlock_image} />
                     </div>
                   ))}
                 </>
@@ -351,25 +324,20 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
               <div
                 className={styles.row__decorationLeft}
                 style={{
-                  backgroundImage: `url('${imagesGrid.secondRowImages[0].image_thumbnail}')`,
+                  backgroundImage: `url('${imagesGrid.secondRowImages[0].imageThumbnail}')`,
                 }}
               />
               <div
                 className={styles.row__decorationRight}
                 style={{
                   backgroundImage: `url('${
-                    imagesGrid.secondRowImages[imagesGrid.secondRowImages.length - 1]
-                      .image_thumbnail
+                    imagesGrid.secondRowImages[imagesGrid.secondRowImages.length - 1].imageThumbnail
                   }')`,
                 }}
               />
               {imagesGrid.secondRowImages.map((image) => (
-                <div key={image.image_thumbnail} className={classNames(styles.root__imageBlock)}>
-                  <img
-                    alt=""
-                    src={image.image_thumbnail}
-                    className={styles.root__imageBlock_image}
-                  />
+                <div key={image.imageThumbnail} className={classNames(styles.root__imageBlock)}>
+                  <img alt='' src={image.imageThumbnail} className={styles.root__imageBlock_image} />
                 </div>
               ))}
             </div>

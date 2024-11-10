@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import $api from '../../http';
-import { IPost } from '../../models/IPost';
+import { IPost } from '../../models/posts/IPost';
 
 import styles from './styles.module.scss';
 
@@ -52,14 +52,12 @@ const AddPost: React.FC = () => {
           <button onClick={handleAddFileClick} className={styles.form__button}>
             Select Image
           </button>
-          <input hidden type="file" ref={addFileInputRef} onChange={handelOnChangeFile} />
-          {selectedImageUrl.length > 0 && (
-            <img className={styles.form__preview} src={selectedImageUrl} />
-          )}
+          <input hidden type='file' ref={addFileInputRef} onChange={handelOnChangeFile} />
+          {selectedImageUrl.length > 0 && <img className={styles.form__preview} src={selectedImageUrl} />}
         </div>
-        <input {...register('title')} className={styles.form__input} placeholder="Product title" />
-        <input {...register('text')} className={styles.form__input} placeholder="Product text" />
-        <button type="submit" className={styles.form__button}>
+        <input {...register('title')} className={styles.form__input} placeholder='Product title' />
+        <input {...register('text')} className={styles.form__input} placeholder='Product text' />
+        <button type='submit' className={styles.form__button}>
           Create Post
         </button>
       </form>

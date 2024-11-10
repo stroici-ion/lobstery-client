@@ -15,7 +15,7 @@ interface ITextTab {}
 const TextTab: React.FC<ITextTab> = () => {
   const user = useSelector(selectUserProfile);
 
-  const { title, text, feeling, tagged_friends } = useSelector(selectActivePost);
+  const { title, text, feeling, taggedFriends } = useSelector(selectActivePost);
   const dispatch = useAppDispatch();
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,13 +34,13 @@ const TextTab: React.FC<ITextTab> = () => {
             value={title}
             onChange={handleChangeTitle}
             className={styles.text__title}
-            placeholder="Title"
+            placeholder='Title'
           />
           <WriteText
             className={styles.text__description}
             value={text}
             setValue={handleChangeText}
-            placeholder={`What's on your mind ${user.first_name}?`}
+            placeholder={`What's on your mind ${user.firstName}?`}
           />
         </div>
       </div>

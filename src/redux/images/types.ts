@@ -1,4 +1,4 @@
-import { IImage } from '../../models/IImage';
+import { IImage } from '../../models/images/IImage';
 import { ImageEditOperationsEnum } from '../../models/ImageEditOperationsEnum';
 
 export interface IImagesState {

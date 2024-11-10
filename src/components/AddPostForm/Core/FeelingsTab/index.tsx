@@ -18,7 +18,7 @@ import ScrollArea from '../../../UI/ScrollArea';
 
 const FeelingTab: React.FC = () => {
   const user = useSelector(selectUserProfile);
-  const { feeling, tagged_friends } = useSelector(selectActivePost);
+  const { feeling, taggedFriends } = useSelector(selectActivePost);
   const [searchText, setSearchText] = useState('');
   const [feelings, setFeelings] = useState<IFeelig[]>(feelingsList);
   const dispatch = useAppDispatch();
@@ -47,7 +47,7 @@ const FeelingTab: React.FC = () => {
       <div className={classNames(styles.root__top, styles.user)}>
         <UserImage user={user} className={styles.user__avatar} />
         <div className={styles.user__info}>
-          <PostUsername user={user} feeling={feeling} taggedFriends={tagged_friends} />
+          <PostUsername user={user} feeling={feeling} taggedFriends={taggedFriends} />
         </div>
       </div>
       <div className={styles.root__search}>

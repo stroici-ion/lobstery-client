@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import styles from "./styles.module.scss";
-import { IAudience } from "../../../../models/IAudience";
-import classNames from "classnames";
-import { FriendsSvg, GlobeSvg, KnownsSvg, LockSvg } from "../../../../icons";
+import styles from './styles.module.scss';
+import { IAudience } from '../../../../models/audience/IAudience';
+import classNames from 'classnames';
+import { FriendsSvg, GlobeSvg, KnownsSvg, LockSvg } from '../../../../icons';
 
 interface ICustomAudienceRow {
   audience: IAudience;

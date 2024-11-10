@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
 import { selectUserProfile } from '../../redux/profile/selectors';
-import { IAudience } from '../../models/IAudience';
+import { IAudience } from '../../models/audience/IAudience';
 import Loader from '../Loader';
 import { EditSvg, ReturnBackSvg } from '../../icons';
 import classNames from 'classnames';
@@ -32,8 +32,7 @@ const CustomAudienceForm: React.FC<ICustomAudienceForm> = ({}) => {
   const dispatch = useAppDispatch();
 
   const defaultAudience = useSelector(selectDefaultAudience);
-  const isDefaultAudience =
-    defaultAudience.default_custom_audience === defaultAudience.activeCustomAudience.id;
+  const isDefaultAudience = defaultAudience.defaultCustomAudience === defaultAudience.activeCustomAudience.id;
   const isLoading = defaultAudience.customAudiencesListStatus === FetchStatusEnum.PENDING;
   const customAudienceList = defaultAudience.customAudiencesList.filter(
     (audience) => audience.id !== defaultAudience.activeCustomAudience.id
@@ -79,7 +78,7 @@ const CustomAudienceForm: React.FC<ICustomAudienceForm> = ({}) => {
     dispatch(
       fetchDefaultAudience({
         userId,
-        default_custom_audience: defaultAudience.activeCustomAudience.id,
+        defaultCustomAudience: defaultAudience.activeCustomAudience.id,
       })
     );
   };
@@ -105,38 +104,20 @@ const CustomAudienceForm: React.FC<ICustomAudienceForm> = ({}) => {
                     audience={defaultAudience.activeCustomAudience}
                     // onClick={() => selectCustmAudience(selectedCustomAudience)}
                   />
-                  <div
-                    className={classNames(
-                      styles.customAudience__row,
-                      styles.customAudience__options
-                    )}
-                  >
-                    <button
-                      className={styles.customAudience__edit}
-                      onClick={hendleEditCustmAudience}
-                    >
+                  <div className={classNames(styles.customAudience__row, styles.customAudience__options)}>
+                    <button className={styles.customAudience__edit} onClick={hendleEditCustmAudience}>
                       <EditSvg />
                     </button>
                     <span></span>
-                    <button
-                      className={styles.customAudience__delete}
-                      onClick={hendleDeleteCustmAudience}
-                    >
+                    <button className={styles.customAudience__delete} onClick={hendleDeleteCustmAudience}>
                       <DeleteSvg />
                     </button>
                   </div>
                   <div
-                    className={classNames(
-                      styles.defaultAudience,
-                      isDefaultAudience && styles.active
-                    )}
+                    className={classNames(styles.defaultAudience, isDefaultAudience && styles.active)}
                     onClick={!isDefaultAudience ? handleDefaultAudienceClick : undefined}
                   >
-                    <input
-                      checked={isDefaultAudience}
-                      className={styles.defaultAudience__checkbox}
-                      type="checkbox"
-                    />
+                    <input checked={isDefaultAudience} className={styles.defaultAudience__checkbox} type='checkbox' />
                     <span className={styles.defaultAudience__label}>Default</span>
                   </div>
                 </>
@@ -148,10 +129,7 @@ const CustomAudienceForm: React.FC<ICustomAudienceForm> = ({}) => {
                   <Loader size={100} height={100} />
                 ) : defaultAudience.customAudiencesList.length > 0 ? (
                   customAudienceList.map((customAudience) => (
-                    <CustomAudienceRow
-                      audience={customAudience}
-                      onClick={() => selectCustmAudience(customAudience)}
-                    />
+                    <CustomAudienceRow audience={customAudience} onClick={() => selectCustmAudience(customAudience)} />
                   ))
                 ) : (
                   <p className={styles.root__empty}>No custom audience</p>

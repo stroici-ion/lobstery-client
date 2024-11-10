@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { IImagesState } from './types';
-import { IImage } from '../../models/IImage';
+import { IImage } from '../../models/images/IImage';
 import { IUser } from '../../models/IUser';
 import { ImageEditOperationsEnum } from '../../models/ImageEditOperationsEnum';
-import { extraReducres } from './extraReducers';
+import { extraReducers } from './extraReducers';
 
 const initialState: IImagesState = {
   images: [],
@@ -42,7 +42,7 @@ const imagesSlice = createSlice({
     removeImageTaggedFriend: (state, action: PayloadAction<number>) => {
       if (state.activeImage) {
         state.activeImage.isUpdated = true;
-        state.activeImage.tagged_friends = state.activeImage.tagged_friends?.filter(
+        state.activeImage.taggedFriends = state.activeImage.taggedFriends?.filter(
           (item) => item.user.id !== action.payload
         );
       }
@@ -50,7 +50,7 @@ const imagesSlice = createSlice({
     addImageTaggedFriend: (state, action: PayloadAction<{ user: IUser; top: number; left: number }>) => {
       if (state.activeImage) {
         state.activeImage.isUpdated = true;
-        state.activeImage.tagged_friends = [...(state.activeImage.tagged_friends || []), action.payload];
+        state.activeImage.taggedFriends = [...(state.activeImage.taggedFriends || []), action.payload];
       }
     },
     setImageCaption: (state, action: PayloadAction<string>) => {
@@ -73,13 +73,13 @@ const imagesSlice = createSlice({
     },
     setUploadProgress: (state, action: PayloadAction<{ id: number; progress: number }>) => {
       const candidate = state.images.find((image) => image.id === action.payload.id);
-      if (candidate) candidate.upload_progress = action.payload.progress;
+      if (candidate) candidate.uploadProgress = action.payload.progress;
     },
     setActiveImage: (state, action: PayloadAction<IImage | undefined>) => {
       state.activeImage = action.payload;
     },
   },
-  extraReducers: extraReducres,
+  extraReducers,
 });
 export const {
   setActiveImageId,

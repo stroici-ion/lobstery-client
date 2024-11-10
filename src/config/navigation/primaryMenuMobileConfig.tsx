@@ -1,5 +1,5 @@
 import { GallerySvg, GuestSvg, HomeSvg, MessagingSvg, SignInSvg } from '../../icons';
-import { HOME_ROUTE, LOGIN_ROUTE, POSTS_ROUTE, USER_SETTINGS_ROUTE } from '../../utils/consts';
+import { LOGIN_ROUTE, POSTS_ROUTE, USER_SETTINGS_ROUTE } from '../../utils/consts';
 
 export const primaryMenuMobileLinks = {
   links: [

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -9,26 +9,24 @@ import styles from './styles.module.scss';
 import { selectActivePost, selectPostCreateStatus } from '../../../../redux/posts/selectors';
 import { selectImages } from '../../../../redux/images/selectors';
 import { FetchStatusEnum } from '../../../../models/response/FetchStatus';
-import fulfilleAnimationGif from '../../../../assets/posts/checked.svg';
 import { FulfilledSvgAnim } from '../../../../icons';
 
 interface IUploadProgress {
   handleError: () => void;
-  handleFullfilled: () => void;
+  handleFulfilled: () => void;
 }
 
-const UploadProgress: React.FC<IUploadProgress> = ({ handleError, handleFullfilled }) => {
+const UploadProgress: React.FC<IUploadProgress> = ({ handleError, handleFulfilled }) => {
   const post = useSelector(selectActivePost);
   const images = useSelector(selectImages);
   const fetchStatus = useSelector(selectPostCreateStatus);
 
   const uploadImages = images.filter(
-    (image) =>
-      !post.fetched_images_id.includes(image.id) || (post.fetched_images_id.includes(image.id) && image.isUpdated)
+    (image) => !post.fetchedImagesId.includes(image.id) || (post.fetchedImagesId.includes(image.id) && image.isUpdated)
   );
 
   const totalProgress =
-    fetchStatus.progress + uploadImages.reduce((sum, image) => sum + (image.upload_progress || 0), 0);
+    fetchStatus.progress + uploadImages.reduce((sum, image) => sum + (image.uploadProgress || 0), 0);
 
   const newImages = images.filter((image) => image.id < 0);
   const updatedImages = images.filter((image) => image.isUpdated && image.id >= 0);
@@ -43,13 +41,13 @@ const UploadProgress: React.FC<IUploadProgress> = ({ handleError, handleFullfill
 
   useEffect(() => {
     if (fetchStatus.status === FetchStatusEnum.SUCCESS) {
-      setTimeout(() => handleFullfilled(), 600);
+      setTimeout(() => handleFulfilled(), 600);
     }
     if (fetchStatus.status === FetchStatusEnum.ERROR && fetchStatus.errors) {
       toast.error(fetchStatus.errors.message);
       handleError();
     }
-  }, [fetchStatus]);
+  }, [fetchStatus, handleError, handleFulfilled]);
 
   return (
     <div className={classNames(styles.root, styles.centerContent)}>
@@ -75,24 +73,24 @@ const UploadProgress: React.FC<IUploadProgress> = ({ handleError, handleFullfill
             key={image.image}
             className={classNames(
               styles.root__imageBlock,
-              image.upload_progress === 100 && styles.uploaded,
-              image.upload_progress === 0 && styles.pending
+              image.uploadProgress === 100 && styles.uploaded,
+              image.uploadProgress === 0 && styles.pending
             )}
           >
             <img className={styles.root__image} src={image.image} alt="" />
             <div className={styles.root__progressBarBlock}>
               <div
-                style={{ width: image.upload_progress + '%' }}
+                style={{ width: image.uploadProgress + '%' }}
                 className={styles.root__progressBar}
               />
             </div>
             <p
               className={classNames(
                 styles.root__imageProgress,
-                image.upload_progress === 0 && styles.pending
+                image.uploadProgress === 0 && styles.pending
               )}
             >
-              {image.upload_progress ? `${image.upload_progress} %` : 'Pending'}
+              {image.uploadProgress ? `${image.uploadProgress} %` : 'Pending'}
             </p>
           </div>
         ))}

@@ -25,17 +25,17 @@ import { selectImages } from '../../../../redux/images/selectors';
 
 interface IAside {
   selectedTab: number;
-  setSelectedtab: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
+const Aside: React.FC<IAside> = ({ selectedTab, setSelectedTab }) => {
   const newPost = useSelector(selectActivePost);
   const images = useSelector(selectImages);
   const defaultAudience = useSelector(selectDefaultAudience);
-  const selectedAudience = newPost.audience !== -1 ? newPost.audience : defaultAudience.default_audience;
+  const selectedAudience = newPost.audience !== -1 ? newPost.audience : defaultAudience.defaultAudience;
 
   const handleSelectTab = (tabIndex: number) => {
-    setSelectedtab(tabIndex);
+    setSelectedTab(tabIndex);
   };
 
   return (
@@ -110,7 +110,7 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedtab }) => {
         onClick={() => handleSelectTab(5)}
         className={classNames(styles.root__button, styles.tag_people, selectedTab === 5 && styles.active)}
       >
-        {newPost.tagged_friends.length > 0 && (
+        {newPost.taggedFriends.length > 0 && (
           <div className={classNames(styles.root__decoration, styles.dott)}>
             <span>•</span>
           </div>

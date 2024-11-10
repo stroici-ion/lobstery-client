@@ -1,9 +1,9 @@
 import { ActionReducerMapBuilder, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCreateImage, fetchRemoveImage, fetchUpdateImage } from './asyncActions';
 import { IImagesState } from './types';
-import { IImage } from '../../models/IImage';
+import { IImage } from '../../models/images/IImage';
 
-export const extraReducres = (builder: ActionReducerMapBuilder<IImagesState>) => {
+export const extraReducers = (builder: ActionReducerMapBuilder<IImagesState>) => {
   builder.addCase(fetchCreateImage.fulfilled, (state, action: PayloadAction<IImage>) => {
     let candidate = state.images.find((image) => image.id === action.payload.id);
     if (candidate) candidate = action.payload;

@@ -3,14 +3,14 @@ import classNames from 'classnames';
 
 import { HeartSvg, LikeSvg } from '../../../../icons';
 import styles from './styles.module.scss';
-import { putCommentLike, putCommentLikeByAuthor } from '../../../../services/CommentsServices';
+import { putCommentLike, putCommentLikeByAuthor } from '../../../../services/comments/CommentsServices';
 import { IUser } from '../../../../models/IUser';
-import { ILikesInfo } from '../../../../models/comments/IComment';
 import SmallButton from '../../../UI/Buttons/SmallButton';
 import UserImage from '../../../UserImage';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../../redux/auth/selectors';
 import toast from 'react-hot-toast';
+import { ILikesInfo } from '../../../../models/likes/ILikesInfo';
 
 interface ICommentActions {
   isMultimedia: boolean;
@@ -18,22 +18,22 @@ interface ICommentActions {
   owner: IUser;
   id: number;
   isReply?: boolean;
-  handleToggleCreateRelpy: () => void;
+  handleToggleCreateReply: () => void;
   setLikesInfo?: (
     fetchedLikesInfo: ILikesInfo & {
-      liked_by_author: boolean;
+      isLikedByAuthor: boolean;
     }
   ) => void;
   className?: string;
   likesInfo: ILikesInfo & {
-    liked_by_author: boolean;
+    isLikedByAuthor: boolean;
   };
 }
 
 const CommentActions: React.FC<ICommentActions> = ({
   isOwner,
   owner,
-  handleToggleCreateRelpy,
+  handleToggleCreateReply,
   setLikesInfo,
   isReply = false,
   id,
@@ -56,36 +56,36 @@ const CommentActions: React.FC<ICommentActions> = ({
   const handlePutLike = async () => {
     if (!checkPermission()) return;
     if (isReply) {
-      const feetchedLikesInfo = await putCommentLike(id, true);
-      if (feetchedLikesInfo && setLikesInfo) {
-        setLikesInfo({ ...likesInfo, ...feetchedLikesInfo });
-        setLocalLikesInfo({ ...likesInfo, ...feetchedLikesInfo });
+      const fetchedLikesInfo = await putCommentLike(id, true);
+      if (fetchedLikesInfo && setLikesInfo) {
+        setLikesInfo({ ...likesInfo, ...fetchedLikesInfo });
+        setLocalLikesInfo({ ...likesInfo, ...fetchedLikesInfo });
       }
       return;
     }
-    const feetchedLikesInfo = await putCommentLike(id, true);
-    if (feetchedLikesInfo) {
-      setLocalLikesInfo({ ...localLikesInfo, ...feetchedLikesInfo });
+    const fetchedLikesInfo = await putCommentLike(id, true);
+    if (fetchedLikesInfo) {
+      setLocalLikesInfo({ ...localLikesInfo, ...fetchedLikesInfo });
     }
   };
 
   const handlePutDislike = async () => {
     if (!checkPermission()) return;
     if (isReply) {
-      const feetchedLikesInfo = await putCommentLike(id, false);
-      if (feetchedLikesInfo && setLikesInfo) {
-        setLikesInfo({ ...likesInfo, ...feetchedLikesInfo });
-        setLocalLikesInfo({ ...likesInfo, ...feetchedLikesInfo });
+      const fetchedLikesInfo = await putCommentLike(id, false);
+      if (fetchedLikesInfo && setLikesInfo) {
+        setLikesInfo({ ...likesInfo, ...fetchedLikesInfo });
+        setLocalLikesInfo({ ...likesInfo, ...fetchedLikesInfo });
       }
       return;
     }
-    const feetchedLikesInfo = await putCommentLike(id, false);
-    if (feetchedLikesInfo) {
-      setLocalLikesInfo({ ...likesInfo, ...feetchedLikesInfo });
+    const fetchedLikesInfo = await putCommentLike(id, false);
+    if (fetchedLikesInfo) {
+      setLocalLikesInfo({ ...likesInfo, ...fetchedLikesInfo });
     }
   };
 
-  const handlePuteLikeByAuthor = async () => {
+  const handlePutLikeByAuthor = async () => {
     if (!checkPermission()) return;
     if (isReply) {
       const response = await putCommentLikeByAuthor(id);
@@ -93,11 +93,11 @@ const CommentActions: React.FC<ICommentActions> = ({
       if (response?.success && setLikesInfo) {
         setLikesInfo({
           ...likesInfo,
-          liked_by_author: response.data.liked_by_author,
+          isLikedByAuthor: response.isLikedByAuthor,
         });
         setLocalLikesInfo({
           ...likesInfo,
-          liked_by_author: response.data.liked_by_author,
+          isLikedByAuthor: response.isLikedByAuthor,
         });
       }
       return;
@@ -107,7 +107,7 @@ const CommentActions: React.FC<ICommentActions> = ({
     if (response?.success) {
       setLocalLikesInfo({
         ...localLikesInfo,
-        liked_by_author: response.data.liked_by_author,
+        isLikedByAuthor: response.isLikedByAuthor,
       });
     }
   };
@@ -118,30 +118,30 @@ const CommentActions: React.FC<ICommentActions> = ({
         <SmallButton onClick={handlePutLike}>
           <LikeSvg />
         </SmallButton>
-        <span>{localLikesInfo.likes_count}</span>
+        <span>{localLikesInfo.likesCount}</span>
       </div>
       <div className={classNames(styles.actions__dislike, localLikesInfo.disliked && styles.active)}>
         <SmallButton onClick={handlePutDislike}>
           <LikeSvg />
         </SmallButton>
-        <span>{localLikesInfo.dislikes_count}</span>
+        <span>{localLikesInfo.dislikesCount}</span>
       </div>
-      {(isOwner || localLikesInfo.liked_by_author) && (
+      {(isOwner || localLikesInfo.isLikedByAuthor) && (
         <div
           className={classNames(
             styles.actions__likeByAuthor,
             isOwner && styles.editable,
-            localLikesInfo.liked_by_author && styles.active
+            localLikesInfo.isLikedByAuthor && styles.active
           )}
         >
-          <SmallButton onClick={handlePuteLikeByAuthor}>
+          <SmallButton onClick={handlePutLikeByAuthor}>
             <UserImage user={owner} className={styles.actions__likeByAuthorImg} />
             <HeartSvg />
           </SmallButton>
         </div>
       )}
 
-      <button onClick={handleToggleCreateRelpy} className={styles.actions__reply}>
+      <button onClick={handleToggleCreateReply} className={styles.actions__reply}>
         Reply
       </button>
     </div>

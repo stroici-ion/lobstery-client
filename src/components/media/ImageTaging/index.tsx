@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './styles.module.scss';
-import { IImage } from '../../../models/IImage';
+import { IImage } from '../../../models/images/IImage';
 import { useAppDispatch } from '../../../redux';
 import { addImageTaggedFriend } from '../../../redux/images/slice';
 import { IUser } from '../../../models/IUser';
@@ -121,8 +121,9 @@ const ImageTagFriends: React.FC<IImageTagFriends> = ({ activeImage }) => {
         ref={imageRef}
         onClick={handleMouseClick}
         onLoad={handleImageOnload}
+        alt=''
       />
-      {activeImage.tagged_friends?.map((tUser) => (
+      {activeImage.taggedFriends?.map((tUser) => (
         <div
           key={tUser.user.id}
           style={getLocationStyle(tUser.top, tUser.left)}
@@ -130,7 +131,7 @@ const ImageTagFriends: React.FC<IImageTagFriends> = ({ activeImage }) => {
         >
           <div className={styles.taggedFriend__row}>
             <UserImage user={tUser.user} className={styles.taggedFriend__avatar} />
-            <p className={styles.taggedFriend__name}>{tUser.user.first_name + ' ' + tUser.user.last_name}</p>
+            <p className={styles.taggedFriend__name}>{tUser.user.firstName + ' ' + tUser.user.lastName}</p>
           </div>
           <div className={styles.taggedFriend__decoration}></div>
         </div>
@@ -149,10 +150,7 @@ const ImageTagFriends: React.FC<IImageTagFriends> = ({ activeImage }) => {
             100 - Number(selectionLocation.top.replace('%', '')) < 35 && styles.above
           )}
         >
-          <SearchFirends
-            taggedFriends={activeImage.tagged_friends?.map((obj) => obj.user)}
-            onSelect={handleAddFriend}
-          />
+          <SearchFirends taggedFriends={activeImage.taggedFriends?.map((obj) => obj.user)} onSelect={handleAddFriend} />
         </div>
       </div>
     </div>

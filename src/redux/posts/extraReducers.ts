@@ -3,14 +3,14 @@ import { fetchCreatePost, fetchPosts, fetchRemovePost } from './asyncActions';
 import { FetchStatusEnum } from '../../models/response/FetchStatus';
 import { IPostsState } from './types';
 
-export const extraReducres = (builder: ActionReducerMapBuilder<IPostsState>) => {
+export const extraReducers = (builder: ActionReducerMapBuilder<IPostsState>) => {
   //* POSTS LIST
   builder.addCase(fetchPosts.pending, (state) => {
     state.status = FetchStatusEnum.PENDING;
   });
   builder.addCase(fetchPosts.fulfilled, (state, action) => {
     state.status = FetchStatusEnum.SUCCESS;
-    state.posts = action.payload.results;
+    state.posts = action.payload.posts;
     state.count = action.payload.count;
     state.errors = undefined;
   });

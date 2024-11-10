@@ -13,10 +13,10 @@ import { selectImages } from '../../../../redux/images/selectors';
 import ScrollArea from '../../../UI/ScrollArea';
 
 interface IPreviewTab {
-  setSelectedtab: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedtab }) => {
+const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedTab }) => {
   const user = useSelector(selectUserProfile);
   const newPost = useSelector(selectActivePost);
   const images = useSelector(selectImages);
@@ -25,7 +25,7 @@ const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedtab }) => {
 
   const onSubmit = async () => {
     if (userId) {
-      setSelectedtab(-1);
+      setSelectedTab(-1);
       dispatch(fetchCreatePost({ post: newPost, images }));
     }
   };
@@ -40,21 +40,22 @@ const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedtab }) => {
             id: 0,
             title: newPost.title || '',
             text: newPost.text || '',
-            image_set: images,
+            imageSet: images,
             tags: newPost.tags,
             feeling: newPost.feeling || '',
+            imagesLayout: newPost.imagesLayout,
             viewsCount: 0,
-            comments_count: 0,
+            commentsCount: 0,
             user: user,
-            tagged_friends: newPost.tagged_friends,
-            created_at: new Date(),
-            updated_at: new Date(),
+            taggedFriends: newPost.taggedFriends,
+            createdAt: new Date(),
+            updatedAt: new Date(),
             liked: false,
             disliked: false,
-            likes_count: 0,
-            dislikes_count: 0,
+            likesCount: 0,
+            dislikesCount: 0,
             audience: newPost.audience,
-            custom_audience: newPost.custom_audience,
+            customAudience: newPost.customAudience,
           }}
         />
       </ScrollArea>
