@@ -1,4 +1,4 @@
-import { IMarkupLine, IPosition } from '../types/interfaces';
+import { IMarkupLine, IPosition } from '../../types/interfaces';
 
 export const drawMarkupRelativeToImage = (ctx: CanvasRenderingContext2D, lines: IMarkupLine[], rotated: number) => {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);

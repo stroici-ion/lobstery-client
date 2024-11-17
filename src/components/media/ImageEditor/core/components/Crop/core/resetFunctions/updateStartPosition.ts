@@ -1,4 +1,4 @@
-import { IDynamicShape } from '../../../../types/interfaces';
+import { IDynamicShape } from '../../../../../types/interfaces';
 
 export const updateStartPosition = (shapes: IDynamicShape[]) => {
   shapes.forEach((shape) => {

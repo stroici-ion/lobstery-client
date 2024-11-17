@@ -1,6 +1,6 @@
 import { getFillParentPosition } from '../calculations/position/getFillParentPosition';
 import { fillParentAnimation } from '../animations/fillParentAnimation';
-import { IEditorStep, IShape } from '../../../../types/interfaces';
+import { IEditorStep, IShape } from '../../../../../types/interfaces';
 import { adjustShapePostion } from '../../../../utils/calc';
 import { adjustCropPosition } from '../calculations/position/adjustCropPosition';
 

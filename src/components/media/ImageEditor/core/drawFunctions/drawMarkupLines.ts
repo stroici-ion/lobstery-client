@@ -1,10 +1,15 @@
-import { degrees_to_radians } from '../calculationFunctions/converters';
-import { IEditorStep, IMarkupLine } from '../types/interfaces';
+import { convertToRadians } from '../calculationFunctions/converters';
+import { IEditorStep, IMarkupLine } from '../../types/interfaces';
 import { drawMarkupRelativeToCanvas } from './drawMarkupRelativeToCanvas';
 import { getEditedImageMarkup } from './getEditedImageMarkup';
 import { getEditedImageShape } from './getEditedImageShape';
 
-export const drawMarkupLines = (cropStep: IEditorStep, ctx: CanvasRenderingContext2D, lines: IMarkupLine[], clear = false) => {
+export const drawMarkupLines = (
+  cropStep: IEditorStep,
+  ctx: CanvasRenderingContext2D,
+  lines: IMarkupLine[],
+  clear = false
+) => {
   const crop = cropStep.crop;
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -14,7 +19,7 @@ export const drawMarkupLines = (cropStep: IEditorStep, ctx: CanvasRenderingConte
   const centerX = cropStep.Origin.x;
   const centerY = cropStep.Origin.y;
 
-  const angleInRadians = degrees_to_radians(eImg.angle);
+  const angleInRadians = convertToRadians(eImg.angle);
   ctx.translate(centerX, centerY); // Translate to the center of the selection
   ctx.rotate(angleInRadians); // Apply rotation
   ctx.save();

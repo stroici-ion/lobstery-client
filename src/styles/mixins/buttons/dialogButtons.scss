@@ -1,7 +1,7 @@
 @import '../../mixins.scss';
 @import '../../colors.scss';
 
-@mixin solidButton($background: $darkColor, $text: $lightColor) {
+@mixin solidButton($background: var(--darkColor), $text: var(--lightColor)) {
   color: $text;
   @include svgcolor($text);
   background-color: $background;
@@ -16,7 +16,7 @@
   }
 }
 
-@mixin lightButton($borderColor: $darkColor, $text: $darkColor, $size: 1px) {
+@mixin lightButton($borderColor: var(--darkColor), $text: var(--darkColor), $size: 1px) {
   color: $text;
   @include svgcolor($text);
   border: $size solid $borderColor;
@@ -24,7 +24,7 @@
     &:hover {
       border: $size solid darken($borderColor, 5);
       background-color: darken($borderColor, 5);
-      color: $lightColor;
+      color: var(--lightColor);
     }
   }
   &:active,

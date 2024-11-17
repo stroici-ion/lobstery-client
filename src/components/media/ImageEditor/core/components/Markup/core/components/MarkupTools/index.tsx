@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { DrawPenSvg, EraseAllSvg, EraseSvg } from '../../../../../icons';
-import { EnumMarkupBrushType, EnumMarkupToolType } from '../../../../../types/enumerations';
-import { IMarkupBrush, IMarkupTool } from '../../../../../types/interfaces';
+import { EMarkupBrushTypes, EMarkupToolTypes } from '../../../../../../types/enums';
+import { IMarkupBrush, IMarkupTool } from '../../../../../../types/interfaces';
 import styles from './styles.module.scss';
 import BrushButton from '../BrushButton';
 import ToolButton from '../ToolButton';
@@ -20,14 +20,14 @@ const MarkupTools: React.FC<IMarkupTools> = ({ activeBrush, setActiveBrush, acti
     {
       id: 1,
       size: 10,
-      type: EnumMarkupBrushType.freeHand,
+      type: EMarkupBrushTypes.freeHand,
       color: '#fed430',
       icon: <DrawPenSvg />,
     },
     {
       id: 2,
       size: 4,
-      type: EnumMarkupBrushType.straight,
+      type: EMarkupBrushTypes.straight,
       color: '#e3182d',
       icon: <DrawPenSvg />,
     },
@@ -36,13 +36,13 @@ const MarkupTools: React.FC<IMarkupTools> = ({ activeBrush, setActiveBrush, acti
   const tools = [
     {
       id: 1,
-      type: EnumMarkupToolType.erase,
+      type: EMarkupToolTypes.erase,
       icon: <EraseSvg />,
     },
     {
       id: 2,
       notActivable: true,
-      type: EnumMarkupToolType.eraseAll,
+      type: EMarkupToolTypes.eraseAll,
       icon: <EraseAllSvg />,
     },
   ];

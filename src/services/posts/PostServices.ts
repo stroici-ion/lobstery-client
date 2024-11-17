@@ -1,7 +1,6 @@
 import $api from '../../http';
-import { IPost } from '../../models/posts/IPost';
-import { IFetchedLikesInfo, ILikesInfo } from '../../models/likes/ILikesInfo';
-import { IFetchedPost } from '../../models/posts/IFetchedPost';
+import { IFetchedPost, IPost } from '../../redux/posts/types';
+import { IFetchedLikesInfo, ILikesInfo } from '../../types/LikesInfo.types';
 import convertKeysToCamelCase from '../../utils/convertKeysToCamelCase';
 
 export const putLikePost = async (post: number, like: boolean) => {

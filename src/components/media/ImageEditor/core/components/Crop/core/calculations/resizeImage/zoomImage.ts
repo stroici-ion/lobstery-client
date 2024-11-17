@@ -1,13 +1,20 @@
-import { IBorders, ICropShape, IDynamicShape, IImageShape, IPosition, IShape } from '../../../../../types/interfaces';
+import {
+  IBorders,
+  ICropShape,
+  IDynamicShape,
+  IImageShape,
+  IPosition,
+  IShape,
+} from '../../../../../../types/interfaces';
 import { resizeBottomOverView } from '../resizeCrop/directions/bottom';
 import { resizeRightOverView } from '../resizeCrop/directions/right';
 import { getInscriptedImage } from '../position/getInscriptedImage';
 import { resizeLeftOverView } from '../resizeCrop/directions/left';
-import { EnumMoveTypes } from '../../../../../types/enumerations';
+import { EMoveTypes } from '../../../../../../types/enums';
 import { resizeTopOverView } from '../resizeCrop/directions/top';
 import { getImageLimits } from '../maxDistance/cropMoveMaxDist';
 import { adjustShapePostion } from '../../../../../utils/calc';
-import { TZoomProperties } from '../../../../../types/types';
+import { IZoomProperties } from '../../../../../../types/interfaces';
 import { zoomOut } from '../resizeCrop/directions/zoom';
 import { iEZPS } from '../../../../../config';
 
@@ -18,12 +25,12 @@ export const zoomImage = (
   image: IImageShape,
   O: IPosition,
   imageDC: IBorders,
-  stepProperties: TZoomProperties,
+  stepProperties: IZoomProperties,
   startPosition?: IShape & { ratio?: number } & {
     maxOverBorderRatio: IBorders;
   }
 ) => {
-  if (stepProperties.direction !== EnumMoveTypes.default) {
+  if (stepProperties.direction !== EMoveTypes.default) {
     if (startPosition) {
       const newImage: IDynamicShape & { angle: number } = image.angle
         ? {
@@ -49,30 +56,30 @@ export const zoomImage = (
       const imageBorders = getImageLimits(crop, startPosition);
 
       switch (stepProperties.direction) {
-        case EnumMoveTypes.rightTop:
-        case EnumMoveTypes.rightBottom: {
+        case EMoveTypes.rightTop:
+        case EMoveTypes.rightBottom: {
           const progress = (startPosition.maxOverBorderRatio.right / 10) * step;
           resizeRightOverView(progress, stepProperties.direction, newImage, crop, imageBorders);
 
           break;
         }
-        case EnumMoveTypes.leftTop:
-        case EnumMoveTypes.leftBottom: {
+        case EMoveTypes.leftTop:
+        case EMoveTypes.leftBottom: {
           const progress = (startPosition.maxOverBorderRatio.left / 10) * step;
           resizeLeftOverView(progress, stepProperties.direction, newImage, crop, imageBorders);
           break;
         }
-        case EnumMoveTypes.top:
+        case EMoveTypes.top:
           resizeBottomOverView(step * 10, newImage, crop, imageBorders);
           break;
-        case EnumMoveTypes.right:
-          resizeLeftOverView(step * 10, EnumMoveTypes.left, newImage, crop, imageBorders);
+        case EMoveTypes.right:
+          resizeLeftOverView(step * 10, EMoveTypes.left, newImage, crop, imageBorders);
           break;
-        case EnumMoveTypes.bottom:
+        case EMoveTypes.bottom:
           resizeTopOverView(step * 10, newImage, crop, imageBorders);
           break;
-        case EnumMoveTypes.left:
-          resizeRightOverView(step * 10, EnumMoveTypes.right, newImage, crop, imageBorders);
+        case EMoveTypes.left:
+          resizeRightOverView(step * 10, EMoveTypes.right, newImage, crop, imageBorders);
           break;
       }
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SortCommentsByEnum } from '../..';
 import { ReturnBackSvg } from '../../../../icons';
-import { IComment } from '../../../../models/comments/IComment';
-import { IUser } from '../../../../models/IUser';
+import { IComment } from '../../types';
+import { IUser } from '../../../../redux/profile/types';
 
 import { getComments } from '../../../../services/comments/CommentsServices';
 import Loader from '../../../Loader';

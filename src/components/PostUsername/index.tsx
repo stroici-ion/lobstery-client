@@ -1,9 +1,10 @@
 import React from 'react';
 import emoji from 'react-easy-emoji';
-import { IUser } from '../../models/IUser';
+import { IUser } from '../../redux/profile/types';
 import { feelings } from '../../utils/emojisMap';
 
 import styles from './styles.module.scss';
+import getUserName from '../user/utils/getUserName';
 
 interface IPostUsername {
   user: IUser;
@@ -17,7 +18,7 @@ const PostUsername: React.FC<IPostUsername> = ({ user, feeling, taggedFriends })
 
   return (
     <p className={styles.root__name}>
-      {`${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`}
+      {getUserName(user)}
       {selectedFeeling && (
         <>
           <span className={styles.root__feeling}>

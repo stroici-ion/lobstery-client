@@ -14,8 +14,8 @@
       width: 20px;
       height: 20px;
       path {
-        stroke: $grayColorDarken;
-        fill: $grayColorDarken;
+        stroke: var(--grayColorDarken);
+        fill: var(--grayColorDarken);
       }
     }
   }
@@ -38,7 +38,7 @@
   }
 
   &__input {
-    border-bottom: 1px solid $grayColorLighten;
+    border-bottom: 1px solid var(--grayColorLightenUltra);
     height: 30px;
     flex: 1 1 auto;
   }
@@ -51,7 +51,7 @@
     padding: 5px;
     padding-right: 20px;
     line-height: 12px;
-    color: $grayColorDarken;
+    color: var(--grayColorDarken);
     flex: 1 1 auto;
     word-wrap: break-word;
   }
@@ -120,7 +120,7 @@
   border-radius: 20px;
   align-self: flex-end;
   background-color: $greenColor;
-  color: $lightColor;
+  color: var(--lightColor);
   padding: 4px 7px;
   &:hover {
     background-color: $greenColorDarken;

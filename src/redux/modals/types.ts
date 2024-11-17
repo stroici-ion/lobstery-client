@@ -1,5 +1,3 @@
-import { DialogModalEnum } from '../../models/DialogModalEnum';
-
 export interface IModalsState {
   imagesModalStatus: boolean;
   postCreateModalStatus: boolean;
@@ -8,4 +6,9 @@ export interface IModalsState {
   dialodTitle: string;
   dialogType: DialogModalEnum;
   dialogResponse: boolean;
+}
+
+export enum DialogModalEnum {
+  OK = 0,
+  YES_NO = 1,
 }

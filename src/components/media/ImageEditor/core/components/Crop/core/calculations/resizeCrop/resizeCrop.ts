@@ -1,11 +1,11 @@
-import { IBorders, ICropShape, IDynamicShape, IPosition, IShape } from "../../../../../types/interfaces";
-import { getAvailableResizeDirection } from "../../mouseMoveType/getAvailableDirection";
-import { EnumMoveTypes } from "../../../../../types/enumerations";
-import { resizeBottom } from "./directions/bottom";
-import { resizeLeft } from "./directions/left";
-import { resizeRight } from "./directions/right";
-import { resizeTop } from "./directions/top";
-import { adjustShapePostion } from "../../../../../utils/calc";
+import { IBorders, ICropShape, IDynamicShape, IPosition, IShape } from '../../../../../../types/interfaces';
+import { getAvailableResizeDirection } from '../../mouseMoveType/getAvailableDirection';
+import { EMoveTypes } from '../../../../../../types/enums';
+import { resizeBottom } from './directions/bottom';
+import { resizeLeft } from './directions/left';
+import { resizeRight } from './directions/right';
+import { resizeTop } from './directions/top';
+import { adjustShapePostion } from '../../../../../utils/calc';
 
 export const getMin = (x: number, y: number) => {
   return x > y ? y : x;
@@ -22,7 +22,7 @@ export const resizeCrop = (
   crop: ICropShape,
   image: IShape & { startPosition: IShape; angle: number },
   cursorDistance: IPosition,
-  moveType: EnumMoveTypes,
+  moveType: EMoveTypes,
   imageBorders: IBorders,
   imageRotatedBorders: IBorders,
   viewBorders: IBorders,
@@ -46,18 +46,18 @@ export const resizeCrop = (
   };
   if (image.angle) {
     switch (moveType) {
-      case EnumMoveTypes.leftTop:
-      case EnumMoveTypes.leftBottom: {
+      case EMoveTypes.leftTop:
+      case EMoveTypes.leftBottom: {
         resizeLeft(moveType, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
       }
-      case EnumMoveTypes.left: {
+      case EMoveTypes.left: {
         let stop = false;
         const availableDirection = getAvailableResizeDirection(image.angle, imageRotatedBorders);
         if (availableDirection)
           switch (availableDirection) {
-            case EnumMoveTypes.leftTop:
-            case EnumMoveTypes.leftBottom:
+            case EMoveTypes.leftTop:
+            case EMoveTypes.leftBottom:
               resizeLeft(availableDirection, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
               stop = true;
           }
@@ -65,14 +65,14 @@ export const resizeCrop = (
         resizeLeft(moveType, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
       }
-      case EnumMoveTypes.top: {
+      case EMoveTypes.top: {
         let stop = false;
         if (image.angle && cursorDistance.y < 0) {
           const availableDirection = getAvailableResizeDirection(image.angle, imageRotatedBorders);
           switch (availableDirection) {
-            case EnumMoveTypes.rightTop:
+            case EMoveTypes.rightTop:
               resizeRight(
-                EnumMoveTypes.rightTop,
+                EMoveTypes.rightTop,
                 {
                   x: cursorDistance.y * -1,
                   y: 0,
@@ -84,9 +84,9 @@ export const resizeCrop = (
               );
               stop = true;
               break;
-            case EnumMoveTypes.leftTop:
+            case EMoveTypes.leftTop:
               resizeLeft(
-                EnumMoveTypes.leftTop,
+                EMoveTypes.leftTop,
                 {
                   x: cursorDistance.y,
                   y: 0,
@@ -104,18 +104,18 @@ export const resizeCrop = (
         resizeTop(cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
       }
-      case EnumMoveTypes.rightTop:
-      case EnumMoveTypes.rightBottom: {
+      case EMoveTypes.rightTop:
+      case EMoveTypes.rightBottom: {
         resizeRight(moveType, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
       }
-      case EnumMoveTypes.right: {
+      case EMoveTypes.right: {
         let stop = false;
         const availableDirection = getAvailableResizeDirection(image.angle, imageRotatedBorders);
         if (availableDirection)
           switch (availableDirection) {
-            case EnumMoveTypes.rightTop:
-            case EnumMoveTypes.rightBottom:
+            case EMoveTypes.rightTop:
+            case EMoveTypes.rightBottom:
               resizeRight(availableDirection, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
               stop = true;
           }
@@ -123,14 +123,14 @@ export const resizeCrop = (
         resizeRight(moveType, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
       }
-      case EnumMoveTypes.bottom: {
+      case EMoveTypes.bottom: {
         let stop = false;
         if (image.angle && cursorDistance.y > 0) {
           const availableDirection = getAvailableResizeDirection(image.angle, imageRotatedBorders);
           switch (availableDirection) {
-            case EnumMoveTypes.rightBottom:
+            case EMoveTypes.rightBottom:
               resizeRight(
-                EnumMoveTypes.rightBottom,
+                EMoveTypes.rightBottom,
                 {
                   x: cursorDistance.y,
                   y: 0,
@@ -142,9 +142,9 @@ export const resizeCrop = (
               );
               stop = true;
               break;
-            case EnumMoveTypes.leftBottom:
+            case EMoveTypes.leftBottom:
               resizeLeft(
-                EnumMoveTypes.leftBottom,
+                EMoveTypes.leftBottom,
                 {
                   x: cursorDistance.y * -1,
                   y: 0,
@@ -165,21 +165,21 @@ export const resizeCrop = (
     }
   } else {
     switch (moveType) {
-      case EnumMoveTypes.leftTop:
-      case EnumMoveTypes.leftBottom:
-      case EnumMoveTypes.left:
+      case EMoveTypes.leftTop:
+      case EMoveTypes.leftBottom:
+      case EMoveTypes.left:
         resizeLeft(moveType, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
-      case EnumMoveTypes.top:
+      case EMoveTypes.top:
         resizeTop(cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
-      case EnumMoveTypes.rightTop:
-      case EnumMoveTypes.rightBottom:
-      case EnumMoveTypes.right: {
+      case EMoveTypes.rightTop:
+      case EMoveTypes.rightBottom:
+      case EMoveTypes.right: {
         resizeRight(moveType, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
       }
-      case EnumMoveTypes.bottom: {
+      case EMoveTypes.bottom: {
         resizeBottom(cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
         break;
       }

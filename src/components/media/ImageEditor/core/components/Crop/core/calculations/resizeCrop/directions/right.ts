@@ -1,10 +1,10 @@
-import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
-import { EnumMoveTypes } from '../../../../../../types/enumerations';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../../types/interfaces';
+import { EMoveTypes } from '../../../../../../../types/enums';
 import { resetShape } from '../resizeCrop';
 import { iEBSLR, iEMSS } from '../../../../../../config';
 
 export const resizeRight = (
-  moveType: EnumMoveTypes,
+  moveType: EMoveTypes,
   cursorDistance: IPosition,
   crop: ICropShape,
   image: IDynamicShape & { isImageChanged: boolean },
@@ -15,10 +15,10 @@ export const resizeRight = (
     crop.height = crop.width / crop.aspectRatio;
     const diff = crop.startPosition.height - crop.height;
     switch (moveType) {
-      case EnumMoveTypes.rightTop:
+      case EMoveTypes.rightTop:
         crop.y = crop.startPosition.y + diff;
         break;
-      case EnumMoveTypes.rightBottom:
+      case EMoveTypes.rightBottom:
         crop.y = crop.startPosition.y;
         break;
       default:
@@ -54,19 +54,19 @@ export const resizeRight = (
 
 export const resizeRightOverView = (
   progress: number,
-  moveType: EnumMoveTypes,
+  moveType: EMoveTypes,
   image: IDynamicShape,
   crop: ICropShape,
   imageBorders: IBorders
 ) => {
   const aspectRatio = image.startPosition.width / image.startPosition.height;
-  const isCenter = moveType === EnumMoveTypes.right && !!imageBorders.top && !!imageBorders.bottom;
+  const isCenter = moveType === EMoveTypes.right && !!imageBorders.top && !!imageBorders.bottom;
 
   const isTop = isCenter
     ? imageBorders.top < imageBorders.bottom
-    : moveType === EnumMoveTypes.right
+    : moveType === EMoveTypes.right
     ? !!imageBorders.top
-    : moveType === EnumMoveTypes.rightTop;
+    : moveType === EMoveTypes.rightTop;
 
   const remainigDistanceY = isTop ? imageBorders.top : imageBorders.bottom;
   const helperAR = crop.aspectRatio * (isCenter ? 2 : 1);

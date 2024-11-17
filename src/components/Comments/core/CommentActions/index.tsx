@@ -4,13 +4,13 @@ import classNames from 'classnames';
 import { HeartSvg, LikeSvg } from '../../../../icons';
 import styles from './styles.module.scss';
 import { putCommentLike, putCommentLikeByAuthor } from '../../../../services/comments/CommentsServices';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import SmallButton from '../../../UI/Buttons/SmallButton';
 import UserImage from '../../../UserImage';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../../redux/auth/selectors';
 import toast from 'react-hot-toast';
-import { ILikesInfo } from '../../../../models/likes/ILikesInfo';
+import { ILikesInfo } from '../../../../types/LikesInfo.types';
 
 interface ICommentActions {
   isMultimedia: boolean;
@@ -135,7 +135,7 @@ const CommentActions: React.FC<ICommentActions> = ({
           )}
         >
           <SmallButton onClick={handlePutLikeByAuthor}>
-            <UserImage user={owner} className={styles.actions__likeByAuthorImg} />
+            <UserImage user={owner} className={styles.actions__authorAvatar} />
             <HeartSvg />
           </SmallButton>
         </div>

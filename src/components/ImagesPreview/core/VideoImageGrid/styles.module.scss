@@ -43,7 +43,7 @@
         left: -1px;
         bottom: 0;
         height: 5px;
-        background-color: $lightColor;
+        background-color: var(--lightColor);
       }
     }
 
@@ -74,7 +74,7 @@
       top: 0;
       bottom: 0;
       width: 5px;
-      background-color: $lightColor;
+      background-color: var(--lightColor);
     }
   }
 
@@ -96,7 +96,7 @@
       top: 0;
       bottom: 0;
       width: 5px;
-      background-color: $lightColor;
+      background-color: var(--lightColor);
     }
   }
 
@@ -117,7 +117,7 @@
   }
   &__decoration {
     height: 5px;
-    background-color: $lightColor;
+    background-color: var(--lightColor);
   }
 }
 
@@ -128,7 +128,7 @@
     object-fit: contain;
     object-position: center;
     max-height: 110px;
-    border-bottom: 5px solid $lightColor;
+    border-bottom: 5px solid var(--lightColor);
     &:last-child {
       border-bottom: none;
     }
@@ -148,7 +148,7 @@
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  background-color: transparentize($color: $lightColor, $amount: 0.2);
+  background-color: var(--lightColorTransparent);
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;

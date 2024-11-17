@@ -6,7 +6,6 @@ import { feelings as feelingsList } from '../../../../utils/emojisMap';
 import { useAppDispatch } from '../../../../redux';
 import { useSelector } from 'react-redux';
 import { CheckedSvg, SearchSvg } from '../../../../icons';
-import { IFeelig } from '../../../../models/IFeeling';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { selectActivePost } from '../../../../redux/posts/selectors';
@@ -15,6 +14,12 @@ import { selectUserProfile } from '../../../../redux/profile/selectors';
 import PostUsername from '../../../PostUsername';
 import UserImage from '../../../UserImage';
 import ScrollArea from '../../../UI/ScrollArea';
+
+export interface IFeelig {
+  id: string;
+  code: string;
+  name: string;
+}
 
 const FeelingTab: React.FC = () => {
   const user = useSelector(selectUserProfile);
@@ -52,7 +57,7 @@ const FeelingTab: React.FC = () => {
       </div>
       <div className={styles.root__search}>
         <SearchSvg />
-        <input placeholder='Search feeling' className={styles.root__input} onChange={debouncedChangeHandler} />
+        <input placeholder="Search feeling" className={styles.root__input} onChange={debouncedChangeHandler} />
       </div>
       <div className={classNames(styles.root__selectedPeoples, styles.selectedFeeling, feeling && styles.active)}>
         <div className={styles.selectedFeeling__scrollArea}>

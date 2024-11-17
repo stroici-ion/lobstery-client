@@ -8,7 +8,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import styles from './styles.module.scss';
 import { selectActivePost, selectPostCreateStatus } from '../../../../redux/posts/selectors';
 import { selectImages } from '../../../../redux/images/selectors';
-import { FetchStatusEnum } from '../../../../models/response/FetchStatus';
+import { EFetchStatus } from '../../../../types/enums';
 import { FulfilledSvgAnim } from '../../../../icons';
 
 interface IUploadProgress {
@@ -33,17 +33,16 @@ const UploadProgress: React.FC<IUploadProgress> = ({ handleError, handleFulfille
 
   const maxProgress = 100 + (newImages.length + updatedImages.length) * 100;
   const percentage = Math.floor((totalProgress / maxProgress) * 100);
-  console.log('totalProgress', totalProgress, ' maxProgress', maxProgress);
 
   const color = `rgb(${210 - (percentage * 74) / 100}, ${83 + (percentage * 109) / 100}, ${
     36 + (percentage * 36) / 100
   })`;
 
   useEffect(() => {
-    if (fetchStatus.status === FetchStatusEnum.SUCCESS) {
+    if (fetchStatus.status === EFetchStatus.SUCCESS) {
       setTimeout(() => handleFulfilled(), 600);
     }
-    if (fetchStatus.status === FetchStatusEnum.ERROR && fetchStatus.errors) {
+    if (fetchStatus.status === EFetchStatus.ERROR && fetchStatus.errors) {
       toast.error(fetchStatus.errors.message);
       handleError();
     }

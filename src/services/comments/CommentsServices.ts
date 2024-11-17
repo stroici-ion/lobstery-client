@@ -1,6 +1,6 @@
 import $api from '../../http';
-import { IComment, IFetchedComment, IFetchedReply, IReply } from '../../models/comments/IComment';
-import { IFetchedLikesInfo, ILikesInfo } from '../../models/likes/ILikesInfo';
+import { IComment, IFetchedComment, IFetchedReply, IReply } from '../../components/Comments/types';
+import { IFetchedLikesInfo, ILikesInfo } from '../../types/LikesInfo.types';
 import convertKeysToCamelCase from '../../utils/convertKeysToCamelCase';
 
 export const getComments = async (id: number, page: number, sortBy: string, user?: number) => {
@@ -23,7 +23,7 @@ export const getComments = async (id: number, page: number, sortBy: string, user
   }
 };
 
-export const createComment = async (params: { text: string; post: number; user: number }) => {
+export const createComment = async (params: { text: string; post: number }) => {
   try {
     const { data } = await $api.post<IFetchedComment>('api/posts/comments/', params);
     if (data) {
@@ -84,11 +84,7 @@ export const createReply = async (postId: number, commentId: number, text: strin
       comment: commentId,
       mentioned_user: mentionedUserId,
     });
-    if (data) {
-      return convertKeysToCamelCase(data) as IReply;
-    } else {
-      console.error('Error sending answer');
-    }
+    return convertKeysToCamelCase(data) as IReply;
   } catch (e) {
     console.error(e);
   }
@@ -99,7 +95,7 @@ export const getReplies = async (comment: number, page: number, user?: number) =
     const { data } = await $api.get<{
       results: IReply[];
       count: number;
-    }>('api/posts/replies/' + comment + '/', {
+    }>(`api/posts/replies/${comment}/`, {
       params: {
         page,
         limit: 10,
@@ -107,7 +103,8 @@ export const getReplies = async (comment: number, page: number, user?: number) =
         user,
       },
     });
-    return data;
+    const replies = convertKeysToCamelCase(data.results) as IReply[];
+    return { count: data.count, replies };
   } catch (e) {
     console.error(e);
   }

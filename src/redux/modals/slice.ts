@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IModalsState } from './types';
-import { DialogModalEnum } from '../../models/DialogModalEnum';
+import { DialogModalEnum, IModalsState } from './types';
 
 const initialState: IModalsState = {
   imagesModalStatus: false,
@@ -22,10 +21,7 @@ const modlasSlice = createSlice({
     setPostCreateModalStatus: (state, action: PayloadAction<boolean>) => {
       state.postCreateModalStatus = action.payload;
     },
-    setDialogModalStatus: (
-      state,
-      action: PayloadAction<{ status: boolean; title: string; text: string }>
-    ) => {
+    setDialogModalStatus: (state, action: PayloadAction<{ status: boolean; title: string; text: string }>) => {
       if (action.payload.status) {
         state.dialodTitle = action.payload.title;
         state.dialogText = action.payload.text;
@@ -38,7 +34,6 @@ const modlasSlice = createSlice({
   },
 });
 
-export const { setImagesModalStatus, setPostCreateModalStatus, setDialogModalStatus } =
-  modlasSlice.actions;
+export const { setImagesModalStatus, setPostCreateModalStatus, setDialogModalStatus } = modlasSlice.actions;
 
 export default modlasSlice.reducer;

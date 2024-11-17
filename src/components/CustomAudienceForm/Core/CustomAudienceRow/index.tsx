@@ -1,9 +1,9 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import { IAudience } from '../../../../models/audience/IAudience';
 import classNames from 'classnames';
 import { FriendsSvg, GlobeSvg, KnownsSvg, LockSvg } from '../../../../icons';
+import { IAudience } from '../../../../redux/defaultAudience/types';
 
 interface ICustomAudienceRow {
   audience: IAudience;

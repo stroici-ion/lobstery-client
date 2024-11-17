@@ -52,7 +52,7 @@
         left: -1px;
         bottom: 0;
         height: 5px;
-        background-color: $lightColor;
+        background-color: var(--lightColor);
       }
     }
 
@@ -86,7 +86,7 @@
       top: 0;
       bottom: 0;
       width: 5px;
-      background-color: $lightColor;
+      background-color: var(--lightColor);
     }
   }
 
@@ -108,7 +108,7 @@
       top: 0;
       bottom: 0;
       width: 5px;
-      background-color: $lightColor;
+      background-color: var(--lightColor);
     }
   }
 
@@ -129,7 +129,7 @@
     display: flex;
     position: relative;
     &:not(:last-child) {
-      border-bottom: 5px solid $lightColor;
+      border-bottom: 5px solid var(--lightColor);
     }
   }
   img {
@@ -158,7 +158,7 @@
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  background-color: transparentize($color: $lightColor, $amount: 0.2);
+  background-color: transparentize($color: var(--lightColor), $amount: 0.2);
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
@@ -185,14 +185,14 @@
     font-size: 9px;
     text-align: center;
     line-height: 25px;
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     border-radius: 50%;
     color: $redColorDarken;
     &:hover {
       cursor: pointer;
       background-color: $redColor;
-      color: $lightColor;
-      box-shadow: inset 0 0 0 2px $lightColor;
+      color: var(--lightColor);
+      box-shadow: inset 0 0 0 2px var(--lightColor);
     }
   }
   &:hover {

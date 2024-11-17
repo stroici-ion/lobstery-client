@@ -19,25 +19,25 @@
     justify-content: flex-end;
     gap: 8px;
     transition: 0.2s;
-    color: $grayColorLighten;
+    color: var(--grayColorLightenUltra);
 
     svg {
       width: 22px;
 
       path {
         transition: 0.2s;
-        stroke: $grayColorLighten;
-        fill: $grayColorLighten;
+        stroke: var(--grayColorLightenUltra);
+        fill: var(--grayColorLightenUltra);
       }
     }
 
     &:hover {
-      color: $grayColor;
+      color: var(--grayColor);
 
       svg {
         path {
-          stroke: $grayColor;
-          fill: $grayColor;
+          stroke: var(--grayColor);
+          fill: var(--grayColor);
         }
       }
     }
@@ -69,7 +69,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $grayColorLighten;
+      background-color: var(--grayColorLightenUltra);
     }
   }
 }

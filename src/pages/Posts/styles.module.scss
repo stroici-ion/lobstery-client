@@ -9,15 +9,15 @@
     padding: 10px;
     padding-bottom: 120px;
     padding-right: 240px;
-    @media (max-width: 856px) {
-      padding-right: 190px;
+    @media (max-width: 1185px) {
+      padding-right: 10px;
     }
     @media (max-width: 768px) {
       padding-right: 10px;
     }
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 40px;
     align-items: center;
     justify-content: center;
     @include scrollBar();
@@ -43,7 +43,7 @@
     width: 20px;
     height: 50px;
     path {
-      stroke: $lightColor;
+      stroke: var(--lightColor);
     }
   }
   transition: 0.3s;
@@ -61,14 +61,14 @@
     @media (hover: hover) {
       &:hover {
         background-color: $redColor;
-        color: $lightColor;
+        color: var(--lightColor);
       }
     }
   }
 
   &__return {
     background-color: $greenColor;
-    color: $lightColor;
+    color: var(--lightColor);
 
     @media (hover: hover) {
       &:hover {

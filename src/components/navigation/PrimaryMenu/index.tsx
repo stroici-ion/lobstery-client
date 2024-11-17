@@ -25,7 +25,7 @@ import ContextMenu from '../../ContextMenu';
 import classNames from 'classnames';
 import { selectAuthStatus } from '../../../redux/auth/selectors';
 import UserImage from '../../UserImage';
-import { FetchStatusEnum } from '../../../models/response/FetchStatus';
+import { EFetchStatus } from '../../../types/enums';
 import useSwipe from '../../../hooks/useSwipe';
 
 const PrimaryMenu: React.FC = () => {
@@ -37,7 +37,7 @@ const PrimaryMenu: React.FC = () => {
   const user = useSelector(selectUserProfile);
 
   const authorizationStatus = useSelector(selectAuthStatus);
-  const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
+  const isAuth = authorizationStatus === EFetchStatus.SUCCESS;
 
   const handleLogout = () => {
     if (isAuth) dispatch(logOut());
@@ -135,6 +135,21 @@ const PrimaryMenu: React.FC = () => {
                 Settings
               </MenuButton>
             </Link>
+            <MenuButton
+              icon={SettingsSvg}
+              onClick={() => {
+                const theme = document.documentElement.getAttribute('data-theme');
+                if (theme) {
+                  document.documentElement.removeAttribute('data-theme');
+                  localStorage.removeItem('theme');
+                } else {
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                  localStorage.setItem('theme', 'dark');
+                }
+              }}
+            >
+              Dark Theme
+            </MenuButton>
           </div>
         </div>
         <div className={classNames(styles.aside__bottom, styles.bottom, isPanelCollapsed && styles.collapsed)}>

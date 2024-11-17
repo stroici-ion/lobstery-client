@@ -1,4 +1,4 @@
-import { TLayout } from '../../../../../models/media-tools/images-auto-order';
+import { TLayout } from '../../types';
 import { squareLayouts } from './square';
 import { thinLayouts } from './thin';
 import { thinUltraLayouts } from './thinUltra';

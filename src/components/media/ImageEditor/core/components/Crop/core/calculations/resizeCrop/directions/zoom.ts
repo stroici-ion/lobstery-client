@@ -3,19 +3,19 @@ import {
   calculateHelperAngle,
   getCropRotatedDistToImage,
 } from '../../maxDistance/cropRotatedDistToImage';
-import { ICropShape, IDynamicShape, IImageShape } from '../../../../../../types/interfaces';
+import { ICropShape, IDynamicShape, IImageShape } from '../../../../../../../types/interfaces';
 import { getImageLimits, getRotatedImageLimits } from '../../maxDistance/cropMoveMaxDist';
-import { degrees_to_radians } from '../../../../../../calculationFunctions/converters';
-import { EnumMoveTypes } from '../../../../../../types/enumerations';
+import { convertToRadians } from '../../../../../../calculationFunctions/converters';
+import { EMoveTypes } from '../../../../../../../types/enums';
 import { getDistanceToCenter } from '../../maxDistance/distToCenter';
 import { getRotatedShape } from '../../position/getRotatedShape';
-import { TZoomProperties } from '../../../../../../types/types';
+import { IZoomProperties } from '../../../../../../../types/interfaces';
 import { iEZPS } from '../../../../../../config';
 
 export const zoomOut = (
   crop: ICropShape,
   image: IDynamicShape & { angle: number },
-  stepProperties: TZoomProperties
+  stepProperties: IZoomProperties
 ) => {
   const ar = image.startPosition.width / image.startPosition.height;
 
@@ -26,17 +26,17 @@ export const zoomOut = (
 
   const minX = {
     value: 0,
-    type: EnumMoveTypes.default,
+    type: EMoveTypes.default,
   };
 
   const minY = {
     value: 0,
-    type: EnumMoveTypes.default,
+    type: EMoveTypes.default,
   };
 
   const min = {
     value: 0,
-    type: EnumMoveTypes.default,
+    type: EMoveTypes.default,
   };
 
   const startImageDC = getDistanceToCenter(image.startPosition, O);
@@ -45,10 +45,10 @@ export const zoomOut = (
     ? getCropRotatedDistToImage(rotatedCrop, startImageDC)
     : getImageLimits(crop, image.startPosition);
 
-  minX.type = EnumMoveTypes[startImageLimits.left < startImageLimits.right ? 'left' : 'right'];
+  minX.type = EMoveTypes[startImageLimits.left < startImageLimits.right ? 'left' : 'right'];
   minX.value = startImageLimits[startImageLimits.left < startImageLimits.right ? 'left' : 'right'];
 
-  minY.type = EnumMoveTypes[startImageLimits.top < startImageLimits.bottom ? 'top' : 'bottom'];
+  minY.type = EMoveTypes[startImageLimits.top < startImageLimits.bottom ? 'top' : 'bottom'];
   minY.value = startImageLimits[startImageLimits.top < startImageLimits.bottom ? 'top' : 'bottom'];
 
   const cropAr = image.angle ? 1 : crop.width / crop.height;
@@ -83,31 +83,31 @@ export const zoomOut = (
     if (image.angle) {
       if (image.angle > 0) {
         switch (min.type) {
-          case EnumMoveTypes.top:
-            stepProperties.direction = EnumMoveTypes.leftBottom;
+          case EMoveTypes.top:
+            stepProperties.direction = EMoveTypes.leftBottom;
             break;
-          case EnumMoveTypes.right:
-            stepProperties.direction = EnumMoveTypes.leftTop;
+          case EMoveTypes.right:
+            stepProperties.direction = EMoveTypes.leftTop;
             break;
-          case EnumMoveTypes.bottom:
-            stepProperties.direction = EnumMoveTypes.rightTop;
+          case EMoveTypes.bottom:
+            stepProperties.direction = EMoveTypes.rightTop;
             break;
           default:
-            stepProperties.direction = EnumMoveTypes.rightBottom;
+            stepProperties.direction = EMoveTypes.rightBottom;
         }
       } else {
         switch (min.type) {
-          case EnumMoveTypes.top:
-            stepProperties.direction = EnumMoveTypes.rightBottom;
+          case EMoveTypes.top:
+            stepProperties.direction = EMoveTypes.rightBottom;
             break;
-          case EnumMoveTypes.right:
-            stepProperties.direction = EnumMoveTypes.leftBottom;
+          case EMoveTypes.right:
+            stepProperties.direction = EMoveTypes.leftBottom;
             break;
-          case EnumMoveTypes.bottom:
-            stepProperties.direction = EnumMoveTypes.leftTop;
+          case EMoveTypes.bottom:
+            stepProperties.direction = EMoveTypes.leftTop;
             break;
           default:
-            stepProperties.direction = EnumMoveTypes.rightTop;
+            stepProperties.direction = EMoveTypes.rightTop;
         }
       }
     } else stepProperties.direction = min.type;
@@ -121,29 +121,29 @@ export const zoomOut = (
       left: startImageDC.left / image.startPosition.width,
     };
 
-    const isX = min.type === EnumMoveTypes.left || min.type === EnumMoveTypes.right;
+    const isX = min.type === EMoveTypes.left || min.type === EMoveTypes.right;
 
     let dist = 0;
     let distRel = 0;
     let opositeRel = 0;
 
     switch (min.type) {
-      case EnumMoveTypes.top:
+      case EMoveTypes.top:
         dist = startImageLimits.top;
         distRel = imageRelDC.top;
         opositeRel = imageRelDC.bottom;
         break;
-      case EnumMoveTypes.right:
+      case EMoveTypes.right:
         dist = startImageLimits.right;
         distRel = imageRelDC.right;
         opositeRel = imageRelDC.left;
         break;
-      case EnumMoveTypes.bottom:
+      case EMoveTypes.bottom:
         dist = startImageLimits.bottom;
         distRel = imageRelDC.bottom;
         opositeRel = imageRelDC.top;
         break;
-      case EnumMoveTypes.left:
+      case EMoveTypes.left:
         dist = startImageLimits.left;
         distRel = imageRelDC.left;
         opositeRel = imageRelDC.right;
@@ -154,7 +154,7 @@ export const zoomOut = (
       image.width = image.startPosition.width - dist - dist * (opositeRel / distRel);
       image.height = image.width / ar;
 
-      if (min.type === EnumMoveTypes.left) image.x = O.x - image.width * imageRelDC.left;
+      if (min.type === EMoveTypes.left) image.x = O.x - image.width * imageRelDC.left;
       else image.x = O.x + image.width * imageRelDC.right - image.width;
 
       image.y = O.y - image.height * relY;
@@ -162,7 +162,7 @@ export const zoomOut = (
       image.height = image.startPosition.height - dist - dist * (opositeRel / distRel);
       image.width = image.height * ar;
 
-      if (min.type === EnumMoveTypes.top) image.y = O.y - image.height * imageRelDC.top;
+      if (min.type === EMoveTypes.top) image.y = O.y - image.height * imageRelDC.top;
       else image.y = O.y + image.height * imageRelDC.bottom - image.height;
 
       image.x = O.x - image.width * relX;
@@ -180,8 +180,8 @@ export const zoomOut = (
         const ipX = calculateDiagonalLength(imageDists.left, imageDists.bottom);
         const helperAngleX = calculateHelperAngle(imageDists.left, ipX) - image.angle;
 
-        distTop = ipY * Math.cos(degrees_to_radians(helperAngleY));
-        distLeft = ipX * Math.cos(degrees_to_radians(helperAngleX));
+        distTop = ipY * Math.cos(convertToRadians(helperAngleY));
+        distLeft = ipX * Math.cos(convertToRadians(helperAngleX));
       } else {
         const ipX = calculateDiagonalLength(imageDists.left, imageDists.top);
         const helperAngleX = calculateHelperAngle(imageDists.left, ipX) + image.angle;
@@ -189,12 +189,12 @@ export const zoomOut = (
         const ipY = calculateDiagonalLength(imageDists.top, imageDists.right);
         const helperAngleY = calculateHelperAngle(imageDists.top, ipY) + image.angle;
 
-        distTop = ipY * Math.cos(degrees_to_radians(helperAngleY));
-        distLeft = ipX * Math.cos(degrees_to_radians(helperAngleX));
+        distTop = ipY * Math.cos(convertToRadians(helperAngleY));
+        distLeft = ipX * Math.cos(convertToRadians(helperAngleX));
       }
 
       stepProperties.outer = {
-        ratio: (Math.cos(degrees_to_radians(90 - image.angle)) * image.height) / outerImageDimensions.width,
+        ratio: (Math.cos(convertToRadians(90 - image.angle)) * image.height) / outerImageDimensions.width,
         x: O.x - distLeft,
         y: O.y - distTop,
         width: outerImageDimensions.width,
@@ -233,15 +233,15 @@ export const zoomOut = (
   }
 };
 
-// const getName = (x: EnumMoveTypes) => {
+// const getName = (x: EMoveTypes) => {
 //   switch (x) {
-//     case EnumMoveTypes.top:
+//     case EMoveTypes.top:
 //       return 'Top';
-//     case EnumMoveTypes.right:
+//     case EMoveTypes.right:
 //       return 'Right';
-//     case EnumMoveTypes.bottom:
+//     case EMoveTypes.bottom:
 //       return 'Bottom';
-//     case EnumMoveTypes.left:
+//     case EMoveTypes.left:
 //       return 'Left';
 //   }
 //   return 'none';

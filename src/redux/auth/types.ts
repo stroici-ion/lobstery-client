@@ -1,10 +1,26 @@
-import { IAuthError } from '../../models/auth/IAuthError';
-import { IUser } from '../../models/IUser';
-import { FetchStatusEnum } from '../../models/response/FetchStatus';
+import { IFetchedUser, IUser } from '../profile/types';
+import { EFetchStatus } from '../../types/enums';
+
+export interface IFetchError {
+  message: string;
+  errors?: Record<string, string[]>;
+}
+
+export interface IAuthResponse {
+  access: string;
+  refresh: string;
+  user: IUser;
+}
+
+export interface IFetchedAuthResponse {
+  access: string;
+  refresh: string;
+  user: IFetchedUser;
+}
 
 export interface IAuthState {
   userId?: number;
-  status: FetchStatusEnum;
-  registerStatus: FetchStatusEnum;
-  errors: IAuthError | undefined;
+  loginStatus: EFetchStatus;
+  registerStatus: EFetchStatus;
+  errors?: IFetchError;
 }

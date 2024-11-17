@@ -1,6 +1,6 @@
 import { darkenImageAnimation } from '../animations/darkenImageAnimation';
 import { resetActions } from '../resetFunctions/resetActions';
-import { IEditorStep } from '../../../../types/interfaces';
+import { IEditorStep } from '../../../../../types/interfaces';
 import { fillParent } from './fillParent';
 
 export const mouseUp = (cropStep: IEditorStep, drawImage: (opacity?: number) => void, addToHistory: () => void) => {

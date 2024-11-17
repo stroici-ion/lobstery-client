@@ -1,5 +1,5 @@
-import { degrees_to_radians } from '../../../../calculationFunctions/converters';
-import { IPosition } from '../../../../types/interfaces';
+import { convertToRadians } from '../../../../calculationFunctions/converters';
+import { IPosition } from '../../../../../types/interfaces';
 
 export const findArrowheadPoints = (points: IPosition[], isHeadArrow = true) => {
   let startPoint = { x: 0, y: 0 };
@@ -25,8 +25,8 @@ export const findArrowheadPoints = (points: IPosition[], isHeadArrow = true) => 
   const arrowSize = -30;
 
   const startPointArrow = getPointOnLineAtDistance(startPoint, lastPoint, arrowSize);
-  const leftPoint = rotatePoint(startPointArrow, lastPoint, degrees_to_radians(30));
-  const rightPoint = rotatePoint(startPointArrow, lastPoint, degrees_to_radians(-30));
+  const leftPoint = rotatePoint(startPointArrow, lastPoint, convertToRadians(30));
+  const rightPoint = rotatePoint(startPointArrow, lastPoint, convertToRadians(-30));
 
   return {
     leftPoint,

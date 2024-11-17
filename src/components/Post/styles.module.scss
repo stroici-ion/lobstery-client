@@ -5,17 +5,17 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-bottom: 1px solid $grayColorLighten;
+  border-bottom: 1px solid var(--grayColorLightenUltra);
   border-radius: 0;
   max-width: 680px;
 
   @media (min-width: 768px) {
     border-radius: 10px;
-    box-shadow: 2px 2px 5px 4px transparentize($grayColor, 0.8);
+    box-shadow: 1px 1px 10px 4px var(--grayColorLightenUltra);
   }
 
   &__content {
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     padding: 0px;
     border-radius: 10px;
     @media (min-width: 768px) {
@@ -91,7 +91,7 @@
   &__date {
     font-weight: 500;
     font-size: 12px;
-    color: $grayColor;
+    color: var(--grayColor);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -99,8 +99,8 @@
       width: 15px;
       height: 15px;
       path {
-        stroke: $grayColorDarken;
-        fill: $grayColorDarken;
+        stroke: var(--grayColorDarken);
+        fill: var(--grayColorDarken);
       }
     }
   }
@@ -179,13 +179,13 @@
     align-items: center;
     font-size: 13px;
     justify-content: flex-end;
-    color: $grayColor;
+    color: var(--grayColor);
     gap: 6px;
     svg {
       height: 12px;
       path {
-        fill: $grayColor;
-        stroke: $grayColor;
+        fill: var(--grayColor);
+        stroke: var(--grayColor);
       }
     }
   }
@@ -293,7 +293,7 @@
 }
 
 .skeleton {
-  background-color: $lightColor;
+  background-color: var(--lightColor);
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -304,17 +304,17 @@
     content: '';
     position: absolute;
     width: 100px;
-    background-color: $grayColorDarken;
+    background-color: var(--grayColorDarken);
     height: 100%;
     left: 0%;
     top: 0;
-    box-shadow: 10px 0 10px $grayColorDarken, -10px 0 10px $grayColorDarken;
+    box-shadow: 10px 0 10px var(--grayColorDarken), -10px 0 10px var(--grayColorDarken);
     animation: loading 2s infinite linear;
   }
 
   &__image {
     height: 200px;
-    background-color: $grayColorLighten;
+    background-color: var(--grayColorLightenUltra);
   }
 
   &__body {
@@ -325,7 +325,7 @@
   }
 
   &__avatar {
-    background-color: $grayColorLighten;
+    background-color: var(--grayColorLightenUltra);
     width: 40px;
     flex: 0 0 40px;
     height: 40px;
@@ -342,7 +342,7 @@
     width: 30%;
     height: 16px;
     border-radius: 4px;
-    background-color: $grayColorLighten;
+    background-color: var(--grayColorLightenUltra);
     margin-bottom: 4px;
   }
 
@@ -350,13 +350,13 @@
     border-radius: 4px;
     width: 20%;
     height: 10px;
-    background-color: $grayColorLighten;
+    background-color: var(--grayColorLightenUltra);
   }
 
   &__title {
     border-radius: 4px;
     height: 50px;
-    background-color: $grayColorLighten;
+    background-color: var(--grayColorLightenUltra);
     margin: 10px 0;
   }
 
@@ -364,7 +364,7 @@
     border-radius: 4px;
     width: 50%;
     height: 20px;
-    background-color: $grayColorLighten;
+    background-color: var(--grayColorLightenUltra);
     margin: 10px 0;
   }
 
@@ -372,7 +372,7 @@
     border-radius: 4px;
     width: 15%;
     height: 20px;
-    background-color: $grayColorLighten;
+    background-color: var(--grayColorLightenUltra);
     margin: 10px 0;
   }
 }

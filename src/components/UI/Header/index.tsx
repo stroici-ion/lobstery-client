@@ -13,7 +13,7 @@ import ContextMenu from '../../ContextMenu';
 import classNames from 'classnames';
 import { selectAuthStatus } from '../../../redux/auth/selectors';
 import UserImage from '../../UserImage';
-import { FetchStatusEnum } from '../../../models/response/FetchStatus';
+import { EFetchStatus } from '../../../types/enums';
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const Header: React.FC = () => {
   const user = useSelector(selectUserProfile);
 
   const authorizationStatus = useSelector(selectAuthStatus);
-  const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
+  const isAuth = authorizationStatus === EFetchStatus.SUCCESS;
 
   const handleLogout = () => {
     if (isAuth) dispatch(logOut());

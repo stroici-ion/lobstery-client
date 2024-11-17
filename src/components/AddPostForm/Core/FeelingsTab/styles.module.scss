@@ -110,12 +110,12 @@
     top: 0;
     left: 0;
     bottom: 0;
-    background-image: linear-gradient(90deg, $lightColor, transparent);
+    background-image: linear-gradient(90deg, var(--lightColor), transparent);
   }
   &::after {
     left: auto;
     right: 0;
-    background-image: linear-gradient(90deg, transparent, $lightColor);
+    background-image: linear-gradient(90deg, transparent, var(--lightColor));
   }
   &__scrollArea {
     @include scrollBar;
@@ -141,13 +141,13 @@
     height: 18px;
     border-radius: 50%;
     right: -5px;
-    border: 2px solid $lightColor;
+    border: 2px solid var(--lightColor);
     svg {
       padding: 2px;
       width: 12px;
       height: 12px;
       path {
-        stroke: $lightColor;
+        stroke: var(--lightColor);
       }
     }
   }
@@ -155,7 +155,7 @@
     opacity: 0;
     font-size: 10px;
     text-align: center;
-    color: $lightColor;
+    color: var(--lightColor);
     background-color: $redColor;
   }
   &__button {

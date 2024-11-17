@@ -1,9 +1,9 @@
 import { getFillParentPosition } from '../calculations/position/getFillParentPosition';
 import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
 import { updateStartPosition } from '../resetFunctions/updateStartPosition';
-import { IAspectRatio, IEditorStep } from '../../../../types/interfaces';
+import { IAspectRatio, IEditorStep } from '../../../../../types/interfaces';
 import { getOppositeAspectRatio } from '../../../AspectRatiosPanel';
-import { EnumAspectRatios } from '../../../../types/enumerations';
+import { EAspectRatios } from '../../../../../types/enums';
 import { rotateAnimation } from '../animations/rotateAnimation';
 import { aspectRatioList } from '../../../AspectRatiosList';
 
@@ -75,8 +75,8 @@ export const rotate = (
     image.y = crop.y - x;
   }
 
-  if (crop.aspectRatioId !== EnumAspectRatios.free)
-    if (crop.aspectRatioId === EnumAspectRatios.original) {
+  if (crop.aspectRatioId !== EAspectRatios.free)
+    if (crop.aspectRatioId === EAspectRatios.original) {
       crop.aspectRatio = image.width / image.height;
     } else {
       const newARId = getOppositeAspectRatio(crop.aspectRatioId);

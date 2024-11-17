@@ -24,7 +24,7 @@
     span {
       font-size: 11px;
       font-weight: 500;
-      color: $grayColor;
+      color: var(--grayColor);
     }
   }
 
@@ -70,7 +70,7 @@
       justify-content: center;
 
       path {
-        stroke: $grayColor;
+        stroke: var(--grayColor);
       }
     }
     svg {
@@ -101,20 +101,19 @@
         height: 12px;
         path {
           stroke-width: 7;
-          stroke: $lightColor;
+          stroke: var(--lightColor);
           fill: $redColor;
         }
       }
     }
   }
 
-  &__likeByAuthorImg {
+  &__authorAvatar {
     position: absolute;
     visibility: hidden;
     width: 17px;
     height: 17px;
-    border-radius: 50%;
-    object-fit: cover;
+    flex: 0 0 17px;
   }
 
   &__reply {
@@ -122,7 +121,7 @@
     opacity: 0;
     font-weight: 700;
     background-color: transparent;
-    color: $grayColor;
+    color: var(--grayColor);
     &:hover {
       color: $blueColor;
     }

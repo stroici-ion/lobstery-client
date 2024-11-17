@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { IControl } from '../Adjustment';
 import Slider from '../../../../../UI/Slider';
 import ScrollAreaHorizontal from '../../../../../UI/ScrollAreaHorizontal';
-import { ISlider } from '../../types/interfaces';
+import { ISlider } from '../../../types/interfaces';
 import classNames from 'classnames';
 
 interface IAdjustemntsMobile {

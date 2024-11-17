@@ -1,5 +1,5 @@
-import { EnumMarkupBrushType } from '../../../../types/enumerations';
-import { IEditorStep, IMarkupBrush, IMarkupLine, IPosition } from '../../../../types/interfaces';
+import { EMarkupBrushTypes } from '../../../../../types/enums';
+import { IEditorStep, IMarkupBrush, IMarkupLine, IPosition } from '../../../../../types/interfaces';
 import { findArrowheadPoints } from '../functions/getArrow';
 import { getRelativeLine } from '../functions/getRelativeLine';
 import { simplify } from '../functions/smothLine';
@@ -18,14 +18,14 @@ export const endDrawing = (
   let finalLine: IPosition[] = [];
 
   switch (brush.type) {
-    case EnumMarkupBrushType.freeHand:
-    case EnumMarkupBrushType.freeHandArrow:
-    case EnumMarkupBrushType.freeHandDoubleArrow:
+    case EMarkupBrushTypes.freeHand:
+    case EMarkupBrushTypes.freeHandArrow:
+    case EMarkupBrushTypes.freeHandDoubleArrow:
       finalLine = simplify(previewLine.current, 1, true);
       break;
-    case EnumMarkupBrushType.straight:
-    case EnumMarkupBrushType.straightArrow:
-    case EnumMarkupBrushType.straightDoubleArrow:
+    case EMarkupBrushTypes.straight:
+    case EMarkupBrushTypes.straightArrow:
+    case EMarkupBrushTypes.straightDoubleArrow:
       finalLine = [previewLine.current[0], cursor];
       break;
   }
@@ -39,8 +39,8 @@ export const endDrawing = (
   };
 
   switch (brush.type) {
-    case EnumMarkupBrushType.freeHandDoubleArrow:
-    case EnumMarkupBrushType.straightDoubleArrow:
+    case EMarkupBrushTypes.freeHandDoubleArrow:
+    case EMarkupBrushTypes.straightDoubleArrow:
       {
         //Start Arrow
         const arrowStartPoints = findArrowheadPoints(newLine.line, false);
@@ -51,8 +51,8 @@ export const endDrawing = (
         };
       }
       break;
-    case EnumMarkupBrushType.freeHandArrow:
-    case EnumMarkupBrushType.straightArrow:
+    case EMarkupBrushTypes.freeHandArrow:
+    case EMarkupBrushTypes.straightArrow:
       {
         //End Arrow
         const arrowEndPoints = findArrowheadPoints(newLine.line);

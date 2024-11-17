@@ -1,4 +1,4 @@
-import { FetchStatusEnum } from '../../models/response/FetchStatus';
+import { EFetchStatus } from '../../types/enums';
 import { IPostsState } from './types';
 
 export const initialState: IPostsState = {
@@ -16,8 +16,8 @@ export const initialState: IPostsState = {
   postSnapshot: undefined,
   count: 0,
   posts: [],
-  status: FetchStatusEnum.PENDING,
+  status: EFetchStatus.PENDING,
   uploadProgress: 0,
-  postCreateStatus: FetchStatusEnum.PENDING,
+  postCreateStatus: EFetchStatus.PENDING,
   errors: undefined,
 };

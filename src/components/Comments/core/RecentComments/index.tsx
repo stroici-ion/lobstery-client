@@ -6,9 +6,9 @@ import WriteComment from '../WriteComment';
 import Comment from '../Comment';
 import styles from './styles.module.scss';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import Loader from '../../../Loader';
-import { IComment } from '../../../../models/comments/IComment';
+import { IComment } from '../../types';
 
 interface IRecentComments {
   isMultimedia: boolean;
@@ -59,37 +59,8 @@ const RecentComments: React.FC<IRecentComments> = ({
   const handleCreateComment = async (text: string) => {
     if (userData) {
       setIsCreateCommentLoading(true);
-      const res = await createComment({
-        text,
-        post: postId,
-        user: userData.id,
-      });
-      if (res) {
-        const newComment: IComment = {
-          ...res,
-          post: postId,
-          isPinnedByAuthor: false,
-          isLikedByAuthor: false,
-          likesCount: 0,
-          dislikesCount: 0,
-          liked: false,
-          disliked: false,
-          //must chkeck later
-          user: {
-            id: userData.id,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            profile: userData.profile && {
-              avatar: userData.profile.avatar,
-              avatarThumbnail: userData.profile.avatarThumbnail,
-              cover: userData.profile.cover,
-            },
-          },
-          repliesCount: 0,
-          isRepliedByAuthor: false,
-        };
-        setRecentComments([newComment, ...recentComments]);
-      }
+      const comment = await createComment({ text, post: postId });
+      if (comment) setRecentComments([comment, ...recentComments]);
       setIsCreateCommentLoading(false);
     }
   };

@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { ArrowSvg, BrushArrowSvg, BrushDoubleArrowSvg } from '../../../../../icons';
-import { EnumMarkupBrushType } from '../../../../../types/enumerations';
-import { IMarkupBrush } from '../../../../../types/interfaces';
+import { EMarkupBrushTypes } from '../../../../../../types/enums';
+import { IMarkupBrush } from '../../../../../../types/interfaces';
 import BrushSettings from '../BrushSettings';
 import styles from './styles.module.scss';
 
@@ -52,11 +52,11 @@ const BrushButton: React.FC<IBrushButton> = ({ brush, isActive, onClick, onChang
 
   const getBrushArrowIconByType = () => {
     switch (brush.type) {
-      case EnumMarkupBrushType.freeHandArrow:
-      case EnumMarkupBrushType.straightArrow:
+      case EMarkupBrushTypes.freeHandArrow:
+      case EMarkupBrushTypes.straightArrow:
         return <BrushArrowSvg />;
-      case EnumMarkupBrushType.freeHandDoubleArrow:
-      case EnumMarkupBrushType.straightDoubleArrow:
+      case EMarkupBrushTypes.freeHandDoubleArrow:
+      case EMarkupBrushTypes.straightDoubleArrow:
         return <BrushDoubleArrowSvg />;
     }
     return <></>;
@@ -67,11 +67,18 @@ const BrushButton: React.FC<IBrushButton> = ({ brush, isActive, onClick, onChang
       <div className={styles.root__settings} ref={parentRef}>
         {isBrushSettingsPanelVisible && <BrushSettings activeBrush={brush} onChange={onChange} />}
       </div>
-      <button ref={buttonRef} className={classNames(styles.brush, isActive && styles.active)} onClick={handleButtonClick}>
+      <button
+        ref={buttonRef}
+        className={classNames(styles.brush, isActive && styles.active)}
+        onClick={handleButtonClick}
+      >
         <div className={styles.brush__type}>{getBrushArrowIconByType()}</div>
         <div className={styles.brush__status} style={{ stroke: brush.color }}>
           <ArrowSvg />
-          <div className={styles.brush__color} style={{ backgroundColor: brush.color, height: Math.ceil(brush.size / 2) }} />
+          <div
+            className={styles.brush__color}
+            style={{ backgroundColor: brush.color, height: Math.ceil(brush.size / 2) }}
+          />
         </div>
         <div className={styles.brush__icon}>{brush.icon}</div>
       </button>

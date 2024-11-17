@@ -1,7 +1,7 @@
 import { getFirtsHistoryStep } from '../../../../historyFunctions/getFirtsHistoryStep';
 import { getRotatedShape } from '../calculations/position/getRotatedShape';
-import { ICropHistory, IEditorStep } from '../../../../types/interfaces';
-import { EnumAspectRatios } from '../../../../types/enumerations';
+import { ICropHistory, IEditorStep } from '../../../../../types/interfaces';
+import { EAspectRatios } from '../../../../../types/enums';
 import { aspectRatioList } from '../../../AspectRatiosList';
 
 export const getCurentHistoryStep = (cropStep: IEditorStep) => {
@@ -22,8 +22,8 @@ export const getCurentHistoryStep = (cropStep: IEditorStep) => {
   let cropAR = crop.width / crop.height;
 
   if (candidateAR) {
-    if (candidateAR.id !== EnumAspectRatios.free) cropAR = candidateAR.value;
-    if (candidateAR.id === EnumAspectRatios.original) cropAR = cropStep.image.aspectRatio;
+    if (candidateAR.id !== EAspectRatios.free) cropAR = candidateAR.value;
+    if (candidateAR.id === EAspectRatios.original) cropAR = cropStep.image.aspectRatio;
   }
 
   const cropLeft = (Origin.x - image.x) / image.width;

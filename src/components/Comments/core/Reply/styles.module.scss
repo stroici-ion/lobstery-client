@@ -34,21 +34,20 @@
 
   &__nameInfo {
     font-weight: 700;
-    font-size: 13px;
-    line-height: 17px;
-    color: $greenColorDarken;
-    &_owner {
-      background-color: $grayColor;
-      border-radius: 10px;
-      padding: 0px 7px;
-      color: $lightColor;
+    font-size: 14px;
+    color: var(--grayColorDarken);
+    &__postOwner {
+      color: $cyanColorDarken;
+    }
+    &__owned {
+      color: $blueColor;
     }
   }
 
   &__timeInfo {
     line-height: 17px;
     font-size: 11px;
-    color: $grayColor;
+    color: var(--grayColor);
   }
 
   &:hover {

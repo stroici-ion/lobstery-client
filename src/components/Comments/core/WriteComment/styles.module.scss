@@ -33,7 +33,7 @@
     width: 100%;
     resize: none;
     border: none;
-    border-bottom: 2px solid $grayColorLighten;
+    border-bottom: 2px solid var(--grayColorLightenUltra);
     line-height: 20px;
     padding: 10px 0;
     overflow: hidden;
@@ -41,7 +41,7 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     &:focus {
-      border-bottom: 2px solid $grayColor;
+      border-bottom: 2px solid var(--grayColor);
     }
     &.isReply {
       font-size: 13.5px;
@@ -78,12 +78,12 @@
     align-items: center;
     justify-content: center;
     &:hover {
-      background-color: $grayColorLighten;
+      background-color: var(--grayColorLightenUltra);
     }
   }
   &__emojiPicker {
     text-align: left;
-    background-color: $lightColor;
+    background-color: var(--lightColor);
   }
   &__button {
     padding: 3px 10px;
@@ -99,7 +99,7 @@
 .yesButton {
   background-color: $cyanColorDarken;
   border: 1px solid $cyanColorDarken;
-  color: $lightColor;
+  color: var(--lightColor);
   &:hover {
     background-color: darken($color: $cyanColorDarken, $amount: 10);
     border: 1px solid darken($color: $cyanColorDarken, $amount: 10);

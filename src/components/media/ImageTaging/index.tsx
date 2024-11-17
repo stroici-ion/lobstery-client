@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './styles.module.scss';
-import { IImage } from '../../../models/images/IImage';
 import { useAppDispatch } from '../../../redux';
 import { addImageTaggedFriend } from '../../../redux/images/slice';
-import { IUser } from '../../../models/IUser';
+import { IUser } from '../../../redux/profile/types';
 import SearchFirends from '../../SearchFriends';
 import UserImage from '../../UserImage';
+import { IImage } from '../../../redux/images/types';
 
 interface IImageTagFriends {
   activeImage: IImage;
@@ -121,7 +121,7 @@ const ImageTagFriends: React.FC<IImageTagFriends> = ({ activeImage }) => {
         ref={imageRef}
         onClick={handleMouseClick}
         onLoad={handleImageOnload}
-        alt=''
+        alt=""
       />
       {activeImage.taggedFriends?.map((tUser) => (
         <div

@@ -1,5 +1,5 @@
-import { EnumMoveTypes } from '../../../../types/enumerations';
-import { IEditorStep } from '../../../../types/interfaces';
+import { IEditorStep } from '../../../../../types/interfaces';
+import { EMoveTypes } from '../../../../../types/enums';
 
 export const resetActions = (cropStep: IEditorStep) => {
   const crop = cropStep.crop;
@@ -22,7 +22,7 @@ export const resetActions = (cropStep: IEditorStep) => {
   zoom.outSteps = [
     {
       stop: false,
-      direction: EnumMoveTypes.default,
+      direction: EMoveTypes.default,
       ...image.startPosition,
       maxOverBorderRatio: {
         top: 100,

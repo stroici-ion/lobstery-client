@@ -10,11 +10,15 @@
     margin-left: 20px;
   }
   &__button {
-    color: $grayColor;
+    color: var(--grayColor);
     padding: 8px 0;
     background-color: transparent;
     &:hover {
       text-decoration: underline;
     }
+  }
+  &__mentionedUser {
+    font-weight: 700;
+    color: $blueColor;
   }
 }

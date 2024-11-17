@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../redux';
 import { getIsPostFormDirty, selectPosts } from '../../redux/posts/selectors';
 import { fetchPosts } from '../../redux/posts/asyncActions';
 import { selectAuthStatus, selectUserId } from '../../redux/auth/selectors';
-import { FetchStatusEnum } from '../../models/response/FetchStatus';
+import { EFetchStatus } from '../../types/enums';
 import Modal from '../../components/UI/modals/Modal';
 import AddPostForm from '../../components/AddPostForm';
 import Post from '../../components/Post';
@@ -21,7 +21,7 @@ const Posts: React.FC = () => {
   const dispatch = useAppDispatch();
   const authorizationStatus = useSelector(selectAuthStatus);
   const userId = useSelector(selectUserId);
-  const pendingAuth = authorizationStatus === FetchStatusEnum.PENDING;
+  const pendingAuth = authorizationStatus === EFetchStatus.PENDING;
   const isAddPostFormDirty = useSelector(getIsPostFormDirty);
 
   useEffect(() => {

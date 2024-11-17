@@ -22,7 +22,7 @@
       @include svgcolor($cyanColor);
     }
     &:hover {
-      background-color: $lightColor;
+      background-color: var(--lightColor);
     }
   }
 
@@ -30,15 +30,15 @@
     position: absolute;
     overflow: hidden;
     border-radius: 5px;
-    box-shadow: 2px 2px 5px 2px transparentize($darkColor, 0.8);
+    box-shadow: 1px 1px 5px 5px var(--darkColorTransparent);
 
     & > * {
       display: block;
-      border-bottom: 1px solid $grayColorLighten;
+      border-bottom: 1px solid var(--grayColorLightenUltra);
       width: 100%;
       transition: 0.2s;
       padding: 10px;
-      background-color: $lightColor;
+      background-color: var(--lightColor);
       height: 30px;
       display: flex;
       align-items: center;

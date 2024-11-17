@@ -1,16 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import { IAuthResponse, IFetchedAuthResponse, IFetchError } from './types';
 
-import { IAuthError } from '../../models/auth/IAuthError';
-import { IAuthResponse } from '../../models/auth/AuthResonse';
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export const fetchAuthLogin = createAsyncThunk<number, Record<string, string>, { rejectValue: IAuthError }>(
+export const fetchAuthLogin = createAsyncThunk<number, Record<string, string>, { rejectValue: IFetchError }>(
   'auth/fetchAuthLogin',
   async (params, { rejectWithValue }) => {
     try {
-      const response = await axios.post<IAuthResponse>(apiUrl + 'api/token/', params);
+      const response = await axios.post<IFetchedAuthResponse>(apiUrl + 'api/token/', params);
       localStorage.setItem('accessToken', response.data.access);
       localStorage.setItem('refreshToken', response.data.refresh);
       const decoded: any = jwt_decode(response.data.access);
@@ -19,12 +18,12 @@ export const fetchAuthLogin = createAsyncThunk<number, Record<string, string>, {
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+      return rejectWithValue({ message: error.response.data.detail } as IFetchError);
     }
   }
 );
 
-export const fetchAuthRegister = createAsyncThunk<{}, Record<string, string>, { rejectValue: IAuthError }>(
+export const fetchAuthRegister = createAsyncThunk<{}, Record<string, string>, { rejectValue: IFetchError }>(
   'auth/fetchAuthRegister',
   async (params, { rejectWithValue }) => {
     try {
@@ -37,12 +36,12 @@ export const fetchAuthRegister = createAsyncThunk<{}, Record<string, string>, { 
       return rejectWithValue({
         message: error.response.data.detail || '',
         errors: error.response.data,
-      } as IAuthError);
+      } as IFetchError);
     }
   }
 );
 
-export const fetchAuthRefresh = createAsyncThunk<number, {}, { rejectValue: IAuthError }>(
+export const fetchAuthRefresh = createAsyncThunk<number, {}, { rejectValue: IFetchError }>(
   'auth/fetchAuthRefresh',
   async (params, { rejectWithValue }) => {
     try {
@@ -58,7 +57,7 @@ export const fetchAuthRefresh = createAsyncThunk<number, {}, { rejectValue: IAut
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+      return rejectWithValue({ message: error.response.data.detail } as IFetchError);
     }
   }
 );

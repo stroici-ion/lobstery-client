@@ -4,14 +4,14 @@ import classNames from 'classnames';
 
 import { stripEmojis } from '../../../../utils/regularExpressions';
 import styles from './styles.module.scss';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import getUserName from '../../../user/utils/getUserName';
 import useWindowResize from '../../../../hooks/useWindowResize';
 
 type CommentTextType = {
   text: string;
   className?: string;
-  refUser?: IUser;
+  mentionedUser?: IUser;
   displayedRows?: number;
   maxDisplayedRows?: number;
   showAll?: () => void;
@@ -19,7 +19,7 @@ type CommentTextType = {
 
 const ExtensibleText: React.FC<CommentTextType> = ({
   text,
-  refUser,
+  mentionedUser,
   className,
   displayedRows = 4,
   maxDisplayedRows = 10,
@@ -59,7 +59,7 @@ const ExtensibleText: React.FC<CommentTextType> = ({
           textOverflow: 'ellipsis',
         }}
       >
-        {refUser?.id && <span className={styles.text__userRef}>{getUserName(refUser)}</span>}
+        {mentionedUser?.id && <span className={styles.text__mentionedUser}>{getUserName(mentionedUser)} </span>}
         {emoji(text)}
       </p>
 

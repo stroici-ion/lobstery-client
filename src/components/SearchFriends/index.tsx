@@ -6,11 +6,13 @@ import { SearchSvg } from '../../icons';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../redux/auth/selectors';
-import { fetchFriends } from '../../services/SearchFriends';
+import { fetchFriends } from '../../services/users/SearchFriends';
 import Loader from '../Loader';
-import { IUser } from '../../models/IUser';
+import { IUser } from '../../redux/profile/types';
 import SelectedUsers from '../SelectedUsers';
 import ScrollArea from '../UI/ScrollArea';
+import getUserName from '../user/utils/getUserName';
+import UserImage from '../UserImage';
 
 interface ISearchFirends {
   className?: string;
@@ -36,9 +38,8 @@ const SearchFirends: React.FC<ISearchFirends> = ({ className, onSelect, taggedFr
   useEffect(() => {
     if (userId) {
       setIsFriendsLoading(true);
-      fetchFriends(userId, username).then(({ data }) => {
-        const feetchedFriends = data.friends.map((friend) => friend.user);
-        setFriends(feetchedFriends);
+      fetchFriends(userId, username).then((firends) => {
+        setFriends(firends);
         setIsFriendsLoading(false);
       });
     }
@@ -57,12 +58,12 @@ const SearchFirends: React.FC<ISearchFirends> = ({ className, onSelect, taggedFr
     <div className={classNames(styles.root, className)}>
       <div className={styles.root__search}>
         <SearchSvg />
-        <input placeholder='Search friend' className={styles.root__input} onChange={debouncedChangeHandler} />
+        <input placeholder="Search friend" className={styles.root__input} onChange={debouncedChangeHandler} />
       </div>
       <div className={styles.root__selectedPeoples}>
-        {onRemove && <SelectedUsers taggedFriends={taggedFriends} onRemove={onRemove} />}
+        {onRemove && <SelectedUsers users={taggedFriends} onRemove={onRemove} />}
       </div>
-      <div className={classNames(styles.root__peoples, styles.peoples)}>
+      <div className={classNames(styles.root__users, styles.users)}>
         <ScrollArea>
           {isFriendsLoading ? (
             <Loader height={80} size={70} />
@@ -70,14 +71,14 @@ const SearchFirends: React.FC<ISearchFirends> = ({ className, onSelect, taggedFr
             friends.map(
               (friend) =>
                 !isFriendTagged(friend) && (
-                  <button className={styles.peoples__button} key={friend.id} onClick={() => handleSelectFriend(friend)}>
-                    <img className={styles.avatar} src={friend.profile?.avatarThumbnail} alt='' />
-                    {`${friend.firstName} ${friend.lastName}`}
+                  <button className={styles.users__button} key={friend.id} onClick={() => handleSelectFriend(friend)}>
+                    <UserImage user={friend} className={styles.users__avatar} />
+                    {getUserName(friend)}
                   </button>
                 )
             )
           ) : (
-            <div className={styles.peoples__empty}>Not found</div>
+            <div className={styles.users__empty}>Not found</div>
           )}
         </ScrollArea>
       </div>

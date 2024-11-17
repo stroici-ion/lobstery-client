@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { EnumMarkupBrushType } from '../../../../../types/enumerations';
-import { IMarkupBrush } from '../../../../../types/interfaces';
+import { EMarkupBrushTypes } from '../../../../../../types/enums';
+import { IMarkupBrush } from '../../../../../../types/interfaces';
 import styles from './styles.module.scss';
 import {
   BrushTypeFreeHandArrowSvg,
@@ -31,27 +31,27 @@ const BrushSettings: React.FC<IBrushSettings> = ({ activeBrush, onChange }) => {
 
   const standartBrushTypes = [
     {
-      type: EnumMarkupBrushType.freeHand,
+      type: EMarkupBrushTypes.freeHand,
       icon: <BrushTypeFreeHandSvg />,
     },
     {
-      type: EnumMarkupBrushType.freeHandArrow,
+      type: EMarkupBrushTypes.freeHandArrow,
       icon: <BrushTypeFreeHandArrowSvg />,
     },
     {
-      type: EnumMarkupBrushType.freeHandDoubleArrow,
+      type: EMarkupBrushTypes.freeHandDoubleArrow,
       icon: <BrushTypeFreeHandDoubleArrowSvg />,
     },
     {
-      type: EnumMarkupBrushType.straight,
+      type: EMarkupBrushTypes.straight,
       icon: <BrushTypeStraightSvg />,
     },
     {
-      type: EnumMarkupBrushType.straightArrow,
+      type: EMarkupBrushTypes.straightArrow,
       icon: <BrushTypeStraightArrowSvg />,
     },
     {
-      type: EnumMarkupBrushType.straightDoubleArrow,
+      type: EMarkupBrushTypes.straightDoubleArrow,
       icon: <BrushTypeStraightDoubleArrowSvg />,
     },
   ];

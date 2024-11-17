@@ -4,11 +4,11 @@ import Adjustment from '../Adjustment';
 import Filter from '../Filter';
 import Markup from '../Markup';
 import Crop from '../Crop';
-import { EnumTabs } from '../../types/enumerations';
-import { IAdjustments, ICropHistory, IFilterHistory, IMarkupLine } from '../../types/interfaces';
+import { ETabs } from '../../../types/enums';
+import { IAdjustments, ICropHistory, IFilterHistory, IMarkupLine } from '../../../types/interfaces';
 
 interface ITabItems {
-  tab: EnumTabs;
+  tab: ETabs;
   zoomTrigger: number;
   canvasAsImage?: HTMLCanvasElement;
   optimizedImageData?: ImageData;
@@ -38,7 +38,7 @@ const TabItems: React.FC<ITabItems> = ({
 
   return (
     <>
-      {tab === EnumTabs.crop && (
+      {tab === ETabs.crop && (
         <Crop
           zoomTrigger={zoomTrigger}
           canvasAsImage={canvasAsImage}
@@ -51,7 +51,7 @@ const TabItems: React.FC<ITabItems> = ({
           addToHistory={addToHistory}
         />
       )}
-      {tab === EnumTabs.adjustment && (
+      {tab === ETabs.adjustment && (
         <Adjustment
           optimizedImageData={optimizedImageData}
           markupCanvas={canvasMarkup}
@@ -63,7 +63,7 @@ const TabItems: React.FC<ITabItems> = ({
           addToHistory={addToHistory}
         />
       )}
-      {tab === EnumTabs.filter && (
+      {tab === ETabs.filter && (
         <Filter
           optimizedImageData={optimizedImageData}
           canvasAsImage={canvasAsImage}
@@ -76,7 +76,7 @@ const TabItems: React.FC<ITabItems> = ({
           addToHistory={addToHistory}
         />
       )}
-      {tab === EnumTabs.markup && (
+      {tab === ETabs.markup && (
         <Markup
           canvasAsImage={canvasAsImage}
           imageRef={imageRef}

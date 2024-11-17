@@ -14,7 +14,7 @@ import { useAppDispatch } from './redux';
 import { fetchAuthRefresh } from './redux/auth/asyncActions';
 import { fetchUserProfile } from './redux/profile/asyncActions';
 import styles from './App.module.scss';
-import { FetchStatusEnum } from './models/response/FetchStatus';
+import { EFetchStatus } from './types/enums';
 import { setGuestStatus } from './redux/auth/slice';
 import { fetchDefaultAudience } from './redux/defaultAudience/asyncActions';
 
@@ -22,10 +22,13 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const authorizationStatus = useSelector(selectAuthStatus);
-  const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
+  const isAuth = authorizationStatus === EFetchStatus.SUCCESS;
   const userId = useSelector(selectUserId);
 
   useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme) document.documentElement.setAttribute('data-theme', 'dark');
+
     if (localStorage.getItem('refreshToken')) dispatch(fetchAuthRefresh({}));
     else dispatch(setGuestStatus());
     const onTouchMoove = () => {
@@ -69,7 +72,7 @@ const App: React.FC = () => {
             {isAuth &&
               privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
           </Route>
-          <Route path='*' element={<Navigate to={HOME_ROUTE} />} />
+          <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
         </Routes>
       </BrowserRouter>
     </div>

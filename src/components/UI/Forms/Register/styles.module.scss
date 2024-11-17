@@ -29,7 +29,7 @@
     flex: 1 1 auto;
     margin-bottom: 10px;
     input {
-      background-color: $grayColorLightenUltra;
+      background-color: var(--grayColorLightenUltra) Ultra;
     }
   }
   &__bottomButton,

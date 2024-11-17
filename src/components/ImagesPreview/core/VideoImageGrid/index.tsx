@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { PlaySvg } from '../../../../icons';
-import { IImage } from '../../../../models/images/IImage';
 
 import styles from './styles.module.scss';
+import { IImage } from '../../../../redux/images/types';
 
 interface IVideoImagesGrid {
   images: IImage[];
@@ -201,10 +201,10 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
               !imagesGrid.secondRowImages.length && styles.single
             )}
           >
-            <img src={imagesGrid.mainImage.imageThumbnail} className={styles.root__nearVideoBlock_image} alt='' />
+            <img src={imagesGrid.mainImage.imageThumbnail} className={styles.root__nearVideoBlock_image} alt="" />
 
             {imagesGrid.firstRowImages.map((image) => (
-              <img key={image.image} alt='' src={image.imageThumbnail} className={styles.root__nearVideoBlock_image} />
+              <img key={image.image} alt="" src={image.imageThumbnail} className={styles.root__nearVideoBlock_image} />
             ))}
           </div>
           {imagesGrid.secondRowImages.length > 0 && (
@@ -225,7 +225,7 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
               />
               {imagesGrid.secondRowImages.map((image) => (
                 <div key={image.imageThumbnail} className={classNames(styles.root__imageBlock)}>
-                  <img src={image.imageThumbnail} className={styles.root__imageBlock_image} alt='' />
+                  <img src={image.imageThumbnail} className={styles.root__imageBlock_image} alt="" />
                 </div>
               ))}
             </div>
@@ -257,7 +257,7 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
                 }}
               />
               <img
-                alt=''
+                alt=""
                 src={imagesGrid.mainImage.imageThumbnail}
                 className={classNames(styles.root__nearVideoBlock_image, isStarted && styles.invisible)}
               />
@@ -284,13 +284,13 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
             {imagesGrid.firstRowType === FirstRowTypeEnum.DOUBLE_SQUARE && (
               <div className={classNames(styles.root__nearVideoBlock, styles.doubleSquare)}>
                 <img
-                  alt=''
+                  alt=""
                   src={imagesGrid.firstRowImages[0].imageThumbnail}
                   className={styles.root__nearVideoBlock_image}
                 />
                 <div className={styles.doubleSquare__decoration}></div>
                 <img
-                  alt=''
+                  alt=""
                   src={imagesGrid.firstRowImages[1].imageThumbnail}
                   className={styles.root__nearVideoBlock_image}
                 />
@@ -301,7 +301,7 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
                 {imagesGrid.firstRowImages.map((image) => (
                   <img
                     key={image.image}
-                    alt=''
+                    alt=""
                     src={image.imageThumbnail}
                     className={styles.root__nearVideoBlock_image}
                   />
@@ -313,7 +313,7 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
                 <>
                   {imagesGrid.firstRowImages.map((image) => (
                     <div key={image.image} className={classNames(styles.root__nearVideoBlock)}>
-                      <img alt='' src={image.imageThumbnail} className={styles.root__nearVideoBlock_image} />
+                      <img alt="" src={image.imageThumbnail} className={styles.root__nearVideoBlock_image} />
                     </div>
                   ))}
                 </>
@@ -337,7 +337,7 @@ const VideoImagesGrid: React.FC<IVideoImagesGrid> = ({ images, fullPost = false 
               />
               {imagesGrid.secondRowImages.map((image) => (
                 <div key={image.imageThumbnail} className={classNames(styles.root__imageBlock)}>
-                  <img alt='' src={image.imageThumbnail} className={styles.root__imageBlock_image} />
+                  <img alt="" src={image.imageThumbnail} className={styles.root__imageBlock_image} />
                 </div>
               ))}
             </div>

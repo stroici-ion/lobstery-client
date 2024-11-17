@@ -8,7 +8,7 @@ import {
   IHistoryIndexState,
   IHistoryJSON,
   IMarkupLine,
-} from './core/types/interfaces';
+} from './types/interfaces';
 import { applySelectedHistoryStep } from './core/historyFunctions/applySelectedHistoryStep';
 import { drawMarkupRelativeToImage } from './core/drawFunctions/drawMarkupRelativeToImage';
 import { loadHistoryStepPosition } from './core/historyFunctions/loadHistoryStepPosition';
@@ -19,11 +19,11 @@ import { canvasDrawImage } from './core/components/Crop/core/draw/drawImage';
 import { getNullObject } from './core/initialStateFunctions/getNullObject';
 import { filtersList } from './core/components/FiltersList/filtersList';
 import { RevertSvg, ZoomInSvg, ZoomOutSvg } from './core/icons';
-import { EnumTabs } from './core/types/enumerations';
+import { IImage } from '../../../redux/images/types';
 import TabItems from './core/components/TabItems';
-import { IImage } from '../../../models/images/IImage';
-import styles from './styles.module.scss';
 import Tabs from './core/components/Tabs';
+import styles from './styles.module.scss';
+import { ETabs } from './types/enums';
 import Loader from '../../Loader';
 
 interface IImageEditor2 {
@@ -33,7 +33,7 @@ interface IImageEditor2 {
 }
 
 const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified }) => {
-  const [tab, setTab] = useState(EnumTabs.crop);
+  const [tab, setTab] = useState(ETabs.crop);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const [isUndoAvailable, setIsUndoAvailable] = useState<boolean>(false);
@@ -82,7 +82,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
     adjusmentsSharpnessImageData.current = undefined;
   };
 
-  const updateHistoryStep = (historyIndex: number, tab: EnumTabs) => {
+  const updateHistoryStep = (historyIndex: number, tab: ETabs) => {
     if (!cvsCtxOriginal.current) return;
     applySelectedHistoryStep(
       historyIndex,
@@ -314,7 +314,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
     }
   };
 
-  const handleSetTab = (t: EnumTabs) => {
+  const handleSetTab = (t: ETabs) => {
     historyIndexesState.current.adjustment = 0;
     historyIndexesState.current.markup = 0;
     historyIndexesState.current.filter = 0;
@@ -434,11 +434,11 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
         <canvas ref={originalImageCanvasRef} hidden />
         <canvas ref={optimizedImageCanvasRef} hidden />
         <canvas ref={canvasMarkupRef} hidden />
-        <img hidden crossOrigin='anonymous' src={image.image} ref={imageRef} onLoad={imageOnLoad} />
+        <img hidden crossOrigin="anonymous" src={image.image} ref={imageRef} onLoad={imageOnLoad} />
         <div className={styles.header}>
           <div className={styles.header__body}>
             <div className={styles.zoomTools}>
-              {tab === EnumTabs.crop && (
+              {tab === ETabs.crop && (
                 <>
                   <button className={styles.zoomTools__in} onClick={handleClickZoomIn}>
                     <ZoomInSvg />
@@ -499,7 +499,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
         )}
         <div className={styles.bottom}>
           <div className={styles.zoomTools}>
-            {tab === EnumTabs.crop && (
+            {tab === ETabs.crop && (
               <>
                 <button className={styles.zoomTools__in} onClick={handleClickZoomIn}>
                   <ZoomInSvg />

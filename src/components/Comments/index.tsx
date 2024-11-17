@@ -8,8 +8,8 @@ import RecentComments from './core/RecentComments';
 import styles from './styles.module.scss';
 import { SortSvg } from '../../icons';
 import ContextMenu from '../ContextMenu';
-import { IComment } from '../../models/comments/IComment';
-import { IUser } from '../../models/IUser';
+import { IComment } from './types';
+import { IUser } from '../../redux/profile/types';
 
 interface IComments {
   hideComments: () => void;
@@ -40,22 +40,13 @@ const Comments: React.FC<IComments> = ({ id, owner, isMultimedia = false, hideCo
             </button>
           )}
         >
-          <button
-            className={styles.sortTypes__button}
-            onClick={() => setSortBy(SortCommentsByEnum.MOST_RELEVANT)}
-          >
+          <button className={styles.sortTypes__button} onClick={() => setSortBy(SortCommentsByEnum.MOST_RELEVANT)}>
             {capitalize(SortCommentsByEnum.MOST_RELEVANT.replace('_', ' '))}
           </button>
-          <button
-            className={styles.sortTypes__button}
-            onClick={() => setSortBy(SortCommentsByEnum.NEWEST)}
-          >
+          <button className={styles.sortTypes__button} onClick={() => setSortBy(SortCommentsByEnum.NEWEST)}>
             {capitalize(SortCommentsByEnum.NEWEST.replace('_', ' '))}
           </button>
-          <button
-            className={styles.sortTypes__button}
-            onClick={() => setSortBy(SortCommentsByEnum.ALL_COMMENTS)}
-          >
+          <button className={styles.sortTypes__button} onClick={() => setSortBy(SortCommentsByEnum.ALL_COMMENTS)}>
             {capitalize(SortCommentsByEnum.ALL_COMMENTS.replace('_', ' '))}
           </button>
         </ContextMenu>

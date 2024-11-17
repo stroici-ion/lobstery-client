@@ -1,13 +1,13 @@
-import { calculateDiagonalLength, calculateHelperAngle } from "../calculations/maxDistance/cropRotatedDistToImage";
-import { getRotatedImageLimits } from "../calculations/maxDistance/cropMoveMaxDist";
-import { degrees_to_radians } from "../../../../calculationFunctions/converters";
-import { getDistanceToCenter } from "../calculations/maxDistance/distToCenter";
-import { IBorders, IEditorStep, IShape } from "../../../../types/interfaces";
-import { getRotatedShape } from "../calculations/position/getRotatedShape";
-import { resetShape } from "../calculations/resizeCrop/resizeCrop";
-import { zoomImage } from "../calculations/resizeImage/zoomImage";
-import { EnumMoveTypes } from "../../../../types/enumerations";
-import { TZoomProperties } from "../../../../types/types";
+import { calculateDiagonalLength, calculateHelperAngle } from '../calculations/maxDistance/cropRotatedDistToImage';
+import { getRotatedImageLimits } from '../calculations/maxDistance/cropMoveMaxDist';
+import { convertToRadians } from '../../../../calculationFunctions/converters';
+import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
+import { IBorders, IEditorStep, IShape } from '../../../../../types/interfaces';
+import { getRotatedShape } from '../calculations/position/getRotatedShape';
+import { resetShape } from '../calculations/resizeCrop/resizeCrop';
+import { zoomImage } from '../calculations/resizeImage/zoomImage';
+import { EMoveTypes } from '../../../../../types/enums';
+import { IZoomProperties } from '../../../../../types/interfaces';
 
 export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (opacity: number) => void) => {
   const Origin = cropStep.Origin;
@@ -40,9 +40,9 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
       }
 
       //If null step is not calculated
-      const nullStepProperties: TZoomProperties = {
+      const nullStepProperties: IZoomProperties = {
         stop: false,
-        direction: EnumMoveTypes.default,
+        direction: EMoveTypes.default,
         isStartPosition: false,
         maxOverBorderRatio: {
           top: 100,
@@ -105,8 +105,8 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
             const ipX = calculateDiagonalLength(imageDists.left, imageDists.bottom);
             const helperAngleX = calculateHelperAngle(imageDists.left, ipX) - image.angle;
 
-            distTop = ipY * Math.cos(degrees_to_radians(helperAngleY));
-            distLeft = ipX * Math.cos(degrees_to_radians(helperAngleX));
+            distTop = ipY * Math.cos(convertToRadians(helperAngleY));
+            distLeft = ipX * Math.cos(convertToRadians(helperAngleX));
           } else {
             const ipX = calculateDiagonalLength(imageDists.left, imageDists.top);
             const helperAngleX = calculateHelperAngle(imageDists.left, ipX) + image.angle;
@@ -114,12 +114,12 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
             const ipY = calculateDiagonalLength(imageDists.top, imageDists.right);
             const helperAngleY = calculateHelperAngle(imageDists.top, ipY) + image.angle;
 
-            distTop = ipY * Math.cos(degrees_to_radians(helperAngleY));
-            distLeft = ipX * Math.cos(degrees_to_radians(helperAngleX));
+            distTop = ipY * Math.cos(convertToRadians(helperAngleY));
+            distLeft = ipX * Math.cos(convertToRadians(helperAngleX));
           }
 
           zoom.outSteps[0].outer = {
-            ratio: (Math.cos(degrees_to_radians(90 - image.angle)) * image.height) / outerImageDimensions.width,
+            ratio: (Math.cos(convertToRadians(90 - image.angle)) * image.height) / outerImageDimensions.width,
             x: Origin.x - distLeft,
             y: Origin.y - distTop,
             width: outerImageDimensions.width,
@@ -133,7 +133,7 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
               width: outerImageDimensions.width,
               height: outerImageDimensions.height,
             },
-            ratio: (Math.cos(degrees_to_radians(90 - image.angle)) * image.height) / outerImageDimensions.width,
+            ratio: (Math.cos(convertToRadians(90 - image.angle)) * image.height) / outerImageDimensions.width,
             x: Origin.x - distLeft,
             y: Origin.y - distTop,
             width: outerImageDimensions.width,
@@ -226,9 +226,9 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
           image.width = zoom.inSteps[zoom.step - 1].width;
           image.height = zoom.inSteps[zoom.step - 1].height;
         } else {
-          const stepProperties: TZoomProperties = {
+          const stepProperties: IZoomProperties = {
             stop: false,
-            direction: EnumMoveTypes.default,
+            direction: EMoveTypes.default,
             isStartPosition: false,
             maxOverBorderRatio: {
               top: 0,
@@ -290,7 +290,7 @@ export const imageZoom = (isZoomIn: boolean, cropStep: IEditorStep, drawImage: (
               }
             : posCandidate;
 
-          const stepProperties: TZoomProperties = {
+          const stepProperties: IZoomProperties = {
             stop: false,
             direction: lastStep.direction,
             isStartPosition: false,

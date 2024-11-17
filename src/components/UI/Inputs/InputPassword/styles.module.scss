@@ -7,7 +7,7 @@
   padding-top: 5px;
 
   &__svg {
-    stroke: $grayColor;
+    stroke: var(--grayColor);
     opacity: 0;
     transition: 0.3s;
     position: absolute;
@@ -20,14 +20,14 @@
       opacity: 1;
     }
     &:hover {
-      stroke: $grayColorLighten;
+      stroke: var(--grayColorLightenUltra);
     }
   }
 
   &__label {
     padding: 0 5px;
     border-radius: 3px;
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     position: absolute;
     top: 0px;
     left: 10px;
@@ -47,6 +47,6 @@
 .error {
   input {
     border: 1px solid $redColor !important;
-    background-color: $lightColor !important;
+    background-color: var(--lightColor) !important;
   }
 }

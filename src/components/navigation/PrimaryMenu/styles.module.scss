@@ -12,7 +12,7 @@
   transition: 0.3s;
   max-height: 100%;
   width: 190px;
-  border-right: 1px solid $grayColorLighten;
+  border-right: 1px solid var(--grayColorLightenUltra);
   z-index: 999;
 
   @media (min-width: 856px) {
@@ -63,7 +63,6 @@
 }
 
 .top {
-  background-color: $lightColor;
   z-index: 1;
   padding: 0 20px;
   transition: 0.3s;
@@ -99,7 +98,7 @@
   display: flex;
   flex-direction: column;
   transition: 0.3s;
-  background-color: $lightColor;
+  background-color: var(--lightColor);
   overflow: hidden;
   &__buttons {
     flex: 1 1 auto;
@@ -143,7 +142,7 @@
       left: 0;
       right: 25px;
       height: 1px;
-      background-color: $grayColorLighten;
+      background-color: var(--grayColorLightenUltra);
     }
     // background-color: $cyanColorLighten;
   }
@@ -175,7 +174,7 @@
     height: 1px;
     right: 5px;
     top: 0;
-    background-color: $grayColorLighten;
+    background-color: var(--grayColorLightenUltra);
   }
 }
 
@@ -235,12 +234,12 @@
     cursor: pointer;
     overflow: hidden;
     border-radius: 50%;
-    border: 2px solid $grayColorLighten;
+    border: 2px solid var(--grayColorLightenUltra);
     width: 34px;
     flex: 0 0 34px;
     height: 34px;
     svg {
-      @include svgcolor($grayColorLighten);
+      @include svgcolor(var(--grayColorLightenUltra));
       width: 102%;
       height: 102%;
     }
@@ -255,7 +254,7 @@
   &__collapsableInfo {
     flex: 1 1 auto;
     gap: 5px;
-    color: $grayColor;
+    color: var(--grayColor);
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -267,7 +266,7 @@
     font-size: 14px;
     text-decoration: underline;
     &:hover {
-      color: $darkColor;
+      color: var(--darkColor);
     }
   }
 }

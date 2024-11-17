@@ -28,7 +28,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: transparentize($color: $darkColor, $amount: 0.4); // Semi-transparent black
+    background-color: var(--darkColorTransparent); // Semi-transparent black
     z-index: 1;
     pointer-events: none;
     mask: url(#mask);

@@ -49,11 +49,11 @@
   left: 0;
   z-index: 2;
   display: flex;
-  border: 1px solid $grayColorLighten;
+  border: 1px solid var(--grayColorLightenUltra);
   align-items: center;
   padding: 10px;
   gap: 5px;
-  background-color: $lightColor;
+  background-color: var(--lightColor);
   transition: 1s;
   justify-content: center;
 
@@ -85,7 +85,7 @@
   }
 
   &__decoration {
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     border-radius: 50%;
     width: 17px;
     height: 17px;

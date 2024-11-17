@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../redux/auth/selectors';
 import toast from 'react-hot-toast';
-import { ILikesInfo } from '../../models/likes/ILikesInfo';
+import { ILikesInfo } from '../../types/LikesInfo.types';
 
 interface IPostLikesInfo {
   id?: number;

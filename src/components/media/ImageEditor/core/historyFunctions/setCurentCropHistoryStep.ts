@@ -1,4 +1,4 @@
-import { ICropHistory } from '../types/interfaces';
+import { ICropHistory } from '../../types/interfaces';
 
 export const setCurentCropHistoryStep = (curentHistoryStep: ICropHistory, historyStep: string) => {
   const historyStepValue = JSON.parse(historyStep) as ICropHistory;

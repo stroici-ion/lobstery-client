@@ -31,7 +31,7 @@
     height: 40px;
     border-radius: 20px;
     background-color: $greenColor;
-    color: $lightColor;
+    color: var(--lightColor);
     font-weight: 700;
     font-size: 16px;
     transition: 0.2s;
@@ -42,7 +42,7 @@
 
     &.update {
       background-color: $orangeColor;
-      color: $lightColor;
+      color: var(--lightColor);
       &:hover {
         background-color: $orangeColorDarken;
       }

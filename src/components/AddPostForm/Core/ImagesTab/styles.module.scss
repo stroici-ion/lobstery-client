@@ -33,12 +33,12 @@
       height: 6px;
       right: 14px;
       z-index: 1;
-      background-image: linear-gradient($lightColor, transparent);
+      background-image: linear-gradient(var(--lightColor), transparent);
     }
     &::after {
       top: auto;
       bottom: 0;
-      background-image: linear-gradient(transparent, $lightColor);
+      background-image: linear-gradient(transparent, var(--lightColor));
     }
   }
 
@@ -65,7 +65,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: transparentize($color: $lightColor, $amount: 0.2);
+  background-color: var(--lightColorTransparent);
   justify-content: center;
   svg {
     width: 30%;
@@ -78,7 +78,7 @@
 
   &__subtitle {
     font-size: 13px;
-    color: $grayColor;
+    color: var(--grayColor);
   }
 
   &__drag_active_text {
@@ -109,14 +109,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid $lightColor;
+    border: 2px solid var(--lightColor);
 
     svg {
       width: 22px;
       height: 45px;
       path {
-        fill: $lightColor;
-        stroke: $lightColor;
+        fill: var(--lightColor);
+        stroke: var(--lightColor);
       }
     }
     transition: 0.3s;
@@ -132,7 +132,7 @@
   position: relative;
 
   &__button {
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     position: absolute;
     display: flex;
     align-items: center;
@@ -142,7 +142,7 @@
     height: 40px;
     transition: 0.1s;
     transform: translate(0%);
-    box-shadow: 2px 2px 5px 2px transparentize($color: $darkColor, $amount: 0.8);
+    box-shadow: 2px 2px 5px 2px var(--darkColorTransparent);
     svg {
       width: 30px;
       height: 30px;
@@ -150,7 +150,7 @@
     }
     @media (hover: hover) {
       &:hover {
-        background-color: $grayColorLighten;
+        background-color: var(--grayColorLightenUltra);
       }
     }
   }
@@ -235,7 +235,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: $lightColor;
+    background-color: var(--lightColor);
   }
 
   &__return {
@@ -253,8 +253,8 @@
     svg {
       padding: 8px;
       path {
-        stroke: $lightColor;
-        fill: $lightColor;
+        stroke: var(--lightColor);
+        fill: var(--lightColor);
       }
     }
     &:hover {
@@ -270,14 +270,14 @@
   @media (hover: hover) {
     &:hover {
       background-color: $redColor;
-      color: $lightColor;
+      color: var(--lightColor);
     }
   }
 }
 
 .save {
   background-color: $greenColor;
-  color: $lightColor;
+  color: var(--lightColor);
 
   @media (hover: hover) {
     &:hover {
@@ -288,7 +288,7 @@
 
 .saveAs {
   background-color: $orangeColor;
-  color: $lightColor;
+  color: var(--lightColor);
 
   @media (hover: hover) {
     &:hover {

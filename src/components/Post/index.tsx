@@ -24,7 +24,7 @@ import {
 import { useAppDispatch } from '../../redux';
 import { selectUserProfile } from '../../redux/profile/selectors';
 import { POSTS_ROUTE } from '../../utils/consts';
-import { IPost } from '../../models/posts/IPost';
+import { IPost } from '../../redux/posts/types';
 // import ImagesPreview from '../ImagesPreview';
 import PostLikesInfo from '../PostLikesInfo';
 import PostUsername from '../PostUsername';

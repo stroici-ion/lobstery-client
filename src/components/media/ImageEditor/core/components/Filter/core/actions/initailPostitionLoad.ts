@@ -1,5 +1,5 @@
 import { dpr } from '../../../../config';
-import { IEditorStep } from '../../../../types/interfaces';
+import { IEditorStep } from '../../../../../types/interfaces';
 
 export const initailPostitionLoad = (
   cropStep: IEditorStep,

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useAppDispatch } from '../../../../redux';
 import SearchFirends from '../../../SearchFriends';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
 import { selectActivePost } from '../../../../redux/posts/selectors';

@@ -1,14 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import $api from '../../http';
-import { setUploadProgress } from './slice';
-import { IImage } from '../../models/images/IImage';
 import { v4 } from 'uuid';
-import { IAuthError } from '../../models/auth/IAuthError';
+
+import { setUploadProgress } from './slice';
+import { IFetchError } from '../auth/types';
+import { IImage } from './types';
+import $api from '../../http';
 
 export const fetchCreateImage = createAsyncThunk<
   IImage,
   { image: IImage; postId?: number },
-  { rejectValue: IAuthError }
+  { rejectValue: IFetchError }
 >('images/fetchCreateImage', async ({ image, postId }, { dispatch, rejectWithValue }) => {
   try {
     //* SET FROM DATA FOR IMAGE
@@ -51,11 +52,11 @@ export const fetchCreateImage = createAsyncThunk<
     if (!error.response) {
       throw error;
     }
-    return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+    return rejectWithValue({ message: error.response.data.detail } as IFetchError);
   }
 });
 
-export const fetchUpdateImage = createAsyncThunk<IImage, IImage, { rejectValue: IAuthError }>(
+export const fetchUpdateImage = createAsyncThunk<IImage, IImage, { rejectValue: IFetchError }>(
   'images/fetchUpdateImage',
   async (image, { rejectWithValue }) => {
     try {
@@ -76,12 +77,12 @@ export const fetchUpdateImage = createAsyncThunk<IImage, IImage, { rejectValue: 
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+      return rejectWithValue({ message: error.response.data.detail } as IFetchError);
     }
   }
 );
 
-export const fetchRemoveImage = createAsyncThunk<number, number, { rejectValue: IAuthError }>(
+export const fetchRemoveImage = createAsyncThunk<number, number, { rejectValue: IFetchError }>(
   'images/fetchRemoveImage',
   async (id, { rejectWithValue }) => {
     try {
@@ -92,7 +93,7 @@ export const fetchRemoveImage = createAsyncThunk<number, number, { rejectValue: 
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+      return rejectWithValue({ message: error.response.data.detail } as IFetchError);
     }
   }
 );

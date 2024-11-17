@@ -14,11 +14,12 @@ import WriteComment from '../WriteComment';
 import { editComment, removeComment, togglePinnedComment } from '../../../../services/comments/CommentsServices';
 import CommentContextMenu from '../CommentContextMenu';
 import { Link } from 'react-router-dom';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import UserImage from '../../../UserImage';
 import toast from 'react-hot-toast';
-import { IComment } from '../../../../models/comments/IComment';
+import { IComment } from '../../types';
+import getUserName from '../../../user/utils/getUserName';
 
 interface ICommentFC {
   isPinned?: boolean;
@@ -180,7 +181,7 @@ const Comment: React.FC<ICommentFC> = ({
               <PinSvg />
               {wasPinned ? 'Was' : 'Is'} pinned by{' '}
               <Link to={USER_PROFILE_ROUTE + '/' + owner.id} className={styles.comment__pinned_owner}>
-                {`${owner.firstName} ${owner.lastName}`}
+                {getUserName(owner)}
               </Link>
             </div>
           )}
@@ -191,10 +192,11 @@ const Comment: React.FC<ICommentFC> = ({
                 <p
                   className={classNames(
                     styles.comment__nameInfo,
-                    comment.user.id === owner.id && styles.comment__nameInfo_owner
+                    comment.user.id === owner.id && styles.comment__nameInfo__postOwner,
+                    comment.user.id === user.id && styles.comment__nameInfo__owned
                   )}
                 >
-                  {`${comment.user.firstName} ${comment.user.lastName}`}
+                  {getUserName(comment.user)}
                 </p>
                 <span className={styles.comment__timeInfo}>{getTime(comment.createdAt)}</span>
               </div>

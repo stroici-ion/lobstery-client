@@ -1,11 +1,11 @@
-export enum EnumTabs {
+export enum ETabs {
   crop = 0,
   adjustment = 1,
   filter = 2,
   markup = 3,
 }
 
-export enum EnumMoveTypes {
+export enum EMoveTypes {
   default = 1,
   image = 2,
   left = 3,
@@ -19,7 +19,7 @@ export enum EnumMoveTypes {
   range = 11,
 }
 
-export enum EnumAspectRatios {
+export enum EAspectRatios {
   free = 'AF',
   original = 'AO',
   square = 'A1',
@@ -35,7 +35,7 @@ export enum EnumAspectRatios {
   ratio_2_1 = 'A21',
 }
 
-export enum EnumMarkupBrushType {
+export enum EMarkupBrushTypes {
   freeHand = 1,
   freeHandArrow = 2,
   freeHandDoubleArrow = 3,
@@ -44,7 +44,7 @@ export enum EnumMarkupBrushType {
   straightDoubleArrow = 6,
 }
 
-export enum EnumMarkupToolType {
+export enum EMarkupToolTypes {
   brush = 1,
   erase = 2,
   eraseAll = 3,

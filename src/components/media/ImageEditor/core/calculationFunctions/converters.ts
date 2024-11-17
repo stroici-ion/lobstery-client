@@ -1,7 +1,7 @@
-export const degrees_to_radians = (degrees: number) => {
+export const convertToRadians = (degrees: number) => {
   return degrees * (Math.PI / 180);
 };
 
-export const radians_to_degrees = (radians: number) => {
+export const convertToDegrees = (radians: number) => {
   return radians / (Math.PI / 180);
 };

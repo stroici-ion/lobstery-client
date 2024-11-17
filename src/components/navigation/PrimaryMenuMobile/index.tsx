@@ -12,7 +12,7 @@ import ContextMenu from '../../ContextMenu';
 import classNames from 'classnames';
 import { selectAuthStatus } from '../../../redux/auth/selectors';
 import UserImage from '../../UserImage';
-import { FetchStatusEnum } from '../../../models/response/FetchStatus';
+import { EFetchStatus } from '../../../types/enums';
 import { primaryMenuMobileLinks } from '../../../config/navigation/primaryMenuMobileConfig';
 
 const PrimaryMenu: React.FC = () => {
@@ -27,7 +27,7 @@ const PrimaryMenu: React.FC = () => {
   };
 
   const authorizationStatus = useSelector(selectAuthStatus);
-  const isAuth = authorizationStatus === FetchStatusEnum.SUCCESS;
+  const isAuth = authorizationStatus === EFetchStatus.SUCCESS;
 
   return (
     <nav className={styles.menu}>

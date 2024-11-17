@@ -1,5 +1,5 @@
 import { getDistanceToCenter } from '../components/Crop/core/calculations/maxDistance/distToCenter';
-import { IEditorStep } from '../types/interfaces';
+import { IEditorStep } from '../../types/interfaces';
 
 export const getEditedImageShape = (cropStep: IEditorStep) => {
   const image = cropStep.image;

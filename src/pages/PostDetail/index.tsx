@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Post from '../../components/Post';
-import { IPost } from '../../models/posts/IPost';
+import { IPost } from '../../redux/posts/types';
 import { fetchPostDetail } from '../../services/posts/PostServices';
 
 const PostDetail: React.FC = () => {

@@ -1,5 +1,4 @@
-import { EnumAspectRatios, EnumMarkupBrushType, EnumMarkupToolType, EnumMoveTypes } from './enumerations';
-import { TFlipped, TZoomStep } from './types';
+import { EAspectRatios, EMarkupBrushTypes, EMarkupToolTypes, EMoveTypes } from './enums';
 
 export interface IBorders {
   left: number;
@@ -33,14 +32,14 @@ export interface IDynamicShape extends IShape {
 
 export interface ICropShape extends IDynamicShape {
   aspectRatio: number;
-  aspectRatioId: EnumAspectRatios;
+  aspectRatioId: EAspectRatios;
 }
 
 export interface IImageShape extends IDynamicShape {
   aspectRatio: number;
   angle: number;
   cropCenter: IPosition;
-  flipped: TFlipped;
+  flipped: IFlipProperties;
   rotated: number;
   outerImage: {
     startPosition: IShape;
@@ -49,7 +48,7 @@ export interface IImageShape extends IDynamicShape {
 }
 
 export interface IAspectRatio {
-  id: EnumAspectRatios;
+  id: EAspectRatios;
   value?: number;
   title: string;
   icon: JSX.Element;
@@ -64,12 +63,12 @@ export interface IAngle {
 
 export interface IZoom {
   step: number;
-  inSteps: TZoomStep[];
-  outSteps: TZoomStep[];
+  inSteps: IZoomStep[];
+  outSteps: IZoomStep[];
 }
 
 export interface IActiveActions {
-  moveType: EnumMoveTypes;
+  moveType: EMoveTypes;
   isChangingAngle: boolean;
   isCroping: boolean;
   isZooming: boolean;
@@ -97,7 +96,7 @@ export interface IEditorStep {
 
 export interface IMarkupTool {
   id: number;
-  type: EnumMarkupToolType;
+  type: EMarkupToolTypes;
   icon: JSX.Element;
   notActivable?: boolean;
 }
@@ -105,7 +104,7 @@ export interface IMarkupTool {
 export interface IMarkupBrush extends Omit<IMarkupTool, 'type'> {
   color: string;
   size: number;
-  type: EnumMarkupBrushType;
+  type: EMarkupBrushTypes;
 }
 
 export interface IMarkupLine {
@@ -130,10 +129,10 @@ export interface IAdjustments {
 }
 
 export interface ICropHistory {
-  flipped: TFlipped;
+  flipped: IFlipProperties;
   rotated: number;
   angle: number;
-  cropARId: EnumAspectRatios;
+  cropARId: EAspectRatios;
   cropAR: number;
   imageAR: number;
   cropLeft: number;
@@ -177,5 +176,24 @@ export interface IHistoryIndexState {
 export interface IFilterListItem {
   id: number;
   title: string;
-  filter?: (intensityFactor: number, d?: Uint8ClampedArray, r?: Uint8ClampedArray) => (r: number, g: number, b: number) => number[];
+  filter?: (
+    intensityFactor: number,
+    d?: Uint8ClampedArray,
+    r?: Uint8ClampedArray
+  ) => (r: number, g: number, b: number) => number[];
 }
+
+export interface IFlipProperties {
+  vertical: boolean;
+  horizontal: boolean;
+}
+
+export interface IZoomProperties {
+  maxOverBorderRatio: IBorders;
+  stop: boolean;
+  direction: EMoveTypes;
+  isStartPosition: boolean;
+  outer: IShape & { ratio: number };
+}
+
+export interface IZoomStep extends IShape, IZoomProperties {}

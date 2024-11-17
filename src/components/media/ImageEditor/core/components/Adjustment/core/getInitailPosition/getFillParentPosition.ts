@@ -1,5 +1,5 @@
 import { getDistanceToCenter } from '../../../Crop/core/calculations/maxDistance/distToCenter';
-import { ICropShape, IDimension, IImageShape, IPosition } from '../../../../types/interfaces';
+import { ICropShape, IDimension, IImageShape, IPosition } from '../../../../../types/interfaces';
 import { getDistanceToRotatedAxis } from '../../../../calculationFunctions/distances';
 
 export const getFillParentPosition = (O: IPosition, crop: ICropShape, image: IImageShape, parentSize: IDimension) => {

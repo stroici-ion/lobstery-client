@@ -1,9 +1,15 @@
-import { IAngle, ICropShape, IImageShape, IPosition, IShape } from '../../../../types/interfaces';
+import { IAngle, ICropShape, IImageShape, IPosition, IShape } from '../../../../../types/interfaces';
 import { getCropRotatedDistToImage } from '../calculations/maxDistance/cropRotatedDistToImage';
 import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
 import { getRotatedShape } from '../calculations/position/getRotatedShape';
 
-export const changeAngle = (O: IPosition, crop: ICropShape, image: IImageShape, angle: IAngle, drawImage: (opacity: number) => void) => {
+export const changeAngle = (
+  O: IPosition,
+  crop: ICropShape,
+  image: IImageShape,
+  angle: IAngle,
+  drawImage: (opacity: number) => void
+) => {
   const cropRoteted = getRotatedShape(crop.startPosition, angle.angle);
 
   //Min distance from crop center to image top/right/bottom/left

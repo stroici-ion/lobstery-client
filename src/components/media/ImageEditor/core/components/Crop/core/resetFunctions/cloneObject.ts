@@ -1,4 +1,4 @@
-import { IEditorStep } from '../../../../types/interfaces';
+import { IEditorStep } from '../../../../../types/interfaces';
 
 const cloneHistoryStep = (cropState: IEditorStep, step: string) => {
   const newObject = JSON.parse(step) as IEditorStep;

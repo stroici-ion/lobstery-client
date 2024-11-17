@@ -1,13 +1,53 @@
-import { IAudience } from '../../models/audience/IAudience';
-import { FetchStatusEnum } from '../../models/response/FetchStatus';
+import { EFetchStatus } from '../../types/enums';
+import { IFetchedUser, IUser } from '../profile/types';
 
 export interface IDefaultAudienceState {
   defaultAudience: number;
   defaultCustomAudience: number;
   customAudiencesCount: number;
   activeCustomAudience: IAudience;
-  defaultAudienceStatus: FetchStatusEnum;
-  customAudienceStatus: FetchStatusEnum;
-  customAudiencesListStatus: FetchStatusEnum;
+  defaultAudienceStatus: EFetchStatus;
+  customAudienceStatus: EFetchStatus;
+  customAudiencesListStatus: EFetchStatus;
   customAudiencesList: IAudience[];
+}
+
+export interface IAudience {
+  id: number;
+  title: string;
+  audience: number;
+  users: IUser[];
+}
+
+export interface IDefaultAudience {
+  defaultAudience: number;
+  defaultCustomAudience: number;
+}
+
+export interface IUpdateDefaultAudience {
+  defaultAudience?: number;
+  defaultCustomAudience?: number;
+}
+
+export interface ICustomAudiences {
+  count: number;
+  results: IAudience[];
+}
+
+// FETCHED (snake_case)
+export interface IFetchedAudience {
+  id: number;
+  title: string;
+  audience: number;
+  users: IFetchedUser[];
+}
+
+export interface IFetchedDefaultAudience {
+  default_audience: number;
+  default_custom_audience: number;
+}
+
+export interface IFetchCustomAudiences {
+  count: number;
+  results: IFetchedAudience[];
 }

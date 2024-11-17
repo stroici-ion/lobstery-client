@@ -12,27 +12,27 @@
   gap: 20px;
   align-items: center;
   padding-left: 25px;
-  color: $grayColor;
+  color: var(--grayColor);
 
   svg {
     flex: 0 0 20px;
     width: 20px;
     height: 20px;
-    @include svgcolor($grayColorSoft);
+    @include svgcolor(var(--grayColor));
   }
 
   &:hover {
-    background-color: $grayColorLightenUltra;
-    color: $grayColorDarken;
+    background-color: var(--grayColorLightenUltra);
+    color: var(--grayColorDarken);
 
     svg {
-      @include svgcolor($grayColor);
+      @include svgcolor(var(--grayColor));
     }
   }
 
   @media (hover: none) {
     &:hover {
-      @include svgcolor($grayColorSoft);
+      @include svgcolor(var(--grayColor));
       background-color: transparent;
     }
   }

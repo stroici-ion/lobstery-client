@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, PayloadAction } from '@reduxjs/toolkit';
+
 import { fetchCreateImage, fetchRemoveImage, fetchUpdateImage } from './asyncActions';
-import { IImagesState } from './types';
-import { IImage } from '../../models/images/IImage';
+import { IImage, IImagesState } from './types';
 
 export const extraReducers = (builder: ActionReducerMapBuilder<IImagesState>) => {
   builder.addCase(fetchCreateImage.fulfilled, (state, action: PayloadAction<IImage>) => {

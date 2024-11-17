@@ -1,6 +1,10 @@
-import { IEditorStep, IMarkupLine } from '../types/interfaces';
+import { IEditorStep, IMarkupLine } from '../../types/interfaces';
 
-export const setCurentMarkupHistoryStep = (linesRef: React.MutableRefObject<IMarkupLine[]>, historyStep: string, cropStep: IEditorStep) => {
+export const setCurentMarkupHistoryStep = (
+  linesRef: React.MutableRefObject<IMarkupLine[]>,
+  historyStep: string,
+  cropStep: IEditorStep
+) => {
   const historyStepValue = JSON.parse(historyStep) as IMarkupLine[];
 
   historyStepValue.forEach((line) => {

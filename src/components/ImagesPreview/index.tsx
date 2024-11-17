@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { IImage } from '../../models/images/IImage';
 import ImagesGrid from './core/ImagesGrid';
+import { IImage } from '../../redux/images/types';
 
 interface IImages {
   images: IImage[];

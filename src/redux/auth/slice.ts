@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { FetchStatusEnum } from '../../models/response/FetchStatus';
 import { fetchAuthLogin, fetchAuthRefresh, fetchAuthRegister } from './asyncActions';
 import { IAuthState } from './types';
+import { EFetchStatus } from '../../types/enums';
 
 const initialState: IAuthState = {
   userId: undefined,
-  status: FetchStatusEnum.PENDING,
-  registerStatus: FetchStatusEnum.PENDING,
+  loginStatus: EFetchStatus.PENDING,
+  registerStatus: EFetchStatus.PENDING,
   errors: undefined,
 };
 
@@ -17,14 +17,14 @@ const authSlice = createSlice({
     logOut: (state) => {
       state.errors = undefined;
       state.userId = undefined;
-      state.status = FetchStatusEnum.PENDING;
-      state.registerStatus = FetchStatusEnum.PENDING;
+      state.loginStatus = EFetchStatus.PENDING;
+      state.registerStatus = EFetchStatus.PENDING;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
     setGuestStatus: (state) => {
       state.userId = undefined;
-      state.status = FetchStatusEnum.ERROR;
+      state.loginStatus = EFetchStatus.ERROR;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
@@ -32,41 +32,41 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     //REGISTER
     builder.addCase(fetchAuthRegister.pending, (state) => {
-      state.registerStatus = FetchStatusEnum.PENDING;
+      state.registerStatus = EFetchStatus.PENDING;
     });
     builder.addCase(fetchAuthRegister.fulfilled, (state, action) => {
-      state.registerStatus = FetchStatusEnum.SUCCESS;
+      state.registerStatus = EFetchStatus.SUCCESS;
       state.errors = undefined;
     });
     builder.addCase(fetchAuthRegister.rejected, (state, action) => {
-      state.registerStatus = FetchStatusEnum.ERROR;
+      state.registerStatus = EFetchStatus.ERROR;
       state.errors = action.payload;
     });
     //LOGIN
     builder.addCase(fetchAuthLogin.pending, (state) => {
-      state.status = FetchStatusEnum.PENDING;
+      state.loginStatus = EFetchStatus.PENDING;
     });
     builder.addCase(fetchAuthLogin.fulfilled, (state, action) => {
-      state.status = FetchStatusEnum.SUCCESS;
+      state.loginStatus = EFetchStatus.SUCCESS;
       state.userId = action.payload;
       state.errors = undefined;
     });
     builder.addCase(fetchAuthLogin.rejected, (state, action) => {
-      state.status = FetchStatusEnum.ERROR;
+      state.loginStatus = EFetchStatus.ERROR;
       state.userId = undefined;
       state.errors = action.payload;
     });
     //REFRESH
     builder.addCase(fetchAuthRefresh.pending, (state) => {
-      state.status = FetchStatusEnum.PENDING;
+      state.loginStatus = EFetchStatus.PENDING;
     });
     builder.addCase(fetchAuthRefresh.fulfilled, (state, action) => {
-      state.status = FetchStatusEnum.SUCCESS;
+      state.loginStatus = EFetchStatus.SUCCESS;
       state.userId = action.payload;
       state.errors = undefined;
     });
     builder.addCase(fetchAuthRefresh.rejected, (state, action) => {
-      state.status = FetchStatusEnum.ERROR;
+      state.loginStatus = EFetchStatus.ERROR;
       state.userId = undefined;
       state.errors = action.payload;
     });

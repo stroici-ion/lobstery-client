@@ -1,4 +1,4 @@
-import { IHistoryJSON } from '../types/interfaces';
+import { IHistoryJSON } from '../../types/interfaces';
 
 export const findLastHistoryStep = (index: number, type: number, history: IHistoryJSON[]) => {
   for (let i = index; i >= 0; i--) {

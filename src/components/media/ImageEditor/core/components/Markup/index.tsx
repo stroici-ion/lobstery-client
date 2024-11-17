@@ -9,7 +9,7 @@ import {
   IMarkupLine,
   IMarkupTool,
   IPosition,
-} from '../../types/interfaces';
+} from '../../../types/interfaces';
 import { loadHistoryStepPosition } from '../../historyFunctions/loadHistoryStepPosition';
 import { initialCanvasContextLoad } from './core/actions/initialCanvasContextLoad';
 import { initailPostitionLoad } from './core/actions/initailPostitionLoad';
@@ -17,7 +17,7 @@ import { getNullObject } from '../../initialStateFunctions/getNullObject';
 import { drawMarkupLines } from '../../drawFunctions/drawMarkupLines';
 import { getRelativePoint } from './core/functions/getRelativePoint';
 import { canvasDrawImage } from '../Crop/core/draw/drawImage';
-import { EnumMarkupToolType } from '../../types/enumerations';
+import { EMarkupToolTypes } from '../../../types/enums';
 import { eraseByPoint } from './core/actions/eraseByPoint';
 import MarkupTools from './core/components/MarkupTools';
 import { endDrawing } from './core/actions/endDrawing';
@@ -286,7 +286,7 @@ const Markup: React.FC<IMarkup> = ({
     };
 
     switch (activeTool.type) {
-      case EnumMarkupToolType.erase: {
+      case EMarkupToolTypes.erase: {
         const image_O = {
           x: cropStep.Origin.x - cropStep.image.x,
           y: cropStep.Origin.y - cropStep.image.y,
@@ -305,7 +305,7 @@ const Markup: React.FC<IMarkup> = ({
 
   const handleToolClick = (tool: IMarkupTool) => {
     const ctx = canvasCtxRef.current;
-    if (tool.type === EnumMarkupToolType.eraseAll && ctx) eraseAll(ctx, lines);
+    if (tool.type === EMarkupToolTypes.eraseAll && ctx) eraseAll(ctx, lines);
     addMarkupStateToHistory();
     drawImage();
     drawMarkup();

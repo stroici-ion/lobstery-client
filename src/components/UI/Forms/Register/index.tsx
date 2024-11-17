@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './styles.module.scss';
-import { EnumFromTypes } from '../../../../models/auth/EnumFormTypes';
 import useInput from '../../../../hooks/useInput';
 import useInputPassword from '../../../../hooks/useInputPassword';
 import Input from '../../Inputs/Input';
@@ -13,11 +12,12 @@ import { useSelector } from 'react-redux';
 import { selectAuthErrors, selectRegisterStatus } from '../../../../redux/auth/selectors';
 import toast from 'react-hot-toast';
 import { logOut } from '../../../../redux/auth/slice';
-import { FetchStatusEnum } from '../../../../models/response/FetchStatus';
+import { EFetchStatus } from '../../../../types/enums';
+import { EAuthFormTypes } from '../../../../pages/Auth/types';
 
 interface IRegisterForm {
   className: string;
-  changePositionFast: (formType: EnumFromTypes) => void;
+  changePositionFast: (formType: EAuthFormTypes) => void;
 }
 
 const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }) => {
@@ -34,8 +34,8 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
   const [showErrors, setShowErrors] = useState(false);
 
   useEffect(() => {
-    if (registeredStatus === FetchStatusEnum.SUCCESS) {
-      changePositionFast(EnumFromTypes.login);
+    if (registeredStatus === EFetchStatus.SUCCESS) {
+      changePositionFast(EAuthFormTypes.login);
       toast.success('Register Successfully');
       dispatch(logOut());
     }
@@ -97,8 +97,8 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
       dispatch(
         fetchAuthRegister({
           username: username.value,
-          firstName: firstName.value,
-          lastName: lastName.value,
+          first_name: firstName.value,
+          last_name: lastName.value,
           email: email.value,
           password: password.value,
         })
@@ -120,7 +120,7 @@ const RegisterForm: React.FC<IRegisterForm> = ({ className, changePositionFast }
       <button className={styles.form__button} onClick={onSubmit}>
         Sign up
       </button>
-      <p className={styles.form__bottomButton} onClick={() => changePositionFast(EnumFromTypes.login)}>
+      <p className={styles.form__bottomButton} onClick={() => changePositionFast(EAuthFormTypes.login)}>
         Already have an account? <b>Sign In</b>
       </p>
     </form>

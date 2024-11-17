@@ -1,9 +1,9 @@
 import { getInscriptedImage } from '../calculations/position/getInscriptedImage';
 import { resizeCropFreeAR } from '../calculations/resizeCrop/resizeCropFreeAR';
-import { IEditorStep, IPosition, IShape } from '../../../../types/interfaces';
+import { IEditorStep, IPosition, IShape } from '../../../../../types/interfaces';
 import { resizeImage } from '../calculations/resizeImage/resizeImage';
 import { resizeCrop } from '../calculations/resizeCrop/resizeCrop';
-import { EnumMoveTypes } from '../../../../types/enumerations';
+import { EMoveTypes } from '../../../../../types/enums';
 import { changeAngle } from './changeAngle';
 import { dpr } from '../../../../config';
 
@@ -22,7 +22,7 @@ export const mouseMoove = (
   const maxDistance = cropStep.maxDistance;
 
   switch (activeActions.moveType) {
-    case EnumMoveTypes.range: {
+    case EMoveTypes.range: {
       const x = angle.startAngle + (angle.startCursor - cursor.x) / (10 * dpr);
       const string = x + '';
       let endIndex = string.indexOf('.');
@@ -37,7 +37,7 @@ export const mouseMoove = (
       changeAngle(Origin, crop, image, angle, drawImage);
       break;
     }
-    case EnumMoveTypes.image: {
+    case EMoveTypes.image: {
       resizeImage(image, cursorDistance, maxDistance.image);
       drawImage(0.3);
       break;

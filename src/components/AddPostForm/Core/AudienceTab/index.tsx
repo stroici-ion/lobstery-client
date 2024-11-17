@@ -86,13 +86,8 @@ const AudienceTab: React.FC = () => {
         className={classNames(styles.defaultAudience, defaultAudience.defaultAudience === audience && styles.active)}
         onClick={handleDefaultAudienceClick}
       >
-        <input
-          checked={defaultAudience.defaultAudience === audience}
-          className={styles.defaultAudience__checkbox}
-          type='checkbox'
-        />
         <span className={styles.defaultAudience__label}>
-          {defaultAudience.defaultAudience !== audience ? 'Set as default audience' : 'Default'}
+          {defaultAudience.defaultAudience !== audience ? 'Make default' : 'Default'}
         </span>
       </div>
     </div>

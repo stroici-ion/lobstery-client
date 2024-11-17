@@ -1,5 +1,5 @@
-import { IMarkupBrush, IPosition } from '../../../../types/interfaces';
-import { EnumMarkupBrushType } from '../../../../types/enumerations';
+import { IMarkupBrush, IPosition } from '../../../../../types/interfaces';
+import { EMarkupBrushTypes } from '../../../../../types/enums';
 import { iEML } from '../../../../config';
 
 export const mouseMove = (
@@ -11,14 +11,14 @@ export const mouseMove = (
 ) => {
   if (!ctx) return;
   switch (brush.type) {
-    case EnumMarkupBrushType.freeHand:
-    case EnumMarkupBrushType.freeHandArrow:
-    case EnumMarkupBrushType.freeHandDoubleArrow:
+    case EMarkupBrushTypes.freeHand:
+    case EMarkupBrushTypes.freeHandArrow:
+    case EMarkupBrushTypes.freeHandDoubleArrow:
       drawFreeHandLine(ctx, cursor, prevPoint, previewLine);
       break;
-    case EnumMarkupBrushType.straight:
-    case EnumMarkupBrushType.straightArrow:
-    case EnumMarkupBrushType.straightDoubleArrow:
+    case EMarkupBrushTypes.straight:
+    case EMarkupBrushTypes.straightArrow:
+    case EMarkupBrushTypes.straightDoubleArrow:
       drawStraightLine(ctx, cursor, previewLine);
       break;
   }

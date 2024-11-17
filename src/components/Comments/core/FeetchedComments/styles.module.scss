@@ -3,12 +3,12 @@
 .root {
   &__empty {
     text-align: center;
-    color: $grayColor;
+    color: var(--grayColor);
   }
 
   &__moreComments {
     background-color: transparent;
-    color: $grayColorLighten;
+    color: var(--grayColorLightenUltra);
     transition: 0.2s;
     display: flex;
     gap: 6px;
@@ -22,14 +22,14 @@
       width: 20px;
       path {
         transition: 0.2s;
-        fill: $grayColorLighten;
+        fill: var(--grayColorLightenUltra);
       }
     }
     &:hover {
-      color: $grayColor;
+      color: var(--grayColor);
       svg {
         path {
-          fill: $grayColor;
+          fill: var(--grayColor);
         }
       }
     }

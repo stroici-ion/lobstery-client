@@ -1,5 +1,5 @@
-import { EnumAspectRatios } from '../types/enumerations';
-import { ICropHistory } from '../types/interfaces';
+import { EAspectRatios } from '../../types/enums';
+import { ICropHistory } from '../../types/interfaces';
 
 export function getFirtsHistoryStep(width: number, height: number): ICropHistory {
   const ar = width / height;
@@ -10,7 +10,7 @@ export function getFirtsHistoryStep(width: number, height: number): ICropHistory
     },
     rotated: 0,
     angle: 0,
-    cropARId: EnumAspectRatios.free,
+    cropARId: EAspectRatios.free,
     cropAR: ar,
     imageAR: ar,
     cropLeft: 0.5,

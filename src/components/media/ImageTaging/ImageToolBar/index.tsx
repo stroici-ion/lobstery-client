@@ -3,14 +3,13 @@ import React from 'react';
 import styles from './styles.module.scss';
 import WriteText from '../../../WriteText';
 import SelectedUsers from '../../../SelectedUsers';
-import { IImage } from '../../../../models/images/IImage';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import { useAppDispatch } from '../../../../redux';
 import { removeImageTaggedFriend, setImageCaption, setImageEditOperationType } from '../../../../redux/images/slice';
-import { ImageEditOperationsEnum } from '../../../../models/ImageEditOperationsEnum';
 import { useSelector } from 'react-redux';
 import { selectImageEditOperationType } from '../../../../redux/images/selectors';
 import { CropSvg } from '../../../../icons/imageEditor';
+import { EImageEditOperations, IImage } from '../../../../redux/images/types';
 
 interface IImageToolBar {
   activeImage: IImage;
@@ -29,7 +28,7 @@ const ImageToolBar: React.FC<IImageToolBar> = ({ activeImage }) => {
   };
 
   const onChangeImageEditOperationType = () => {
-    dispatch(setImageEditOperationType(ImageEditOperationsEnum.CROP));
+    dispatch(setImageEditOperationType(EImageEditOperations.CROP));
   };
 
   return (
@@ -43,10 +42,7 @@ const ImageToolBar: React.FC<IImageToolBar> = ({ activeImage }) => {
         <p className={styles.properties__taggedFriendCount}>{activeImage.taggedFriends?.length || 0}</p>
       </div>
       <div className={styles.properties__selectedUsers}>
-        <SelectedUsers
-          taggedFriends={activeImage.taggedFriends?.map((obj) => obj.user)}
-          onRemove={handleRemoveFriend}
-        />
+        <SelectedUsers users={activeImage.taggedFriends?.map((obj) => obj.user)} onRemove={handleRemoveFriend} />
       </div>
       <p className={styles.properties__hr} />
       <WriteText value={activeImage.caption} setValue={onChangeImageCaption} />

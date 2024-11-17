@@ -10,7 +10,7 @@
 }
 
 .form {
-  box-shadow: -3px -3px 1px $lightColor, 3px 3px 1px $grayColor;
+  box-shadow: -3px -3px 1px var(--lightColor), 3px 3px 1px var(--grayColor);
   background-color: $backColor;
   border-radius: 10px;
   padding: 40px;
@@ -32,7 +32,7 @@
     max-width: 200px;
     object-fit: contain;
     border-radius: 20px;
-    box-shadow: -3px -3px 0.5px $lightColor, 3px 3px 0.5px $grayColor;
+    box-shadow: -3px -3px 0.5px var(--lightColor), 3px 3px 0.5px var(--grayColor);
   }
 
   &__input {
@@ -41,7 +41,7 @@
     height: 40px;
     line-height: 20px;
     padding: 10px;
-    box-shadow: inset 2px 2px $grayColor, inset -2px -2px $lightColor;
+    box-shadow: inset 2px 2px var(--grayColor), inset -2px -2px var(--lightColor);
   }
 
   &__button {
@@ -51,12 +51,12 @@
     font-size: 16px;
     font-weight: 700;
     border-radius: 20px;
-    box-shadow: -2px -2px 0.5px $lightColor, 2px 2px 0.5px $grayColor, inset 0px 0px 0px $lightColor,
-      inset 0px 0px 0px $grayColor;
+    box-shadow: -2px -2px 0.5px var(--lightColor), 2px 2px 0.5px var(--grayColor), inset 0px 0px 0px var(--lightColor),
+      inset 0px 0px 0px var(--grayColor);
     transition: 0.1s;
     &:hover {
-      box-shadow: 0px 0px 0px $lightColor, 0px 0px 0px $grayColor, inset -2px -2px 0.5px $lightColor,
-        inset 2px 2px 0.5px $grayColor;
+      box-shadow: 0px 0px 0px var(--lightColor), 0px 0px 0px var(--grayColor), inset -2px -2px 0.5px var(--lightColor),
+        inset 2px 2px 0.5px var(--grayColor);
     }
     &:active {
       background-color: $yellowColorDarken;

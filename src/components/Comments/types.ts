@@ -1,5 +1,5 @@
-import { IFetchedUser, IUser } from '../IUser';
-import { IFetchedLikesInfo, ILikesInfo } from '../likes/ILikesInfo';
+import { IFetchedUser, IUser } from '../../redux/profile/types';
+import { IFetchedLikesInfo, ILikesInfo } from '../../types/LikesInfo.types';
 
 export interface ICommentBase extends ILikesInfo {
   id: number;
@@ -23,6 +23,7 @@ export interface IReply extends ICommentBase {
   mentionedUser?: IUser;
 }
 
+// FETCHED (snake_case)
 export interface IFetchedCommentBase extends IFetchedLikesInfo {
   id: number;
   text: string;

@@ -1,5 +1,5 @@
 import { iEBSB, iEMSS } from '../../../../../../config';
-import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../../types/interfaces';
 import { resetShape } from '../resizeCrop';
 
 export const resizeBottom = (

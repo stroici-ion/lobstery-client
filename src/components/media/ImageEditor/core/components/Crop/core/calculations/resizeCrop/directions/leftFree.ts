@@ -1,5 +1,5 @@
 import { iEBSLR, iEMAR, iEMSS, iESBAD } from '../../../../../../config';
-import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../../types/interfaces';
 
 export const resizeLeftFree = (
   cursorDistance: IPosition,

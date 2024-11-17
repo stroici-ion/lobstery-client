@@ -9,7 +9,7 @@
   &__label {
     padding: 0 5px;
     border-radius: 3px;
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     position: absolute;
     top: 0px;
     left: 10px;
@@ -30,6 +30,6 @@
 .error {
   input {
     border: 1px solid $redColor !important;
-    background-color: $lightColor !important;
+    background-color: var(--lightColor) !important;
   }
 }

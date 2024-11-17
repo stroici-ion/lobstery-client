@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
 import { selectUserProfile } from '../../redux/profile/selectors';
-import { IAudience } from '../../models/audience/IAudience';
 import Loader from '../Loader';
 import { EditSvg, ReturnBackSvg } from '../../icons';
 import classNames from 'classnames';
@@ -20,7 +19,9 @@ import {
 import DeleteSvg from '../../icons/DeleteSvg';
 import EditCustomAudience from './Core/EditCustomAudience';
 import { setActiveCustomAudience } from '../../redux/defaultAudience/slice';
-import { FetchStatusEnum } from '../../models/response/FetchStatus';
+import { EFetchStatus } from '../../types/enums';
+import ScrollArea from '../UI/ScrollArea';
+import { IAudience } from '../../redux/defaultAudience/types';
 
 interface ICustomAudienceForm {}
 
@@ -33,7 +34,7 @@ const CustomAudienceForm: React.FC<ICustomAudienceForm> = ({}) => {
 
   const defaultAudience = useSelector(selectDefaultAudience);
   const isDefaultAudience = defaultAudience.defaultCustomAudience === defaultAudience.activeCustomAudience.id;
-  const isLoading = defaultAudience.customAudiencesListStatus === FetchStatusEnum.PENDING;
+  const isLoading = defaultAudience.customAudiencesListStatus === EFetchStatus.PENDING;
   const customAudienceList = defaultAudience.customAudiencesList.filter(
     (audience) => audience.id !== defaultAudience.activeCustomAudience.id
   );
@@ -59,7 +60,7 @@ const CustomAudienceForm: React.FC<ICustomAudienceForm> = ({}) => {
   };
 
   const hendleDeleteCustmAudience = () => {
-    dispatch(fetchDeleteCustomAudience({ customAudience: defaultAudience.activeCustomAudience }));
+    dispatch(fetchDeleteCustomAudience(defaultAudience.activeCustomAudience.id));
   };
 
   const handleCreateNewCustomAudience = () => {
@@ -68,7 +69,7 @@ const CustomAudienceForm: React.FC<ICustomAudienceForm> = ({}) => {
         id: -1,
         title: 'Audience ' + (defaultAudience.customAudiencesList.length + 1),
         audience: 0,
-        audience_list: [],
+        users: [],
       })
     );
     setIsEditing(true);
@@ -117,24 +118,29 @@ const CustomAudienceForm: React.FC<ICustomAudienceForm> = ({}) => {
                     className={classNames(styles.defaultAudience, isDefaultAudience && styles.active)}
                     onClick={!isDefaultAudience ? handleDefaultAudienceClick : undefined}
                   >
-                    <input checked={isDefaultAudience} className={styles.defaultAudience__checkbox} type='checkbox' />
-                    <span className={styles.defaultAudience__label}>Default</span>
+                    <span className={styles.defaultAudience__label}>
+                      {isDefaultAudience ? 'Default' : 'Make Default'}
+                    </span>
                   </div>
                 </>
               )}
             </div>
             <div className={styles.root__list}>
-              <div className={styles.root__scrollArea}>
+              <ScrollArea>
                 {isLoading ? (
                   <Loader size={100} height={100} />
                 ) : defaultAudience.customAudiencesList.length > 0 ? (
                   customAudienceList.map((customAudience) => (
-                    <CustomAudienceRow audience={customAudience} onClick={() => selectCustmAudience(customAudience)} />
+                    <CustomAudienceRow
+                      key={customAudience.id}
+                      audience={customAudience}
+                      onClick={() => selectCustmAudience(customAudience)}
+                    />
                   ))
                 ) : (
                   <p className={styles.root__empty}>No custom audience</p>
                 )}
-              </div>
+              </ScrollArea>
             </div>
             <div className={styles.root__bottom}>
               <button className={styles.createNew} onClick={handleCreateNewCustomAudience}>

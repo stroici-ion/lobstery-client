@@ -1,6 +1,6 @@
 @import '../../styles/colors.scss';
 .wrapper {
-  background-color: $lightColor;
+  background-color: var(--lightColor);
   position: fixed;
   top: -15%;
   left: -15%;
@@ -32,7 +32,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     @media (min-width: 768px) {
       margin: 5px;
       border-radius: 20px;
@@ -67,8 +67,8 @@
     svg {
       padding: 8px;
       path {
-        stroke: $lightColor;
-        fill: $lightColor;
+        stroke: var(--lightColor);
+        fill: var(--lightColor);
       }
     }
     &:hover {

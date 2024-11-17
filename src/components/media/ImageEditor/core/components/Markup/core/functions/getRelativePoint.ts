@@ -1,5 +1,5 @@
 import { getDistanceToRotatedAxis } from '../../../../calculationFunctions/distances';
-import { IImageShape, IPosition } from '../../../../types/interfaces';
+import { IImageShape, IPosition } from '../../../../../types/interfaces';
 
 export const getRelativePoint = (p: IPosition, O: IPosition, image: IImageShape, image_O: IPosition) => {
   let relativePoint = {

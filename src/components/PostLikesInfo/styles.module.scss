@@ -16,7 +16,7 @@
   font-size: 13px;
   cursor: pointer;
   &:hover {
-    background-color: $grayColorLightenUltra;
+    background-color: var(--grayColorLightenUltra) Ultra;
   }
 
   @media (hover: none) {

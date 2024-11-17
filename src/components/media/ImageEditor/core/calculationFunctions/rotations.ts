@@ -1,8 +1,8 @@
-import { degrees_to_radians } from './converters';
+import { convertToRadians } from './converters';
 
 export const getRotateDifferenceByDistanceToLeftTop = (x: number, y: number, angle: number) => {
-  const cos = Math.cos(degrees_to_radians(angle));
-  const sin = Math.sin(degrees_to_radians(angle));
+  const cos = Math.cos(convertToRadians(angle));
+  const sin = Math.sin(convertToRadians(angle));
 
   //Calculating for SECOND quadrant
   x *= -1;
@@ -21,8 +21,8 @@ export const getRotateDifferenceByDistanceToLeftTop = (x: number, y: number, ang
 };
 
 export const getRotatedPosition = (x: number, y: number, width: number, height: number, angle: number) => {
-  const cos = Math.cos(degrees_to_radians(angle));
-  const sin = Math.sin(degrees_to_radians(angle));
+  const cos = Math.cos(convertToRadians(angle));
+  const sin = Math.sin(convertToRadians(angle));
 
   const referencePosition = {
     x: width / -2,
@@ -46,8 +46,8 @@ export const getRotatedPosition = (x: number, y: number, width: number, height: 
 };
 
 export const getDistanceRotatedImageAxis = (distance: { x: number; y: number }, angle: number) => {
-  const cos = Math.cos(degrees_to_radians(angle));
-  const sin = Math.sin(degrees_to_radians(angle));
+  const cos = Math.cos(convertToRadians(angle));
+  const sin = Math.sin(convertToRadians(angle));
 
   return {
     x: distance.x * cos + distance.y * sin,

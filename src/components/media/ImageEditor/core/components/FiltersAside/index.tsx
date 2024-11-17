@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { IFilterListItem } from '../../types/interfaces';
+import { IFilterListItem } from '../../../types/interfaces';
 import FilterPreview from '../FilterPreview';
 import styles from './styles.module.scss';
 import Slider from '../../../../../UI/Slider';

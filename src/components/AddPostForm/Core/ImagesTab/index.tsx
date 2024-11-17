@@ -20,7 +20,6 @@ import { dirtyFormWarningDialog } from '../../../UI/modals/dialog-options';
 import ImageEditor2 from '../../../media/ImageEditor';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import { useAppDispatch } from '../../../../redux';
-import { IImage } from '../../../../models/images/IImage';
 import { convertToWebP } from './convertFunction';
 import ContextMenu from '../../../UI/ContextMenu';
 import ImageGrid from '../../../media/ImageGrid';
@@ -30,6 +29,7 @@ import styles from './styles.module.scss';
 import { getOrderedGrid } from '../../../media/ImageGrid/core/getOrderedGrid';
 import { setImagesLayout } from '../../../../redux/posts/slice';
 import { selectActivePost } from '../../../../redux/posts/selectors';
+import { IImage } from '../../../../redux/images/types';
 
 const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -293,7 +293,7 @@ const ImagesTab: React.FC = () => {
               <ImageGrid images={images} orderedGrid={post.imagesLayout} onSelect={handleSelectImage} />
             </ScrollArea>
           )}
-          <input {...getInputProps()} accept='image/*, video/*' />
+          <input {...getInputProps()} accept="image/*, video/*" />
         </div>
         {images.length > 0 && (
           <div className={classNames(styles.root__tools, styles.tools)}>
@@ -305,7 +305,7 @@ const ImagesTab: React.FC = () => {
                 style={{ display: 'none' }}
                 onChange={handleOnChangeImages}
                 multiple
-                accept='image/*, video/*'
+                accept="image/*, video/*"
               />
             </button>
           </div>

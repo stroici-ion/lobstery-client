@@ -1,12 +1,12 @@
-import { degrees_to_radians } from '../../../../../calculationFunctions/converters';
+import { convertToRadians } from '../../../../../calculationFunctions/converters';
 import { iESBAD } from '../../../../../config';
-import { IBorders, IImageShape, IPosition } from '../../../../../types/interfaces';
+import { IBorders, IImageShape, IPosition } from '../../../../../../types/interfaces';
 import { adjustShapePostion } from '../../../../../utils/calc';
 
 export const resizeImage = (image: IImageShape, cursorDistance: IPosition, imageBorders: IBorders) => {
   if (image.angle) {
-    const cos = Math.cos(degrees_to_radians(image.angle));
-    const sin = Math.sin(degrees_to_radians(image.angle));
+    const cos = Math.cos(convertToRadians(image.angle));
+    const sin = Math.sin(convertToRadians(image.angle));
     const newDistance = {
       x: cursorDistance.x * cos + cursorDistance.y * sin,
       y: cursorDistance.y * cos - cursorDistance.x * sin,

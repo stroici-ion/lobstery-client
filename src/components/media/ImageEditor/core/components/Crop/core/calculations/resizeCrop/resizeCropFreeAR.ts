@@ -1,17 +1,17 @@
-import { IBorders, ICropShape, IDynamicShape, IPosition, IShape } from "../../../../../types/interfaces";
-import { EnumMoveTypes } from "../../../../../types/enumerations";
-import { resizeBottomFree } from "./directions/bottomFree";
-import { resizeRightFree } from "./directions/rightFree";
-import { resizeLeftFree } from "./directions/leftFree";
-import { resizeTopFree } from "./directions/topFree";
-import { resizeLeft } from "./directions/left";
-import { adjustShapePostion } from "../../../../../utils/calc";
+import { IBorders, ICropShape, IDynamicShape, IPosition, IShape } from '../../../../../../types/interfaces';
+import { EMoveTypes } from '../../../../../../types/enums';
+import { resizeBottomFree } from './directions/bottomFree';
+import { resizeRightFree } from './directions/rightFree';
+import { resizeLeftFree } from './directions/leftFree';
+import { resizeTopFree } from './directions/topFree';
+import { resizeLeft } from './directions/left';
+import { adjustShapePostion } from '../../../../../utils/calc';
 
 export const resizeCropFreeAR = (
   crop: ICropShape,
   image: IDynamicShape,
   cursorDistance: IPosition,
-  moveType: EnumMoveTypes,
+  moveType: EMoveTypes,
   imageBorders: IBorders,
   viewBorders: IBorders,
   maxOverBorderRatio: IBorders
@@ -32,27 +32,27 @@ export const resizeCropFreeAR = (
   };
 
   switch (moveType) {
-    case EnumMoveTypes.leftTop:
-    case EnumMoveTypes.leftBottom:
+    case EMoveTypes.leftTop:
+    case EMoveTypes.leftBottom:
       resizeLeft(moveType, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
       break;
-    case EnumMoveTypes.left: {
+    case EMoveTypes.left: {
       resizeLeftFree(cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio, viewBorders);
       break;
     }
-    case EnumMoveTypes.rightTop:
-    case EnumMoveTypes.rightBottom:
+    case EMoveTypes.rightTop:
+    case EMoveTypes.rightBottom:
       resizeLeft(moveType, cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio);
       break;
-    case EnumMoveTypes.right: {
+    case EMoveTypes.right: {
       resizeRightFree(cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio, viewBorders);
       break;
     }
-    case EnumMoveTypes.top: {
+    case EMoveTypes.top: {
       resizeTopFree(cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio, viewBorders);
       break;
     }
-    case EnumMoveTypes.bottom: {
+    case EMoveTypes.bottom: {
       resizeBottomFree(cursorDistance, newCrop, newImage, imageBorders, maxOverBorderRatio, viewBorders);
       break;
     }

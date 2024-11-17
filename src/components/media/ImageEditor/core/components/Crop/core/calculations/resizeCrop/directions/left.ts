@@ -1,10 +1,10 @@
-import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../types/interfaces';
-import { EnumMoveTypes } from '../../../../../../types/enumerations';
+import { IBorders, ICropShape, IDynamicShape, IPosition } from '../../../../../../../types/interfaces';
+import { EMoveTypes } from '../../../../../../../types/enums';
 import { resetShape } from '../resizeCrop';
 import { iEBSLR, iEMSS } from '../../../../../../config';
 
 export const resizeLeft = (
-  moveType: EnumMoveTypes,
+  moveType: EMoveTypes,
   cursorDistance: IPosition,
   crop: ICropShape,
   image: IDynamicShape & { isImageChanged: boolean },
@@ -16,10 +16,10 @@ export const resizeLeft = (
     crop.x = crop.startPosition.x + (crop.startPosition.width - crop.width);
     const diff = crop.startPosition.height - crop.height;
     switch (moveType) {
-      case EnumMoveTypes.leftTop:
+      case EMoveTypes.leftTop:
         crop.y = crop.startPosition.y + diff;
         break;
-      case EnumMoveTypes.leftBottom:
+      case EMoveTypes.leftBottom:
         crop.y = crop.startPosition.y;
         break;
       default:
@@ -57,18 +57,18 @@ export const resizeLeft = (
 
 export const resizeLeftOverView = (
   progress: number,
-  moveType: EnumMoveTypes,
+  moveType: EMoveTypes,
   image: IDynamicShape,
   crop: ICropShape,
   imageBorders: IBorders
 ) => {
   const aspectRatio = image.startPosition.width / image.startPosition.height;
-  const isCenter = moveType === EnumMoveTypes.left && !!imageBorders.top && !!imageBorders.bottom;
+  const isCenter = moveType === EMoveTypes.left && !!imageBorders.top && !!imageBorders.bottom;
   const isTop = isCenter
     ? imageBorders.top < imageBorders.bottom
-    : moveType === EnumMoveTypes.left
+    : moveType === EMoveTypes.left
     ? !!imageBorders.top
-    : moveType === EnumMoveTypes.leftTop;
+    : moveType === EMoveTypes.leftTop;
   const remainigDistanceY = isTop ? imageBorders.top : imageBorders.bottom;
   const helperAR = crop.aspectRatio * (isCenter ? 2 : 1);
   if (remainigDistanceY < imageBorders.left / helperAR) {

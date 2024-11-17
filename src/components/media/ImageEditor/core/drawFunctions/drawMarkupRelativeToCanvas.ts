@@ -1,6 +1,11 @@
-import { IEditorStep, IMarkupLine, IPosition, IShape } from '../types/interfaces';
+import { IEditorStep, IMarkupLine, IPosition, IShape } from '../../types/interfaces';
 
-export const drawMarkupRelativeToCanvas = (ctx: CanvasRenderingContext2D, lines: IMarkupLine[], eImg: IShape, cropState: IEditorStep) => {
+export const drawMarkupRelativeToCanvas = (
+  ctx: CanvasRenderingContext2D,
+  lines: IMarkupLine[],
+  eImg: IShape,
+  cropState: IEditorStep
+) => {
   const image = cropState.image;
   const O = cropState.Origin;
   lines.forEach((l) => {

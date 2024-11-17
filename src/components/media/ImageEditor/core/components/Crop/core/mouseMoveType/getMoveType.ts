@@ -1,5 +1,5 @@
-import { IEditorStep, IPosition } from '../../../../types/interfaces';
-import { EnumMoveTypes } from '../../../../types/enumerations';
+import { IEditorStep, IPosition } from '../../../../../types/interfaces';
+import { EMoveTypes } from '../../../../../types/enums';
 import { iEBSB, iEBSLR, iEBST, iESBS } from '../../../../config';
 
 export const getMoveType = (c: IPosition, cropStep: IEditorStep) => {
@@ -31,18 +31,18 @@ export const getMoveType = (c: IPosition, cropStep: IEditorStep) => {
       cursor.y > crop.y + size &&
       cursor.y < crop.y + crop.height - size;
 
-    if (left && top) return EnumMoveTypes.leftTop;
-    if (left && bottom) return EnumMoveTypes.leftBottom;
-    if (right && top) return EnumMoveTypes.rightTop;
-    if (right && bottom) return EnumMoveTypes.rightBottom;
-    if (left) return EnumMoveTypes.left;
-    if (right) return EnumMoveTypes.right;
-    if (top) return EnumMoveTypes.top;
-    if (bottom) return EnumMoveTypes.bottom;
+    if (left && top) return EMoveTypes.leftTop;
+    if (left && bottom) return EMoveTypes.leftBottom;
+    if (right && top) return EMoveTypes.rightTop;
+    if (right && bottom) return EMoveTypes.rightBottom;
+    if (left) return EMoveTypes.left;
+    if (right) return EMoveTypes.right;
+    if (top) return EMoveTypes.top;
+    if (bottom) return EMoveTypes.bottom;
 
-    if (image) return EnumMoveTypes.image;
+    if (image) return EMoveTypes.image;
 
-    return EnumMoveTypes.default;
+    return EMoveTypes.default;
   } else {
     const imageRight = image.x + image.width;
     const imageBottom = image.y + image.height;
@@ -58,7 +58,7 @@ export const getMoveType = (c: IPosition, cropStep: IEditorStep) => {
     };
 
     if (cursor.x >= borders.left && cursor.y >= borders.top && cursor.x <= borders.right && cursor.y <= borders.bottom)
-      return EnumMoveTypes.image;
+      return EMoveTypes.image;
 
     const rangeBorders = {
       left: parentSize.width / 2 - 450 * dpr,
@@ -73,8 +73,8 @@ export const getMoveType = (c: IPosition, cropStep: IEditorStep) => {
       cursor.x <= rangeBorders.right &&
       cursor.y <= rangeBorders.bottom
     )
-      return EnumMoveTypes.range;
+      return EMoveTypes.range;
 
-    return EnumMoveTypes.default;
+    return EMoveTypes.default;
   }
 };

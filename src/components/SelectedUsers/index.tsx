@@ -1,31 +1,28 @@
 import classNames from 'classnames';
 import React from 'react';
 import { CheckedSvg } from '../../icons';
-import { IUser } from '../../models/IUser';
+import { IUser } from '../../redux/profile/types';
 
 import styles from './styles.module.scss';
+import UserImage from '../UserImage';
 
 interface ISelectedUsers {
+  users?: IUser[];
+  onRemove?: (user: IUser) => void;
   className?: string;
-  taggedFriends?: IUser[];
-  onRemove?: (friend: IUser) => void;
 }
 
-const SelectedUsers: React.FC<ISelectedUsers> = ({ taggedFriends, onRemove, className }) => {
-  const handleRemovetFriend = (friend: IUser) => {
-    onRemove?.(friend);
+const SelectedUsers: React.FC<ISelectedUsers> = ({ users = [], onRemove, className }) => {
+  const handleRemoveUser = (user: IUser) => {
+    onRemove?.(user);
   };
 
   return (
-    <div className={classNames(className, styles.selectedPeoples, taggedFriends?.length && styles.active)}>
+    <div className={classNames(className, styles.selectedPeoples, users.length && styles.active)}>
       <div className={styles.selectedPeoples__scrollArea}>
-        {taggedFriends?.map((friend) => (
-          <button
-            className={styles.selectedPeoples__button}
-            key={friend.id}
-            onClick={() => handleRemovetFriend(friend)}
-          >
-            <img className={styles.avatar} src={friend.profile?.avatarThumbnail} alt='' />
+        {users.map((user) => (
+          <button className={styles.selectedPeoples__button} key={user.id} onClick={() => handleRemoveUser(user)}>
+            <UserImage user={user} />
             <div className={styles.selectedPeoples__decoration}>
               <CheckedSvg />
             </div>

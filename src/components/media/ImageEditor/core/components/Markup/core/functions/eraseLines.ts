@@ -1,4 +1,4 @@
-import { IMarkupLine, IPosition } from '../../../../types/interfaces';
+import { IMarkupLine, IPosition } from '../../../../../types/interfaces';
 
 // Function to calculate the distance between a point and a line segment
 export function pointToLineDistance(point: IPosition, lineStart: IPosition, lineEnd: IPosition) {

@@ -1,14 +1,23 @@
-import { getCropMaxDistanceToBorders, getImageLimits, getRotatedImageLimits } from '../calculations/maxDistance/cropMoveMaxDist';
+import {
+  getCropMaxDistanceToBorders,
+  getImageLimits,
+  getRotatedImageLimits,
+} from '../calculations/maxDistance/cropMoveMaxDist';
 import { getImageOuterPosition } from '../calculations/position/getImageOuterPosition';
-import { EnumAspectRatios, EnumMoveTypes } from '../../../../types/enumerations';
+import { EAspectRatios, EMoveTypes } from '../../../../../types/enums';
 import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
 import { getIsCornerDirection } from '../mouseMoveType/getIsCornerDirection';
 import { darkenImageAnimation } from '../animations/darkenImageAnimation';
-import { IEditorStep, IPosition } from '../../../../types/interfaces';
+import { IEditorStep, IPosition } from '../../../../../types/interfaces';
 import { resetActions } from '../resetFunctions/resetActions';
 import { getMoveType } from '../mouseMoveType/getMoveType';
 
-export const mouseDown = (cursor: IPosition, startCursor: IPosition, cropStep: IEditorStep, drawImage: (opacity: number) => void) => {
+export const mouseDown = (
+  cursor: IPosition,
+  startCursor: IPosition,
+  cropStep: IEditorStep,
+  drawImage: (opacity: number) => void
+) => {
   const Origin = cropStep.Origin;
   const activeActions = cropStep.activeActions;
   const crop = cropStep.crop;
@@ -22,9 +31,9 @@ export const mouseDown = (cursor: IPosition, startCursor: IPosition, cropStep: I
 
   activeActions.moveType = getMoveType(cursor, cropStep);
   switch (activeActions.moveType) {
-    case EnumMoveTypes.default:
+    case EMoveTypes.default:
       return;
-    case EnumMoveTypes.range: {
+    case EMoveTypes.range: {
       if (!activeActions.isChangingAngle) {
         resetActions(cropStep);
       }
@@ -53,7 +62,7 @@ export const mouseDown = (cursor: IPosition, startCursor: IPosition, cropStep: I
 
       //Set Crop Aspect Ratio
       const isCorner = getIsCornerDirection(activeActions.moveType);
-      if (crop.aspectRatioId === EnumAspectRatios.free) {
+      if (crop.aspectRatioId === EAspectRatios.free) {
         if (isCorner) crop.aspectRatio = crop.width / crop.height;
         else crop.aspectRatio = 0;
       }

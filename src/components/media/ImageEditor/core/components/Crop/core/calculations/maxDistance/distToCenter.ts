@@ -1,4 +1,4 @@
-import { IPosition, IShape } from '../../../../../types/interfaces';
+import { IPosition, IShape } from '../../../../../../types/interfaces';
 
 export const getDistanceToCenter = (shape: IShape, O: IPosition) => {
   const dist = {

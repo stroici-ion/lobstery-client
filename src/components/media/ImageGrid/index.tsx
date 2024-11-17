@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-
-import { TGridCell } from '../../../models/media-tools/images-grid';
-import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { IImage } from '../../../models/images/IImage';
+
+import { IImage } from '../../../redux/images/types';
+import styles from './styles.module.scss';
+import { TGridCell } from './types';
 
 type ImageGridProps = {
   images: IImage[];
@@ -32,7 +32,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
   );
 
   const getComputedGrid = (cell: TGridCell, isMain: boolean = false) => {
-    if (cell.cells.length) {
+    if (cell.cells?.length) {
       const cells = cell.cells;
       for (let i = 0; i < cells.length; i++) {
         const c = cells[i];
@@ -83,7 +83,6 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
       else return { ...cell, cells };
     } else {
       const imageSrc = getImageSrcByOrderId(cell.orderId);
-      console.log('imageSrc', imageSrc);
 
       if (isMain) return checkMainCellHeight({ ...cell, imageSrc });
       else return { ...cell, imageSrc };
@@ -96,8 +95,6 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
   };
 
   useEffect(() => {
-    console.log('orderedGrid', orderedGrid);
-
     if (parentWidth && orderedGrid) setGrid(getComputedGrid(JSON.parse(JSON.stringify(orderedGrid)), true));
   }, [parentWidth, orderedGrid, images]);
 
@@ -107,10 +104,6 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
 
   const getImageSrcByOrderId = (orderId: number) => {
     const candidate = images.find((i) => i.orderId === orderId);
-    console.log('orderId', orderId);
-    console.log('candidate', candidate);
-    console.log('images', images);
-
     if (candidate) return candidate.imageThumbnail;
     return '';
   };
@@ -132,7 +125,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
           }}
           onClick={(e) => handleOnSelect?.(grid.imageId, e.target as HTMLElement)}
         >
-          {grid.imageSrc && <img src={images[0].image} alt='Failed o upload' />}
+          {grid.imageSrc && <img src={images[0].image} alt="Failed o upload" />}
           {/* Render top-level cells */}
           {grid.cells.map((cell) => (
             <RecursiveCell key={cell.key} cell={cell} onSelect={handleOnSelect} />
@@ -163,7 +156,7 @@ const RecursiveCell: React.FC<{ cell: TGridCell; onSelect?: (id: number, node?: 
         if (cell.imageSrc) onSelect?.(cell.imageId, e.target as HTMLElement);
       }}
     >
-      {cell.imageSrc && <img src={cell.imageSrc} alt='Failed o upload' />}
+      {cell.imageSrc && <img src={cell.imageSrc} alt="Failed o upload" />}
       {/* Recursively render child cells */}
       {cell.cells.map((childCell) => (
         <RecursiveCell key={childCell.key} cell={childCell} onSelect={onSelect} />

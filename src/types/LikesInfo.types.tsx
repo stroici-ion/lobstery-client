@@ -5,6 +5,7 @@ export interface ILikesInfo {
   dislikesCount: number;
 }
 
+// FETCHED (snake_case)
 export interface IFetchedLikesInfo {
   liked: boolean;
   disliked: boolean;

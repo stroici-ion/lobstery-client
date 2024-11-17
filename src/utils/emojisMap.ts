@@ -1,4 +1,4 @@
-import { IFeelig } from '../models/IFeeling';
+import { IFeelig } from '../components/AddPostForm/Core/FeelingsTab';
 
 export const feelings: IFeelig[] = [
   { id: '1', code: '1F642', name: 'happy' },

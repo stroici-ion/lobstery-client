@@ -1,6 +1,6 @@
 import { calculateDiagonalLength, calculateHelperAngle } from '../maxDistance/cropRotatedDistToImage';
-import { degrees_to_radians } from '../../../../../calculationFunctions/converters';
-import { IImageShape, IPosition } from '../../../../../types/interfaces';
+import { convertToRadians } from '../../../../../calculationFunctions/converters';
+import { IImageShape, IPosition } from '../../../../../../types/interfaces';
 import { getDistanceToCenter } from '../maxDistance/distToCenter';
 import { getRotatedShape } from './getRotatedShape';
 
@@ -16,8 +16,8 @@ export const getImageOuterPosition = (O: IPosition, image: IImageShape) => {
     const ipX = calculateDiagonalLength(imageDists.left, imageDists.bottom);
     const helperAngleX = calculateHelperAngle(imageDists.left, ipX) - image.angle;
 
-    distTop = ipY * Math.cos(degrees_to_radians(helperAngleY));
-    distLeft = ipX * Math.cos(degrees_to_radians(helperAngleX));
+    distTop = ipY * Math.cos(convertToRadians(helperAngleY));
+    distLeft = ipX * Math.cos(convertToRadians(helperAngleX));
   } else {
     const ipX = calculateDiagonalLength(imageDists.left, imageDists.top);
     const helperAngleX = calculateHelperAngle(imageDists.left, ipX) + image.angle;
@@ -25,12 +25,12 @@ export const getImageOuterPosition = (O: IPosition, image: IImageShape) => {
     const ipY = calculateDiagonalLength(imageDists.top, imageDists.right);
     const helperAngleY = calculateHelperAngle(imageDists.top, ipY) + image.angle;
 
-    distTop = ipY * Math.cos(degrees_to_radians(helperAngleY));
-    distLeft = ipX * Math.cos(degrees_to_radians(helperAngleX));
+    distTop = ipY * Math.cos(convertToRadians(helperAngleY));
+    distLeft = ipX * Math.cos(convertToRadians(helperAngleX));
   }
 
   const outer = {
-    ratio: (Math.cos(degrees_to_radians(90 - image.angle)) * image.height) / outerImageDimensions.width,
+    ratio: (Math.cos(convertToRadians(90 - image.angle)) * image.height) / outerImageDimensions.width,
     x: O.x - distLeft,
     y: O.y - distTop,
     width: outerImageDimensions.width,

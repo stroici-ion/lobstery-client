@@ -1,5 +1,5 @@
-import { IPosition } from '../types/interfaces';
-import { degrees_to_radians, radians_to_degrees } from './converters';
+import { IPosition } from '../../types/interfaces';
+import { convertToDegrees, convertToRadians } from './converters';
 
 export const getDistanceToRotatedAxis = (distance: IPosition, angle: number) => {
   let quadrant = 1;
@@ -22,7 +22,7 @@ export const getDistanceToRotatedAxis = (distance: IPosition, angle: number) => 
   const c = Math.sqrt(a * a + b * b);
   const cosAngle = c ? b / c : 0;
 
-  const helperAngleDegrees = radians_to_degrees(Math.acos(cosAngle));
+  const helperAngleDegrees = convertToDegrees(Math.acos(cosAngle));
 
   let rDistanceX = 0; //Distance to rotated axis X
   let rDistanceY = 0; //Distance to rotated axis Y
@@ -32,8 +32,8 @@ export const getDistanceToRotatedAxis = (distance: IPosition, angle: number) => 
       const newAngleX = helperAngleDegrees + angle;
       const newAngleY = 90 - newAngleX;
 
-      rDistanceX = Math.cos(degrees_to_radians(newAngleX)) * c;
-      rDistanceY = Math.cos(degrees_to_radians(newAngleY)) * c;
+      rDistanceX = Math.cos(convertToRadians(newAngleX)) * c;
+      rDistanceY = Math.cos(convertToRadians(newAngleY)) * c;
 
       if (quadrant === 2) {
         rDistanceX *= -1;
@@ -43,8 +43,8 @@ export const getDistanceToRotatedAxis = (distance: IPosition, angle: number) => 
       const newAngleX = helperAngleDegrees + angle;
       const newAngleY = 90 - newAngleX;
 
-      rDistanceX = Math.cos(degrees_to_radians(newAngleX)) * c;
-      rDistanceY = Math.cos(degrees_to_radians(newAngleY)) * c;
+      rDistanceX = Math.cos(convertToRadians(newAngleX)) * c;
+      rDistanceY = Math.cos(convertToRadians(newAngleY)) * c;
 
       if (quadrant === 2) {
         rDistanceX *= -1;
@@ -56,8 +56,8 @@ export const getDistanceToRotatedAxis = (distance: IPosition, angle: number) => 
       const newAngleX = helperAngleDegrees - angle;
       const newAngleY = 90 - newAngleX;
 
-      rDistanceX = Math.cos(degrees_to_radians(newAngleX)) * c;
-      rDistanceY = Math.cos(degrees_to_radians(newAngleY)) * c;
+      rDistanceX = Math.cos(convertToRadians(newAngleX)) * c;
+      rDistanceY = Math.cos(convertToRadians(newAngleY)) * c;
 
       if (quadrant === 1) rDistanceX *= -1;
       if (quadrant === 3) rDistanceY *= -1;
@@ -65,8 +65,8 @@ export const getDistanceToRotatedAxis = (distance: IPosition, angle: number) => 
       const newAngleX = angle - helperAngleDegrees;
       const newAngleY = 90 - newAngleX;
 
-      rDistanceX = Math.cos(degrees_to_radians(newAngleX)) * c;
-      rDistanceY = Math.cos(degrees_to_radians(newAngleY)) * c;
+      rDistanceX = Math.cos(convertToRadians(newAngleX)) * c;
+      rDistanceY = Math.cos(convertToRadians(newAngleY)) * c;
 
       if (quadrant === 1) rDistanceX *= -1;
       if (quadrant === 1) rDistanceY *= -1;

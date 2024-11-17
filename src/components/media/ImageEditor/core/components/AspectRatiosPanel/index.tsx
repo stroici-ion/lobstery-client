@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { EnumAspectRatios } from '../../types/enumerations';
+import { EAspectRatios } from '../../../types/enums';
 import { aspectRatioList } from '../AspectRatiosList';
 import styles from './styles.module.scss';
 import ScrollAreaHorizontal from '../../../../../UI/ScrollAreaHorizontal';
 
 interface IAspectRatiosPanel {
-  selected: EnumAspectRatios | undefined;
-  setAspectRatio: (id: EnumAspectRatios) => void;
+  selected: EAspectRatios | undefined;
+  setAspectRatio: (id: EAspectRatios) => void;
   hide: () => void;
 }
 
@@ -19,7 +19,7 @@ const AspectRatiosPanel: React.FC<IAspectRatiosPanel> = ({ selected, setAspectRa
     setSelectedAspectRatioId(selected);
   }, [selected]);
 
-  const hanldeSelectAspectRatio = (id: EnumAspectRatios) => {
+  const hanldeSelectAspectRatio = (id: EAspectRatios) => {
     setAspectRatio(id);
     setSelectedAspectRatioId(id);
   };
@@ -52,28 +52,28 @@ const AspectRatiosPanel: React.FC<IAspectRatiosPanel> = ({ selected, setAspectRa
 
 export default AspectRatiosPanel;
 
-export const getOppositeAspectRatio = (aspectRatioId: EnumAspectRatios) => {
+export const getOppositeAspectRatio = (aspectRatioId: EAspectRatios) => {
   switch (aspectRatioId) {
-    case EnumAspectRatios.ratio_9_16:
-      return EnumAspectRatios.ratio_16_9;
-    case EnumAspectRatios.ratio_16_9:
-      return EnumAspectRatios.ratio_9_16;
-    case EnumAspectRatios.ratio_4_5:
-      return EnumAspectRatios.ratio_5_4;
-    case EnumAspectRatios.ratio_5_4:
-      return EnumAspectRatios.ratio_4_5;
-    case EnumAspectRatios.ratio_3_4:
-      return EnumAspectRatios.ratio_4_3;
-    case EnumAspectRatios.ratio_4_3:
-      return EnumAspectRatios.ratio_3_4;
-    case EnumAspectRatios.ratio_2_3:
-      return EnumAspectRatios.ratio_3_2;
-    case EnumAspectRatios.ratio_3_2:
-      return EnumAspectRatios.ratio_2_3;
-    case EnumAspectRatios.ratio_1_2:
-      return EnumAspectRatios.ratio_2_1;
-    case EnumAspectRatios.ratio_2_1:
-      return EnumAspectRatios.ratio_1_2;
+    case EAspectRatios.ratio_9_16:
+      return EAspectRatios.ratio_16_9;
+    case EAspectRatios.ratio_16_9:
+      return EAspectRatios.ratio_9_16;
+    case EAspectRatios.ratio_4_5:
+      return EAspectRatios.ratio_5_4;
+    case EAspectRatios.ratio_5_4:
+      return EAspectRatios.ratio_4_5;
+    case EAspectRatios.ratio_3_4:
+      return EAspectRatios.ratio_4_3;
+    case EAspectRatios.ratio_4_3:
+      return EAspectRatios.ratio_3_4;
+    case EAspectRatios.ratio_2_3:
+      return EAspectRatios.ratio_3_2;
+    case EAspectRatios.ratio_3_2:
+      return EAspectRatios.ratio_2_3;
+    case EAspectRatios.ratio_1_2:
+      return EAspectRatios.ratio_2_1;
+    case EAspectRatios.ratio_2_1:
+      return EAspectRatios.ratio_1_2;
   }
   return aspectRatioId;
 };

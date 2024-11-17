@@ -1,4 +1,4 @@
-import { ICropHistory } from '../types/interfaces';
+import { ICropHistory } from '../../types/interfaces';
 
 export const getStartHistoryStep = () => {
   return {

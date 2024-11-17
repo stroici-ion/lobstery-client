@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useRef } from 'react';
 
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import ContextMenu from '../../../ContextMenu';
 import { ArrowDownSvg, FriendsSvg, GlobeSvg, KnownsSvg, LockSvg } from '../../../../icons';
 import SearchFirends from '../../../SearchFriends';
@@ -16,7 +16,7 @@ import {
   setActiveCustomAudienceType,
 } from '../../../../redux/defaultAudience/slice';
 import { fetchCustomAudience } from '../../../../redux/defaultAudience/asyncActions';
-import { FetchStatusEnum } from '../../../../models/response/FetchStatus';
+import { EFetchStatus } from '../../../../types/enums';
 
 interface IEditCustomAudience {
   goBack: () => void;
@@ -60,7 +60,7 @@ const EditCustomAudience: React.FC<IEditCustomAudience> = ({ goBack }) => {
   };
 
   useEffect(() => {
-    if (customAudienceStatus === FetchStatusEnum.SUCCESS && isUpdated.current) {
+    if (customAudienceStatus === EFetchStatus.SUCCESS && isUpdated.current) {
       goBack();
     }
   }, [customAudienceStatus]);
@@ -82,8 +82,7 @@ const EditCustomAudience: React.FC<IEditCustomAudience> = ({ goBack }) => {
         <p className={styles.top__title}>
           {customAudienceType === 0 && 'Post will be shown only for whitelist members'}
           {customAudienceType === 1 && 'Post will be hidden for blacklist members'}
-          {customAudienceType === 2 &&
-            'Post will be shown for friends and hidden for blacklist members'}
+          {customAudienceType === 2 && 'Post will be shown for friends and hidden for blacklist members'}
           {customAudienceType === 3 &&
             'Post will be shown for friends and friends of friends and hidden for blacklist members'}
         </p>
@@ -139,7 +138,7 @@ const EditCustomAudience: React.FC<IEditCustomAudience> = ({ goBack }) => {
         </ContextMenu>
       </div>
       <SearchFirends
-        taggedFriends={activeCustomAudience.audience_list}
+        taggedFriends={activeCustomAudience.users}
         onRemove={handleOnRemoveFriend}
         onSelect={handleOnSelectFriend}
       />

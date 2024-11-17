@@ -1,11 +1,11 @@
-import { EnumAspectRatios, EnumMoveTypes } from '../types/enumerations';
-import { IEditorStep } from '../types/interfaces';
+import { EAspectRatios, EMoveTypes } from '../../types/enums';
+import { IEditorStep } from '../../types/interfaces';
 
 export const getNullObject = () => {
   return {
     imageOriginalSize: { width: 0, height: 0 },
     activeActions: {
-      moveType: EnumMoveTypes.default,
+      moveType: EMoveTypes.default,
       isCroping: false,
       isChangingAngle: false,
       isZooming: false,
@@ -14,7 +14,7 @@ export const getNullObject = () => {
     },
     Origin: { x: 0, y: 0 },
     crop: {
-      aspectRatioId: EnumAspectRatios.free,
+      aspectRatioId: EAspectRatios.free,
       aspectRatio: 0,
       x: 0,
       y: 0,

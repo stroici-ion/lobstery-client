@@ -1,6 +1,6 @@
 import { applyImageDataAdjustments } from './applyImageDataAdjustments';
 import { applyImageDataSharpness } from './applyImageDataSharpness';
-import { IAdjustments, IFilterHistory } from '../types/interfaces';
+import { IAdjustments, IFilterHistory } from '../../types/interfaces';
 import { filtersList } from '../components/FiltersList/filtersList';
 
 export const getAdjustedImageData = (

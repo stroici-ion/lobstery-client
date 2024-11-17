@@ -35,8 +35,8 @@
   }
 }
 
-$mainColor: $lightColor;
-$mainTextColor: $darkColor;
+$mainColor: var(--lightColor);
+$mainTextColor: var(--darkColor);
 
 $greenColor: $greenColor;
 $greenColorHover: darken($greenColor, 10);

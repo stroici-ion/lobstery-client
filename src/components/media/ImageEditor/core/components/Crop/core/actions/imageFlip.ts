@@ -1,8 +1,13 @@
 import { updateStartPosition } from '../resetFunctions/updateStartPosition';
 import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
-import { IEditorStep } from '../../../../types/interfaces';
+import { IEditorStep } from '../../../../../types/interfaces';
 
-export const imageFlip = (isHorizontal: boolean, cropStep: IEditorStep, drawDegrees: () => void, imageDraw: () => void) => {
+export const imageFlip = (
+  isHorizontal: boolean,
+  cropStep: IEditorStep,
+  drawDegrees: () => void,
+  imageDraw: () => void
+) => {
   const Origin = cropStep.Origin;
   const imageAngle = cropStep.angle;
   const crop = cropStep.crop;

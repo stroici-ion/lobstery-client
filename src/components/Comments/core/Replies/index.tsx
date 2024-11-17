@@ -5,12 +5,12 @@ import { ArrowDownSvg, ReturnBackSvg } from '../../../../icons';
 import { createReply, getReplies } from '../../../../services/comments/CommentsServices';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import WriteComment from '../WriteComment';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import styles from './styles.module.scss';
 import Reply from '../Reply';
 import Loader from '../../../Loader';
 import UserImage from '../../../UserImage';
-import { IReply } from '../../../../models/comments/IComment';
+import { IReply } from '../../types';
 
 interface IReplies {
   isMultimedia: boolean;
@@ -48,53 +48,34 @@ const Replies: React.FC<IReplies> = ({
     if (user) {
       setIsCreateReplyLoading(true);
 
-      const res = await createReply(postId, commentId, text);
+      const reply = await createReply(postId, commentId, text);
 
-      if (res) {
-        const newReply: IReply = {
-          ...res,
-          isLikedByAuthor: false,
-          likesCount: 0,
-          dislikesCount: 0,
-          liked: false,
-          disliked: false,
-          user: {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            profile: user.profile && {
-              avatar: user.profile.avatar,
-              avatarThumbnail: user.profile.avatarThumbnail,
-              cover: user.profile.cover,
-            },
-          },
-        };
-        setRecentReplies([...recentReplies, newReply]);
+      if (reply) {
+        setRecentReplies([reply, ...recentReplies]);
       }
       setIsCreateReplyLoading(false);
       setIsCreateReplyVisible(false);
     }
   };
 
-  useEffect(() => {
-    if (isFetchedRepliesVisible && !fetchedReplies.length) {
-      setIsRepliesLoading(true);
-      getReplies(commentId, page, user.id).then((replies) => {
-        if (replies) setFetchedReplies([...fetchedReplies, ...replies.results]);
-        setIsRepliesLoading(false);
-      });
-    }
-  }, [isFetchedRepliesVisible]);
+  const fetchReplies = async () => {
+    setIsRepliesLoading(true);
+    const result = await getReplies(commentId, page, user.id);
+    if (result) setFetchedReplies([...fetchedReplies, ...result.replies]);
+    setIsRepliesLoading(false);
+  };
 
   useEffect(() => {
-    if (fetchedReplies.length) {
-      setIsRepliesLoading(true);
-      getReplies(commentId, page, user.id).then((replies) => {
-        if (replies) setFetchedReplies([...fetchedReplies, ...replies.results]);
-        setIsRepliesLoading(false);
-      });
-    }
+    if (isFetchedRepliesVisible && !fetchedReplies.length) fetchReplies();
+  }, [isFetchedRepliesVisible, page]);
+
+  useEffect(() => {
+    fetchReplies();
   }, [page]);
+
+  const handleShowReplies = () => {
+    setIsFetchedRepliesVisible(!isFetchedRepliesVisible);
+  };
 
   return (
     <div className={styles.root}>
@@ -106,7 +87,7 @@ const Replies: React.FC<IReplies> = ({
         )
       )}
       {repliesCount > 0 && (
-        <button className={styles.root__button} onClick={() => setIsFetchedRepliesVisible(!isFetchedRepliesVisible)}>
+        <button className={styles.root__button} onClick={handleShowReplies}>
           <ArrowDownSvg />
           {isRepliedByAuthor && (
             <>
@@ -119,6 +100,17 @@ const Replies: React.FC<IReplies> = ({
       )}
       {isFetchedRepliesVisible && (
         <>
+          {recentReplies.map((reply) => (
+            <Reply
+              postId={postId}
+              isMultimedia={isMultimedia}
+              setRecentReplies={setRecentReplies}
+              key={reply.id}
+              commentId={commentId}
+              owner={owner}
+              reply={reply}
+            />
+          ))}
           {fetchedReplies
             .filter((reply) => !recentReplies.map((recent) => recent.id).includes(reply.id))
             .map((reply) => (
@@ -133,17 +125,6 @@ const Replies: React.FC<IReplies> = ({
                 owner={owner}
               />
             ))}
-          {recentReplies.map((reply) => (
-            <Reply
-              postId={postId}
-              isMultimedia={isMultimedia}
-              setRecentReplies={setRecentReplies}
-              key={reply.id}
-              commentId={commentId}
-              owner={owner}
-              reply={reply}
-            />
-          ))}
           {isRepliesLoading ? (
             <Loader height={91} size={80} />
           ) : (

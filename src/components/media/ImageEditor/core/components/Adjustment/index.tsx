@@ -9,7 +9,7 @@ import {
   IFilterListItem,
   IMarkupLine,
   ISlider,
-} from '../../types/interfaces';
+} from '../../../types/interfaces';
 import { loadHistoryStepPosition } from '../../historyFunctions/loadHistoryStepPosition';
 import { getAdjustedImageData } from '../../imageDataFunctions/getAdjustedImageData';
 import { getNullAdjustments } from '../../initialStateFunctions/getNullAdjustments';

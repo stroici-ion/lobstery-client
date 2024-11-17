@@ -1,4 +1,4 @@
-import { IEditorStep, IMarkupLine, IPosition } from '../../../../types/interfaces';
+import { IEditorStep, IMarkupLine, IPosition } from '../../../../../types/interfaces';
 import { getRelativePoint } from './getRelativePoint';
 
 export const getRelativeLine = (line: IMarkupLine, cropState: IEditorStep) => {

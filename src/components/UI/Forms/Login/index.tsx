@@ -4,18 +4,18 @@ import classNames from 'classnames';
 import styles from './styles.module.scss';
 import useInput from '../../../../hooks/useInput';
 import useInputPassword from '../../../../hooks/useInputPassword';
-import { EnumFromTypes } from '../../../../models/auth/EnumFormTypes';
 import Input from '../../Inputs/Input';
 import InputPassword from '../../Inputs/InputPassword';
 import { fetchAuthLogin } from '../../../../redux/auth/asyncActions';
 import { useAppDispatch } from '../../../../redux';
 import { useSelector } from 'react-redux';
 import { selectAuthErrors } from '../../../../redux/auth/selectors';
+import { EAuthFormTypes } from '../../../../pages/Auth/types';
 
 interface ILoginForm {
   className: string;
-  changeForm: (formType: EnumFromTypes) => void;
-  changePositionFast: (formType: EnumFromTypes) => void;
+  changeForm: (formType: EAuthFormTypes) => void;
+  changePositionFast: (formType: EAuthFormTypes) => void;
 }
 
 const LoginForm: React.FC<ILoginForm> = ({ className, changeForm, changePositionFast }) => {
@@ -63,15 +63,15 @@ const LoginForm: React.FC<ILoginForm> = ({ className, changeForm, changePosition
         Sign in
       </button>
 
-      <p className={styles.form__frogotPassword_slow} onClick={() => changeForm(EnumFromTypes.recover)}>
+      <p className={styles.form__frogotPassword_slow} onClick={() => changeForm(EAuthFormTypes.recover)}>
         Forgot your password?
       </p>
 
-      <p className={styles.form__frogotPassword_fast} onClick={() => changePositionFast(EnumFromTypes.recover)}>
+      <p className={styles.form__frogotPassword_fast} onClick={() => changePositionFast(EAuthFormTypes.recover)}>
         Forgot your password?
       </p>
 
-      <p className={styles.form__bottomButton} onClick={() => changePositionFast(EnumFromTypes.register)}>
+      <p className={styles.form__bottomButton} onClick={() => changePositionFast(EAuthFormTypes.register)}>
         Don't have an account? <b>Sign Up</b>
       </p>
     </form>

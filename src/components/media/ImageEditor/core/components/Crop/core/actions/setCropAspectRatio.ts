@@ -1,9 +1,13 @@
 import { updateStartPosition } from '../resetFunctions/updateStartPosition';
-import { IAspectRatio, IEditorStep } from '../../../../types/interfaces';
-import { EnumAspectRatios } from '../../../../types/enumerations';
+import { IAspectRatio, IEditorStep } from '../../../../../types/interfaces';
+import { EAspectRatios } from '../../../../../types/enums';
 import { aspectRatioList } from '../../../AspectRatiosList';
 
-export const setCropAspectRatio = (cropStep: IEditorStep, aspectRatio: EnumAspectRatios, setAspectRatio: (aspectRatio: IAspectRatio) => void) => {
+export const setCropAspectRatio = (
+  cropStep: IEditorStep,
+  aspectRatio: EAspectRatios,
+  setAspectRatio: (aspectRatio: IAspectRatio) => void
+) => {
   const crop = cropStep.crop;
   const image = cropStep.image;
   const startPosition = cropStep.aspectRatioStartPosition;
@@ -11,12 +15,12 @@ export const setCropAspectRatio = (cropStep: IEditorStep, aspectRatio: EnumAspec
   const candidate = aspectRatioList.find((ar) => ar.id === aspectRatio);
   if (candidate) {
     switch (candidate.id) {
-      case EnumAspectRatios.original: {
+      case EAspectRatios.original: {
         crop.aspectRatio = image.width / image.height;
-        crop.aspectRatioId = EnumAspectRatios.original;
+        crop.aspectRatioId = EAspectRatios.original;
         break;
       }
-      case EnumAspectRatios.free: {
+      case EAspectRatios.free: {
         crop.aspectRatioId = candidate.id;
         crop.aspectRatio = 0;
         break;

@@ -1,4 +1,4 @@
-import { IPosition } from '../../../../types/interfaces';
+import { IPosition } from '../../../../../types/interfaces';
 
 export const mouseDown = (
   ctx: CanvasRenderingContext2D,

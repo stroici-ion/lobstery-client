@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { PlaySvg } from '../../../../icons';
-import { IImage } from '../../../../models/images/IImage';
 
 import styles from './styles.module.scss';
+import { IImage } from '../../../../redux/images/types';
 
 interface IImagesGrid {
   images: IImage[];
@@ -180,7 +180,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
               <img
                 className={styles.verticalGrid__image}
                 src={image.imageThumbnail}
-                alt='Failed to upload'
+                alt="Failed to upload"
                 onClick={(event) => {
                   onSelect?.(image, event.target as HTMLElement);
                 }}
@@ -217,7 +217,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
             <div className={classNames(styles.root__nearVideoBlock, styles.imageParent)}>
               <img
                 src={imagesGrid.mainImage.imageThumbnail}
-                alt='Failed to upload'
+                alt="Failed to upload"
                 className={styles.root__nearVideoBlock_image}
                 onClick={(event) => {
                   onSelect?.(imagesGrid.mainImage, event.target as HTMLElement);
@@ -247,7 +247,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
                     }}
                   >
                     <img
-                      alt='Failed to upload'
+                      alt="Failed to upload"
                       src={image.imageThumbnail}
                       className={styles.root__nearVideoBlock_image}
                       onClick={(event) => {
@@ -274,7 +274,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
                   {imagesGrid.firstRowImages.map((image) => (
                     <div key={image.image} className={classNames(styles.root__nearVideoBlock, styles.imageParent)}>
                       <img
-                        alt='Failed to upload'
+                        alt="Failed to upload"
                         src={image.imageThumbnail}
                         className={styles.root__nearVideoBlock_image}
                         onClick={(event) => {
@@ -310,7 +310,7 @@ const ImagesGrid: React.FC<IImagesGrid> = ({ images, onSelect, onRemove }) => {
               {imagesGrid.secondRowImages.map((image) => (
                 <div key={image.imageThumbnail} className={classNames(styles.root__imageBlock, styles.imageParent)}>
                   <img
-                    alt=''
+                    alt=""
                     src={image.imageThumbnail}
                     className={styles.root__imageBlock_image}
                     onClick={(event) => {

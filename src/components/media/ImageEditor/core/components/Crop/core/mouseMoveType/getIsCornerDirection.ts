@@ -1,10 +1,10 @@
-import { EnumMoveTypes } from '../../../../types/enumerations';
+import { EMoveTypes } from '../../../../../types/enums';
 
-export const getIsCornerDirection = (moveType: EnumMoveTypes) => {
+export const getIsCornerDirection = (moveType: EMoveTypes) => {
   return (
-    moveType === EnumMoveTypes.leftTop ||
-    moveType === EnumMoveTypes.leftBottom ||
-    moveType === EnumMoveTypes.rightTop ||
-    moveType === EnumMoveTypes.rightBottom
+    moveType === EMoveTypes.leftTop ||
+    moveType === EMoveTypes.leftBottom ||
+    moveType === EMoveTypes.rightTop ||
+    moveType === EMoveTypes.rightBottom
   );
 };

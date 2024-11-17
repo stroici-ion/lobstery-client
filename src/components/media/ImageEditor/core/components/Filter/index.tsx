@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { IAdjustments, ICropHistory, IEditorStep, IFilterHistory, IMarkupLine } from '../../types/interfaces';
+import { IAdjustments, ICropHistory, IEditorStep, IFilterHistory, IMarkupLine } from '../../../types/interfaces';
 import { initialPreviewFilterPositionLoad } from './core/actions/initialPreviewFilterPositionLoad';
 import { loadHistoryStepPosition } from '../../historyFunctions/loadHistoryStepPosition';
 import { getAdjustedImageData } from '../../imageDataFunctions/getAdjustedImageData';

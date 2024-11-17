@@ -1,7 +1,8 @@
 @import '../../../../styles/colors.scss';
 
+$color: var(--lightColor);
 .root {
-  background-color: transparentize($color: $lightColor, $amount: 0.2);
+  background-color: var(--lightColorTransparent);
   height: 100%;
   overflow: hidden;
   position: relative;
@@ -19,7 +20,7 @@
     right: 0;
     bottom: 0;
     height: 30px;
-    background: linear-gradient(transparent, $lightColor);
+    background: var(--lightColorTransparent);
   }
   &__top {
     display: flex;
@@ -58,7 +59,7 @@
     text-align: left;
     margin-left: 15px;
     &.pending {
-      color: $grayColor;
+      color: var(--grayColor);
     }
   }
   &__progressBarBlock {

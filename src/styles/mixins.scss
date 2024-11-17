@@ -20,13 +20,13 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $grayColor;
+      background: var(--grayColor);
       border-radius: 10px;
-      border: 4px solid $lightColor;
+      border: 4px solid var(--lightColor);
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: darken($color: $grayColorDarken, $amount: 10);
+      background: var(--grayColorDarken) Ultra;
     }
   }
 }
@@ -44,12 +44,12 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $grayColor;
-      border: 2px solid $grayColor;
+      background: var(--grayColor);
+      border: 2px solid var(--grayColor);
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: darken($color: $grayColorDarken, $amount: 10);
+      background: var(--grayColorDarken) Ultra;
     }
   }
 }

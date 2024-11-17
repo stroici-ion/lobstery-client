@@ -1,6 +1,13 @@
-import { IBorders, ICropShape, IDynamicShape, IImageShape, IPosition, IShape } from '../../../../../types/interfaces';
+import {
+  IBorders,
+  ICropShape,
+  IDynamicShape,
+  IImageShape,
+  IPosition,
+  IShape,
+} from '../../../../../../types/interfaces';
 import { getAvailableResizeDirection } from '../../mouseMoveType/getAvailableDirection';
-import { degrees_to_radians } from '../../../../../calculationFunctions/converters';
+import { convertToRadians } from '../../../../../calculationFunctions/converters';
 import { resizeBottomFreeOverView } from '../resizeCrop/directions/bottomFree';
 import { resizeRightFreeOverView } from '../resizeCrop/directions/rightFree';
 import { resizeLeftFreeOverView } from '../resizeCrop/directions/leftFree';
@@ -10,7 +17,7 @@ import { resizeRightOverView } from '../resizeCrop/directions/right';
 import { getCropRotatedDistToImage } from './cropRotatedDistToImage';
 import { getInscriptedImage } from '../position/getInscriptedImage';
 import { resizeLeftOverView } from '../resizeCrop/directions/left';
-import { EnumMoveTypes } from '../../../../../types/enumerations';
+import { EMoveTypes } from '../../../../../../types/enums';
 import { resizeTopOverView } from '../resizeCrop/directions/top';
 import { getRotatedShape } from '../position/getRotatedShape';
 import { iEBSB, iEBSLR, iEBST } from '../../../../../config';
@@ -41,7 +48,7 @@ export const getRotatedImageLimits = (
   crop: ICropShape,
   image: IImageShape,
   O: IPosition,
-  moveType: EnumMoveTypes,
+  moveType: EMoveTypes,
   viewBorders: IBorders
 ) => {
   const newCrop = {
@@ -66,8 +73,8 @@ export const getRotatedImageLimits = (
   };
 
   const a = Math.abs(image.angle);
-  const cos = Math.cos(degrees_to_radians(a));
-  const sin = Math.sin(degrees_to_radians(a));
+  const cos = Math.cos(convertToRadians(a));
+  const sin = Math.sin(convertToRadians(a));
   const imageDC = getDistanceToCenter(image, O);
 
   const cropRotated = getRotatedShape(crop, image.angle);
@@ -75,19 +82,19 @@ export const getRotatedImageLimits = (
   const distOuter: IBorders = getImageLimits(crop, image.outerImage);
 
   switch (moveType) {
-    case EnumMoveTypes.top:
+    case EMoveTypes.top:
       if (crop.aspectRatio) {
         let border: 'left' | 'top' | 'right' | undefined;
         if (image.angle) {
           const availableDirection = getAvailableResizeDirection(image.angle, dist);
           switch (availableDirection) {
-            case EnumMoveTypes.leftTop:
+            case EMoveTypes.leftTop:
               border = 'left';
               break;
-            case EnumMoveTypes.rightTop:
+            case EMoveTypes.rightTop:
               border = 'right';
               break;
-            case EnumMoveTypes.default:
+            case EMoveTypes.default:
               border = 'top';
           }
         }
@@ -95,10 +102,10 @@ export const getRotatedImageLimits = (
           const isCrossingTopDirection = (progress: number) => {
             switch (border) {
               case 'left':
-                resizeLeftOverView(progress, EnumMoveTypes.leftTop, newImage, newCrop, distOuter);
+                resizeLeftOverView(progress, EMoveTypes.leftTop, newImage, newCrop, distOuter);
                 break;
               case 'right':
-                resizeRightOverView(progress, EnumMoveTypes.rightTop, newImage, newCrop, distOuter);
+                resizeRightOverView(progress, EMoveTypes.rightTop, newImage, newCrop, distOuter);
                 break;
               default:
                 resizeTopOverView(progress, newImage, newCrop, distOuter);
@@ -122,19 +129,19 @@ export const getRotatedImageLimits = (
         }
       }
       break;
-    case EnumMoveTypes.bottom:
+    case EMoveTypes.bottom:
       if (crop.aspectRatio) {
         let border: 'left' | 'bottom' | 'right' | undefined;
         if (image.angle) {
           const availableDirection = getAvailableResizeDirection(image.angle, dist);
           switch (availableDirection) {
-            case EnumMoveTypes.leftBottom:
+            case EMoveTypes.leftBottom:
               border = 'left';
               break;
-            case EnumMoveTypes.rightBottom:
+            case EMoveTypes.rightBottom:
               border = 'right';
               break;
-            case EnumMoveTypes.default:
+            case EMoveTypes.default:
               border = 'bottom';
           }
         }
@@ -142,10 +149,10 @@ export const getRotatedImageLimits = (
           const isCrossingBottomDirection = (progress: number) => {
             switch (border) {
               case 'left':
-                resizeLeftOverView(progress, EnumMoveTypes.leftBottom, newImage, newCrop, distOuter);
+                resizeLeftOverView(progress, EMoveTypes.leftBottom, newImage, newCrop, distOuter);
                 break;
               case 'right':
-                resizeRightOverView(progress, EnumMoveTypes.rightBottom, newImage, newCrop, distOuter);
+                resizeRightOverView(progress, EMoveTypes.rightBottom, newImage, newCrop, distOuter);
                 break;
               default:
                 resizeBottomOverView(progress, newImage, newCrop, distOuter);
@@ -167,21 +174,21 @@ export const getRotatedImageLimits = (
         }
       }
       break;
-    case EnumMoveTypes.left:
-    case EnumMoveTypes.leftTop:
-    case EnumMoveTypes.leftBottom:
+    case EMoveTypes.left:
+    case EMoveTypes.leftTop:
+    case EMoveTypes.leftBottom:
       if (crop.aspectRatio) {
         let mooveRedirect = moveType;
 
         let availableDirection = getAvailableResizeDirection(image.angle, dist);
 
-        if (moveType === EnumMoveTypes.leftTop || moveType === EnumMoveTypes.leftBottom) {
-          if (availableDirection !== moveType && availableDirection !== EnumMoveTypes.default)
+        if (moveType === EMoveTypes.leftTop || moveType === EMoveTypes.leftBottom) {
+          if (availableDirection !== moveType && availableDirection !== EMoveTypes.default)
             availableDirection = undefined;
         } else
           switch (availableDirection) {
-            case EnumMoveTypes.leftTop:
-            case EnumMoveTypes.leftBottom:
+            case EMoveTypes.leftTop:
+            case EMoveTypes.leftBottom:
               mooveRedirect = availableDirection;
           }
 
@@ -205,20 +212,20 @@ export const getRotatedImageLimits = (
         }
       }
       break;
-    case EnumMoveTypes.right:
-    case EnumMoveTypes.rightTop:
-    case EnumMoveTypes.rightBottom:
+    case EMoveTypes.right:
+    case EMoveTypes.rightTop:
+    case EMoveTypes.rightBottom:
       if (crop.aspectRatio) {
         let mooveRedirect = moveType;
 
         let availableDirection = getAvailableResizeDirection(image.angle, dist);
-        if (moveType === EnumMoveTypes.rightTop || moveType === EnumMoveTypes.rightBottom) {
-          if (availableDirection !== moveType && availableDirection !== EnumMoveTypes.default)
+        if (moveType === EMoveTypes.rightTop || moveType === EMoveTypes.rightBottom) {
+          if (availableDirection !== moveType && availableDirection !== EMoveTypes.default)
             availableDirection = undefined;
         } else
           switch (availableDirection) {
-            case EnumMoveTypes.rightTop:
-            case EnumMoveTypes.rightBottom:
+            case EMoveTypes.rightTop:
+            case EMoveTypes.rightBottom:
               mooveRedirect = availableDirection;
           }
 

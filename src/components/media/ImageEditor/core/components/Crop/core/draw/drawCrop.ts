@@ -1,6 +1,6 @@
 import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
-import { degrees_to_radians } from '../../../../calculationFunctions/converters';
-import { IEditorStep, IShape } from '../../../../types/interfaces';
+import { convertToRadians } from '../../../../calculationFunctions/converters';
+import { IEditorStep, IShape } from '../../../../../types/interfaces';
 import { dpr, iECBS, iECCS } from '../../../../config';
 
 export const canvasDrawCrop = (
@@ -57,7 +57,7 @@ export const canvasDrawCrop = (
   }
 
   if (editedAngle) {
-    const angleInRadians = degrees_to_radians(editedAngle);
+    const angleInRadians = convertToRadians(editedAngle);
     ctx.translate(centerX, centerY); // Translate to the center of the selection
     ctx.rotate(angleInRadians); // Apply rotation
     ctx.save();
@@ -204,7 +204,7 @@ export const canvasDrawCrop = (
   };
 
   if (animationAngle) {
-    const angleInRadians = degrees_to_radians(animationAngle);
+    const angleInRadians = convertToRadians(animationAngle);
     ctx.translate(centerX, centerY); // Translate to the center of the selection
     ctx.rotate(angleInRadians); // Apply rotation
     ctx.save();

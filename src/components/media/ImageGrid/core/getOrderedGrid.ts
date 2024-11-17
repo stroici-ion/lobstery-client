@@ -1,14 +1,6 @@
-import { IImage } from '../../../../models/images/IImage';
 import layouts from './grid-layouts';
-import { TGridCell } from '../../../../models/media-tools/images-grid';
-import {
-  TCell,
-  TImageArType,
-  TImagesTypes,
-  TLayout,
-  TMIImage,
-  TRemainedImagesLocation,
-} from '../../../../models/media-tools/images-auto-order';
+import { TCell, TGridCell, TImageArType, TImagesTypes, TLayout, TMIImage, TRemainedImagesLocation } from '../types';
+import { IImage } from '../../../../redux/images/types';
 
 export function getOrderedGrid(images: IImage[], remainedImagesLocation: TRemainedImagesLocation) {
   if (!images.length) return;

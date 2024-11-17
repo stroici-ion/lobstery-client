@@ -1,14 +1,13 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { IPost } from '../../models/posts/IPost';
-import { FetchStatusEnum } from '../../models/response/FetchStatus';
-import { IPostsState } from './types';
-import { IUser } from '../../models/IUser';
+import { EFetchStatus } from '../../types/enums';
+import { IUser } from '../profile/types';
 import { initialState } from './initialState';
-import { TGridCell } from '../../models/media-tools/images-grid';
+import { TGridCell } from '../../components/media/ImageGrid/types';
+import { IPost, IPostsState } from './types';
 
 export const reducers = {
   setActivePost: (state: IPostsState, action: PayloadAction<IPost | undefined>) => {
-    state.postCreateStatus = FetchStatusEnum.PENDING;
+    state.postCreateStatus = EFetchStatus.PENDING;
     state.uploadProgress = 0;
     if (action.payload)
       state.activePost = {

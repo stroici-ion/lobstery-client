@@ -11,12 +11,13 @@ import styles from './styles.module.scss';
 import { EditSvg, ReportSvg } from '../../../../icons';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import CommentContextMenu from '../CommentContextMenu';
-import { IUser } from '../../../../models/IUser';
+import { IUser } from '../../../../redux/profile/types';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import Loader from '../../../Loader';
 import UserImage from '../../../UserImage';
-import { IReply } from '../../../../models/comments/IComment';
-import { ILikesInfo } from '../../../../models/likes/ILikesInfo';
+import { IReply } from '../../types';
+import { ILikesInfo } from '../../../../types/LikesInfo.types';
+import getUserName from '../../../user/utils/getUserName';
 
 interface IReplyFC {
   isMultimedia: boolean;
@@ -37,40 +38,19 @@ const Reply: React.FC<IReplyFC> = ({
   setRecentReplies,
   setFetchedReplies,
 }) => {
-  const userData = useSelector(selectUserProfile);
+  const user = useSelector(selectUserProfile);
   const [isCreateReplyVisible, setIsCreateReplyVisible] = useState(false);
   const [isCreateReplyLoading, setIsCreateReplyLoading] = useState(false);
   const [, setIsEditingReplyLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleCreateReply = async (text: string) => {
-    if (userData) {
+    if (user) {
       setIsCreateReplyLoading(true);
-      const mentionedUser = reply.user.id !== userData.id ? reply.user.id : undefined;
-      const res = await createReply(postId, commentId, text, mentionedUser);
+      const mentionedUser = reply.user.id !== user.id ? reply.user.id : undefined;
+      const newReply = await createReply(postId, commentId, text, mentionedUser);
 
-      if (res) {
-        const newReply: IReply = {
-          ...res,
-          isLikedByAuthor: false,
-          likesCount: 0,
-          dislikesCount: 0,
-          liked: false,
-          disliked: false,
-          user: {
-            id: userData.id,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            profile: userData.profile && {
-              avatar: userData.profile.avatar,
-              avatarThumbnail: userData.profile.avatarThumbnail,
-              cover: userData.profile.cover,
-            },
-          },
-          mentionedUser: reply.user.id !== userData?.id ? reply.user : undefined,
-        };
-        setRecentReplies((recentReplies) => [...recentReplies, newReply]);
-      }
+      if (newReply) setRecentReplies((recentReplies) => [...recentReplies, newReply]);
       setIsCreateReplyLoading(false);
       setIsCreateReplyVisible(false);
     }
@@ -180,10 +160,11 @@ const Reply: React.FC<IReplyFC> = ({
                 <p
                   className={classNames(
                     styles.comment__nameInfo,
-                    reply.user.id === owner.id && styles.comment__nameInfo_owner
+                    reply.user.id === owner.id && styles.comment__nameInfo__postOwner,
+                    reply.user.id === user.id && styles.comment__nameInfo__owned
                   )}
                 >
-                  {`${reply.user.firstName} ${reply.user.lastName}`}
+                  {getUserName(reply.user)}
                 </p>
                 <span className={styles.comment__timeInfo}>{getTime(reply.createdAt)}</span>
               </div>
@@ -194,11 +175,11 @@ const Reply: React.FC<IReplyFC> = ({
                 buttons={replyContextMenuButtons}
               />
             </div>
-            <ExtensibleText className={styles.comment__text} refUser={reply.mentionedUser} text={reply.text} />
+            <ExtensibleText className={styles.comment__text} mentionedUser={reply.mentionedUser} text={reply.text} />
             <CommentActions
               isMultimedia={isMultimedia}
               owner={owner}
-              isOwner={userData?.id === owner.id}
+              isOwner={user?.id === owner.id}
               isReply={true}
               id={reply.id}
               className={styles.root__actions}

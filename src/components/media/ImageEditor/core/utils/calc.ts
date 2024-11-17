@@ -1,4 +1,4 @@
-import { IShape } from '../types/interfaces';
+import { IShape } from '../../types/interfaces';
 
 export const r = (x: number) => Math.round(x);
 

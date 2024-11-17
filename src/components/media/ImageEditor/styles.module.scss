@@ -233,14 +233,14 @@
     @media (hover: hover) {
       &:hover {
         background-color: $redColor;
-        color: $lightColor;
+        color: var(--lightColor);
       }
     }
   }
 
   &_save {
     background-color: $cyanColorDarken;
-    color: $lightColor;
+    color: var(--lightColor);
     flex: 0 0 90px;
     width: 90px;
     @media (hover: hover) {
@@ -252,7 +252,7 @@
 
   &_saveCopy {
     background-color: $greenColor;
-    color: $lightColor;
+    color: var(--lightColor);
     @media (hover: hover) {
       &:hover {
         background-color: $greenColorLighten;

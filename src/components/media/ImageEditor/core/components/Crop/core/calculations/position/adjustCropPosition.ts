@@ -1,4 +1,4 @@
-import { IPosition, IShape } from '../../../../../types/interfaces';
+import { IPosition, IShape } from '../../../../../../types/interfaces';
 import { adjustShapePostion } from '../../../../../utils/calc';
 
 export const adjustCropPosition = (crop: IShape, image: IShape, angle: number, Origin: IPosition) => {

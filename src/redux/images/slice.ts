@@ -1,15 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { IImagesState } from './types';
-import { IImage } from '../../models/images/IImage';
-import { IUser } from '../../models/IUser';
-import { ImageEditOperationsEnum } from '../../models/ImageEditOperationsEnum';
+import { IUser } from '../profile/types';
 import { extraReducers } from './extraReducers';
+import { EImageEditOperations, IImage, IImagesState } from './types';
 
 const initialState: IImagesState = {
   images: [],
   activeImage: undefined,
-  operation: ImageEditOperationsEnum.TAG,
+  operation: EImageEditOperations.TAG,
   activeIndex: -1,
 };
 
@@ -68,7 +66,7 @@ const imagesSlice = createSlice({
         if (action.payload >= 0) state.activeImage = state.images[action.payload];
       }
     },
-    setImageEditOperationType: (state, action: PayloadAction<ImageEditOperationsEnum>) => {
+    setImageEditOperationType: (state, action: PayloadAction<EImageEditOperations>) => {
       state.operation = action.payload;
     },
     setUploadProgress: (state, action: PayloadAction<{ id: number; progress: number }>) => {

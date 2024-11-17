@@ -2,21 +2,18 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import $api from '../../http';
 
 import { fetchCreateImage, fetchRemoveImage, fetchUpdateImage } from '../images/asyncActions';
-import { FetchPostsResponse } from '../../models/posts/FetchPostsResponse';
-import { setUploadProgress } from './slice';
-import { IAuthError } from '../../models/auth/IAuthError';
-import { IPost, IPostEdit } from '../../models/posts/IPost';
-import { IImage } from '../../models/images/IImage';
-import { IFetchedPost } from '../../models/posts/IFetchedPost';
-import { IFetchedImage } from '../../models/images/IFetchedImage';
 import convertKeysToCamelCase from '../../utils/convertKeysToCamelCase';
+import { FetchPostsResponse, IPost, IPostEdit } from './types';
+import { setUploadProgress } from './slice';
+import { IFetchError } from '../auth/types';
+import { IImage } from '../images/types';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const fetchPosts = createAsyncThunk<
   { count: number; posts: IPost[] },
   Record<string, string | undefined>,
-  { rejectValue: IAuthError }
+  { rejectValue: IFetchError }
 >('posts/fetchPosts', async (params, { rejectWithValue }) => {
   try {
     const res = await $api.get<FetchPostsResponse>(apiUrl + 'api/posts/', { params });
@@ -25,20 +22,20 @@ export const fetchPosts = createAsyncThunk<
     if (!error.response) {
       alert(error);
     }
-    return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+    return rejectWithValue({ message: error.response.data.detail } as IFetchError);
   }
 });
 
 export const fetchCreatePost = createAsyncThunk<
   IPost,
   { post: IPostEdit; images: IImage[] },
-  { rejectValue: IAuthError }
+  { rejectValue: IFetchError }
 >('posts/fetchCreatePost', async ({ post, images }, { dispatch, rejectWithValue }) => {
   try {
     const newPost = await $api[post.id && post.id >= 0 ? 'put' : 'post']<IPost>(
       `/api/posts/${post.id && post.id >= 0 ? post.id + '/update' : 'create'}/`,
       {
-        imagesLayout: post.imagesLayout,
+        images_layout: post.imagesLayout,
         title: post.title || '',
         text: post.text || '',
         feeling: post.feeling || '',
@@ -69,19 +66,19 @@ export const fetchCreatePost = createAsyncThunk<
     try {
       const finalResult = await $api.get<IPost>(`/api/posts/${newPost.data.id}/details/`);
       dispatch(setUploadProgress(100));
-      return finalResult.data;
+      return convertKeysToCamelCase(finalResult.data) as IPost;
     } catch {
-      return rejectWithValue({ message: 'Something went wrong' } as IAuthError);
+      return rejectWithValue({ message: 'Something went wrong' } as IFetchError);
     }
   } catch (error: any) {
     if (!error.response) {
       throw error;
     }
-    return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+    return rejectWithValue({ message: error.response.data.detail } as IFetchError);
   }
 });
 
-export const fetchRemovePost = createAsyncThunk<number, number, { rejectValue: IAuthError }>(
+export const fetchRemovePost = createAsyncThunk<number, number, { rejectValue: IFetchError }>(
   'posts/fetchRemovePost',
   async (id, { rejectWithValue }) => {
     try {
@@ -91,7 +88,7 @@ export const fetchRemovePost = createAsyncThunk<number, number, { rejectValue: I
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue({ message: error.response.data.detail } as IAuthError);
+      return rejectWithValue({ message: error.response.data.detail } as IFetchError);
     }
   }
 );

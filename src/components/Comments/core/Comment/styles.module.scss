@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: $grayColor;
+    color: var(--grayColor);
     svg {
       height: 12px;
       width: 12px;
@@ -47,11 +47,9 @@
   }
 
   &__avatar {
-    user-select: none;
+    // user-select: none;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
   }
 
   &__body {
@@ -59,7 +57,7 @@
     padding-bottom: 5px;
     position: relative;
     flex: 1 1 auto;
-    border-bottom: 1px solid $grayColorLighten;
+    border-bottom: 1px solid var(--grayColor) Lighten;
   }
 
   &__top {
@@ -75,21 +73,19 @@
 
   &__nameInfo {
     font-weight: 700;
-    font-size: 13px;
-    line-height: 15px;
-    color: $grayColorDarken;
-    &_owner {
-      line-height: 18px;
-      background-color: $grayColorLighten;
-      border-radius: 10px;
-      padding: 0px 7px;
-      color: $darkColor;
+    font-size: 14px;
+    color: var(--grayColorDarken);
+    &__postOwner {
+      color: $cyanColorDarken;
+    }
+    &__owned {
+      color: $blueColor;
     }
   }
 
   &__timeInfo {
     font-size: 12px;
-    color: $grayColor;
+    color: var(--grayColor);
   }
 
   &:hover {
@@ -144,7 +140,7 @@
       }
     }
     &:hover {
-      background-color: $yellowColorLighten;
+      background-color: $yellowColor Lighten;
     }
   }
 
@@ -198,6 +194,6 @@
     padding: 3px 10px;
     border-radius: 5px;
     background-color: $redColor;
-    color: $lightColor;
+    color: var(--lightColor);
   }
 }

@@ -24,11 +24,11 @@
     left: 0;
     bottom: 0;
     width: 10px;
-    background-image: linear-gradient(to right, $lightColor, transparent);
+    background-image: linear-gradient(to right, var(--lightColor), transparent);
   }
   &::after {
     left: auto;
     right: 0;
-    background-image: linear-gradient(to left, $lightColor, transparent);
+    background-image: linear-gradient(to left, var(--lightColor), transparent);
   }
 }

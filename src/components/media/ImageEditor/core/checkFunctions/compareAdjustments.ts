@@ -1,4 +1,4 @@
-import { IAdjustments } from '../types/interfaces';
+import { IAdjustments } from '../../types/interfaces';
 
 export const compareAdjustments = (a: IAdjustments, b: IAdjustments) => {
   return (

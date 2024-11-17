@@ -6,7 +6,7 @@
   height: 520px;
   padding: 15px;
   border-radius: 15px;
-  background-color: $lightColor;
+  background-color: var(--lightColor);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -17,7 +17,7 @@
     font-size: 12px;
     background-color: $redColor;
     opacity: 0.8;
-    color: $lightColor;
+    color: var(--lightColor);
     padding: 2px 5px;
     border-radius: 10px;
   }
@@ -29,7 +29,7 @@
     height: 320px;
     flex: 0 0 330px;
     object-fit: contain;
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     transition: 0.3s;
   }
   &__properties {
@@ -77,7 +77,7 @@
 
   &__priceType {
     font-size: 12px;
-    color: $grayColor;
+    color: var(--grayColor);
     display: flex;
     align-items: center;
     gap: 5px;
@@ -89,7 +89,7 @@
   &__discount {
     background-color: $redColor;
     text-decoration: none;
-    color: $lightColor;
+    color: var(--lightColor);
     padding: 1px 5px;
     border-radius: 10px;
   }
@@ -110,7 +110,7 @@
     font-size: 13px;
     background-color: $yellowColorDarken;
     text-decoration: none;
-    color: $lightColor;
+    color: var(--lightColor);
     padding: 1px 5px;
     border-radius: 10px;
   }
@@ -135,8 +135,8 @@
       height: 30px;
       path {
         transition: 0.2s;
-        stroke: $grayColor;
-        fill: $grayColor;
+        stroke: var(--grayColor);
+        fill: var(--grayColor);
       }
     }
   }
@@ -145,8 +145,8 @@
     &:hover {
       svg {
         path {
-          stroke: $darkColor;
-          fill: $darkColor;
+          stroke: var(--darkColor);
+          fill: var(--darkColor);
         }
       }
     }
@@ -158,8 +158,8 @@
       background-color: $yellowColorDarken;
       svg {
         path {
-          stroke: $lightColor;
-          fill: $lightColor;
+          stroke: var(--lightColor);
+          fill: var(--lightColor);
         }
       }
     }

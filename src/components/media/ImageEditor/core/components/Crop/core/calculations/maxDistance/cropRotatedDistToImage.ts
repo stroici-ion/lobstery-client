@@ -1,5 +1,5 @@
-import { radians_to_degrees } from '../../../../../calculationFunctions/converters';
-import { IBorders, IDimension } from '../../../../../types/interfaces';
+import { convertToDegrees } from '../../../../../calculationFunctions/converters';
+import { IBorders, IDimension } from '../../../../../../types/interfaces';
 
 export const getCropRotatedDistToImage = (cropRotated: IDimension, imageDC: IBorders) => {
   //Image distances from each side to rotatin center
@@ -42,5 +42,5 @@ export const calculateDiagonalLength = (a: number, b: number) => {
 };
 
 export const calculateHelperAngle = (otherSide: number, ip: number) => {
-  return radians_to_degrees(Math.acos(otherSide / ip));
+  return convertToDegrees(Math.acos(otherSide / ip));
 };

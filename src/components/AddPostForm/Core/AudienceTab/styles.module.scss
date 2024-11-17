@@ -54,8 +54,8 @@
       width: 250px;
       height: 250px;
       path {
-        fill: $grayColorLighten;
-        stroke: $grayColorLighten;
+        fill: var(--grayColorLightenUltra);
+        stroke: var(--grayColorLightenUltra);
       }
     }
   }
@@ -98,18 +98,24 @@
   gap: 7px;
   user-select: none;
   &__checkbox {
-    accent-color: #74992e;
+    accent-color: $greenColorDarken;
     pointer-events: none;
   }
 
   &__label {
     font-size: 14px;
-    text-decoration: underline;
-    color: $grayColorDarken;
+    color: var(--grayColorDarken);
+    &:hover {
+      text-decoration: underline;
+    }
   }
   &.active {
+    cursor: default;
     .defaultAudience__label {
-      text-decoration: none;
+      color: $greenColorDarken;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }

@@ -1,13 +1,20 @@
-import { IAdjustments, ICropHistory, IFilterHistory, IHistoryIndexState, IHistoryJSON, IMarkupLine } from '../types/interfaces';
+import {
+  IAdjustments,
+  ICropHistory,
+  IFilterHistory,
+  IHistoryIndexState,
+  IHistoryJSON,
+  IMarkupLine,
+} from '../../types/interfaces';
 import { filtersList } from '../components/FiltersList/filtersList';
 import { getNullAdjustments } from '../initialStateFunctions/getNullAdjustments';
 import { checkAdjustments } from '../checkFunctions/checkAdjustments';
 import { findLastHistoryStep } from './findLastHistoryStep';
-import { EnumTabs } from '../types/enumerations';
+import { ETabs } from '../../types/enums';
 
 export const applySelectedHistoryStep = (
   historyIndex: number,
-  tab: EnumTabs,
+  tab: ETabs,
   history: IHistoryJSON[],
   historyIndexesState: React.MutableRefObject<IHistoryIndexState>,
   cvsCtxOriginal: CanvasRenderingContext2D,
@@ -56,8 +63,8 @@ export const applySelectedHistoryStep = (
   }
 
   switch (tab) {
-    case EnumTabs.filter:
-    case EnumTabs.adjustment: {
+    case ETabs.filter:
+    case ETabs.adjustment: {
       if (historyAdjustments && existsAdjustments) {
         if (historyAdjustments.index !== historyIndexesState.current.adjustment) {
           adjustmentsValueToUpdate = adjustments;
@@ -138,7 +145,8 @@ export const applySelectedHistoryStep = (
           }
         } else {
           if (wasFiltered.current) {
-            if (wasAdjusted.current && adjusmentsImageData.current) cvsCtxOriginal.putImageData(adjusmentsImageData.current, 0, 0);
+            if (wasAdjusted.current && adjusmentsImageData.current)
+              cvsCtxOriginal.putImageData(adjusmentsImageData.current, 0, 0);
             wasFiltered.current = false;
             if (historyIndexesState.current.filter) {
               filterValueToUpdate = { filterId: filtersList[0].id, intensity: 100 };
@@ -155,7 +163,7 @@ export const applySelectedHistoryStep = (
   if (historyMarkup) {
     if (historyMarkup.index !== historyIndexesState.current.markup) {
       const markup = JSON.parse(historyMarkup.value) as IMarkupLine[];
-      if (tab !== EnumTabs.markup) applyMarkupOnCanvas(cropValue, markup);
+      if (tab !== ETabs.markup) applyMarkupOnCanvas(cropValue, markup);
       markupValueToUpdate = markup;
       updateMarkupState = true;
       historyIndexesState.current.markup = historyMarkup.index;

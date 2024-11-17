@@ -1,6 +1,6 @@
-import { degrees_to_radians } from "../../../../calculationFunctions/converters";
-import { getDistanceToCenter } from "../calculations/maxDistance/distToCenter";
-import { IEditorStep } from "../../../../types/interfaces";
+import { convertToRadians } from '../../../../calculationFunctions/converters';
+import { getDistanceToCenter } from '../calculations/maxDistance/distToCenter';
+import { IEditorStep } from '../../../../../types/interfaces';
 
 /**
  * @param adjustedImageCanvas - Adjustments Canvas
@@ -101,7 +101,7 @@ export const canvasDrawImage = (
     }
   }
 
-  const angleInRadians = degrees_to_radians(eImg.angle);
+  const angleInRadians = convertToRadians(eImg.angle);
   ctx.translate(centerX, centerY); // Translate to the center of the selection
   ctx.rotate(angleInRadians); // Apply rotation
   ctx.save();

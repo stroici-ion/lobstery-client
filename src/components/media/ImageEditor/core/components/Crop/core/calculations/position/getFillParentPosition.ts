@@ -1,4 +1,4 @@
-import { ICropShape, IDimension, IImageShape, IPosition } from '../../../../../types/interfaces';
+import { ICropShape, IDimension, IImageShape, IPosition } from '../../../../../../types/interfaces';
 import { getDistanceToRotatedAxis } from '../../../../../calculationFunctions/distances';
 import { getDistanceToCenter } from '../maxDistance/distToCenter';
 import { iEBSB, iEBSLR, iEBST } from '../../../../../config';

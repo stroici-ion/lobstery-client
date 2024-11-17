@@ -1,4 +1,4 @@
-import { TLayout } from '../../../../../models/media-tools/images-auto-order';
+import { TLayout } from '../../types';
 
 const mainType = 'WU';
 

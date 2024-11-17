@@ -20,7 +20,7 @@
     flex: 1 1 auto;
     font-size: 16px;
     min-height: 30px;
-    border-bottom: 1px solid $grayColorLighten;
+    border-bottom: 1px solid var(--grayColorLightenUltra);
     padding-bottom: 5px;
   }
 
@@ -31,11 +31,11 @@
   }
 
   &__emojiPicker {
-    background-color: $lightColor;
+    background-color: var(--lightColor);
   }
 
   &__submenu {
-    background-color: $lightColor;
+    background-color: var(--lightColor);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -53,8 +53,8 @@
     height: 20px;
     padding: 4px;
     path {
-      stroke: $lightColor;
-      fill: $lightColor;
+      stroke: var(--lightColor);
+      fill: var(--lightColor);
     }
   }
 }

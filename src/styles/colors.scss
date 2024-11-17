@@ -1,3 +1,107 @@
+:root {
+  //YELLOW
+  --yellowColor: #d6be36;
+  --yellowColorDarken: #e4cd4c;
+  --yellowColorLighten: #fff5bc;
+
+  //ORANGE
+  --orangeColor: #ffab01;
+  --orangeColorDarken: #f3a50a;
+  --orangeColorLighten: #fff0d1;
+
+  //GREEN
+  --greenColor: #88ca4e;
+  --greenColorDarken: #74992e;
+  --greenColorLighten: #d9ffba;
+
+  //CYAN
+  --cyanColor: #66d5db;
+  --cyanColorDarken: #5bbed7;
+  --cyanColorLighten: #d7f3f3;
+
+  //BLUE
+  --blueColor: #306ac8;
+  --blueColorLighten: #90bbff;
+  --blueColorDarken: #2d589e;
+  --blueDark: #071e26;
+
+  //RED
+  --redColor: #ff652d;
+  --redColorLighten: #ffd0c0;
+  --redColorDarken: #d25324;
+
+  //TEXT
+  --backColor: #e7eaef;
+  --darkTextColor: #444;
+
+  // GRAY
+  --grayColorLightenUltra: #e6e6e6;
+  --grayColorLighten: #ddd;
+  --grayColorSoft: #c6c6c6;
+  --grayColor: #aaa;
+  --grayColorDarken: #555;
+
+  // WHITE - BLACK
+  --lightColor: #f5f5f5;
+  --darkColor: #000;
+
+  --lightColorTransparent: #f5f5f533;
+  --darkColorTransparent: #00000022;
+  --darkColorTransparent1: #00000099;
+}
+
+[data-theme='dark'] {
+  //YELLOW
+  --yellowColor: #e0c75b;
+  --yellowColorDarken: #d1b749;
+  --yellowColorLighten: #fff1b2;
+
+  //ORANGE
+  --orangeColor: #ffa944;
+  --orangeColorDarken: #e5913a;
+  --orangeColorLighten: #ffc891;
+
+  //GREEN
+  --greenColor: #8ed772;
+  --greenColorDarken: #6b8e4b;
+  --greenColorLighten: #bbf2a1;
+
+  //CYAN
+  --cyanColor: #56c8d0;
+  --cyanColorDarken: #49abb2;
+  --cyanColorLighten: #a6e6e8;
+
+  //BLUE
+  --blueColor: #3a7bd5;
+  --blueColorLighten: #679adf;
+  --blueColorDarken: #285b99;
+  --blueDark: #0a2c3b;
+
+  //RED
+  --redColor: #ff745a;
+  --redColorLighten: #ffb3a3;
+  --redColorDarken: #b34726;
+
+  //TEXT
+  --backColor: #1a1a1a; // Dark background color
+  --darkTextColor: #e4e4e4; // Light text color for contrast
+
+  // GRAY
+  --grayColorLightenUltra: #2a2a2a;
+  --grayColorLighten: #333;
+  --grayColorSoft: #4a4a4a;
+  --grayColor: #666;
+  --grayColorDarken: #888;
+
+  // WHITE - BLACK
+  --lightColor: #313338; // Light shade for dark theme
+  --darkColor: #e1e1e1; // Lightest color for text/icons
+
+  --lightColorTransparent: #2d2d2d33;
+  --darkColorTransparent: #ffffff33;
+  --darkColorTransparent1: #ffffff99;
+}
+
 //YELLOW
 $yellowColor: #d6be36;
 $yellowColorDarken: #e4cd4c;
@@ -10,7 +114,7 @@ $orangeColorLighten: #fff0d1;
 
 //GREEN
 $greenColor: #88ca4e;
-$greenColorDarken: #72a942;
+$greenColorDarken: #74992e;
 $greenColorLighten: #d9ffba;
 
 //CYAN
@@ -32,14 +136,3 @@ $redColorDarken: #d25324;
 //TEXT
 $backColor: #e7eaef;
 $darkTextColor: #444;
-
-//GRAY
-$grayColorLightenUltra: #e6e6e6;
-$grayColorLighten: #ddd;
-$grayColorSoft: #c6c6c6;
-$grayColor: #aaa;
-$grayColorDarken: #555;
-
-//WHITE - BLACK
-$lightColor: #f5f5f5;
-$darkColor: #000;

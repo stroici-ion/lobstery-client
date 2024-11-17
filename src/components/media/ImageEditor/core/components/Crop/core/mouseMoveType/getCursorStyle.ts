@@ -1,27 +1,27 @@
-import { EnumMoveTypes } from '../../../../types/enumerations';
+import { EMoveTypes } from '../../../../../types/enums';
 
-export const getCursorStyle = (moveType: EnumMoveTypes) => {
+export const getCursorStyle = (moveType: EMoveTypes) => {
   switch (moveType) {
-    case EnumMoveTypes.image:
+    case EMoveTypes.image:
       return 'grab';
-    case EnumMoveTypes.range:
-    case EnumMoveTypes.left:
+    case EMoveTypes.range:
+    case EMoveTypes.left:
       return 'w-resize';
-    case EnumMoveTypes.right:
+    case EMoveTypes.right:
       return 'e-resize';
-    case EnumMoveTypes.top:
+    case EMoveTypes.top:
       return 'n-resize';
-    case EnumMoveTypes.bottom:
+    case EMoveTypes.bottom:
       return 's-resize';
-    case EnumMoveTypes.leftTop:
+    case EMoveTypes.leftTop:
       return 'nw-resize';
-    case EnumMoveTypes.leftBottom:
+    case EMoveTypes.leftBottom:
       return 'sw-resize';
-    case EnumMoveTypes.rightTop:
+    case EMoveTypes.rightTop:
       return 'ne-resize';
-    case EnumMoveTypes.rightBottom:
+    case EMoveTypes.rightBottom:
       return 'se-resize';
-    case EnumMoveTypes.default:
+    case EMoveTypes.default:
       return 'default';
   }
 };

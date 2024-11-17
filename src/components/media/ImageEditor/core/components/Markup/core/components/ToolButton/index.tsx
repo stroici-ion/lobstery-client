@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { IMarkupTool } from '../../../../../types/interfaces';
+import { IMarkupTool } from '../../../../../../types/interfaces';
 import styles from './styles.module.scss';
 
 interface IToolButton {

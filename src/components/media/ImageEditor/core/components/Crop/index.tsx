@@ -9,7 +9,7 @@ import {
   IFilterHistory,
   IMarkupLine,
   IPosition,
-} from '../../types/interfaces';
+} from '../../../types/interfaces';
 import { loadHistoryStepPosition } from '../../historyFunctions/loadHistoryStepPosition';
 import { initialCanvasContextLoad } from './core/actions/initialCanvasContextLoad';
 import { getCurentHistoryStep } from './core/actions/addCropStateToHistory';
@@ -19,7 +19,7 @@ import { setCropAspectRatio } from './core/actions/setCropAspectRatio';
 import { getCursorStyle } from './core/mouseMoveType/getCursorStyle';
 import { resetActions } from './core/resetFunctions/resetActions';
 import { getMoveType } from './core/mouseMoveType/getMoveType';
-import { EnumAspectRatios } from '../../types/enumerations';
+import { EAspectRatios } from '../../../types/enums';
 import { canvasDrawDegrees } from './core/draw/drawDegrees';
 import { FlipVerticalSvg, RotateSvg } from '../../icons';
 import { canvasDrawImage } from './core/draw/drawImage';
@@ -311,7 +311,7 @@ const Crop: React.FC<ICrop> = ({
   };
 
   //Change Crop Aspect Ratio
-  const handleSetCropAspectRatio = (aspectRatio: EnumAspectRatios) => {
+  const handleSetCropAspectRatio = (aspectRatio: EAspectRatios) => {
     if (!activeActions.isChangingAspectRatio) {
       activeActions.isChangingAspectRatio = true;
       activeActions.isChangingAngle = false;
@@ -362,7 +362,7 @@ const Crop: React.FC<ICrop> = ({
         activeActions.isChangingAspectRatio = false;
         activeActions.isChangingAngle = false;
         resetActions(cropStep);
-        if (crop.aspectRatioId === EnumAspectRatios.free) {
+        if (crop.aspectRatioId === EAspectRatios.free) {
           crop.aspectRatio = crop.width / crop.height;
         }
       }
@@ -384,7 +384,7 @@ const Crop: React.FC<ICrop> = ({
         activeActions.isChangingAspectRatio = false;
         activeActions.isChangingAngle = false;
         resetActions(cropStep);
-        if (crop.aspectRatioId === EnumAspectRatios.free) {
+        if (crop.aspectRatioId === EAspectRatios.free) {
           crop.aspectRatio = crop.width / crop.height;
         }
       }

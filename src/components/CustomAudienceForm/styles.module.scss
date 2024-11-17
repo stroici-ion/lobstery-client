@@ -19,20 +19,20 @@
       height: 30px;
       position: absolute;
       left: 0px;
-      background-color: $grayColor;
-      color: $lightColor;
+      background-color: var(--grayColor);
+      color: var(--lightColor);
       padding: 5px 10px;
       border-radius: 20px;
       &:hover {
-        background-color: $grayColor;
+        background-color: var(--grayColor);
       }
       svg {
         margin-right: 4px;
         width: 13px;
         height: 13px;
         path {
-          stroke: $lightColor;
-          fill: $lightColor;
+          stroke: var(--lightColor);
+          fill: var(--lightColor);
         }
       }
     }
@@ -57,7 +57,7 @@
   &__empty {
     width: 100%;
     text-align: center;
-    color: $grayColor;
+    color: var(--grayColor);
   }
 
   &__edit {
@@ -84,7 +84,7 @@
   }
 
   &__list {
-    border-bottom: 1px solid $grayColorLighten;
+    border-bottom: 1px solid var(--grayColorLightenUltra);
     flex: 1 1 auto;
     overflow: hidden;
     display: block;
@@ -102,12 +102,12 @@
       left: 0;
       height: 10px;
       right: 14px;
-      background-image: linear-gradient($lightColor, transparent);
+      background-image: linear-gradient(var(--lightColor), transparent);
     }
     &::after {
       top: auto;
       bottom: 0;
-      background-image: linear-gradient(transparent, $lightColor);
+      background-image: linear-gradient(transparent, var(--lightColor));
     }
   }
 
@@ -125,27 +125,9 @@
 
   &__selectedAudience {
     display: flex;
-    border-bottom: 1px solid $grayColorLighten;
+    border-bottom: 1px solid var(--grayColorLightenUltra);
     padding-bottom: 5px;
     margin-bottom: 5px;
-  }
-
-  &__setDefault {
-    overflow: hidden;
-    width: 0px;
-    &.active {
-      transition: 0.3s;
-      width: 90px;
-    }
-    border-radius: 10px;
-    color: $grayColor;
-    text-decoration: underline;
-    &:hover {
-      color: $grayColorDarken;
-    }
-    &.isDefault {
-      color: $greenColorDarken;
-    }
   }
 }
 
@@ -156,7 +138,7 @@
     padding: 5px;
     padding-right: 20px;
     line-height: 12px;
-    color: $grayColorDarken;
+    color: var(--grayColorDarken);
     flex: 1 1 auto;
     word-wrap: break-word;
   }
@@ -215,7 +197,7 @@
   border-radius: 20px;
   align-self: flex-end;
   background-color: $greenColor;
-  color: $lightColor;
+  color: var(--lightColor);
   padding: 4px 7px;
   &:hover {
     background-color: $greenColorDarken;
@@ -223,29 +205,32 @@
 }
 
 .defaultAudience {
-  margin-left: 5px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 7px;
   user-select: none;
   &__checkbox {
-    accent-color: #74992e;
+    accent-color: $greenColorDarken;
     pointer-events: none;
   }
 
   &__label {
     font-size: 14px;
-    text-decoration: underline;
-    color: $grayColorDarken;
+    color: var(--grayColorDarken);
+    text-wrap: nowrap;
+    &:hover {
+      text-decoration: underline;
+    }
   }
+
   &.active {
     cursor: default;
-    pointer-events: none;
-  }
-  &:hover {
-    span {
+    .defaultAudience__label {
       color: $greenColorDarken;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }
@@ -256,7 +241,8 @@
     height: 20px;
   }
   &:hover {
-    background-color: lighten($color: $grayColorLighten, $amount: 17);
+    background-color: var(--grayColorLightenUltra1);
+    filter: brightness(1.2);
   }
 
   &__row {
@@ -271,7 +257,7 @@
       display: block;
       height: 18px;
       width: 1px;
-      background-color: $grayColorLighten;
+      background-color: var(--grayColorLightenUltra);
     }
   }
 

@@ -15,7 +15,7 @@ import {
   vividCoolFilter,
   warmContrastFilter,
 } from '../../imageDataFunctions/filters';
-import { IFilterListItem } from '../../types/interfaces';
+import { IFilterListItem } from '../../../types/interfaces';
 
 export const filtersList: IFilterListItem[] = [
   {
