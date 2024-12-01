@@ -1,8 +1,5 @@
-@import '../../../../../../styles/colors.scss';
-@import '../../../../../../styles/mixins.scss';
-
 .root {
-  background-color: $panelColor;
+  background-color: var(--panel2BackgroundColor);
   border-radius: 10px;
   width: 50px;
   height: 50px;
@@ -11,15 +8,15 @@
   align-items: center;
   justify-content: center;
 
-  &:hover {
-    background-color: $panelColorHover;
+  @include hover {
+    background-color: var(--panel2HoverColor);
     &.active {
-      background-color: $panelColorActive;
+      background-color: var(--panel2ActiveColor);
     }
   }
 
   &.active {
-    background-color: $panelShadowColor;
+    background-color: var(--panel2BoxShadowColor);
     .pen__status {
       svg {
         visibility: visible;
@@ -34,7 +31,7 @@
     svg {
       width: 25px;
       height: 25px;
-      @include svgcolor($panelTextColor);
+      @include svgColor(var(--panel2TextColor));
     }
   }
 }

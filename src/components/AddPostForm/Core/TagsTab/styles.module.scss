@@ -1,6 +1,3 @@
-@import '../../../../styles/colors.scss';
-@import '../../../../styles/mixins.scss';
-
 .root {
   padding: 10px;
   display: flex;
@@ -14,29 +11,28 @@
     font-weight: 700;
     height: 30px;
     margin-bottom: 10px;
+    color: var(--mainTextColor);
   }
 
   &__empty {
     width: 100%;
     text-align: center;
-    color: var(--grayColor);
+    color: var(--mainLinkColor);
   }
-  &__body {
+
+  &__tags {
+    margin-top: 10px;
     flex: 1 1 auto;
+    overflow: hidden;
   }
 
   &__search {
     display: flex;
-    padding: 0 0 0 5px;
-    border-radius: 20px;
-    border: 2px solid $cyanColorDarken;
-    svg {
-      width: 22px;
-      path {
-        stroke: $cyanColor;
-        fill: $cyanColor;
-      }
-    }
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid var(--lobsteryColor);
+    margin-bottom: 10px;
+    @include svgSize(22px);
+    @include svgColor(var(--lobsteryColor));
   }
 
   &__input {
@@ -48,101 +44,55 @@
   }
 
   &__add {
-    border-radius: 20px;
-    margin: 2px;
-    margin-right: 3px;
+    border-radius: 5px 5px 0 0;
     position: relative;
     padding: 0 10px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 12px;
     background-color: transparent;
-    color: $cyanColorDarken;
-    &:hover {
-      background-color: $cyanColor;
-
-      color: var(--lightColor);
+    color: var(--lobsteryHoverColor);
+    @include hover {
+      background-color: var(--lobsteryColor);
+      color: var(--mainBackgroundColor);
     }
   }
 
-  &__tags {
-    position: relative;
-    overflow: hidden;
-    flex: 1 1 auto;
-    &::before,
-    &::after {
-      z-index: 1;
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 10px;
-      right: 14px;
-      background-image: linear-gradient(var(--lightColor), transparent);
-    }
-    &::after {
-      top: auto;
-      bottom: 0;
-      background-image: linear-gradient(transparent, var(--lightColor));
-    }
-  }
-
-  &__scrollArea {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    padding: 20px;
-    padding-left: 0;
-    height: 100%;
-    overflow: hidden;
-    overflow-y: auto;
-    @include scrollBar;
-  }
-
-  &__decoration,
   &__decorationRemove {
     position: absolute;
     top: -2px;
     right: -8px;
-    background-color: $greenColor;
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid var(--lightColor);
-    svg {
-      padding: 2px;
-      width: 12px;
-      height: 12px;
-      path {
-        stroke: var(--lightColor);
-      }
-    }
-  }
-  &__decorationRemove {
+    border: 2px solid var(--mainBackgroundColor);
     opacity: 0;
     font-size: 10px;
-    text-align: center;
-    color: var(--lightColor);
-    background-color: $redColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mainBackgroundColor);
+    background-color: var(--redColor);
+    @include svgSize(7.5px);
+    @include svgColor(#fff);
   }
+
   &__tag {
     max-width: 100%;
-    background-color: $cyanColorDarken;
-    color: var(--lightColor);
+    color: var(--greenColor);
     border-radius: 20px;
     padding: 5px 15px 5px 10px;
     position: relative;
     text-transform: lowercase;
-    margin-right: 20px;
+    margin-right: 10px;
     margin-bottom: 10px;
     word-wrap: break-word;
     &::before {
       content: '#';
     }
 
-    &:hover {
-      .root__decoration {
-        opacity: 0;
-      }
+    @include hover {
+      background-color: var(--mainHoverColor);
+
       .root__decorationRemove {
         opacity: 1;
       }

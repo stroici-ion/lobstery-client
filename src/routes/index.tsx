@@ -1,7 +1,7 @@
 import UserSettings from '../pages/UserSettings';
 import Auth from '../pages/Auth';
 import {
-  HOME_ROUTE,
+  PROFILE_ROUTE,
   LOGIN_ROUTE,
   POSTS_ROUTE,
   PRODUCTS_ROUTE,
@@ -13,6 +13,7 @@ import {
 import Posts from '../pages/Posts';
 import Games from '../pages/Games';
 import PostDetail from '../pages/PostDetail';
+import Home from '../pages/Home';
 
 export const authRoutes = [
   { path: LOGIN_ROUTE, element: <Auth /> },
@@ -20,7 +21,7 @@ export const authRoutes = [
 ];
 
 export const publicRoutes = [
-  { path: HOME_ROUTE, element: <Posts /> },
+  { path: PROFILE_ROUTE, element: <Home /> },
   { path: PRODUCTS_ROUTE, element: <Posts /> },
   { path: POSTS_ROUTE, element: <Posts /> },
 ];

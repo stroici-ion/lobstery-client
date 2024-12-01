@@ -1,0 +1,112 @@
+.header {
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  z-index: 998;
+  background-color: var(--mainBackgroundColor);
+  border-bottom: 1px solid var(--hrColor);
+  display: flex;
+  padding-left: 270px;
+  padding-right: 30px;
+  align-items: center;
+  gap: 20px;
+  &__searchbar {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 15px;
+    height: 40px;
+    flex: 1 1 auto;
+    @include svgColor(var(--mainTextColor));
+    @include svgSize(20px);
+    background-color: var(--panel2BackgroundColor);
+    border-radius: 10px;
+    input {
+      height: 100%;
+      width: 100%;
+      font-size: 17px;
+    }
+    input::-webkit-search-cancel-button {
+      color: red; /* Change the "x" color */
+    }
+  }
+  &__tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__button {
+    padding: 10px 15px;
+    border-radius: 10px;
+    @include svgColor(--mainTextColor);
+    @include svgSize(20px);
+
+    &.active {
+      label {
+        z-index: 2;
+        content: '';
+        position: absolute;
+        display: block;
+        right: 1px;
+        top: -1px;
+        width: 8px;
+        height: 8px;
+        border-radius: 10px;
+        background-color: var(--orangeColor);
+        border: 2px solid var(--mainBackgroundColor);
+        transition: 0.2s;
+      }
+
+      @include hover {
+        label {
+          border: 2px solid var(--mainHoverColor);
+        }
+      }
+    }
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.user {
+  &__button {
+    padding: 2px 15px 2px 0;
+    border-radius: 50px;
+  }
+
+  &__context {
+    color: var(--mainTextColor);
+  }
+
+  &__top {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 15px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--mainBackgroundColor);
+    @include hover {
+      background-color: var(--panel1HoverColor);
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__ctxButton {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+    @include svgSize(20px);
+  }
+}

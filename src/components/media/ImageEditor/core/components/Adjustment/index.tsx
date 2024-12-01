@@ -23,18 +23,14 @@ import { checkFilter } from '../../checkFunctions/checkFilter';
 import { canvasDrawImage } from '../Crop/core/draw/drawImage';
 import { filtersList } from '../FiltersList/filtersList';
 import Aside from '../AdjustmentsAside';
-import {
-  BrightnessSvg,
-  ContrastSvg,
-  ExposureSvg,
-  HighlightsSvg,
-  SaturationSvg,
-  ShadowsSvg,
-  SharpenessSvg,
-  TintSvg,
-  WarmthSvg,
-} from '../../../../../../icons/imageEditor';
-import AdjustemntsMobile from '../AdjustemntsMobile';
+import { BsFillBrightnessHighFill } from 'react-icons/bs';
+import { IoIosContrast } from 'react-icons/io';
+import { TbBrightness } from 'react-icons/tb';
+import { BsHighlights, BsShadows } from 'react-icons/bs';
+import { CgColorPicker } from 'react-icons/cg';
+import { FaTint } from 'react-icons/fa';
+import { GrDiamond } from 'react-icons/gr';
+import { FaTemperatureHalf } from 'react-icons/fa6';
 
 interface IAdjustment {
   optimizedImageData: ImageData;
@@ -335,7 +331,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <BrightnessSvg />,
+          icon: <BsFillBrightnessHighFill />,
           maxValue: 100,
           minValue: -100,
         },
@@ -346,7 +342,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <ContrastSvg />,
+          icon: <IoIosContrast />,
           maxValue: 100,
           minValue: -100,
         },
@@ -357,7 +353,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <ExposureSvg />,
+          icon: <TbBrightness />,
           maxValue: 100,
           minValue: -100,
         },
@@ -368,7 +364,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <HighlightsSvg />,
+          icon: <BsHighlights />,
           maxValue: 100,
           minValue: -100,
         },
@@ -379,7 +375,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <ShadowsSvg />,
+          icon: <BsShadows />,
           maxValue: 100,
           minValue: -100,
         },
@@ -395,7 +391,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <SaturationSvg />,
+          icon: <CgColorPicker />,
           maxValue: 100,
           minValue: -100,
         },
@@ -406,7 +402,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <WarmthSvg />,
+          icon: <FaTemperatureHalf />,
           maxValue: 100,
           minValue: -100,
         },
@@ -417,7 +413,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <TintSvg />,
+          icon: <FaTint />,
           maxValue: 100,
           minValue: -100,
         },
@@ -428,7 +424,7 @@ const Adjustment: React.FC<IAdjustment> = ({
           initialValue: 0,
           onChange: onChangeAdjustment,
           onMouseUp: addAdjustmentStateToHistory,
-          icon: <SharpenessSvg />,
+          icon: <GrDiamond />,
           maxValue: 10,
           minValue: 0,
         },

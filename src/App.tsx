@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 import { Routes, BrowserRouter, Route, Navigate, useLocation } from 'react-router-dom';
 
-import { AUTH_LAYOUT_ROUTE, HOME_ROUTE, MAIN_LAYOUT_ROUTE } from './utils/consts';
+import { AUTH_LAYOUT_ROUTE, PROFILE_ROUTE, MAIN_LAYOUT_ROUTE } from './utils/consts';
 import { authRoutes, privateRoutes, publicRoutes } from './routes';
 import { selectAuthStatus, selectUserId } from './redux/auth/selectors';
 import MainLayout from './layouts/MainLayout';
@@ -12,22 +12,19 @@ import AuthLayout from './layouts/AuthLayout';
 import './styles/styles.scss';
 import { useAppDispatch } from './redux';
 import { fetchAuthRefresh } from './redux/auth/asyncActions';
-import { fetchUserProfile } from './redux/profile/asyncActions';
+import { fetchMyProfile } from './redux/profile/asyncActions';
 import styles from './App.module.scss';
-import { EFetchStatus } from './types/enums';
 import { setGuestStatus } from './redux/auth/slice';
-import { fetchDefaultAudience } from './redux/defaultAudience/asyncActions';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const authorizationStatus = useSelector(selectAuthStatus);
-  const isAuth = authorizationStatus === EFetchStatus.SUCCESS;
+  const isAuth = useSelector(selectAuthStatus);
   const userId = useSelector(selectUserId);
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    if (theme) document.documentElement.setAttribute('data-theme', 'dark');
+    // const theme = localStorage.getItem('theme');
+    // if (theme) document.documentElement.setAttribute('data-theme', 'dark');
 
     if (localStorage.getItem('refreshToken')) dispatch(fetchAuthRefresh({}));
     else dispatch(setGuestStatus());
@@ -38,10 +35,11 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    console.log('isAuth', isAuth);
+
     if (isAuth)
       if (userId) {
-        dispatch(fetchUserProfile(userId));
-        dispatch(fetchDefaultAudience({ userId }));
+        dispatch(fetchMyProfile(userId));
       }
   }, [isAuth]);
 
@@ -72,7 +70,7 @@ const App: React.FC = () => {
             {isAuth &&
               privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
           </Route>
-          <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
+          <Route path="*" element={<Navigate to={PROFILE_ROUTE} />} />
         </Routes>
       </BrowserRouter>
     </div>

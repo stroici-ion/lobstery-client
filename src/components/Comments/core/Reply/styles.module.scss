@@ -1,11 +1,10 @@
-@import '../../../../styles/colors.scss';
-
 .comment {
   margin: 15px 0;
   display: flex;
   gap: 10px;
   position: relative;
   &__avatar {
+    flex: 0 0 35px;
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -35,59 +34,101 @@
   &__nameInfo {
     font-weight: 700;
     font-size: 14px;
-    color: var(--grayColorDarken);
-    &__postOwner {
-      color: $cyanColorDarken;
+    color: var(--mainLinkColor);
+
+    &PostOwner {
+      color: var(--greenColor);
     }
-    &__owned {
-      color: $blueColor;
+
+    &Owned {
+      color: var(--lobsteryColor);
     }
   }
 
   &__timeInfo {
     line-height: 17px;
     font-size: 11px;
-    color: var(--grayColor);
+    color: var(--mainTextInactiveColor);
   }
 
-  &:hover {
+  @include hover {
     .root__actions {
       button {
         opacity: 1;
       }
     }
-    .submenu {
-      opacity: 1;
-    }
+  }
+
+  &__contextMenuButton {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    @include svgSize(10px);
+    @include svgColor(var(--mainTextInactiveColor));
   }
 }
 
-.submenu {
-  opacity: 0;
-  &__delete {
-    svg {
-      height: 12px;
-      width: 12px;
-      path {
-        fill: $redColor;
-        stroke: $redColor;
-      }
-    }
-    &:hover {
-      background-color: $redColorLighten;
-    }
+.skeleton {
+  margin: 15px 0;
+  display: flex;
+  gap: 15px;
+  max-height: 65px;
+  overflow: hidden;
+  &__avatar {
+    flex: 0 0 35px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: var(--mainHoverColor);
   }
-  &__edit {
-    svg {
-      height: 10px;
-      width: 12px;
-      path {
-        fill: $greenColor;
-        stroke: $greenColor;
-      }
-    }
-    &:hover {
-      background-color: $greenColorLighten;
+
+  &__body {
+    padding-right: 15px;
+    padding-bottom: 5px;
+    position: relative;
+    flex: 1 1 auto;
+    border-bottom: 1px solid var(--hrColor);
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 5px;
+  }
+
+  &__name {
+    border-radius: 50px;
+    height: 10px;
+    background-color: var(--mainHoverColor);
+    width: 50px;
+  }
+
+  &__context {
+    border-radius: 10px;
+    height: 15px;
+    background-color: var(--mainHoverColor);
+    width: 15px;
+    margin-right: 5px;
+  }
+
+  &__text {
+    width: 450px;
+    height: 10px;
+    border-radius: 50px;
+    background-color: var(--mainHoverColor);
+    margin-top: 4px;
+  }
+
+  &__likes {
+    margin-top: 4px;
+    display: flex;
+    gap: 15px;
+    div {
+      border-radius: 20px;
+      height: 15px;
+      width: 15px;
+      background-color: var(--mainHoverColor);
     }
   }
 }

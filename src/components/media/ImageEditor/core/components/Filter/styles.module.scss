@@ -1,6 +1,3 @@
-@import '../../../styles/colors.scss';
-@import '../../../styles/mixins.scss';
-
 .root {
   flex: 1 1 auto;
   display: flex;
@@ -23,7 +20,7 @@
     flex-direction: column;
     justify-content: flex-end;
     @media (min-width: 1200px) {
-      background-color: $panelColor;
+      background-color: var(--panel2BackgroundColor);
       border-radius: 20px;
       width: 420px;
       flex: 0 0 420px;

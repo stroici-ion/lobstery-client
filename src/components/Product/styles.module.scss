@@ -1,12 +1,10 @@
-@import '../../styles/colors.scss';
-
 .root {
   width: 350px;
   flex: 0 0 350px;
   height: 520px;
   padding: 15px;
   border-radius: 15px;
-  background-color: var(--lightColor);
+  background-color: var(--mainBackgroundColor);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -17,7 +15,7 @@
     font-size: 12px;
     background-color: $redColor;
     opacity: 0.8;
-    color: var(--lightColor);
+    color: var(--mainBackgroundColor);
     padding: 2px 5px;
     border-radius: 10px;
   }
@@ -29,7 +27,7 @@
     height: 320px;
     flex: 0 0 330px;
     object-fit: contain;
-    background-color: var(--lightColor);
+    background-color: var(--mainBackgroundColor);
     transition: 0.3s;
   }
   &__properties {
@@ -52,10 +50,8 @@
     padding: 3px 5px;
     border-radius: 15px;
   }
-  // &__bottom {
 
-  // }
-  &:hover {
+  @include hover {
     .root__image {
       transform: scale(1.1);
     }
@@ -89,7 +85,7 @@
   &__discount {
     background-color: $redColor;
     text-decoration: none;
-    color: var(--lightColor);
+    color: var(--mainBackgroundColor);
     padding: 1px 5px;
     border-radius: 10px;
   }
@@ -110,7 +106,7 @@
     font-size: 13px;
     background-color: $yellowColorDarken;
     text-decoration: none;
-    color: var(--lightColor);
+    color: var(--mainBackgroundColor);
     padding: 1px 5px;
     border-radius: 10px;
   }
@@ -142,7 +138,7 @@
   }
 
   &__balance {
-    &:hover {
+    @include hover {
       svg {
         path {
           stroke: var(--darkColor);
@@ -154,12 +150,12 @@
 
   &__cart {
     background-color: $backColor;
-    &:hover {
+    @include hover {
       background-color: $yellowColorDarken;
       svg {
         path {
-          stroke: var(--lightColor);
-          fill: var(--lightColor);
+          stroke: var(--mainBackgroundColor);
+          fill: var(--mainBackgroundColor);
         }
       }
     }

@@ -37,6 +37,7 @@ import styles from './styles.module.scss';
 import { dpr } from '../../config';
 
 interface ICrop {
+  originalAspectRatio?: number;
   zoomTrigger: number;
   canvasAsImage?: HTMLCanvasElement;
   markupCanvas?: HTMLCanvasElement;
@@ -49,6 +50,7 @@ interface ICrop {
 }
 
 const Crop: React.FC<ICrop> = ({
+  originalAspectRatio,
   zoomTrigger,
   canvasAsImage,
   markupCanvas,
@@ -61,6 +63,7 @@ const Crop: React.FC<ICrop> = ({
 }) => {
   const [isPanelVisible, setIsPanelVisible] = useState<Boolean>(false);
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<IAspectRatio>(aspectRatioList[0]);
+  const [colors, setColor] = useState<{ wrapper: string; degrees: string }>({ wrapper: '#000', degrees: '#000' });
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +78,7 @@ const Crop: React.FC<ICrop> = ({
   let cropCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   let degreesCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   const degressColor = useRef('rgba(0,0,0,1)');
+  const cropWrapperColor = useRef('rgba(0,0,0,1)');
 
   const cropStepRef = useRef<IEditorStep>(getNullObject());
   const cropStep = cropStepRef.current;
@@ -87,6 +91,10 @@ const Crop: React.FC<ICrop> = ({
   const reininitializePosition = useRef(true);
 
   useEffect(() => {
+    const root = document.documentElement;
+    const colorValue = getComputedStyle(root).getPropertyValue('--modalWrapperColor').trim();
+    setColor({ wrapper: colorValue, degrees: colorValue });
+
     if (historyCropState && !reininitializePosition.current) {
       historyStepLoad();
       drawImage();
@@ -111,6 +119,8 @@ const Crop: React.FC<ICrop> = ({
 
     //Load position based on history step (If is flipped, rotated, and ...)
     historyStepLoad();
+
+    // if (keepOriginalAspectRatio) handleSetCropAspectRatio(EAspectRatios.original);
   };
 
   const historyStepLoad = () => {
@@ -153,6 +163,22 @@ const Crop: React.FC<ICrop> = ({
   };
 
   useEffect(() => {
+    const root = document.documentElement;
+    const styles = getComputedStyle(root);
+    const degreesColor = styles.getPropertyValue('--mainTextColor').trim();
+    const wrapperColor = styles.getPropertyValue('--imageCropWrapperColor').trim();
+    degressColor.current = degreesColor;
+
+    function trimToLastComma(input: string) {
+      const lastCommaIndex = input.lastIndexOf(',');
+      if (lastCommaIndex === -1) {
+        return input;
+      }
+      return input.slice(0, lastCommaIndex);
+    }
+
+    cropWrapperColor.current = trimToLastComma(wrapperColor);
+
     if (!parentDivRef.current || !iamgeCanvasRef.current) return;
 
     const parentElement = parentDivRef.current.getBoundingClientRect();
@@ -173,7 +199,6 @@ const Crop: React.FC<ICrop> = ({
       degreesCanvasRef.current.height = 60 * dpr;
       degreesCanvasRef.current.style.width = '800px';
       degreesCanvasRef.current.style.height = '60px';
-      degressColor.current = window.getComputedStyle(degreesCanvasRef.current).getPropertyValue('color');
 
       drawDegrees();
     }
@@ -185,7 +210,7 @@ const Crop: React.FC<ICrop> = ({
       !!canvasAsImage && (historyFilterState || historyAdjustmentState) ? canvasAsImage : undefined;
     const useMarkup = historyMarkupState?.length ? markupCanvas : undefined;
 
-    canvasDrawCrop(cropStep, opacity, animationAngle, cropCtxRef.current);
+    canvasDrawCrop(cropStep, opacity, animationAngle, cropCtxRef.current, cropWrapperColor.current);
     canvasDrawImage(useCanvasAsImage, useMarkup, imageRef.current, cropStep, animationAngle, imageCtxRef.current);
   };
 
@@ -197,7 +222,7 @@ const Crop: React.FC<ICrop> = ({
 
   const addCropStateToHistory = () => {
     //Get
-    const historyStep = getCurentHistoryStep(cropStep);
+    const historyStep = getCurentHistoryStep(cropStep, originalAspectRatio);
     addToHistory(historyStep, 0);
   };
 
@@ -402,7 +427,7 @@ const Crop: React.FC<ICrop> = ({
         </div>
       </div>
       <div className={styles.bottom} ref={bottomRef}>
-        {isPanelVisible && (
+        {isPanelVisible && !originalAspectRatio && (
           <AspectRatiosPanel
             selected={selectedAspectRatio?.id}
             setAspectRatio={handleSetCropAspectRatio}
@@ -410,22 +435,29 @@ const Crop: React.FC<ICrop> = ({
           />
         )}
         <div className={classNames(styles.cropTools, isPanelVisible && styles.hidden)}>
-          <div className={styles.degrees}>
-            <canvas className={styles.degrees__canvas} ref={degreesCanvasRef} />
-          </div>
-          <div className={styles.cropTools__body}>
-            <div className={classNames(styles.cropTools__rotate, styles.rotateTools)}>
-              <button className={styles.rotateTools__left} onClick={handleRotateLeft}>
-                <RotateSvg />
-              </button>
-              <button className={styles.rotateTools__right} onClick={handleRotateRight}>
-                <RotateSvg />
-              </button>
+          {!originalAspectRatio && (
+            <div className={styles.degrees}>
+              <canvas className={styles.degrees__canvas} ref={degreesCanvasRef} />
             </div>
-            <button className={styles.cropTools__aspectRatio} onClick={handleShowAspectRatioPanel}>
-              {selectedAspectRatio.icon}
-              {selectedAspectRatio.title}
-            </button>
+          )}
+
+          <div className={styles.cropTools__body}>
+            {!originalAspectRatio && (
+              <>
+                <div className={classNames(styles.cropTools__rotate, styles.rotateTools)}>
+                  <button className={styles.rotateTools__left} onClick={handleRotateLeft}>
+                    <RotateSvg />
+                  </button>
+                  <button className={styles.rotateTools__right} onClick={handleRotateRight}>
+                    <RotateSvg />
+                  </button>
+                </div>
+                <button className={styles.cropTools__aspectRatio} onClick={handleShowAspectRatioPanel}>
+                  {selectedAspectRatio.icon}
+                  {selectedAspectRatio.title}
+                </button>
+              </>
+            )}
             <div className={classNames(styles.tools__flip, styles.flipTools)}>
               <button className={styles.flipTools__horizontal} onClick={handleFlipHorizontal}>
                 <FlipVerticalSvg />

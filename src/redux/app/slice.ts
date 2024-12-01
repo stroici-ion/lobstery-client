@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { IAppState } from './types';
 
-const initialState: IAppState = {};
+const initialState: IAppState = {
+  isModalOpen: false,
+};
 
 const appSlice = createSlice({
   name: 'app',

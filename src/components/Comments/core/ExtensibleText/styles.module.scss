@@ -1,24 +1,27 @@
-@import '../../../../styles/colors.scss';
-
 .text {
   position: relative;
   text-align: justify;
+  font-size: 14px;
+  color: var(--mainTextColor);
   &.onlyEmojis {
     font-size: 32px;
   }
+
   &__showAll {
     margin-left: 20px;
   }
+
   &__button {
-    color: var(--grayColor);
+    color: var(--mainTextInactiveColor);
     padding: 8px 0;
     background-color: transparent;
-    &:hover {
+    @include hover {
       text-decoration: underline;
     }
   }
+
   &__mentionedUser {
     font-weight: 700;
-    color: $blueColor;
+    color: var(--blueColor);
   }
 }

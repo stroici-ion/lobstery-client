@@ -1,6 +1,3 @@
-@import '../../styles/colors.scss';
-@import '../../styles/mixins.scss';
-
 .root {
   height: 100%;
   width: 100%;
@@ -18,23 +15,21 @@
     button {
       height: 30px;
       position: absolute;
-      left: 0px;
-      background-color: var(--grayColor);
-      color: var(--lightColor);
+      right: 0px;
+      top: 0px;
+      background-color: var(--);
+      color: var(--mainTextColor);
       padding: 5px 10px;
-      border-radius: 20px;
-      &:hover {
-        background-color: var(--grayColor);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      @include hover {
+        background-color: var(--mainHoverColor);
       }
-      svg {
-        margin-right: 4px;
-        width: 13px;
-        height: 13px;
-        path {
-          stroke: var(--lightColor);
-          fill: var(--lightColor);
-        }
-      }
+      @include svgSize(13px);
+      @include svgColor(var(--mainTextColor));
     }
   }
 
@@ -57,7 +52,7 @@
   &__empty {
     width: 100%;
     text-align: center;
-    color: var(--grayColor);
+    color: var(--mainTextInactiveColor);
   }
 
   &__edit {
@@ -83,49 +78,9 @@
     flex-direction: column;
   }
 
-  &__list {
-    border-bottom: 1px solid var(--grayColorLightenUltra);
-    flex: 1 1 auto;
-    overflow: hidden;
-    display: block;
-    position: relative;
-    margin-bottom: 10px;
-    &.active {
-      display: none;
-    }
-    &::before,
-    &::after {
-      z-index: 1;
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 10px;
-      right: 14px;
-      background-image: linear-gradient(var(--lightColor), transparent);
-    }
-    &::after {
-      top: auto;
-      bottom: 0;
-      background-image: linear-gradient(transparent, var(--lightColor));
-    }
-  }
-
-  &__scrollArea {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 10px;
-    padding-left: 0;
-    overflow: hidden;
-    overflow-y: auto;
-    @include scrollBar;
-    gap: 5px;
-  }
-
   &__selectedAudience {
     display: flex;
-    border-bottom: 1px solid var(--grayColorLightenUltra);
+    border-bottom: 1px solid var(--hrColor);
     padding-bottom: 5px;
     margin-bottom: 5px;
   }
@@ -138,70 +93,15 @@
     padding: 5px;
     padding-right: 20px;
     line-height: 12px;
-    color: var(--grayColorDarken);
+    color: var(--mainTextColor);
     flex: 1 1 auto;
     word-wrap: break-word;
   }
 }
 
-.public {
-  svg {
-    path {
-      fill: $greenColor;
-      stroke: $greenColor;
-    }
-  }
-  &:hover {
-    background-color: $greenColorLighten;
-  }
-}
-
-.friends {
-  svg {
-    path {
-      fill: $cyanColor;
-      stroke: $cyanColor;
-    }
-  }
-  &:hover {
-    background-color: $cyanColorLighten;
-  }
-}
-
-.friendsOfFriends {
-  svg {
-    path {
-      fill: $blueColor;
-      stroke: $blueColor;
-    }
-  }
-  &:hover {
-    background-color: lighten($blueColorLighten, 18);
-  }
-}
-
-.private {
-  svg {
-    path {
-      fill: $redColor;
-      stroke: $redColor;
-    }
-  }
-
-  &:hover {
-    background-color: lighten($redColorLighten, 6);
-  }
-}
-
 .createNew {
   border-radius: 20px;
-  align-self: flex-end;
-  background-color: $greenColor;
-  color: var(--lightColor);
-  padding: 4px 7px;
-  &:hover {
-    background-color: $greenColorDarken;
-  }
+  padding: 5px 30px;
 }
 
 .defaultAudience {
@@ -210,16 +110,12 @@
   align-items: center;
   gap: 7px;
   user-select: none;
-  &__checkbox {
-    accent-color: $greenColorDarken;
-    pointer-events: none;
-  }
 
   &__label {
     font-size: 14px;
-    color: var(--grayColorDarken);
+    color: var(--mainTextColor);
     text-wrap: nowrap;
-    &:hover {
+    @include hover {
       text-decoration: underline;
     }
   }
@@ -227,8 +123,8 @@
   &.active {
     cursor: default;
     .defaultAudience__label {
-      color: $greenColorDarken;
-      &:hover {
+      color: var(--greenColor);
+      @include hover {
         text-decoration: none;
       }
     }
@@ -240,8 +136,9 @@
     width: 20px;
     height: 20px;
   }
-  &:hover {
-    background-color: var(--grayColorLightenUltra1);
+
+  @include hover {
+    background-color: var(--mainHoverColor);
     filter: brightness(1.2);
   }
 
@@ -257,42 +154,18 @@
       display: block;
       height: 18px;
       width: 1px;
-      background-color: var(--grayColorLightenUltra);
+      background-color: var(--mainHoverColor);
     }
   }
 
-  &__edit {
-    width: 24px;
-    height: 24px;
-    border-radius: 20px;
-    &:hover {
-      background-color: transparentize($color: $greenColor, $amount: 0.7);
-    }
-    svg {
-      width: 14px;
-      height: 100%;
-      path {
-        fill: $greenColor;
-        stroke: $greenColor;
-      }
-    }
-  }
-
+  &__edit,
   &__delete {
     border-radius: 20px;
     width: 24px;
     height: 24px;
-    &:hover {
-      background-color: $redColorLighten;
-    }
-    svg {
-      padding: 5px;
-      width: 24px;
-      height: 100%;
-      path {
-        fill: lighten($color: $redColor, $amount: 10);
-        stroke: lighten($color: $redColor, $amount: 10);
-      }
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include svgSize(15px);
   }
 }

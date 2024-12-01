@@ -2,16 +2,18 @@ import React from 'react';
 import { LineWave } from 'react-loader-spinner';
 
 import styles from './styles.module.scss';
+import classNames from 'classnames';
 
 interface ILoader {
   height?: number;
   size?: number;
+  className?: string;
 }
 
-const Loader: React.FC<ILoader> = ({ height = 80, size = 40 }) => {
+const Loader: React.FC<ILoader> = ({ height, size = 40, className }) => {
   return (
-    <div className={styles.root} style={{ height }}>
-      <LineWave width={size} height={size} />
+    <div className={classNames(styles.root, className)} style={{ height: height ? height : 'auto' }}>
+      <LineWave height={size} />
     </div>
   );
 };

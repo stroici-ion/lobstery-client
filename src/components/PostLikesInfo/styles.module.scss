@@ -1,59 +1,53 @@
-@import '../../styles/colors.scss';
-
 .root {
   display: flex;
   gap: 5px;
   padding: 0 10px;
 }
-
+.favorite,
+.dislikes,
 .likes {
-  color: $blueColorLighten;
-  padding: 0 7px;
+  color: var(--mainTextInactiveColor);
+  padding: 2px 8px;
   border-radius: 20px;
   display: flex;
-  gap: 10px;
+  gap: 5px;
   align-items: center;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
-  &:hover {
-    background-color: var(--grayColorLightenUltra) Ultra;
+
+  @include hover {
+    background-color: var(--mainHoverColor);
   }
 
-  @media (hover: none) {
-    &:hover {
-      background-color: initial;
-    }
-  }
-
+  @include svgSize(16px);
   svg {
-    width: 20px;
     path {
-      stroke: $blueColorLighten;
+      stroke: var(--mainTextInactiveColor);
     }
   }
 
   &.active {
     svg {
       path {
-        fill: $blueColorLighten;
+        stroke: var(--mainTextColor);
+        fill: var(--mainTextColor);
       }
     }
   }
 }
 
 .dislikes {
-  color: $redColor;
   svg {
     transform: scale(1, -1);
-    path {
-      stroke: $redColor;
-    }
   }
+}
 
+.favorite {
   &.active {
     svg {
       path {
-        fill: $redColor;
+        stroke: var(--orangeColor);
+        fill: var(--orangeColor);
       }
     }
   }

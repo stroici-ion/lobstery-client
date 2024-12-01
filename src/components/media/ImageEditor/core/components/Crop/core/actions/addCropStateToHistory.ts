@@ -4,7 +4,7 @@ import { ICropHistory, IEditorStep } from '../../../../../types/interfaces';
 import { EAspectRatios } from '../../../../../types/enums';
 import { aspectRatioList } from '../../../AspectRatiosList';
 
-export const getCurentHistoryStep = (cropStep: IEditorStep) => {
+export const getCurentHistoryStep = (cropStep: IEditorStep, originalAspectRatio?: number) => {
   const crop = cropStep.crop;
   const image = cropStep.image;
   const Origin = cropStep.Origin;
@@ -23,7 +23,8 @@ export const getCurentHistoryStep = (cropStep: IEditorStep) => {
 
   if (candidateAR) {
     if (candidateAR.id !== EAspectRatios.free) cropAR = candidateAR.value;
-    if (candidateAR.id === EAspectRatios.original) cropAR = cropStep.image.aspectRatio;
+    if (candidateAR.id === EAspectRatios.original)
+      cropAR = originalAspectRatio ? originalAspectRatio : cropStep.image.aspectRatio;
   }
 
   const cropLeft = (Origin.x - image.x) / image.width;

@@ -1,32 +1,10 @@
-@import '../../../styles/colors.scss';
-
 .tabs {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex: 1 1 auto;
-
-  @media (min-width: 400px) {
-    gap: 20px;
-  }
 
   @media (min-width: 540px) {
     justify-content: center;
-  }
-
-  @media (min-width: 767px) {
-    margin-top: 0px;
-    gap: 40px;
-  }
-
-  @media (min-width: 867px) {
-    margin-top: 0px;
-    gap: 30px;
-  }
-
-  @media (min-width: 1050px) {
-    margin-top: 0px;
-    gap: 50px;
   }
 
   &__tab {
@@ -36,53 +14,72 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    color: $mainTextColor;
+    color: var(--mainTextColor);
     position: relative;
-    padding: 0 20px;
+    padding: 0 25px;
+    border-radius: 5px 5px 0 0;
 
-    span {
+    @media (min-width: 450px) {
+      padding: 0 10px;
+    }
+
+    @media (min-width: 590px) {
+      padding: 0 20px;
+    }
+
+    @media (min-width: 767px) {
+      padding: 0 30px;
+    }
+
+    @media (min-width: 867px) {
+      padding: 0 15px;
+    }
+
+    @media (min-width: 1050px) {
+      padding: 0 25px;
+    }
+
+    p {
       display: none;
     }
+
     svg {
       height: 20px;
       path {
-        stroke: $mainTextColor;
-        fill: $mainTextColor;
+        stroke: var(--mainTextColor);
+        fill: var(--mainTextColor);
       }
     }
+
     @media (min-width: 450px) {
-      padding: 0;
-      span {
+      p {
         display: inline;
       }
     }
+
     @media (min-width: 768px) {
       gap: 10px;
       font-size: 14px;
       height: 35px;
     }
-    &:hover {
-      color: $mainTextColorHover;
-      path {
-        stroke: $mainTextColorHover;
-        fill: $mainTextColorHover;
-      }
-    }
+
     &.active {
-      color: $themeColor;
+      color: var(--lobsteryColor);
       svg {
         path {
-          stroke: $themeColor;
-          fill: $themeColor;
+          stroke: var(--lobsteryColor);
+          fill: var(--lobsteryColor);
         }
       }
+
       &::before {
+        z-index: 1;
         content: '';
         position: absolute;
-        width: 90%;
+        width: 100%;
         height: 2px;
         bottom: 0;
-        background-color: $themeColor;
+        background-color: var(--lobsteryColor);
       }
     }
   }

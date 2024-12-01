@@ -2,14 +2,19 @@ import React from 'react';
 
 const SearchSvg: React.FC = () => {
   return (
-    <svg viewBox="0 0 40 40" fill="none">
-      <path
-        d="M24.2425 24.2427V24.2427C28.5383 19.9469 28.5383 12.9821 24.2425 8.68632V8.68632C19.9468 4.39055 12.9819 4.39055 8.68618 8.68632V8.68632C4.39041 12.9821 4.39041 19.9469 8.68618 24.2427V24.2427C12.9819 28.5384 19.9468 28.5384 24.2425 24.2427V24.2427ZM24.2425 24.2427L31.3136 31.3137"
-        stroke="white"
-        strokeWidth="4"
-        style={{ fill: 'none' }}
-        strokeLinecap="round"
-      />
+    <svg
+      stroke="currentColor"
+      fill="currentColor"
+      stroke-width="0"
+      viewBox="0 0 24 24"
+      height="1em"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <path style={{ fill: 'none' }} fill="none" d="M0 0h24v24H0z"></path>
+        <path d="M11 2c4.968 0 9 4.032 9 9s-4.032 9-9 9-9-4.032-9-9 4.032-9 9-9zm0 16c3.867 0 7-3.133 7-7 0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7zm8.485.071l2.829 2.828-1.415 1.415-2.828-2.829 1.414-1.414z"></path>
+      </g>
     </svg>
   );
 };

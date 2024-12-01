@@ -1,7 +1,5 @@
-@import '../../styles/colors.scss';
-
 .root {
-  background-color: var(--lightColor);
+  background-color: var(--mainBoxShadowColor);
   border-radius: 20px;
-  box-shadow: 2px 2px 2px var(--grayColor);
+  box-shadow: 2px 2px 2px var(--bo);
 }

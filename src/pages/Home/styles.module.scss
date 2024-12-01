@@ -1,16 +1,125 @@
-@import '../../styles/colors.scss';
-
 .root {
-  background-color: var(--lightColor);
-  flex: 1 1 auto;
-  padding: 20px;
-  &__button {
-    margin: 10px;
-    padding: 10px 20px;
+  position: relative;
+  height: 100%;
+  display: flex;
+  &__body {
+    flex: 1 1 auto;
+    height: 100%;
   }
-  &__products {
+  &__aside {
+    flex: 0 0 300px;
+  }
+  &__top {
+    height: 450px;
+    position: relative;
+  }
+  &__posts {
+    margin-top: 20px;
+  }
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  &__cover {
+    flex: 1 1 auto;
+    border-radius: 10px;
+  }
+
+  &__avatar {
+    position: absolute;
+    top: 250px;
+    left: 50px;
+    img {
+      border: 5px solid var(--mainBackgroundColor);
+      height: 200px;
+      width: 200px;
+      border-radius: 50%;
+    }
+  }
+
+  &__info {
+    margin-left: 250px;
+    padding: 20px 0 0 20px;
+    flex: 0 120px;
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  &__userName {
+    margin-bottom: 5px;
+  }
+
+  &__friendsCount {
+    margin-bottom: 5px;
+    padding-left: 5px;
+  }
+
+  &__friendsList {
+    display: flex;
+  }
+
+  &__friendsAvatarContainer {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+  }
+
+  &__friendsAvatar {
+    border: 2px solid var(--mainBackgroundColor);
+    width: 40px;
+    height: 40px;
+  }
+
+  &__infoRight {
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+  }
+
+  &__editProfileButton {
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
     gap: 10px;
+    padding: 10px;
+    @include svgSize(20px);
+  }
+}
+
+.posts {
+  border-top: 1px solid var(--hrColor);
+  &__tabs {
+    height: 50px;
+    display: flex;
+    padding: 5px;
+    gap: 5px;
+  }
+
+  &__tabItem {
+    border-radius: 5px;
+    display: flex;
+    padding: 0 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: var(--mainLinkColor);
+    @include svgSize(20px);
+    @include svgColor(var(--mainLinkColor));
+    @include hover {
+      background-color: var(--mainHoverColor);
+      color: var(--mainTextColor);
+      @include svgColor(var(--mainTextColor));
+    }
+    &.active {
+      color: var(--mainTextColor);
+      @include svgColor(var(--mainTextColor));
+      background-color: var(--mainActiveColor);
+    }
+  }
+
+  &__top {
+    height: 60px;
+    border: 1px solid #000;
   }
 }

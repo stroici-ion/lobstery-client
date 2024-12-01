@@ -1,129 +1,142 @@
-@import '../../../../styles/colors.scss';
-
 .actions {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 2px 0;
-  svg {
-    width: 15px;
-    height: 15px;
-  }
+  gap: 10px;
+  padding-top: 5px;
 
-  &__like,
-  &__dislike {
+  &__body {
     display: flex;
-    align-items: center;
-    button {
-      transform: rotate(0deg);
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      background-color: transparent;
-    }
-    span {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--grayColor);
-    }
   }
 
-  &__like {
+  &__dislikes,
+  &__likes {
+    color: var(--mainTextInactiveColor);
+    padding: 2px 8px;
+    border-radius: 20px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+
+    @include hover {
+      background-color: var(--mainHoverColor);
+    }
+
+    @include svgSize(15px);
     svg {
       path {
-        stroke: $blueColorLighten;
+        stroke: var(--mainTextInactiveColor);
       }
     }
+
     &.active {
       svg {
         path {
-          fill: $blueColorLighten;
+          stroke: var(--mainTextColor);
+          fill: var(--mainTextColor);
         }
       }
     }
   }
 
-  &__dislike {
+  &__dislikes {
     svg {
       transform: scale(1, -1);
-      path {
-        stroke: $redColor;
-      }
-    }
-    &.active {
-      svg {
-        path {
-          fill: $redColor;
-        }
-      }
     }
   }
 
   &__likeByAuthor {
     pointer-events: none;
-    button {
-      transform: rotate(0deg);
-      background-color: transparent;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    position: relative;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-      path {
-        stroke: var(--grayColor);
-      }
+    @include hover {
+      @include svgColor(var(--mainLinkColor));
     }
-    svg {
-      width: 15px;
+
+    & > img {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 17px;
+      display: none;
+    }
+
+    & > div {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 17px;
+      font-size: 12px;
+      line-height: 18px;
+      display: none;
+    }
+
+    & > svg {
+      width: 17px;
       height: 15px;
-      visibility: collapse;
+      display: none;
     }
 
     &.editable {
       pointer-events: all;
-      svg {
-        visibility: visible;
+      display: block;
+
+      & > svg {
+        display: block;
+        height: 12px;
+        path {
+          stroke: var(--mainLinkColor);
+        }
       }
     }
 
     &.active {
-      img {
-        position: static;
-        visibility: visible;
+      display: block;
+      & > div {
+        display: block;
       }
-      svg {
-        visibility: visible;
+      & > img {
+        display: block;
+      }
+
+      & > svg {
+        display: block;
         position: absolute;
         z-index: 1;
-        bottom: -3px;
+        bottom: -4px;
         right: -5px;
         width: 12px;
         height: 12px;
         path {
           stroke-width: 7;
-          stroke: var(--lightColor);
-          fill: $redColor;
+          stroke: var(--mainBackgroundColor);
+          fill: var(--redColor);
         }
       }
     }
   }
 
-  &__authorAvatar {
-    position: absolute;
-    visibility: hidden;
-    width: 17px;
-    height: 17px;
-    flex: 0 0 17px;
-  }
-
   &__reply {
-    transition: 0.2s;
-    opacity: 0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    @include desktop {
+      opacity: 0;
+    }
     font-weight: 700;
     background-color: transparent;
-    color: var(--grayColor);
-    &:hover {
-      color: $blueColor;
+    color: var(--mainTextInactiveColor);
+    @include svgColor(var(--mainTextInactiveColor));
+    @include svgSize(14px);
+    @include hover {
+      @include svgColor(var(--mainTextColor));
+      color: var(--mainTextColor);
     }
   }
 }

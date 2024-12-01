@@ -2,6 +2,9 @@ import { EFetchStatus } from '../../types/enums';
 import { IPostsState } from './types';
 
 export const initialState: IPostsState = {
+  count: 0,
+  posts: [],
+
   activePost: {
     id: -1,
     title: '',
@@ -9,15 +12,14 @@ export const initialState: IPostsState = {
     imageSet: [],
     tags: [],
     taggedFriends: [],
-    audience: -1,
     fetchedImagesId: [],
+    audience: -1,
     customAudience: -1,
   },
   postSnapshot: undefined,
-  count: 0,
-  posts: [],
-  status: EFetchStatus.PENDING,
   uploadProgress: 0,
   postCreateStatus: EFetchStatus.PENDING,
+
+  status: EFetchStatus.PENDING,
   errors: undefined,
 };

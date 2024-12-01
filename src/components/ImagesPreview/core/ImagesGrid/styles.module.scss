@@ -1,5 +1,3 @@
-@import '../../../../styles/colors.scss';
-
 .root {
   display: flex;
   flex-direction: column;
@@ -52,7 +50,7 @@
         left: -1px;
         bottom: 0;
         height: 5px;
-        background-color: var(--lightColor);
+        background-color: var(--mainBackgroundColor);
       }
     }
 
@@ -86,7 +84,7 @@
       top: 0;
       bottom: 0;
       width: 5px;
-      background-color: var(--lightColor);
+      background-color: var(--mainBackgroundColor);
     }
   }
 
@@ -108,7 +106,7 @@
       top: 0;
       bottom: 0;
       width: 5px;
-      background-color: var(--lightColor);
+      background-color: var(--mainBackgroundColor);
     }
   }
 
@@ -129,7 +127,7 @@
     display: flex;
     position: relative;
     &:not(:last-child) {
-      border-bottom: 5px solid var(--lightColor);
+      border-bottom: 5px solid var(--mainBackgroundColor);
     }
   }
   img {
@@ -158,7 +156,7 @@
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  background-color: transparentize($color: var(--lightColor), $amount: 0.2);
+  background-color: transparentize($color: var(--mainBackgroundColor), $amount: 0.2);
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
@@ -168,7 +166,7 @@
     width: 30px;
     height: 30px;
     path {
-      fill: $cyanColor;
+      fill: var(--lobsteryColor);
     }
   }
 }
@@ -185,17 +183,17 @@
     font-size: 9px;
     text-align: center;
     line-height: 25px;
-    background-color: var(--lightColor);
+    background-color: var(--mainBackgroundColor);
     border-radius: 50%;
     color: $redColorDarken;
-    &:hover {
+    @include hover {
       cursor: pointer;
       background-color: $redColor;
-      color: var(--lightColor);
-      box-shadow: inset 0 0 0 2px var(--lightColor);
+      color: var(--mainBackgroundColor);
+      box-shadow: inset 0 0 0 2px var(--mainBackgroundColor);
     }
   }
-  &:hover {
+  @include hover {
     .imageParent__decorationRemove {
       visibility: visible;
     }

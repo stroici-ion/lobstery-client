@@ -7,7 +7,8 @@ export const canvasDrawCrop = (
   cropStep: IEditorStep,
   opacity: number,
   animationAngle: number,
-  ctx: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D,
+  color: string
 ) => {
   const crop = cropStep.crop;
   const image = cropStep.image;
@@ -35,7 +36,7 @@ export const canvasDrawCrop = (
   };
 
   ctx.clearRect(0, 0, parentSize.width, parentSize.height);
-  ctx.fillStyle = `rgba(200,200,200,${opacity})`;
+  ctx.fillStyle = `${color + ',' + opacity})`;
 
   let editedAngle = image.angle + animationAngle;
   let rotateX = 0;

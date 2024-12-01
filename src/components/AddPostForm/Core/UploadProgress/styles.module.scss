@@ -1,77 +1,77 @@
-@import '../../../../styles/colors.scss';
-
-$color: var(--lightColor);
+$color: var(--mainBackgroundColor);
 .root {
-  background-color: var(--lightColorTransparent);
+  background-color: var(--mainBackgroundColorTransparent);
   height: 100%;
-  overflow: hidden;
   position: relative;
-  &.centerContent {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  &::before {
-    position: absolute;
-    content: '';
-    left: 0;
-    z-index: 1;
-    right: 0;
-    bottom: 0;
-    height: 30px;
-    background: var(--lightColorTransparent);
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
   &__top {
+    flex: 1 1 auto;
     display: flex;
     height: 200px;
+    flex: 0 0 200px;
+    @include svgSize(200px);
   }
+
   &__images {
     position: relative;
+    max-height: 50%;
   }
+
   &__imageBlock {
-    display: flex;
     margin-bottom: 10px;
+    display: flex;
     align-items: center;
     transition: transform;
     overflow: hidden;
-    transition: transform 0.3s, height 0.3s ease 0.3s;
-    height: 60px;
-
+    transition: 1s;
+    gap: 20px;
+    overflow: hidden;
+    height: 80px;
     &.uploaded {
       transform: translate(0, -100%) scale(0);
       height: 0px;
+      margin-bottom: 0px;
     }
     &.pending {
       opacity: 0.8;
     }
   }
+
   &__image {
-    margin-right: 20px;
-    height: 60px;
-    width: 60px;
-    object-fit: cover;
-    border-radius: 10px;
+    height: 80px;
+    width: 80px;
     filter: blur(0.4px);
   }
+
+  &__progress {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
   &__imageProgress {
-    flex: 0 0 100px;
     text-align: left;
-    margin-left: 15px;
     &.pending {
-      color: var(--grayColor);
+      color: var(--mainTextInactiveColor);
     }
   }
+
   &__progressBarBlock {
-    flex: 1 1 auto;
-    background-color: $cyanColorLighten;
-    border-radius: 30px;
+    width: 200px;
+    background-color: var(--mainHoverColor);
+    border-radius: 10px;
     overflow: hidden;
-    height: 20px;
+    height: 10px;
   }
+
   &__progressBar {
     transition: 0.1s;
-    background-color: $cyanColorDarken;
+    background-color: var(--greenColor);
     width: 0%;
     height: 100%;
     border-radius: 0 30px 30px 0;

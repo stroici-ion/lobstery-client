@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import debounce from 'lodash.debounce';
 import emoji from 'react-easy-emoji';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 
 import { feelings as feelingsList } from '../../../../utils/emojisMap';
 import { useAppDispatch } from '../../../../redux';
-import { useSelector } from 'react-redux';
 import { CheckedSvg, SearchSvg } from '../../../../icons';
 import styles from './styles.module.scss';
-import classNames from 'classnames';
 import { selectActivePost } from '../../../../redux/posts/selectors';
 import { setFeeling } from '../../../../redux/posts/slice';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
@@ -22,7 +22,7 @@ export interface IFeelig {
 }
 
 const FeelingTab: React.FC = () => {
-  const user = useSelector(selectUserProfile);
+  const userProfile = useSelector(selectUserProfile);
   const { feeling, taggedFriends } = useSelector(selectActivePost);
   const [searchText, setSearchText] = useState('');
   const [feelings, setFeelings] = useState<IFeelig[]>(feelingsList);
@@ -50,9 +50,9 @@ const FeelingTab: React.FC = () => {
     <div className={styles.root}>
       <p className={styles.root__title}>How are you feeling?</p>
       <div className={classNames(styles.root__top, styles.user)}>
-        <UserImage user={user} className={styles.user__avatar} />
+        <UserImage user={userProfile.user} className={styles.user__avatar} />
         <div className={styles.user__info}>
-          <PostUsername user={user} feeling={feeling} taggedFriends={taggedFriends} />
+          <PostUsername user={userProfile.user} feeling={feeling} taggedFriends={taggedFriends} />
         </div>
       </div>
       <div className={styles.root__search}>

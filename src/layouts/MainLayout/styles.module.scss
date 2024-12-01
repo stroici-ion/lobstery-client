@@ -1,12 +1,14 @@
-@import '../../styles/mixins.scss';
-
 .root {
   display: flex;
+  min-height: 100%;
 
   @media (min-width: 768px) {
     padding-top: 0px;
   }
   &__content {
+    min-height: 100%;
     flex: 1 1 auto;
+    margin-top: 80px;
+    margin-left: 250px;
   }
 }

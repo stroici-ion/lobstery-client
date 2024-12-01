@@ -1,0 +1,54 @@
+@mixin rippleButton(
+  $color: var(--mainTextColor),
+  $background: transparent,
+  $hover: var(--mainHoverColor),
+  $active: var(--mainActiveColor)
+) {
+  @include svgColor($color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  gap: 10px;
+
+  color: $color;
+  background-color: $background;
+
+  position: relative;
+  overflow: hidden;
+  transition: 0.2s;
+
+  @include hover() {
+    background-color: $hover;
+  }
+
+  & > div {
+    display: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+    flex-direction: inherit;
+    gap: inherit;
+    position: relative;
+    z-index: 1;
+    color: inherit;
+  }
+
+  & > span {
+    position: absolute;
+    border-radius: 50%;
+    background-color: $hover;
+    @media (hover: hover) and (pointer: fine) {
+      background-color: $active;
+    }
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+  }
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}

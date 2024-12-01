@@ -6,9 +6,10 @@ import { EFetchStatus } from '../../types/enums';
 import { IFetchError } from '../auth/types';
 
 export interface IPostsState {
-  uploadProgress: number;
   count: number;
   posts: IPost[];
+
+  uploadProgress: number;
   status: EFetchStatus;
   postCreateStatus: EFetchStatus;
   errors?: IFetchError;
@@ -32,6 +33,7 @@ export interface IPost extends ILikesInfo {
   updatedAt: Date;
   audience: number;
   customAudience: number;
+  favorite: boolean;
 }
 
 interface ExcludeKeys extends ILikesInfo {
@@ -63,6 +65,7 @@ export interface IFetchedPost extends IFetchedLikesInfo {
   updated_at: Date;
   audience: number;
   custom_audience: number;
+  favorite: boolean;
 }
 
 export interface FetchPostsResponse {

@@ -8,6 +8,7 @@ const SignInSvg: React.FC = () => {
         stroke="black"
         strokeWidth="4"
         strokeLinecap="round"
+        style={{ fill: 'none' }}
       />
     </svg>
   );

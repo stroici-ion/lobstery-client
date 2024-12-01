@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   border-radius: 8px;
-  background-color: var(--grayColorLightenUltra);
+  background-color: var(--mainHoverColor);
 }
 
 .cell {
@@ -12,6 +12,7 @@
   background-repeat: no-repeat;
   border-radius: 2px;
 
+  video,
   img {
     width: 100%;
     height: 100%;
@@ -19,24 +20,37 @@
     left: 0;
     top: 0;
     transition: 0.2s;
+    background-color: var(--mainActiveColor);
   }
-
-  &.selectable {
-    &:hover {
-      img {
-        transform: scale(1.05);
-      }
-    }
-  }
-
-  // &.row {
-  //   &:hover {
-  //     opacity: 0.2;
-  //   }
-  // }
 }
 
 .mainCell {
   overflow: hidden;
   border-radius: 8px;
+}
+
+.videoDecoration {
+  transition: 0.2s;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  span {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: var(--mainBoxShadowColor);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    padding-left: 5px;
+    @include svgSize(30px);
+    @include svgColor(var(--lobsteryColor));
+  }
+
+  @include hover {
+    width: 70px;
+    height: 70px;
+  }
 }

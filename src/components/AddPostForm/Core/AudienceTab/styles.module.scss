@@ -1,7 +1,3 @@
-@import '../../../../styles/colors.scss';
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/addPostFormStyles.scss';
-
 .root {
   padding: 10px;
   display: flex;
@@ -15,6 +11,7 @@
     font-weight: 700;
     height: 30px;
     margin-bottom: 10px;
+    color: var(--mainTextColor);
   }
 
   &__list {
@@ -49,13 +46,12 @@
     &.visible {
       display: flex;
     }
-
     svg {
       width: 250px;
       height: 250px;
       path {
-        fill: var(--grayColorLightenUltra);
-        stroke: var(--grayColorLightenUltra);
+        fill: var(--mainActiveColor);
+        stroke: var(--mainActiveColor);
       }
     }
   }
@@ -71,49 +67,25 @@
   }
 }
 
-.public {
-  @include audienceButtonColor($greenColor, $greenColorBackgroundHover, $greenColorBackgroundActive);
-}
-
-.friends {
-  @include audienceButtonColor($cyanColor, $cyanColorBackgroundHover, $cyanColorBackgroundActive);
-}
-
-.friendsOfFriends {
-  @include audienceButtonColor($blueColor, $blueColorBackgroundHover, $blueColorBackgroundActive);
-}
-
-.private {
-  @include audienceButtonColor($redColor, $redColorBackgroundHover, $redColorBackgroundActive);
-}
-
-.custom {
-  @include audienceButtonColor($yellowColor, $yellowColorBackgroundHover, $yellowColorBackgroundActive);
-}
-
 .defaultAudience {
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 7px;
   user-select: none;
-  &__checkbox {
-    accent-color: $greenColorDarken;
-    pointer-events: none;
-  }
 
   &__label {
     font-size: 14px;
-    color: var(--grayColorDarken);
-    &:hover {
+    color: var(--mainLinkColor);
+    @include hover {
       text-decoration: underline;
     }
   }
   &.active {
     cursor: default;
     .defaultAudience__label {
-      color: $greenColorDarken;
-      &:hover {
+      color: var(--greenColor);
+      @include hover {
         text-decoration: none;
       }
     }

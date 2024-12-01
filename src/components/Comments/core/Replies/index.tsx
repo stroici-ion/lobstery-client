@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { ArrowDownSvg, ReturnBackSvg } from '../../../../icons';
 import { createReply, getReplies } from '../../../../services/comments/CommentsServices';
@@ -11,6 +12,8 @@ import Reply from '../Reply';
 import Loader from '../../../Loader';
 import UserImage from '../../../UserImage';
 import { IReply } from '../../types';
+import classNames from 'classnames';
+import ReplySkeleton from '../Reply/ReplySkeleton';
 
 interface IReplies {
   isMultimedia: boolean;
@@ -33,7 +36,7 @@ const Replies: React.FC<IReplies> = ({
   setIsCreateReplyVisible,
   repliesCount,
 }) => {
-  const user = useSelector(selectUserProfile);
+  const userProfile = useSelector(selectUserProfile);
 
   const [isCreateReplyLoading, setIsCreateReplyLoading] = useState(false);
   const [isRepliesLoading, setIsRepliesLoading] = useState(false);
@@ -45,7 +48,7 @@ const Replies: React.FC<IReplies> = ({
   const totalPages = Math.ceil(repliesCount / limit);
 
   const handleCreateReply = async (text: string) => {
-    if (user) {
+    if (userProfile.user.id) {
       setIsCreateReplyLoading(true);
 
       const reply = await createReply(postId, commentId, text);
@@ -60,7 +63,7 @@ const Replies: React.FC<IReplies> = ({
 
   const fetchReplies = async () => {
     setIsRepliesLoading(true);
-    const result = await getReplies(commentId, page, user.id);
+    const result = await getReplies(commentId, page, userProfile.user.id);
     if (result) setFetchedReplies([...fetchedReplies, ...result.replies]);
     setIsRepliesLoading(false);
   };
@@ -70,11 +73,16 @@ const Replies: React.FC<IReplies> = ({
   }, [isFetchedRepliesVisible, page]);
 
   useEffect(() => {
-    fetchReplies();
+    if (isFetchedRepliesVisible) fetchReplies();
   }, [page]);
 
   const handleShowReplies = () => {
     setIsFetchedRepliesVisible(!isFetchedRepliesVisible);
+  };
+
+  const getRepliesSkeletons = () => {
+    if (page * limit > repliesCount) return repliesCount - page * limit;
+    return limit;
   };
 
   return (
@@ -88,14 +96,16 @@ const Replies: React.FC<IReplies> = ({
       )}
       {repliesCount > 0 && (
         <button className={styles.root__button} onClick={handleShowReplies}>
-          <ArrowDownSvg />
           {isRepliedByAuthor && (
             <>
-              <UserImage user={owner} className={styles.root__avatar} />
-              <span className={styles.root__avatarDecoration}>•</span>
+              <UserImage user={owner} className={styles.root__user} />
+              <span className={classNames(styles.root__userDecoration)}>•</span>
             </>
           )}
           View {repliesCount} {`repl${repliesCount > 1 ? 'ies' : 'y'}`}
+          <span className={classNames(styles.root__showRepliesIcon, isFetchedRepliesVisible && styles.active)}>
+            <TiArrowSortedDown />
+          </span>
         </button>
       )}
       {isFetchedRepliesVisible && (
@@ -111,6 +121,7 @@ const Replies: React.FC<IReplies> = ({
               reply={reply}
             />
           ))}
+
           {fetchedReplies
             .filter((reply) => !recentReplies.map((recent) => recent.id).includes(reply.id))
             .map((reply) => (
@@ -126,7 +137,11 @@ const Replies: React.FC<IReplies> = ({
               />
             ))}
           {isRepliesLoading ? (
-            <Loader height={91} size={80} />
+            <>
+              {Array.from({ length: getRepliesSkeletons() }).map((_, i) => (
+                <ReplySkeleton />
+              ))}
+            </>
           ) : (
             totalPages > page && (
               <button className={styles.root__showMoreButton} onClick={() => setPage(page + 1)}>

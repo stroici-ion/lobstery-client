@@ -13,7 +13,7 @@ const PostDetail: React.FC = () => {
     fetchPostDetail(parseInt(id)).then((data) => setPost(data));
   }, []);
 
-  return <div>{post && <Post post={{ ...post, viewsCount: 10 }} />}</div>;
+  return <div>{post && <Post post={{ ...post, viewsCount: 999 }} />}</div>;
 };
 
 export default PostDetail;

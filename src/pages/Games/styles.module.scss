@@ -1,7 +1,5 @@
-@import '../../styles/colors.scss';
-
 .root {
-  background-color: var(--lightColor);
+  background-color: var(--mainBackgroundColor);
   flex: 1 1 auto;
   display: flex;
   align-items: center;
@@ -58,7 +56,7 @@
     left: 30px;
     position: absolute;
     z-index: 1;
-    background-color: transparentize($color: $cyanColorDarken, $amount: 0.2);
+    background-color: var(--lobsteryColor);
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -74,12 +72,12 @@
       bottom: 0;
       position: absolute;
       content: '';
-      background: $redColor;
+      background: var(--lobsteryColor);
       opacity: 0.8;
     }
   }
   &.candidatePlace {
-    &:hover {
+    @include hover {
       .cell__candidatePlace {
         top: 0px;
         left: 0px;
@@ -101,7 +99,7 @@
       height: 80px;
       border-radius: 0%;
       opacity: 1;
-      background-color: darken($color: $redColorDarken, $amount: 20);
+      background-color: var(--lobsteryHoverColor);
     }
   }
   &.active {

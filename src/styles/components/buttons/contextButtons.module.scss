@@ -1,0 +1,44 @@
+.panel1Red {
+  color: var(--panel1TextColor);
+  @include svgColor(var(--redColor));
+  @include svgSize(12px);
+  @include hover {
+    background-color: var(--panel1RedInterpolatedColor);
+  }
+}
+
+.panel1Blue {
+  color: var(--panel1TextColor);
+  @include svgColor(var(--blueColor));
+  @include svgSize(12px);
+  @include hover {
+    background-color: var(--panel1BlueInterpolatedColor);
+  }
+}
+
+.panel1Green {
+  color: var(--panel1TextColor);
+  @include svgColor(var(--greenColor));
+  @include svgSize(12px);
+  @include hover {
+    background-color: var(--panel1GreenInterpolatedColor);
+  }
+}
+
+.panel1Orange {
+  color: var(--panel1TextColor);
+  @include svgColor(var(--orangeColor));
+  @include svgSize(12px);
+  @include hover {
+    background-color: var(--panel1OrangeInterpolatedColor);
+  }
+}
+
+.panel1Yellow {
+  color: var(--panel1TextColor);
+  @include svgColor(var(--yellowColor));
+  @include svgSize(12px);
+  @include hover {
+    background-color: var(--panel1YellowInterpolatedColor);
+  }
+}

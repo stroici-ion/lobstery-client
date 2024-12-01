@@ -1,5 +1,3 @@
-@import '../../../../styles/colors.scss';
-
 .inputBox {
   position: relative;
   height: 45px;
@@ -9,11 +7,11 @@
   &__label {
     padding: 0 5px;
     border-radius: 3px;
-    background-color: var(--lightColor);
+    background-color: var(--mainBackgroundColor);
     position: absolute;
     top: 0px;
     left: 10px;
-    color: $redColor;
+    color: var(--redColor);
     font-size: 11px;
   }
 
@@ -29,7 +27,7 @@
 
 .error {
   input {
-    border: 1px solid $redColor !important;
-    background-color: var(--lightColor) !important;
+    border: 1px solid var(--redColor) !important;
+    background-color: var(--mainBackgroundColor) !important;
   }
 }

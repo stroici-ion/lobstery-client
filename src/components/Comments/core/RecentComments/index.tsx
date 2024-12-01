@@ -9,6 +9,7 @@ import { selectUserProfile } from '../../../../redux/profile/selectors';
 import { IUser } from '../../../../redux/profile/types';
 import Loader from '../../../Loader';
 import { IComment } from '../../types';
+import CommentSkeleton from '../Comment/CommentSkeleton';
 
 interface IRecentComments {
   isMultimedia: boolean;

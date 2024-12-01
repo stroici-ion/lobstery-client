@@ -1,0 +1,53 @@
+@import '../../mixins/buttons/buttons.scss';
+
+.red {
+  @include button(var(--redColor), var(--mainRreedInterpolatedColor), var(--mainActiveColor));
+  &Underline {
+    @include button(var(--redColor), var(--mainRreedInterpolatedColor), var(--mainActiveColor));
+    @include buttonUnderline(var(--mainRreedInterpolatedColor));
+  }
+}
+
+.yellow {
+  @include button(var(--yellowColor), var(--mainYellowInterpolatedColor), var(--mainActiveColor));
+  &Underline {
+    @include button(var(--yellowColor), var(--mainYellowInterpolatedColor), var(--mainActiveColor));
+    @include buttonUnderline(var(--mainYellowInterpolatedColor));
+  }
+}
+
+.green {
+  @include button(var(--greenColor), var(--mainGreenInterpolatedColor), var(--mainActiveColor));
+  &Underline {
+    @include button(var(--greenColor), var(--mainGreenInterpolatedColor), var(--mainActiveColor));
+    @include buttonUnderline(var(--mainGreenInterpolatedColor));
+  }
+}
+
+.blue {
+  @include button(var(--blueColor), var(--mainBlueInterpolatedColor), var(--mainActiveColor));
+  &Underline {
+    @include button(var(--blueColor), var(--mainBlueInterpolatedColor), var(--mainActiveColor));
+    @include buttonUnderline(var(--mainBlueInterpolatedColor));
+  }
+}
+
+.close {
+  position: absolute;
+  background-color: var(--mainLinkColor);
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  right: 10px;
+  top: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include svgColor(#fff);
+  @include svgSize(12px);
+  @include hover {
+    background-color: var(--lobsteryColor);
+  }
+}

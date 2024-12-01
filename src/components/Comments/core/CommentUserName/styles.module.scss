@@ -1,0 +1,10 @@
+.userName {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--mainLinkColor);
+
+  &__owner {
+    margin-left: 3px;
+    color: var(--orangeColor);
+  }
+}

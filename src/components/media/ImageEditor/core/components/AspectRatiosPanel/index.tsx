@@ -40,7 +40,6 @@ const AspectRatiosPanel: React.FC<IAspectRatiosPanel> = ({ selected, setAspectRa
           ))}
         </div>
       </ScrollAreaHorizontal>
-
       <div className={styles.root__row}>
         <button className={styles.root__done} onClick={hide}>
           Done

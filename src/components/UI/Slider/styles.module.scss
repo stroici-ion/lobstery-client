@@ -1,6 +1,6 @@
 .slider {
   &__top {
-    color: #2e2e2e;
+    color: var(--mainTextColor);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -15,18 +15,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    svg {
-      width: 80%;
-      height: 80%;
-    }
-    path {
-      fill: #2e2e2e;
-      stroke: #2e2e2e;
-    }
-    circle {
-      fill: #2e2e2e;
-      stroke: #2e2e2e;
-    }
+    color: var(--mainTextColor);
+    @include svgSize(15px);
   }
   &__title {
     flex: 1 1 auto;
@@ -50,7 +40,7 @@
   position: relative;
   &::before {
     content: '';
-    background-color: #b1b1b1;
+    background-color: var(--mainSliderColor);
     border-radius: 5px;
     position: absolute;
     top: 50%;
@@ -70,7 +60,7 @@
     position: absolute;
     width: 15px;
     height: 15px;
-    background-color: transparentize(#578b2a, 0.5);
+    background-color: var(--lobsteryTransparentColor);
     border-radius: 50px;
     display: flex;
     align-items: center;
@@ -80,7 +70,7 @@
       width: 20px;
       height: 20px;
     }
-    &:hover {
+    @include hover {
       & > div {
         width: 11px;
         height: 11px;
@@ -92,7 +82,7 @@
     border-radius: 50px;
     width: 8px;
     height: 8px;
-    background-color: #578b2a;
+    background-color: var(--lobsteryColor);
     @media (min-width: 1200px) {
       width: 11px;
       height: 11px;
@@ -104,7 +94,7 @@
     width: 0px;
     top: 50%;
     right: 0%;
-    background-color: #578b2a;
+    background-color: var(--lobsteryColor);
     transform: translate(-100%, -50%);
     border-radius: 5px;
     height: 3px;
@@ -117,7 +107,7 @@
     width: 0px;
     left: 0%;
     top: 50%;
-    background-color: #578b2a;
+    background-color: var(--lobsteryColor);
     border-radius: 5px;
     transform: translate(0, -50%);
     height: 3px;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import classNames from 'classnames';
 
 import { createReply, editComment, removeComment } from '../../../../services/comments/CommentsServices';
 import { getTime } from '../../../../utils/getTime';
@@ -8,16 +7,19 @@ import CommentActions from '../CommentActions';
 import ExtensibleText from '../ExtensibleText';
 import WriteComment from '../WriteComment';
 import styles from './styles.module.scss';
-import { EditSvg, ReportSvg } from '../../../../icons';
+import { EditSvg, ReportSvg, SubmenuSvg } from '../../../../icons';
 import DeleteSvg from '../../../../icons/DeleteSvg';
-import CommentContextMenu from '../CommentContextMenu';
 import { IUser } from '../../../../redux/profile/types';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import Loader from '../../../Loader';
 import UserImage from '../../../UserImage';
 import { IReply } from '../../types';
 import { ILikesInfo } from '../../../../types/LikesInfo.types';
-import getUserName from '../../../user/utils/getUserName';
+import ctxBtnStyles from '../../../../styles/components/buttons/contextButtons.module.scss';
+import CommentUserName from '../CommentUserName';
+import { useContextMenu } from '../../../../hooks/useContextMenu';
+import ContextMenu from '../../../UI/ContextMenu';
+import RippleButton from '../../../UI/buttons/RippleButton';
 
 interface IReplyFC {
   isMultimedia: boolean;
@@ -38,7 +40,7 @@ const Reply: React.FC<IReplyFC> = ({
   setRecentReplies,
   setFetchedReplies,
 }) => {
-  const user = useSelector(selectUserProfile);
+  const user = useSelector(selectUserProfile).user;
   const [isCreateReplyVisible, setIsCreateReplyVisible] = useState(false);
   const [isCreateReplyLoading, setIsCreateReplyLoading] = useState(false);
   const [, setIsEditingReplyLoading] = useState(false);
@@ -128,25 +130,25 @@ const Reply: React.FC<IReplyFC> = ({
 
   const replyContextMenuButtons = {
     editButton: (
-      <button className={styles.submenu__edit} onClick={handleToogleEditReply}>
+      <button className={ctxBtnStyles.panel1Orange} onClick={handleToogleEditReply}>
         <EditSvg />
         Edit reply
       </button>
     ),
     deleteButton: (
-      <button className={styles.submenu__delete} onClick={handleRemoveReply}>
+      <button className={ctxBtnStyles.panel1Red} onClick={handleRemoveReply}>
         <DeleteSvg />
         Delete reply
       </button>
     ),
     reportButton: (
-      <button className={styles.submenu__delete} onClick={handleRemoveReply}>
+      <button className={ctxBtnStyles.panel1Red} onClick={handleRemoveReply}>
         <ReportSvg />
         Report reply
       </button>
     ),
   };
-
+  const ctx = useContextMenu();
   return (
     <>
       {isEditing ? (
@@ -157,23 +159,31 @@ const Reply: React.FC<IReplyFC> = ({
           <div className={styles.comment__body}>
             <div className={styles.comment__top}>
               <div className={styles.comment__info}>
-                <p
-                  className={classNames(
-                    styles.comment__nameInfo,
-                    reply.user.id === owner.id && styles.comment__nameInfo__postOwner,
-                    reply.user.id === user.id && styles.comment__nameInfo__owned
-                  )}
-                >
-                  {getUserName(reply.user)}
-                </p>
+                <CommentUserName user={user} postUserId={owner.id} commentUserId={reply.user.id} />
                 <span className={styles.comment__timeInfo}>{getTime(reply.createdAt)}</span>
               </div>
-              <CommentContextMenu
-                ownerId={owner.id}
-                commentOwnerId={reply.user.id}
-                className={styles.submenu}
-                buttons={replyContextMenuButtons}
-              />
+              <RippleButton
+                className={styles.comment__contextMenuButton}
+                triggerRef={ctx.triggerRef}
+                onClick={ctx.onShow}
+              >
+                <SubmenuSvg />
+              </RippleButton>
+              {ctx.isOpen && (
+                <ContextMenu {...ctx}>
+                  {reply.user.id === user.id ? (
+                    <>
+                      {replyContextMenuButtons.editButton}
+                      {replyContextMenuButtons.deleteButton}
+                    </>
+                  ) : (
+                    <>
+                      {replyContextMenuButtons.reportButton}
+                      {owner.id === user.id && replyContextMenuButtons.deleteButton}
+                    </>
+                  )}
+                </ContextMenu>
+              )}
             </div>
             <ExtensibleText className={styles.comment__text} mentionedUser={reply.mentionedUser} text={reply.text} />
             <CommentActions

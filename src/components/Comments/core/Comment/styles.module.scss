@@ -1,53 +1,40 @@
-@import '../../../../styles/colors.scss';
-
 .comment {
   margin: 15px 0;
   display: flex;
   gap: 15px;
   position: relative;
   &.pinned {
-    padding-top: 25px;
+    padding-top: 15px;
   }
 
   &__pinned {
     position: absolute;
     height: 15px;
     top: 0;
-    left: 10px;
+    left: 50px;
     font-size: 13px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: var(--grayColor);
-    svg {
-      height: 12px;
-      width: 12px;
-      path {
-        fill: $blueColor;
-        stroke: $blueColor;
-      }
-    }
-    &_owner {
-      margin-left: -5px;
-      background-color: $greenColorLighten;
-      border-radius: 10px;
-      padding: 0px 7px;
+    gap: 5px;
+    color: var(--mainTextInactiveColor);
+    @include svgSize(12px);
+    @include svgColor(var(--orangeColor));
+
+    &Owner {
+      color: var(--orangeColor);
       font-weight: 700;
-      color: $greenColorDarken;
+      @include hover {
+        color: var(--orangeHoverColor);
+      }
     }
   }
 
   &__wasPinned {
-    svg {
-      path {
-        fill: $redColor;
-        stroke: $redColor;
-      }
-    }
+    @include svgColor(var(--mainTextInactiveColor));
   }
 
   &__avatar {
-    // user-select: none;
+    flex: 0 0 40px;
     width: 40px;
     height: 40px;
   }
@@ -57,7 +44,7 @@
     padding-bottom: 5px;
     position: relative;
     flex: 1 1 auto;
-    border-bottom: 1px solid var(--grayColor) Lighten;
+    border-bottom: 1px solid var(--hrColor);
   }
 
   &__top {
@@ -71,24 +58,12 @@
     gap: 5px;
   }
 
-  &__nameInfo {
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--grayColorDarken);
-    &__postOwner {
-      color: $cyanColorDarken;
-    }
-    &__owned {
-      color: $blueColor;
-    }
-  }
-
   &__timeInfo {
     font-size: 12px;
-    color: var(--grayColor);
+    color: var(--mainTextInactiveColor);
   }
 
-  &:hover {
+  @include hover {
     .root__actions {
       button {
         opacity: 1;
@@ -98,78 +73,13 @@
       opacity: 1;
     }
   }
-}
 
-.submenu {
-  opacity: 0;
-  &__delete {
-    svg {
-      height: 12px;
-      width: 12px;
-      path {
-        fill: $redColor;
-        stroke: $redColor;
-      }
-    }
-    &:hover {
-      background-color: $redColorLighten;
-    }
-  }
-
-  &__edit {
-    svg {
-      height: 10px;
-      width: 12px;
-      path {
-        fill: $greenColor;
-        stroke: $greenColor;
-      }
-    }
-    &:hover {
-      background-color: $greenColorLighten;
-    }
-  }
-
-  &__report {
-    svg {
-      height: 12px;
-      width: 12px;
-      path {
-        fill: $yellowColor;
-        stroke: $yellowColor;
-      }
-    }
-    &:hover {
-      background-color: $yellowColor Lighten;
-    }
-  }
-
-  &__pin {
-    svg {
-      height: 14px;
-      width: 12px;
-      path {
-        fill: $blueColor;
-        stroke: $blueColor;
-      }
-    }
-    &:hover {
-      background-color: $blueColorLighten;
-    }
-  }
-  &__unpin {
-    svg {
-      transform: rotate(45deg);
-      height: 14px;
-      width: 12px;
-      path {
-        fill: $blueColor;
-        stroke: $blueColor;
-      }
-    }
-    &:hover {
-      background-color: $blueColorLighten;
-    }
+  &__contextMenuButton {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    @include svgSize(10px);
+    @include svgColor(var(--mainTextInactiveColor));
   }
 }
 
@@ -186,14 +96,79 @@
   &__no {
     padding: 3px 10px;
     border-radius: 5px;
-    border: 1px solid $greenColor;
-    color: $greenColor;
+    border: 1px solid var(--greenColor);
+    color: var(--greenColor);
   }
 
   &__yes {
     padding: 3px 10px;
     border-radius: 5px;
-    background-color: $redColor;
-    color: var(--lightColor);
+    background-color: var(--redColor);
+    color: var(--mainBackgroundColor);
+  }
+}
+
+.skeleton {
+  margin: 15px 0;
+  display: flex;
+  gap: 15px;
+  max-height: 81.33px;
+  &__avatar {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--mainHoverColor);
+  }
+
+  &__body {
+    padding-right: 15px;
+    padding-bottom: 5px;
+    position: relative;
+    flex: 1 1 auto;
+    border-bottom: 1px solid var(--hrColor);
+    padding-bottom: 13px;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 5px;
+  }
+
+  &__name {
+    border-radius: 50px;
+    height: 10px;
+    background-color: var(--mainHoverColor);
+    width: 50px;
+  }
+
+  &__context {
+    border-radius: 10px;
+    height: 15px;
+    background-color: var(--mainHoverColor);
+    width: 15px;
+    margin-right: 5px;
+  }
+
+  &__text {
+    width: 450px;
+    height: 20px;
+    border-radius: 50px;
+    background-color: var(--mainHoverColor);
+    margin-top: 4px;
+  }
+
+  &__likes {
+    margin-top: 4px;
+    display: flex;
+    gap: 15px;
+    div {
+      border-radius: 20px;
+      height: 20px;
+      width: 20px;
+      background-color: var(--mainHoverColor);
+    }
   }
 }

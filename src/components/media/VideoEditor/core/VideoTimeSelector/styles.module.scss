@@ -1,0 +1,75 @@
+.root {
+  background-color: var(--mainHoverColor);
+  flex: 0 0 60px;
+  position: relative;
+  display: flex;
+  user-select: none;
+  -webkit-user-drag: none;
+  * {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  &__time {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+
+  &__thumbnails {
+    border-radius: 5px;
+    display: flex;
+    overflow: hidden;
+    img {
+      height: 60px;
+    }
+  }
+}
+
+.time {
+  box-shadow: inset 0 2px var(--mainTextColor), inset 0 -2px var(--mainTextColor);
+  &__center {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    cursor: grab;
+    -webkit-user-drag: none;
+  }
+  &__left,
+  &__right {
+    cursor: ew-resize;
+    position: absolute;
+    height: 100%;
+    width: 11px;
+    top: 0;
+    background-color: var(--mainTextColor);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      background-color: var(--mainLinkColor);
+      width: 4px;
+      border-radius: 10px;
+    }
+  }
+  &__left {
+    border-radius: 10px 0 0 10px;
+    left: -11px;
+    &::before {
+      left: 4px;
+    }
+  }
+  &__right {
+    border-radius: 0 10px 10px 0;
+    right: -11px;
+    &::before {
+      right: 4px;
+    }
+  }
+}

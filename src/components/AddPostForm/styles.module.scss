@@ -1,6 +1,5 @@
-@import '../../styles/colors.scss';
 .wrapper {
-  background-color: var(--lightColor);
+  background-color: var(--mainBackgroundColor);
   position: fixed;
   top: -15%;
   left: -15%;
@@ -32,7 +31,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background-color: var(--lightColor);
+    background-color: var(--mainBackgroundColor);
     @media (min-width: 768px) {
       margin: 5px;
       border-radius: 20px;
@@ -49,30 +48,9 @@
       margin-bottom: 0px;
       padding: 5px;
       padding-left: 50px;
-    }
-  }
-
-  &__return {
-    position: absolute;
-    background-color: $redColor;
-    z-index: 2;
-    width: 30px;
-    height: 30px;
-    right: 10px;
-    top: 10px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    svg {
-      padding: 8px;
-      path {
-        stroke: var(--lightColor);
-        fill: var(--lightColor);
+      &.uploading {
+        padding-left: 5px;
       }
-    }
-    &:hover {
-      background-color: $redColorDarken;
     }
   }
 }

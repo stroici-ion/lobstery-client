@@ -34,6 +34,7 @@ export type TGridCell = {
   orderId: number;
   key: string;
   imageSrc: string;
+  video?: string;
   x: number;
   y: number;
   width: number;

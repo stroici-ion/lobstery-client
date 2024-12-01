@@ -1,5 +1,3 @@
-@import '../../../styles/colors.scss';
-
 .root {
   display: flex;
   align-items: center;
@@ -9,18 +7,19 @@
   position: relative;
   width: 100%;
 
+  &__scrollArea {
+    padding-bottom: 10px;
+    & > div {
+      @media (min-width: 1100px) {
+        justify-content: center;
+      }
+    }
+  }
+
   &__list {
     height: 60px;
     display: flex;
-    gap: 20px;
-
-    align-items: center;
-  }
-
-  &__scrollArea {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    gap: 10px;
   }
 
   &__row {
@@ -43,7 +42,7 @@
     border-radius: 10px;
     padding: 5px;
     width: 50px;
-    color: $panelTextColor;
+    color: var(--panel2TextColor);
     @media (min-width: 767px) {
       padding: 10px;
       width: 70px;
@@ -57,24 +56,17 @@
         height: 20px;
       }
       path {
-        fill: $panelTextColor;
-        stroke: $panelTextColor;
+        fill: var(--panel2TextColor);
+        stroke: var(--panel2TextColor);
       }
     }
 
-    &:hover {
-      background-color: $panelColorHover;
+    @include hover {
+      background-color: var(--panel2HoverColor);
     }
 
     &.active {
-      background-color: $panelColorActive;
-      color: $mainColor;
-      svg {
-        path {
-          fill: $mainColor;
-          stroke: $mainColor;
-        }
-      }
+      background-color: var(--panel2ActiveColor);
     }
   }
 }

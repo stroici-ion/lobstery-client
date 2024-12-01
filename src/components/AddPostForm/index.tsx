@@ -17,6 +17,9 @@ import { selectUserId } from '../../redux/auth/selectors';
 import { useAppDispatch } from '../../redux';
 import { setImages } from '../../redux/images/slice';
 import { selectActivePost } from '../../redux/posts/selectors';
+import btnStyles from '../../styles/components/buttons/buttons.module.scss';
+import { setAudience } from '../../redux/posts/slice';
+import { selectUserProfile } from '../../redux/profile/selectors';
 
 interface IAddPostForm {
   onHide: () => void;
@@ -27,7 +30,7 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide, forceHide }) => {
   const [selectedTab, setSelectedTab] = useState(2);
   const dispatch = useAppDispatch();
   const newPost = useSelector(selectActivePost);
-  const userId = useSelector(selectUserId);
+  const userProfile = useSelector(selectUserProfile);
   const isLoaded = useRef(false);
 
   const handleError = () => initializeTab();
@@ -52,7 +55,7 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide, forceHide }) => {
   useEffect(() => {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
-    if (userId) {
+    if (userProfile.user.id) {
       dispatch(setImages(newPost.imageSet));
     }
 
@@ -61,15 +64,24 @@ const AddPostForm: React.FC<IAddPostForm> = ({ onHide, forceHide }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (newPost.audience < 0)
+      dispatch(
+        setAudience({ audience: userProfile.defaultAudience, customAudience: userProfile.defaultCustomAudience })
+      );
+  }, []);
+
   return (
     <>
-      <div className={classNames(styles.root)}>
-        <Aside selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      <div className={styles.root}>
+        {selectedTab !== -1 && <Aside selectedTab={selectedTab} setSelectedTab={setSelectedTab} />}
         <div className={styles.root__body}>
-          <button className={styles.root__return} onClick={onHide}>
-            <CloseSvg />
-          </button>
-          <div className={styles.root__form}>
+          {selectedTab !== -1 && (
+            <button className={classNames(btnStyles.close)} onClick={onHide}>
+              <CloseSvg />
+            </button>
+          )}
+          <div className={classNames(styles.root__form, selectedTab === -1 && styles.uploading)}>
             {selectedTab === -1 && <UploadProgress handleError={handleError} handleFulfilled={handleFulfilled} />}
             {selectedTab === -2 && <PreviewTab setSelectedTab={setSelectedTab} />}
             {selectedTab === 0 && <TextTab />}

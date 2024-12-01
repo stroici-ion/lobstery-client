@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 import { USER_PROFILE_ROUTE } from '../../../../utils/consts';
 import CommentActions from '../CommentActions';
@@ -8,18 +10,20 @@ import CommentText from '../ExtensibleText';
 import { getTime } from '../../../../utils/getTime';
 import Replies from '../Replies';
 import styles from './styles.module.scss';
-import { EditSvg, PinSvg, ReportSvg } from '../../../../icons';
+import { EditSvg, PinSvg, ReportSvg, SubmenuSvg } from '../../../../icons';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import WriteComment from '../WriteComment';
 import { editComment, removeComment, togglePinnedComment } from '../../../../services/comments/CommentsServices';
-import CommentContextMenu from '../CommentContextMenu';
-import { Link } from 'react-router-dom';
 import { IUser } from '../../../../redux/profile/types';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import UserImage from '../../../UserImage';
-import toast from 'react-hot-toast';
 import { IComment } from '../../types';
 import getUserName from '../../../user/utils/getUserName';
+import CommentUserName from '../CommentUserName';
+import ctxBtnStyles from '../../../../styles/components/buttons/contextButtons.module.scss';
+import ContextMenu from '../../../UI/ContextMenu';
+import { useContextMenu } from '../../../../hooks/useContextMenu';
+import RippleButton from '../../../UI/buttons/RippleButton';
 
 interface ICommentFC {
   isPinned?: boolean;
@@ -42,7 +46,7 @@ const Comment: React.FC<ICommentFC> = ({
   setComments,
   isMultimedia,
 }) => {
-  const user = useSelector(selectUserProfile);
+  const user = useSelector(selectUserProfile).user;
   const [isCreateReplyVisible, setIsCreateReplyVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [, setIsEditingCommentLoading] = useState(false);
@@ -139,36 +143,38 @@ const Comment: React.FC<ICommentFC> = ({
 
   const commentContextMenuButtons = {
     editButton: (
-      <button className={styles.submenu__edit} onClick={handleToggleEditComment}>
+      <button className={ctxBtnStyles.panel1Orange} onClick={handleToggleEditComment}>
         <EditSvg />
         Edit comment
       </button>
     ),
     deleteButton: (
-      <button className={styles.submenu__delete} onClick={handleRemoveComment}>
+      <button className={ctxBtnStyles.panel1Red} onClick={handleRemoveComment}>
         <DeleteSvg />
         Delete comment
       </button>
     ),
     reportButton: (
-      <button className={styles.submenu__report} onClick={handleReportComment}>
+      <button className={ctxBtnStyles.panel1Red} onClick={handleReportComment}>
         <ReportSvg />
         Report comment
       </button>
     ),
     pinButton: (
-      <button className={styles.submenu__pin} onClick={handleTogglePinnedComment}>
+      <button className={ctxBtnStyles.panel1Orange} onClick={handleTogglePinnedComment}>
         <PinSvg />
         Pin comment
       </button>
     ),
     unpinButton: (
-      <button className={styles.submenu__unpin} onClick={handleTogglePinnedComment}>
+      <button className={ctxBtnStyles.panel1Blue} onClick={handleTogglePinnedComment}>
         <PinSvg />
         Unpin comment
       </button>
     ),
   };
+
+  const ctx = useContextMenu();
 
   return (
     <>
@@ -180,7 +186,7 @@ const Comment: React.FC<ICommentFC> = ({
             <div className={classNames(styles.comment__pinned, wasPinned && styles.comment__wasPinned)}>
               <PinSvg />
               {wasPinned ? 'Was' : 'Is'} pinned by{' '}
-              <Link to={USER_PROFILE_ROUTE + '/' + owner.id} className={styles.comment__pinned_owner}>
+              <Link to={USER_PROFILE_ROUTE + '/' + owner.id} className={styles.comment__pinnedOwner}>
                 {getUserName(owner)}
               </Link>
             </div>
@@ -189,24 +195,39 @@ const Comment: React.FC<ICommentFC> = ({
           <div className={styles.comment__body}>
             <div className={styles.comment__top}>
               <div className={styles.comment__info}>
-                <p
-                  className={classNames(
-                    styles.comment__nameInfo,
-                    comment.user.id === owner.id && styles.comment__nameInfo__postOwner,
-                    comment.user.id === user.id && styles.comment__nameInfo__owned
-                  )}
-                >
-                  {getUserName(comment.user)}
-                </p>
+                <CommentUserName user={user} postUserId={owner.id} commentUserId={comment.user.id} />
                 <span className={styles.comment__timeInfo}>{getTime(comment.createdAt)}</span>
               </div>
-              <CommentContextMenu
-                isPinnedByAuthor={comment.isPinnedByAuthor}
-                ownerId={owner.id}
-                commentOwnerId={comment.user.id}
-                className={styles.submenu}
-                buttons={commentContextMenuButtons}
-              />
+              <RippleButton
+                className={styles.comment__contextMenuButton}
+                triggerRef={ctx.triggerRef}
+                onClick={ctx.onShow}
+              >
+                <SubmenuSvg />
+              </RippleButton>
+              {ctx.isOpen && (
+                <ContextMenu {...ctx}>
+                  {comment.user.id === user.id ? (
+                    <>
+                      {owner.id === user.id &&
+                        (comment.isPinnedByAuthor
+                          ? commentContextMenuButtons.unpinButton
+                          : commentContextMenuButtons.pinButton)}
+                      {commentContextMenuButtons.editButton}
+                      {commentContextMenuButtons.deleteButton}
+                    </>
+                  ) : (
+                    <>
+                      {owner.id === user.id &&
+                        (comment.isPinnedByAuthor
+                          ? commentContextMenuButtons.unpinButton
+                          : commentContextMenuButtons.pinButton)}
+                      {commentContextMenuButtons.reportButton}
+                      {owner.id === user.id && commentContextMenuButtons.deleteButton}
+                    </>
+                  )}
+                </ContextMenu>
+              )}
             </div>
             <CommentText text={comment.text} />
             <CommentActions

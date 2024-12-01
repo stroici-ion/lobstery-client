@@ -1,32 +1,24 @@
-@import '../../styles/colors.scss';
-@import '../../styles/mixins.scss';
-
 .root {
   min-width: 200px;
-  height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
   &__search {
     display: flex;
-    padding: 0 5px;
-    border-radius: 20px;
-    border: 2px solid $cyanColorDarken;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid var(--lobsteryColor);
     margin-bottom: 10px;
-    svg {
-      width: 22px;
-      path {
-        stroke: $cyanColor;
-        fill: $cyanColor;
-      }
-    }
+    @include svgSize(22px);
+    @include svgColor(var(--lobsteryColor));
   }
+
   &__input {
+    flex: 1 1 auto;
     border-radius: 20px;
     height: 100%;
-    width: 100%;
     min-width: none;
-    padding: 5px 30px 5px 10px;
+    padding: 5px 10px 5px 10px;
   }
 
   &__users {
@@ -51,13 +43,13 @@
     gap: 5px;
     padding: 5px;
     background-color: transparent;
-    &:hover {
-      background-color: var(--grayColorLightenUltra);
+    @include hover {
+      background-color: var(--mainHoverColor);
     }
   }
 
   &__empty {
-    color: var(--grayColorLightenUltra);
+    color: var(--mainTextInaciveColor);
     height: 100%;
     width: 100%;
     display: flex;

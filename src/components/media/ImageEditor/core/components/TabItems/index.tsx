@@ -8,6 +8,7 @@ import { ETabs } from '../../../types/enums';
 import { IAdjustments, ICropHistory, IFilterHistory, IMarkupLine } from '../../../types/interfaces';
 
 interface ITabItems {
+  originalAspectRatio?: number;
   tab: ETabs;
   zoomTrigger: number;
   canvasAsImage?: HTMLCanvasElement;
@@ -22,6 +23,7 @@ interface ITabItems {
 }
 
 const TabItems: React.FC<ITabItems> = ({
+  originalAspectRatio,
   tab,
   zoomTrigger,
   canvasAsImage,
@@ -40,6 +42,7 @@ const TabItems: React.FC<ITabItems> = ({
     <>
       {tab === ETabs.crop && (
         <Crop
+          originalAspectRatio={originalAspectRatio}
           zoomTrigger={zoomTrigger}
           canvasAsImage={canvasAsImage}
           markupCanvas={canvasMarkup}

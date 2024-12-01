@@ -1,48 +1,27 @@
-@import '../../../styles/colors.scss';
-@import '../../../styles/mixins.scss';
+@import '../../../styles/mixins/buttons/rippleButton.scss';
 
 .root {
   width: 100%;
   height: 40px;
-  position: relative;
-  background-color: transparent;
-  transition: 0.2s;
-  overflow: hidden;
-  display: flex;
+  justify-content: flex-start;
   gap: 20px;
-  align-items: center;
   padding-left: 25px;
-  color: var(--grayColor);
 
-  svg {
-    flex: 0 0 20px;
-    width: 20px;
-    height: 20px;
-    @include svgcolor(var(--grayColor));
-  }
-
-  &:hover {
-    background-color: var(--grayColorLightenUltra);
-    color: var(--grayColorDarken);
-
-    svg {
-      @include svgcolor(var(--grayColor));
-    }
-  }
-
-  @media (hover: none) {
-    &:hover {
-      @include svgcolor(var(--grayColor));
-      background-color: transparent;
-    }
-  }
+  @include rippleButton(var(--mainTextColor), transparent, var(--lobsteryInterpolatedMain), var(--lobsteryActiveColor));
+  justify-content: flex-start;
+  gap: 20px;
+  @include svgSize(20px);
 
   &.active {
-    color: $cyanColorDarken;
-    background-color: $cyanColorLighten;
-    svg {
-      @include svgcolor($cyanColor);
-    }
+    @include rippleButton(
+      var(--lobsteryContrastTextColor),
+      var(--lobsteryColor),
+      var(--lobsteryHoverColor),
+      var(--lobsteryActiveColor)
+    );
+    justify-content: flex-start;
+    gap: 20px;
+    @include svgSize(20px);
   }
 
   &.collapsed {

@@ -1,17 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import {
-  IAdjustments,
-  ICropHistory,
-  IFilterHistory,
-  IHistoryIndexState,
-  IHistoryJSON,
-  IMarkupLine,
-} from './types/interfaces';
 import { applySelectedHistoryStep } from './core/historyFunctions/applySelectedHistoryStep';
 import { drawMarkupRelativeToImage } from './core/drawFunctions/drawMarkupRelativeToImage';
 import { loadHistoryStepPosition } from './core/historyFunctions/loadHistoryStepPosition';
+import btnStyles from '../../../styles/components/buttons/solidLightButtons.module.scss';
 import { getAdjustedImageData } from './core/imageDataFunctions/getAdjustedImageData';
 import { findLastHistoryStep } from './core/historyFunctions/findLastHistoryStep';
 import { getFirtsHistoryStep } from './core/historyFunctions/getFirtsHistoryStep';
@@ -25,14 +18,23 @@ import Tabs from './core/components/Tabs';
 import styles from './styles.module.scss';
 import { ETabs } from './types/enums';
 import Loader from '../../Loader';
+import {
+  IAdjustments,
+  ICropHistory,
+  IFilterHistory,
+  IHistoryIndexState,
+  IHistoryJSON,
+  IMarkupLine,
+} from './types/interfaces';
 
 interface IImageEditor2 {
   image: IImage;
   onSave: (newImage: IImage) => void;
-  setIsModified: (isModified: boolean) => void;
+  setIsModified?: (isModified: boolean) => void;
+  originalAspectRatio?: number;
 }
 
-const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified }) => {
+const ImageEditor2: React.FC<IImageEditor2> = ({ originalAspectRatio, image, onSave, setIsModified }) => {
   const [tab, setTab] = useState(ETabs.crop);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
@@ -190,7 +192,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
 
     if (cvsCtxMkup.current) cvsCtxMkup.current.lineCap = cvsCtxMkup.current.lineJoin = 'round';
 
-    const firstHistoryStep = getFirtsHistoryStep(imageRef.current.width, imageRef.current.height);
+    const firstHistoryStep = getFirtsHistoryStep(imageRef.current.width, imageRef.current.height, originalAspectRatio);
 
     const firstJSONHistoryStep = {
       value: JSON.stringify(firstHistoryStep),
@@ -366,7 +368,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
   const canvasAsImage = getImageToRender();
 
   useEffect(() => {
-    setIsModified(true);
+    setIsModified?.(isUndoAvailable);
   }, [isUndoAvailable]);
 
   const saveImage = () => {
@@ -405,12 +407,31 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
       canvasDrawImage(getImageToRender(), markupCanvas, imageRef.current, cropStep, 0, ctx, true);
 
       const dataUrl = canvas.toDataURL('image/webp', 1.0);
+
+      // Convert Base64 data URL to a Blob
+      const dataURLToBlob = (dataUrl: string) => {
+        const byteString = atob(dataUrl.split(',')[1]); // Decode Base64
+        const mimeString = dataUrl.split(',')[0].split(':')[1].split(';')[0]; // Extract MIME type
+
+        const buffer = new Uint8Array(byteString.length);
+        for (let i = 0; i < byteString.length; i++) {
+          buffer[i] = byteString.charCodeAt(i);
+        }
+
+        return new Blob([buffer], { type: mimeString });
+      };
+
+      const blob = dataURLToBlob(dataUrl);
+
+      // Create an object URL
+      const objectURL = URL.createObjectURL(blob);
+
       const newImage = {
         ...image,
-        imageThumbnail: dataUrl,
+        image: objectURL,
+        imageThumbnail: objectURL,
         thumbnailWidth: canvas.width,
         thumbnailHeight: canvas.height,
-        image: dataUrl,
         aspectRatio: historyCropValue.cropAR,
       };
       return newImage;
@@ -469,7 +490,11 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
             </div>
             <div className={styles.saveTools}>
               <button
-                className={classNames(styles.saveTools__save, isUndoAvailable && styles.active)}
+                className={classNames(
+                  styles.saveTools__save,
+                  btnStyles.greenSolid,
+                  !isUndoAvailable && styles.disabled
+                )}
                 onClick={handlImageSave}
               >
                 Save
@@ -483,6 +508,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ image, onSave, setIsModified })
         ) : (
           <div className={styles.tabContent}>
             <TabItems
+              originalAspectRatio={originalAspectRatio}
               tab={tab}
               zoomTrigger={zoomTrigger}
               canvasAsImage={canvasAsImage}

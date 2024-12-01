@@ -12,6 +12,26 @@
       rel="stylesheet"
     />
     <link rel="manifest" href="/manifest.json" />
+    <script>
+      // Detect and apply the theme early
+      (function () {
+        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const localTheme = localStorage.getItem('theme');
+        if (localTheme === 'light' || localTheme === 'dark')
+          document.documentElement.setAttribute('data-theme', localTheme);
+        else if (isDarkMode) document.documentElement.setAttribute('data-theme', 'dark');
+      })();
+    </script>
+    <style>
+      body {
+        margin: 0; /* Prevent margin shifts */
+        overflow-y: scroll; /* Ensure scrollbar is always visible */
+        background-color: #2d2d2d;
+      }
+      ::-webkit-scrollbar {
+        width: 0; /* Hides the scrollbar */
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

@@ -1,16 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames';
+import toast from 'react-hot-toast';
 
 import { getLikes } from '../../utils/getLikesCount';
 import { getTime } from '../../utils/getTime';
 import ExtensibleText from '../Comments/core/ExtensibleText';
-import ContextMenu from '../ContextMenu';
+// import ContextMenu from '../ContextMenu';
 import DeleteSvg from '../../icons/DeleteSvg';
 import getViews from '../../utils/getViews';
 import Comments from '../Comments';
 import styles from './styles.module.scss';
 import {
+  ArrowDownSvg,
   EditSvg,
   FriendsSvg,
   GlobeSvg,
@@ -19,31 +22,29 @@ import {
   MessagingSvg,
   ReportSvg,
   SettingsSvg,
+  SubmenuSvg,
   ViewsSvg,
 } from '../../icons';
+import dialogBtnStyles from '../../styles/components/buttons/solidLightButtons.module.scss';
+import { EnumModalDialogOptionType, useModalDialog } from '../../hooks/useModalDialog';
+import ctxBtnStyles from '../../styles/components/buttons/contextButtons.module.scss';
 import { useAppDispatch } from '../../redux';
 import { selectUserProfile } from '../../redux/profile/selectors';
 import { POSTS_ROUTE } from '../../utils/consts';
 import { IPost } from '../../redux/posts/types';
-// import ImagesPreview from '../ImagesPreview';
 import PostLikesInfo from '../PostLikesInfo';
 import PostUsername from '../PostUsername';
-import classNames from 'classnames';
-// import { IImage } from '../../models/IImage';
-// import { setActiveImageId, setImages } from '../../redux/images/slice';
-// import { setImagesModalStatus } from '../../redux/modals/slice';
 import { fetchRemovePost } from '../../redux/posts/asyncActions';
-import SmallButton from '../UI/Buttons/SmallButton';
 import UserImage from '../UserImage';
 import AddPostForm from '../AddPostForm';
 import Modal from '../UI/modals/Modal';
-import { EnumModalDialogOptionType, useModalDialog } from '../../hooks/useModalDialog';
 import { dirtyFormWarningDialog } from '../UI/modals/dialog-options';
 import { setActivePost } from '../../redux/posts/slice';
 import { getIsPostFormDirty } from '../../redux/posts/selectors';
 import ImageGrid from '../media/ImageGrid';
-import dialogBtnStyles from '../../styles/components/buttons/dialogButtons.module.scss';
-import toast from 'react-hot-toast';
+import RippleButton from '../UI/buttons/RippleButton';
+import { useContextMenu } from '../../hooks/useContextMenu';
+import ContextMenu from '../UI/ContextMenu';
 
 interface IPostFC {
   small?: boolean;
@@ -73,12 +74,12 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
             await dispatch(fetchRemovePost(post.id));
             toast.success('Post was successfully deleted');
           },
-          className: dialogBtnStyles.solidRed,
+          className: dialogBtnStyles.redSolid,
         },
         {
           type: EnumModalDialogOptionType.RETURN,
           title: 'No',
-          className: dialogBtnStyles.solidGreen,
+          className: dialogBtnStyles.greenSolid,
           callback: () => dialogModal.onHide(),
         },
       ],
@@ -100,12 +101,12 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
             dispatch(setActivePost(post));
             editModal.open();
           },
-          className: dialogBtnStyles.lightOrange,
+          className: dialogBtnStyles.orangeLight,
         },
         {
           type: EnumModalDialogOptionType.RETURN,
           title: 'No',
-          className: dialogBtnStyles.solidGreen,
+          className: dialogBtnStyles.greenSolid,
           callback: () => dialogModal.onHide(),
         },
       ],
@@ -114,15 +115,13 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     dialogModal.open();
   };
 
+  const handleReportPost = () => {
+    toast.success('Post was reported');
+  };
+
   const handleViewComments = () => {
     setIsCommentsVisible(!isCommentsVisible);
   };
-
-  // const handleSelectImage = (image: IImage) => {
-  //   dispatch(setImages(post.imageSet));
-  //   dispatch(setActiveImageId(image.id));
-  //   dispatch(setImagesModalStatus(true));
-  // };
 
   const handleViewPost = () => {
     navigate(POSTS_ROUTE + post.id);
@@ -132,6 +131,9 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     if (isAddPostFormDirty) editModal.dialog.setDialogParams(dirtyFormWarningDialog);
     else editModal.dialog.setDialogParams(undefined);
   }, [editModal.dialog, isAddPostFormDirty]);
+
+  const ctx = useContextMenu();
+  const audienceCtx = useContextMenu();
 
   return (
     <>
@@ -146,71 +148,74 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
                 <PostUsername user={post.user} feeling={post.feeling} taggedFriends={post.taggedFriends} />
                 <div className={styles.post__date}>
                   {getTime(post.createdAt.toString())} <span>•</span>
-                  {userProfile?.id === post.user.id ? (
-                    <ContextMenu
-                      className={styles.post__submenu}
-                      openButton={(onClick: any) => (
-                        <SmallButton onClick={onClick} className={styles.post__audienceBtn}>
-                          {post.audience === 0 && <LockSvg />}
-                          {post.audience === 1 && <GlobeSvg />}
-                          {post.audience === 2 && <FriendsSvg />}
-                          {post.audience === 3 && <KnownsSvg />}
-                          {post.audience === 4 && <SettingsSvg />}
-                        </SmallButton>
-                      )}
-                    >
-                      <button className={styles.private}>
-                        <LockSvg />
-                        Private
-                      </button>
-                      <button className={styles.public}>
-                        <GlobeSvg />
-                        Public
-                      </button>
-                      <button className={styles.friends}>
-                        <FriendsSvg />
-                        Friends
-                      </button>
-                      <button className={styles.friendsOfFriends}>
-                        <KnownsSvg />
-                        Friends of friends
-                      </button>
-                      <button className={styles.custom}>
-                        <SettingsSvg />
-                        Custom
-                      </button>
-                    </ContextMenu>
+                  {userProfile.user.id === post.user.id ? (
+                    <></>
                   ) : (
                     <>
-                      {post.audience === 0 && <LockSvg />}
-                      {post.audience === 1 && <GlobeSvg />}
-                      {post.audience === 2 && <FriendsSvg />}
-                      {post.audience === 3 && <KnownsSvg />}
-                      {post.audience === 4 && <SettingsSvg />}
+                      <button
+                        ref={audienceCtx.triggerRef}
+                        onClick={audienceCtx.onShow}
+                        className={styles.post__audienceButton}
+                      >
+                        {post.audience === 0 && <LockSvg />}
+                        {post.audience === 1 && <GlobeSvg />}
+                        {post.audience === 2 && <FriendsSvg />}
+                        {post.audience === 3 && <KnownsSvg />}
+                        {post.audience === 4 && <SettingsSvg />}
+                      </button>
+                      {audienceCtx.isOpen && (
+                        <ContextMenu {...audienceCtx}>
+                          <button className={ctxBtnStyles.panel1Red}>
+                            <LockSvg />
+                            Private
+                          </button>
+                          <button className={ctxBtnStyles.panel1Green}>
+                            <GlobeSvg />
+                            Public
+                          </button>
+                          <button className={ctxBtnStyles.panel1Blue}>
+                            <FriendsSvg />
+                            Friends
+                          </button>
+                          <button className={ctxBtnStyles.panel1Blue}>
+                            <KnownsSvg />
+                            Friends of friends
+                          </button>
+                          <button className={ctxBtnStyles.panel1Yellow}>
+                            <SettingsSvg />
+                            Custom
+                          </button>
+                        </ContextMenu>
+                      )}
                     </>
                   )}
                 </div>
               </div>
             </div>
-            <ContextMenu className={styles.post__submenu}>
-              {userProfile?.id === post.user.id ? (
-                <>
-                  <button className={styles.submenu__edit} onClick={handleEditPost}>
-                    <EditSvg />
-                    Edit post
+            <RippleButton className={styles.post__contextMenuButton} triggerRef={ctx.triggerRef} onClick={ctx.onShow}>
+              <SubmenuSvg />
+            </RippleButton>
+            {ctx.isOpen && (
+              <ContextMenu {...ctx}>
+                {userProfile.user.id === post.user.id ? (
+                  <>
+                    <button className={ctxBtnStyles.panel1Orange} onClick={handleEditPost}>
+                      <EditSvg />
+                      Edit post
+                    </button>
+                    <button className={ctxBtnStyles.panel1Red} onClick={handleRemovePost}>
+                      <DeleteSvg />
+                      Delete post
+                    </button>
+                  </>
+                ) : (
+                  <button className={ctxBtnStyles.panel1Red} onClick={handleReportPost}>
+                    <ReportSvg />
+                    Report post
                   </button>
-                  <button className={styles.submenu__delete} onClick={handleRemovePost}>
-                    <DeleteSvg />
-                    Delete post
-                  </button>
-                </>
-              ) : (
-                <button className={styles.submenu__delete} onClick={handleRemovePost}>
-                  <ReportSvg />
-                  Report post
-                </button>
-              )}
-            </ContextMenu>
+                )}
+              </ContextMenu>
+            )}
           </div>
           <div className={styles.post__text}>
             <Link to={`${POSTS_ROUTE}/${post.id}`}>
@@ -231,19 +236,14 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
             )}
             <div className={styles.post__bottom}>
               <div className={styles.post__bottom_right}>
-                <PostLikesInfo
-                  id={post.id}
-                  likesInfo={{
-                    liked: post.liked,
-                    disliked: post.disliked,
-                    likesCount: post.likesCount,
-                    dislikesCount: post.dislikesCount,
-                  }}
-                />
+                <PostLikesInfo post={post} />
                 <button className={styles.post__comments} onClick={handleViewComments}>
                   <MessagingSvg />
-                  <span>{post.commentsCount === 0 ? 'Comment' : <>Comments</>}</span>
+                  <span>{post.commentsCount === 0 ? 'Comment' : 'Comments'}</span>
                   {post.commentsCount > 0 && getLikes(post.commentsCount)}
+                  <span className={classNames(styles.post__commentsArrowSvg, isCommentsVisible && styles.active)}>
+                    <ArrowDownSvg />
+                  </span>
                 </button>
               </div>
               <div className={styles.post__views}>
@@ -253,7 +253,14 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
             </div>
           </div>
         </div>
-        {isCommentsVisible && <Comments hideComments={handleViewComments} owner={post.user} id={post.id} />}
+        {isCommentsVisible && (
+          <Comments
+            commentsCount={post.commentsCount}
+            hideComments={handleViewComments}
+            owner={post.user}
+            id={post.id}
+          />
+        )}
       </div>
     </>
   );

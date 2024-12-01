@@ -1,0 +1,5 @@
+@import '../../mixins/buttons/rippleButton.scss';
+
+.lightMain {
+  @include rippleButton(var(--lobsteryColor));
+}

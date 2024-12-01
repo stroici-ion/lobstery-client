@@ -23,6 +23,7 @@ export const {
   addTaggedFriend,
   removeTaggedFriend,
   setImagesLayout,
+  setPost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

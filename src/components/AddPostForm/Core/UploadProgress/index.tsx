@@ -10,6 +10,7 @@ import { selectActivePost, selectPostCreateStatus } from '../../../../redux/post
 import { selectImages } from '../../../../redux/images/selectors';
 import { EFetchStatus } from '../../../../types/enums';
 import { FulfilledSvgAnim } from '../../../../icons';
+import ScrollArea from '../../../UI/ScrollArea';
 
 interface IUploadProgress {
   handleError: () => void;
@@ -66,34 +67,33 @@ const UploadProgress: React.FC<IUploadProgress> = ({ handleError, handleFulfille
           />
         )}
       </div>
-      {/* <div className={styles.root__images}>
-        {uploadImages.map((image) => (
-          <div
-            key={image.image}
-            className={classNames(
-              styles.root__imageBlock,
-              image.uploadProgress === 100 && styles.uploaded,
-              image.uploadProgress === 0 && styles.pending
-            )}
-          >
-            <img className={styles.root__image} src={image.image} alt="" />
-            <div className={styles.root__progressBarBlock}>
-              <div
-                style={{ width: image.uploadProgress + '%' }}
-                className={styles.root__progressBar}
-              />
-            </div>
-            <p
+      <div className={styles.root__images}>
+        <ScrollArea>
+          {uploadImages.map((image) => (
+            <div
+              key={image.id}
               className={classNames(
-                styles.root__imageProgress,
+                styles.root__imageBlock,
+                image.uploadProgress === 100 && styles.uploaded,
                 image.uploadProgress === 0 && styles.pending
               )}
             >
-              {image.uploadProgress ? `${image.uploadProgress} %` : 'Pending'}
-            </p>
-          </div>
-        ))}
-      </div> */}
+              <div
+                style={{ background: `url('${image.image}') center/contain no-repeat` }}
+                className={styles.root__image}
+              />
+              <div className={styles.root__progress}>
+                <div className={styles.root__progressBarBlock}>
+                  <div style={{ width: image.uploadProgress + '%' }} className={styles.root__progressBar} />
+                </div>
+                <p className={classNames(styles.root__imageProgress, image.uploadProgress === 0 && styles.pending)}>
+                  {image.uploadProgress ? `${image.uploadProgress} %` : 'Pending'}
+                </p>
+              </div>
+            </div>
+          ))}
+        </ScrollArea>
+      </div>
     </div>
   );
 };

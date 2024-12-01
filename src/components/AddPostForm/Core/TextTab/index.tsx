@@ -13,7 +13,7 @@ import { setText, setTitle } from '../../../../redux/posts/slice';
 interface ITextTab {}
 
 const TextTab: React.FC<ITextTab> = () => {
-  const user = useSelector(selectUserProfile);
+  const userProfile = useSelector(selectUserProfile);
 
   const { title, text, feeling, taggedFriends } = useSelector(selectActivePost);
   const dispatch = useAppDispatch();
@@ -34,13 +34,13 @@ const TextTab: React.FC<ITextTab> = () => {
             value={title}
             onChange={handleChangeTitle}
             className={styles.text__title}
-            placeholder='Title'
+            placeholder="Title"
           />
           <WriteText
             className={styles.text__description}
             value={text}
             setValue={handleChangeText}
-            placeholder={`What's on your mind ${user.firstName}?`}
+            placeholder={`What's on your mind ${userProfile.user.firstName}?`}
           />
         </div>
       </div>

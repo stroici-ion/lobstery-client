@@ -1,5 +1,3 @@
-@import '../../../styles/colors.scss';
-
 .root {
   min-height: 400px;
   flex: 1 1 auto;
@@ -47,7 +45,7 @@
   display: flex;
   justify-content: center;
   &__starightening {
-    color: $mainTextColor;
+    color: var(--mainTextColor);
     position: absolute;
     left: 50%;
     transform: translate(-5.5px, 0);
@@ -66,8 +64,8 @@
   flex-direction: column;
   svg {
     path {
-      fill: $mainTextColor;
-      stroke: $mainTextColor;
+      fill: var(--mainTextColor);
+      stroke: var(--mainTextColor);
     }
   }
 }
@@ -93,14 +91,11 @@
     height: 30px;
     border-radius: 10px;
     padding: 0 10px;
-    color: $mainTextColor;
-    &:hover {
-      background-color: transparentize($color: $panelColorHover, $amount: 0.5);
+    color: var(--mainTextColor);
+    @include hover {
+      background-color: var(--panel2HoverColor);
     }
-    svg {
-      width: 20px;
-      height: 20px;
-    }
+    @include svgSize(20px);
   }
 }
 
@@ -112,8 +107,8 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    &:hover {
-      background-color: transparentize($color: $panelColorHover, $amount: 0.5);
+    @include hover {
+      background-color: var(--panel2HoverColor);
     }
     display: flex;
     align-items: center;
@@ -149,8 +144,8 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    &:hover {
-      background-color: transparentize($color: $panelColorHover, $amount: 0.5);
+    @include hover {
+      background-color: var(--panel2HoverColor);
     }
     display: flex;
     align-items: center;

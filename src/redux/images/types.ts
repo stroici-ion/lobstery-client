@@ -7,6 +7,11 @@ export interface IImagesState {
   activeIndex: number;
 }
 
+export interface IThumbnail {
+  url: string;
+  time: number;
+}
+
 export interface IImage {
   id: number;
   orderId: number;
@@ -24,6 +29,7 @@ export interface IImage {
   videoExtension?: string;
   isUpdated?: boolean;
   post?: number;
+  thumbnails?: IThumbnail[];
 }
 
 export interface ITaggedUserImage {

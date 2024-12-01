@@ -1,6 +1,6 @@
 import { EnumModalDialogOptionType } from '../../../../hooks/useModalDialog';
 
-import btnStyles from '../../../../styles/components/buttons/dialogButtons.module.scss';
+import btnStyles from '../../../../styles/components/buttons/solidLightButtons.module.scss';
 
 export const dirtyFormWarningDialog = {
   title: 'Exit Confirmation',
@@ -10,13 +10,13 @@ export const dirtyFormWarningDialog = {
       type: EnumModalDialogOptionType.OTHER,
       title: 'Yes',
       callback: () => {},
-      className: btnStyles.lightRed,
+      className: btnStyles.redLight,
     },
     {
       type: EnumModalDialogOptionType.RETURN,
       title: 'Return',
       callback: () => {},
-      className: btnStyles.solidGreen,
+      className: btnStyles.greenSolid,
     },
   ],
 };

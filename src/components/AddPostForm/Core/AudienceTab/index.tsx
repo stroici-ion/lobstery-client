@@ -6,31 +6,25 @@ import { FriendsSvg, GlobeSvg, KnownsSvg, LockSvg, CustomSettingsSvg } from '../
 import { useAppDispatch } from '../../../../redux';
 import { useSelector } from 'react-redux';
 import CustomAudienceForm from '../../../CustomAudienceForm';
-import { selectDefaultAudience } from '../../../../redux/defaultAudience/selectors';
-import { fetchDefaultAudience } from '../../../../redux/defaultAudience/asyncActions';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 import { selectActivePost } from '../../../../redux/posts/selectors';
 import { setAudience } from '../../../../redux/posts/slice';
+import btnStyles from '../../../../styles/components/buttons/buttons.module.scss';
+import { fetchDefaultAudience } from '../../../../redux/profile/audienceAsyncActions';
 
 const AudienceTab: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { audience } = useSelector(selectActivePost);
-  const defaultAudience = useSelector(selectDefaultAudience);
-  const userId = useSelector(selectUserProfile).id;
-
-  useEffect(() => {
-    if (audience < 0)
-      if (defaultAudience.defaultAudience) {
-        dispatch(setAudience(defaultAudience.defaultAudience));
-      }
-  }, []);
+  const { audience, customAudience } = useSelector(selectActivePost);
+  const userProfile = useSelector(selectUserProfile);
 
   const handleChangeAudience = (audience: number) => {
-    dispatch(setAudience(audience));
+    dispatch(
+      setAudience({ audience, customAudience: customAudience ? customAudience : userProfile.defaultCustomAudience })
+    );
   };
 
   const handleDefaultAudienceClick = () => {
-    dispatch(fetchDefaultAudience({ userId, defaultAudience: audience }));
+    dispatch(fetchDefaultAudience({ userId: userProfile.user.id, defaultAudience: audience }));
   };
 
   return (
@@ -38,35 +32,35 @@ const AudienceTab: React.FC = () => {
       <p className={styles.root__title}>Set target audience!</p>
       <div className={styles.root__list}>
         <button
-          className={classNames(styles.root__button, styles.public, audience === 1 && styles.active)}
+          className={classNames(styles.root__button, btnStyles.greenUnderline, audience === 1 && btnStyles.active)}
           onClick={() => handleChangeAudience(1)}
         >
           <GlobeSvg />
           Public
         </button>
         <button
-          className={classNames(styles.root__button, styles.private, audience === 0 && styles.active)}
+          className={classNames(styles.root__button, btnStyles.redUnderline, audience === 0 && btnStyles.active)}
           onClick={() => handleChangeAudience(0)}
         >
           <LockSvg />
           Private
         </button>
         <button
-          className={classNames(styles.root__button, styles.custom, audience === 4 && styles.active)}
+          className={classNames(styles.root__button, btnStyles.yellowUnderline, audience === 4 && btnStyles.active)}
           onClick={() => handleChangeAudience(4)}
         >
           <CustomSettingsSvg />
           Custom
         </button>
         <button
-          className={classNames(styles.root__button, styles.friends, audience === 2 && styles.active)}
+          className={classNames(styles.root__button, btnStyles.blueUnderline, audience === 2 && btnStyles.active)}
           onClick={() => handleChangeAudience(2)}
         >
           <FriendsSvg />
           Friends
         </button>
         <button
-          className={classNames(styles.root__button, styles.friendsOfFriends, audience === 3 && styles.active)}
+          className={classNames(styles.root__button, btnStyles.blueUnderline, audience === 3 && btnStyles.active)}
           onClick={() => handleChangeAudience(3)}
         >
           <KnownsSvg />
@@ -83,11 +77,11 @@ const AudienceTab: React.FC = () => {
         <CustomAudienceForm />
       </div>
       <div
-        className={classNames(styles.defaultAudience, defaultAudience.defaultAudience === audience && styles.active)}
+        className={classNames(styles.defaultAudience, userProfile.defaultAudience === audience && styles.active)}
         onClick={handleDefaultAudienceClick}
       >
         <span className={styles.defaultAudience__label}>
-          {defaultAudience.defaultAudience !== audience ? 'Make default' : 'Default'}
+          {userProfile.defaultAudience !== audience ? 'Make default' : 'Default'}
         </span>
       </div>
     </div>

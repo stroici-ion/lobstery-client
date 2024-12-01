@@ -1,14 +1,12 @@
-@import '../../../../styles/colors.scss';
-
 .root {
   &__empty {
     text-align: center;
-    color: var(--grayColor);
+    color: var(--mainTextInactiveColor);
   }
 
   &__moreComments {
     background-color: transparent;
-    color: var(--grayColorLightenUltra);
+    color: var(--mainTextInactiveColor);
     transition: 0.2s;
     display: flex;
     gap: 6px;
@@ -22,14 +20,15 @@
       width: 20px;
       path {
         transition: 0.2s;
-        fill: var(--grayColorLightenUltra);
+        fill: var(--mainTextColor);
       }
     }
-    &:hover {
-      color: var(--grayColor);
+
+    @include hover {
+      color: var(--mainTextInactiveColor);
       svg {
         path {
-          fill: var(--grayColor);
+          fill: var(--mainTextColor);
         }
       }
     }

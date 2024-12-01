@@ -1,6 +1,3 @@
-@import '../../styles/colors.scss';
-@import '../../styles/mixins.scss';
-
 .selectedPeoples {
   position: relative;
   overflow: hidden;
@@ -19,12 +16,12 @@
     top: 0;
     left: 0;
     bottom: 0;
-    background-image: linear-gradient(90deg, var(--lightColor), transparent);
+    background-image: linear-gradient(90deg, var(--mainBackgroundColor), transparent);
   }
   &::after {
     left: auto;
     right: 0;
-    background-image: linear-gradient(90deg, transparent, var(--lightColor));
+    background-image: linear-gradient(90deg, transparent, var(--mainBackgroundColor));
   }
   &__scrollArea {
     @include scrollBar;
@@ -40,23 +37,24 @@
     position: relative;
     height: 35px;
   }
+
   &__decoration,
   &__decorationRemove {
     position: absolute;
     bottom: -4px;
     right: -1px;
-    background-color: $greenColor;
+    background-color: var(--greenColor);
     width: 18px;
     height: 18px;
     border-radius: 50%;
     right: -5px;
-    border: 2px solid var(--lightColor);
+    border: 2px solid var(--mainBackgroundColor);
     svg {
       padding: 2px;
       width: 12px;
       height: 12px;
       path {
-        stroke: var(--lightColor);
+        stroke: var(--mainBackgroundColor);
       }
     }
   }
@@ -64,11 +62,11 @@
     opacity: 0;
     font-size: 10px;
     text-align: center;
-    color: var(--lightColor);
-    background-color: $redColor;
+    color: var(--mainBackgroundColor);
+    background-color: var(--redColor);
   }
   &__button {
-    &:hover {
+    @include hover {
       .selectedPeoples__decoration {
         opacity: 0;
       }

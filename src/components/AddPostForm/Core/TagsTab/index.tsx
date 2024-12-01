@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { CheckedSvg, ResetSvg, SearchSvg } from '../../../../icons';
+import { CheckedSvg, CloseSvg, ResetSvg, SearchSvg } from '../../../../icons';
 import { useAppDispatch } from '../../../../redux';
 
 import styles from './styles.module.scss';
 import { selectActivePost } from '../../../../redux/posts/selectors';
 import { setTags } from '../../../../redux/posts/slice';
+import ScrollArea from '../../../UI/ScrollArea';
 
 const TagsTab: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ const TagsTab: React.FC = () => {
   };
 
   const handleInputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/^[a-z]*$/) || e.target.value[e.target.value.length - 1].match(/^\c$/))
+    if (e.target.value.match(/^[a-zA-Z]*$/) || e.target.value[e.target.value.length - 1].match(/^\c$/))
       setTagValue(e.target.value.toLocaleLowerCase());
   };
 
@@ -57,21 +58,23 @@ const TagsTab: React.FC = () => {
         </button>
       </div>
       <div className={styles.root__tags}>
-        <div className={styles.root__scrollArea}>
-          {tags.length ? (
-            tags.map((tag) => (
+        {tags.length ? (
+          <ScrollArea>
+            {tags.map((tag) => (
               <button key={tag} className={styles.root__tag} onClick={() => handleRemoveTag(tag)}>
                 {tag}
-                <div className={styles.root__decoration}>
+                {/* <div className={styles.root__decoration}>
                   <CheckedSvg />
+                </div> */}
+                <div className={styles.root__decorationRemove}>
+                  <CloseSvg />
                 </div>
-                <div className={styles.root__decorationRemove}>🗙</div>
               </button>
-            ))
-          ) : (
-            <p className={styles.root__empty}>No tags...</p>
-          )}
-        </div>
+            ))}
+          </ScrollArea>
+        ) : (
+          <p className={styles.root__empty}>No tags...</p>
+        )}
       </div>
     </div>
   );

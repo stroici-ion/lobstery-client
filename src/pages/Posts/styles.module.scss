@@ -1,9 +1,5 @@
-@import '../../styles/colors.scss';
-@import '../../styles/mixins.scss';
-
 .root {
   position: relative;
-  padding-top: 100px;
 
   &__posts {
     padding: 10px;
@@ -30,11 +26,12 @@
   bottom: 60px;
   width: 50px;
   height: 50px;
-  background-color: $greenColor;
+  background-color: var(--greenColor);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
   @media (min-width: 768px) {
     bottom: 20px;
     padding-top: 0px;
@@ -43,37 +40,12 @@
     width: 20px;
     height: 50px;
     path {
-      stroke: var(--lightColor);
+      stroke: var(--mainBackgroundColor);
     }
   }
   transition: 0.3s;
-  &:hover {
-    background-color: $greenColorDarken;
-  }
-}
 
-.dialogOptions {
-  &__yes {
-    border: 1px solid $redColor;
-    color: $redColor;
-    flex: 0 0 70px;
-    width: 70px;
-    @media (hover: hover) {
-      &:hover {
-        background-color: $redColor;
-        color: var(--lightColor);
-      }
-    }
-  }
-
-  &__return {
-    background-color: $greenColor;
-    color: var(--lightColor);
-
-    @media (hover: hover) {
-      &:hover {
-        background-color: $greenColor;
-      }
-    }
+  @include hover {
+    background-color: var(--greenHoverColor);
   }
 }

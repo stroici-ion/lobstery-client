@@ -1,11 +1,8 @@
-@import '../../../../../../styles/colors.scss';
-@import '../../../../../../styles/mixins.scss';
-
 .root {
   border-radius: 10px;
   padding: 20px 15px;
-  background-color: $panelColor;
-  box-shadow: $panelShadowColor;
+  background-color: var(--panel2BackgroundColor);
+  box-shadow: var(--panel2BoxShadowColor);
 
   &__preview {
     height: 30px;
@@ -22,7 +19,7 @@
     position: relative;
     &_top,
     &_bottom {
-      background-color: $panelColor;
+      background-color: var(--panel2BackgroundColor);
       position: absolute;
       right: 0;
       bottom: 100%;
@@ -48,7 +45,7 @@
   &__colors {
     padding: 10px;
     margin-bottom: 15px;
-    border-bottom: 1px solid $panelShadowColor;
+    border-bottom: 1px solid var(--panel2BoxShadowColor);
   }
 
   &__colorsRow {
@@ -61,16 +58,16 @@
     border-radius: 25px;
     width: 25px;
     height: 25px;
-    border: 1.5px solid $panelColor;
+    border: 1.5px solid var(--panel2TextInactiveColor);
 
     &.active {
-      border: 1.5px solid $panelColorActive;
-      outline: 2px solid $panelColorActive;
+      border: 1.5px solid var(--panel2TextColor);
+      outline: 2px solid var(--panel2TextColor);
     }
 
-    &:hover {
-      border: 1.5px solid $panelTextColorInactive;
-      outline: 2px solid $panelTextColorInactive;
+    @include hover {
+      border: 1.5px solid var(--panel2HoverColor);
+      outline: 2px solid var(--panel2HoverColor);
     }
   }
 
@@ -89,15 +86,16 @@
       width: 25px;
       height: 25px;
     }
-    @include svgcolor($panelTextColor);
 
-    &:hover {
-      background-color: $panelColorHover;
+    @include svgColor(var(--panel2TextInactiveColor));
+
+    @include hover {
+      background-color: var(--panel2HoverColor);
     }
 
     &.active {
-      background-color: $panelColorActive;
-      @include svgcolor($mainColor);
+      background-color: var(--panel2ActiveColor);
+      @include svgColor(var(--panel2TextColor));
     }
   }
 }
@@ -107,6 +105,6 @@
   &__value {
     width: 45px;
     text-align: center;
-    color: $mainTextColor;
+    color: var(--panel2TextColor);
   }
 }

@@ -6,9 +6,13 @@ import classNames from 'classnames';
 import styles from './styles.module.scss';
 import { EmojiSvg } from '../../../../icons';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
-import ContextMenu from '../../../ContextMenu';
+// import ContextMenu from '../../../ContextMenu';
 import EmojiPicker from '../../../EmojiPicker';
 import UserImage from '../../../UserImage';
+import btnStyles from '../../../../styles/components/buttons/solidLightButtons.module.scss';
+import emoji from 'react-easy-emoji';
+import ContextMenu from '../../../UI/ContextMenu';
+import { useContextMenu } from '../../../../hooks/useContextMenu';
 
 type WriteIComment = {
   initialValue?: string;
@@ -25,7 +29,7 @@ const WriteComment: React.FC<WriteIComment> = ({
   initialValue = '',
   hide,
 }) => {
-  const user = useSelector(selectUserProfile);
+  const user = useSelector(selectUserProfile).user;
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -77,6 +81,8 @@ const WriteComment: React.FC<WriteIComment> = ({
     sendComment(value);
   };
 
+  const ctx = useContextMenu();
+
   return (
     <div className={classNames(styles.addComment, !isEditing && styles.withPadding)}>
       {!isEditing && user.id && (
@@ -95,31 +101,28 @@ const WriteComment: React.FC<WriteIComment> = ({
         />
         <div className={styles.addComment__bottom}>
           <div className={classNames(styles.addComment__bottom_body, isActive && styles.active)}>
-            <ContextMenu
-              width={250}
-              maxHeight={300}
-              openButton={(onClick: any) => (
-                <button className={styles.addComment__emojiButton} onClick={onClick}>
-                  <EmojiSvg />
-                </button>
-              )}
-            >
-              <div className={styles.addComment__emojiPicker}>
-                <EmojiPicker onClick={onEmojiClick} />
-              </div>
-            </ContextMenu>
+            <button ref={ctx.triggerRef} onClick={ctx.onShow} className={styles.addComment__emojiButton}>
+              {emoji(String.fromCodePoint(128512))}
+            </button>
+            {ctx.isOpen && (
+              <ContextMenu {...ctx}>
+                <div className={styles.addComment__emojiPicker}>
+                  <EmojiPicker onClick={onEmojiClick} />
+                </div>
+              </ContextMenu>
+            )}
 
             <div>
               <button
                 ref={buttonRef}
-                className={classNames(styles.addComment__button, isReply && styles.isReply, styles.cancelButton)}
+                className={classNames(styles.addComment__button, isReply && styles.isReply, btnStyles.mainLight)}
                 onClick={onClickCancel}
               >
                 Cancel
               </button>
               <button
                 ref={buttonRef}
-                className={classNames(styles.addComment__button, isReply && styles.isReply, styles.yesButton)}
+                className={classNames(styles.addComment__button, isReply && styles.isReply, btnStyles.orangeSolid)}
                 onClick={onClickSendComment}
               >
                 {addCommentButtonText}

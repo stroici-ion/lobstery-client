@@ -1,6 +1,3 @@
-@import '../../../../styles/colors.scss';
-@import '../../../../styles/mixins.scss';
-
 .root {
   padding: 10px;
   display: flex;
@@ -15,6 +12,7 @@
     font-weight: 700;
     height: 30px;
     margin-bottom: 10px;
+    color: var(--mainTextColor);
   }
 
   &__dropzone {
@@ -33,12 +31,12 @@
       height: 6px;
       right: 14px;
       z-index: 1;
-      background-image: linear-gradient(var(--lightColor), transparent);
+      background-image: linear-gradient(var(--mainBackgroundColor), transparent);
     }
     &::after {
       top: auto;
       bottom: 0;
-      background-image: linear-gradient(transparent, var(--lightColor));
+      background-image: linear-gradient(transparent, var(--mainBackgroundColor));
     }
   }
 
@@ -65,20 +63,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--lightColorTransparent);
   justify-content: center;
+  @include svgColor(var(--mainTextInactiveColor));
   svg {
     width: 30%;
   }
 
   &__title {
+    margin-top: 20px;
     font-size: 16px;
     font-weight: 700;
+    color: var(--mainTextColor);
   }
 
   &__subtitle {
     font-size: 13px;
-    color: var(--grayColor);
+    color: var(--mainTextInactiveColor);
   }
 
   &__drag_active_text {
@@ -87,7 +87,7 @@
 
   &.active {
     border-radius: 10px;
-    border: 5px dashed $cyanColor;
+    border: 5px dashed var(--lobsteryColor);
     .placeholder__title,
     .placeholder__subtitle,
     svg {
@@ -104,24 +104,24 @@
   &__button {
     width: 50px;
     height: 50px;
-    background-color: $greenColor;
+    background-color: var(--greenColor);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid var(--lightColor);
+    border: 2px solid var(--mainBackgroundColor);
 
     svg {
       width: 22px;
       height: 45px;
       path {
-        fill: var(--lightColor);
-        stroke: var(--lightColor);
+        fill: var(--mainBackgroundColor);
+        stroke: var(--mainBackgroundColor);
       }
     }
     transition: 0.3s;
-    &:hover {
-      background-color: $greenColorDarken;
+    @include hover {
+      background-color: var(--greenHoverColor);
     }
   }
 }
@@ -132,7 +132,7 @@
   position: relative;
 
   &__button {
-    background-color: var(--lightColor);
+    background-color: var(--mainBackgroundColor);
     position: absolute;
     display: flex;
     align-items: center;
@@ -142,51 +142,38 @@
     height: 40px;
     transition: 0.1s;
     transform: translate(0%);
-    box-shadow: 2px 2px 5px 2px var(--darkColorTransparent);
+    box-shadow: 2px 2px 5px 2px var(--mainBoxShadowColor);
+
     svg {
-      width: 30px;
-      height: 30px;
-      padding: 5px;
+      width: 17px;
+      height: 17px;
     }
-    @media (hover: hover) {
-      &:hover {
-        background-color: var(--grayColorLightenUltra);
-      }
+
+    @include hover {
+      background-color: var(--mainHoverColor);
     }
+    @include svgColor(var(--redColor));
   }
 
-  &__close {
-    svg {
-      @include svgcolor($redColor);
-    }
-  }
   &__makeMain {
     animation: moveInMakeMain 0.2s;
     transform: translate(-10%, -200%);
-    svg {
-      @include svgcolor($cyanColor);
-    }
+    @include svgColor(var(--greenColor));
   }
   &__delete {
     animation: moveInDelete 0.2s;
     transform: translate(120%, -150%);
-    svg {
-      @include svgcolor($redColor);
-    }
+    @include svgColor(var(--redColor));
   }
   &__edit {
     animation: moveInEdit 0.2s;
     transform: translate(190%, -30%);
-    svg {
-      @include svgcolor($greenColor);
-    }
+    @include svgColor(var(--orangeColor));
   }
   &__tag {
     animation: moveInTag 0.2s;
     transform: translate(160%, 100%);
-    svg {
-      @include svgcolor($blueColor);
-    }
+    @include svgColor(var(--blueColor));
   }
 }
 
@@ -235,64 +222,15 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--lightColor);
+    background-color: var(--mainBackgroundColor);
+    flex-direction: column;
   }
 
   &__return {
     position: absolute;
-    background-color: $redColor;
     z-index: 2;
-    width: 30px;
-    height: 30px;
     right: 10px;
     top: 10px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    svg {
-      padding: 8px;
-      path {
-        stroke: var(--lightColor);
-        fill: var(--lightColor);
-      }
-    }
-    &:hover {
-      background-color: $redColorDarken;
-    }
-  }
-}
-
-.cancel {
-  border: 1px solid $redColor;
-  color: $redColor;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: $redColor;
-      color: var(--lightColor);
-    }
-  }
-}
-
-.save {
-  background-color: $greenColor;
-  color: var(--lightColor);
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: $greenColorDarken;
-    }
-  }
-}
-
-.saveAs {
-  background-color: $orangeColor;
-  color: var(--lightColor);
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: $orangeColorDarken;
-    }
   }
 }

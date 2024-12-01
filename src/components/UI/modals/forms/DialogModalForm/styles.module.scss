@@ -1,9 +1,8 @@
-@import '../../../../../styles/colors.scss';
-
 .dialogModal {
-  background-color: var(--lightColor);
+  background-color: var(--mainBackgroundColor);
   padding: 30px 50px;
   border-radius: 5px;
+  color: var(--mainTextColor);
   &__title {
     text-align: center;
     font-size: 18px;

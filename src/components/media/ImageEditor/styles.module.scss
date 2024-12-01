@@ -1,6 +1,3 @@
-@import './styles/colors.scss';
-@import '../../../styles/colors.scss';
-
 .root {
   flex: 1 1 auto;
   display: flex;
@@ -63,15 +60,14 @@
 }
 
 .zoomTools {
-  background-color: $panelColor;
+  background-color: var(--panel2BackgroundColor);
   display: flex;
   border-radius: 5px;
   padding: 3px 5px;
-  border: $mainColorActive;
   align-items: center;
   height: 30px;
   @media (min-width: 867px) {
-    box-shadow: -4px 4px 10px 0px $panelShadowColor;
+    box-shadow: -4px 4px 10px 0px var(--panel2BoxShadowColor);
   }
 
   &__in,
@@ -82,15 +78,15 @@
     height: 30px;
     border-radius: 5px;
     margin-right: 5px;
-    &:hover {
-      background-color: $panelColorHover;
+    @include hover {
+      background-color: var(--panel2HoverColor);
     }
     svg {
       width: 30px;
       height: 30px;
       padding: 7px;
       path {
-        fill: $panelTextColorInactive;
+        fill: var(--panel2TextInactiveColor);
       }
     }
   }
@@ -99,7 +95,7 @@
   &__out {
     svg {
       path {
-        fill: $mainTextColor;
+        fill: var(--panel2TextColor);
       }
     }
   }
@@ -112,13 +108,13 @@
       padding: 7px;
       path {
         fill: none;
-        stroke: $panelTextColorInactive;
+        stroke: var(--panel2TextInactiveColor);
       }
     }
     &.active {
       path {
         fill: none;
-        stroke: $panelTextColor;
+        stroke: var(--panel2TextColor);
       }
     }
   }
@@ -134,12 +130,12 @@
     height: 30px;
     border-radius: 5px;
     margin-right: 5px;
-    color: $panelTextColorInactive;
-    &:hover {
-      background-color: $panelColorHover;
+    color: var(--panel2TextInactiveColor);
+    @include hover {
+      background-color: var(--panel2HoverColor);
     }
     &.active {
-      color: $panelTextColor;
+      color: var(--panel2TextColor);
     }
   }
 }
@@ -150,65 +146,18 @@
   justify-content: center;
   gap: 10px;
   &__save {
-    cursor: default;
-    color: $saveButtonTextColor;
     font-weight: 700;
     height: 30px;
     border-radius: 5px;
-    background-color: $panelColor;
     padding: 0 40px;
     @media (min-width: 420px) {
       padding: 0 60px;
     }
 
-    &.active {
-      cursor: pointer;
-      background-color: $saveButtonColor;
-      @media (hover: hover) {
-        &:hover {
-          background-color: $saveButtonColorHover;
-        }
-      }
-    }
-  }
-}
-
-.tabs {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 50px;
-  &__tab {
-    font-size: 14px;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    color: $mainTextColor;
-    position: relative;
-    svg {
-      height: 20px;
-      path {
-        stroke: $mainTextColor;
-        fill: $mainTextColor;
-      }
-    }
-    &:hover {
-      color: $mainTextColorHover;
-      path {
-        stroke: $mainTextColorHover;
-        fill: $mainTextColorHover;
-      }
-    }
-    &.active {
-      &::before {
-        content: '';
-        position: absolute;
-        width: 30px;
-        height: 2px;
-        bottom: 0;
-        background-color: $themeColor;
-      }
+    &.disabled {
+      cursor: default;
+      color: var(--panel2TextInactiveColor);
+      background-color: var(--panel2HoverColor);
     }
   }
 }
@@ -223,40 +172,5 @@
 .aside {
   &.active {
     flex: 0 0 350px;
-  }
-}
-
-.dialogResult {
-  &_cancel {
-    border: 1px solid $redColor;
-    color: $redColor;
-    @media (hover: hover) {
-      &:hover {
-        background-color: $redColor;
-        color: var(--lightColor);
-      }
-    }
-  }
-
-  &_save {
-    background-color: $cyanColorDarken;
-    color: var(--lightColor);
-    flex: 0 0 90px;
-    width: 90px;
-    @media (hover: hover) {
-      &:hover {
-        background-color: $cyanColor;
-      }
-    }
-  }
-
-  &_saveCopy {
-    background-color: $greenColor;
-    color: var(--lightColor);
-    @media (hover: hover) {
-      &:hover {
-        background-color: $greenColorLighten;
-      }
-    }
   }
 }

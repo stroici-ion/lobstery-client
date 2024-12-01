@@ -3,10 +3,12 @@ import React, { useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { EmojiSvg, PlusSvg } from '../../icons';
-import ContextMenu from '../ContextMenu';
+// import ContextMenu from '../ContextMenu';
 import EmojiPicker from '../EmojiPicker';
-import SmallButton from '../UI/Buttons/SmallButton';
+import SmallButton from '../UI/buttons/SmallButton';
 import styles from './styles.module.scss';
+import { useContextMenu } from '../../hooks/useContextMenu';
+import ContextMenu from '../UI/ContextMenu';
 
 interface IWriteText {
   value: string;
@@ -30,6 +32,7 @@ const WriteText: React.FC<IWriteText> = ({ value, setValue, placeholder, classNa
       textareaRef.current?.focus();
     }
   };
+  const ctx = useContextMenu();
 
   return (
     <div className={styles.root}>
@@ -42,19 +45,16 @@ const WriteText: React.FC<IWriteText> = ({ value, setValue, placeholder, classNa
         placeholder={placeholder}
       />
       <div className={styles.root__left}>
-        <ContextMenu
-          width={250}
-          maxHeight={300}
-          openButton={(onClick: any) => (
-            <SmallButton className={classNames(styles.root__button, styles.emoji)} onClick={onClick}>
-              <EmojiSvg />
-            </SmallButton>
-          )}
-        >
-          <div className={styles.root__emojiPicker}>
-            <EmojiPicker onClick={onEmojiClick} />
-          </div>
-        </ContextMenu>
+        <button ref={ctx.triggerRef} className={styles.root__emojiBtn} onClick={ctx.onShow}>
+          <EmojiSvg />
+        </button>
+        {ctx.isOpen && (
+          <ContextMenu {...ctx}>
+            <div className={styles.root__emojiPicker}>
+              <EmojiPicker onClick={onEmojiClick} />
+            </div>
+          </ContextMenu>
+        )}
       </div>
     </div>
   );

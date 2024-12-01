@@ -62,7 +62,6 @@ const ExtensibleText: React.FC<CommentTextType> = ({
         {mentionedUser?.id && <span className={styles.text__mentionedUser}>{getUserName(mentionedUser)} </span>}
         {emoji(text)}
       </p>
-
       <div className={styles.text__row}>
         {isOverflowing ? (
           <>

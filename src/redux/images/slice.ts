@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { IUser } from '../profile/types';
 import { extraReducers } from './extraReducers';
-import { EImageEditOperations, IImage, IImagesState } from './types';
+import { EImageEditOperations, IImage, IImagesState, IThumbnail } from './types';
 
 const initialState: IImagesState = {
   images: [],
@@ -23,8 +23,15 @@ const imagesSlice = createSlice({
       state.images = [...state.images, ...action.payload];
     },
     updatedEditedImage: (state, action: PayloadAction<IImage>) => {
-      const image = action.payload;
-      state.images = state.images.map((i) => (i.id === image.id ? { ...image, id: Math.random() * -1 } : i));
+      console.log(action.payload);
+      state.images = state.images.map((i) =>
+        i.id === action.payload.id ? { ...action.payload, id: Math.random() * -1 } : i
+      );
+    },
+    setImageThumbnails: (state, action: PayloadAction<{ thumbnails: IThumbnail[]; id: number }>) => {
+      state.images = state.images.map((i) =>
+        i.id === action.payload.id ? { ...i, thumbnails: action.payload.thumbnails } : i
+      );
     },
     updateImage: (state, action: PayloadAction<IImage>) => {
       const x = state.images.map((i) => (i.id === action.payload.id ? action.payload : i));
@@ -93,6 +100,7 @@ export const {
   updateImage,
   setActiveImage,
   removeImage,
+  setImageThumbnails,
 } = imagesSlice.actions;
 
 export default imagesSlice.reducer;

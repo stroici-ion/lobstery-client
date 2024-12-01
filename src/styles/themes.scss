@@ -1,0 +1,223 @@
+:root {
+  --mainBackgroundColor: #f5f5f5; /* Light gray for light theme */
+  --mainTextColor: #333333;
+  --mainTextInactiveColor: #7a7a7a; /* Subtle contrast */
+
+  --mainSliderColor: #d4d4d4;
+
+  --mainLinkColor: #7b7b7b;
+
+  --mainBoxShadowColor: #1d1d1d36;
+
+  --modalWrapperColor: #1d1d1d90;
+  --imageCropWrapperColor: rgba(200, 200, 200, 0.85);
+
+  --hrColor: #cbcbcb;
+
+  /* Main Background Button */
+  --mainUserImageColor: #c4c4c4;
+  --mainHoverColor: #dedede;
+  --mainActiveColor: #b7b7b7;
+
+  /* Lobstery Colors */
+  --lobsteryColor: #e74c3c;
+  --lobsteryTransparentColor: #e74d3c8c;
+  --lobsteryHoverColor: #c54436;
+  --lobsteryActiveColor: #85332a;
+  --lobsteryContrastTextColor: #ffffff;
+
+  /* Main Interpolated Colors */
+  --lobsteryInterpolatedMain: #eeaca4;
+
+  --mainRreedInterpolatedColor: #f6c9c5;
+  --mainBlueInterpolatedColor: #b4d0f4;
+  --mainOrangeInterpolatedColor: #dcbd8e;
+  --mainGreenInterpolatedColor: #d5f1be;
+  --mainYellowInterpolatedColor: #f9edaf;
+  --mainGreenDarkColorInterpolatedColor: #bce389;
+
+  /* Panel 1 Colors (darker) */
+  --panel1BackgroundColor: #e0e0e0;
+  --panel1TextColor: #333333;
+  --panel1HoverColor: #d0d0d0;
+  --panel1ActiveColor: #c2c2c2;
+  --panel1BoxShadowColor: #00000030;
+
+  /* Panel1 Interpolated Colors */
+  --panel1RedInterpolatedColor: #f6c9c5;
+  --panel1BlueInterpolatedColor: #b4d0f4;
+  --panel1OrangeInterpolatedColor: #dcbd8e;
+  --panel1GreenInterpolatedColor: #d5f1be;
+  --panel1YellowInterpolatedColor: #f9edaf;
+
+  /* Panel 2 Colors (lighter) */
+  --panel2BackgroundColor: #e6e6e6;
+  --panel2TextColor: #333333;
+  --panel2TextInactiveColor: #6d6d6d;
+  --panel2HoverColor: #bcbcbc;
+  --panel2ActiveColor: #bababa;
+  --panel2BoxShadowColor: #00000030;
+
+  /* Panel2 Interpolated Colors */
+  --panel2RedInterpolatedColor: #c4938e;
+  --panel2BlueInterpolatedColor: #7a94b6;
+  --panel2OrangeInterpolatedColor: #c4a388;
+  --panel2GreenInterpolatedColor: #9ea998;
+
+  /* Red */
+  --redColor: #d55943;
+  --redHoverColor: #c64730;
+
+  /* Blue */
+  --blueColor: #3978d0;
+  --blueHoverColor: #2f64af;
+
+  /* Green */
+  --greenColor: #79b661;
+  --greenHoverColor: #59a83a;
+
+  --greenDarkColor: #2f6a18;
+  --greenDarkHoverColor: rgb(64, 128, 39);
+
+  /* Orange */
+  --orangeColor: #d4862d;
+  --orangeDarkColor: #b67225;
+  --orangeHoverColor: #ea9d44;
+
+  /* Yellow */
+  --yellowColor: #e0c75b;
+  --yellowDarkColor: #ae9d4e;
+
+  /* Orange */
+  --orangeColorDarken: #cb8437;
+  --orangeColorLighten: #ffc891;
+
+  /* Green */
+  --greenColorDarken: #6b8e4b;
+  --greenColorLighten: #bbf2a1;
+
+  /* Blue */
+  --blueColorLighten: #679adf;
+  --blueColorDarken: #285b99;
+  --blueDark: #0a2c3b;
+
+  /* Red */
+  --redColorLighten: #ffb3a3;
+  --redColorDarken: #b34726;
+
+  /* Purple */
+  --purpleColor: #835ac2;
+}
+
+[data-theme='dark'] {
+  --mainBackgroundColor: #313338; // Light shade for dark theme
+  --mainTextColor: #bbb;
+  --mainTextInactiveColor: #898989; /* Darker text for contrast */
+
+  --mainSliderColor: #a6a7aa;
+
+  --mainLinkColor: #7a7c81;
+
+  --mainBoxShadowColor: #1a1b1f90;
+
+  --modalWrapperColor: #000000a9;
+  --imageCropWrapperColor: rgba(0, 0, 0, 0.663);
+
+  --hrColor: #404147;
+
+  //Main background Button
+  --mainUserImageColor: #6f7072;
+  --mainHoverColor: #2b2d31;
+  --mainActiveColor: #232427;
+
+  //Lobstery Colors
+  --lobsteryColor: #e74c3c;
+  --lobsteryTransparentColor: #e74d3c8c;
+  --lobsteryHoverColor: #c54436;
+  --lobsteryActiveColor: #85332a;
+
+  --lobsteryContrastTextColor: #ffffff;
+
+  //Main Interpolated colors
+  --lobsteryInterpolatedMain: #5e3d39;
+
+  --mainRreedInterpolatedColor: #45302e;
+  --mainGreenInterpolatedColor: #35472d;
+  --mainOrangeInterpolatedColor: #c88d4b;
+  --mainYellowInterpolatedColor: #4e3f2e;
+  --mainBlueInterpolatedColor: #2e3c4f;
+  --mainGreenDarkColorInterpolatedColor: #284a1b;
+
+  //Panel 1 Colors
+  --panel1BackgroundColor: #111214;
+  --panel1TextColor: #c8c8c8;
+  --panel1HoverColor: #2b2d31;
+  --panel1ActiveColor: #232427;
+  --panel1BoxShadowColor: #11121467;
+
+  //Panel1 Interpolated colors
+  --panel1RedInterpolatedColor: #2a0704;
+  --panel1BlueInterpolatedColor: #0b1c34;
+  --panel1OrangeInterpolatedColor: #261808;
+  --panel1GreenInterpolatedColor: #1e251b;
+  --panel1YellowInterpolatedColor: #3f3a24;
+
+  //Panel 2 Colors
+  --panel2BackgroundColor: #2b2d31;
+  --panel2TextColor: #c8c8c8;
+  --panel2TextInactiveColor: #494a4d;
+  --panel2HoverColor: #2b2d31;
+  --panel2ActiveColor: #232427;
+  --panel2BoxShadowColor: #11121467;
+
+  //Panel2 Interpolated colors
+  --panel2RedInterpolatedColor: #2a0704;
+  --panel2BlueInterpolatedColor: #0b1c34;
+  --panel2OrangeInterpolatedColor: #261808;
+  --panel2GreenInterpolatedColor: #1e251b;
+
+  //Red
+  --redColor: #ba4c38;
+  --redHoverColor: #a54331;
+
+  //Blue
+  --blueColor: #3978d0;
+  --blueHoverColor: #2f64af;
+
+  //GREEN
+  --greenColor: #79b661;
+  --greenHoverColor: #59a83a;
+
+  --greenDarkColor: #2f6a18;
+  --greenDarkHoverColor: rgb(64, 128, 39);
+
+  //ORANGE
+  --orangeColor: #d4862d;
+  --orangeDarkColor: #b67225;
+  --orangeHoverColor: #ea9d44;
+
+  //YELLOW
+  --yellowColor: #e0c75b;
+  --yellowDarkColor: #ae9d4e;
+
+  //ORANGE
+
+  --orangeColorDarken: #cb8437;
+  --orangeColorLighten: #ffc891;
+
+  //GREEN
+  --greenColorDarken: #6b8e4b;
+  --greenColorLighten: #bbf2a1;
+
+  //BLUE
+  --blueColorLighten: #679adf;
+  --blueColorDarken: #285b99;
+  --blueDark: #0a2c3b;
+
+  //RED
+  --redColorLighten: #ffb3a3;
+  --redColorDarken: #b34726;
+
+  //PURPLE
+  --purpleColor: #835ac2;
+}

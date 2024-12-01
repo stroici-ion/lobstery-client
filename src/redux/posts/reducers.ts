@@ -6,6 +6,9 @@ import { TGridCell } from '../../components/media/ImageGrid/types';
 import { IPost, IPostsState } from './types';
 
 export const reducers = {
+  setPost: (state: IPostsState, action: PayloadAction<IPost>) => {
+    state.posts = state.posts.map((p) => (p.id === action.payload.id ? action.payload : p));
+  },
   setActivePost: (state: IPostsState, action: PayloadAction<IPost | undefined>) => {
     state.postCreateStatus = EFetchStatus.PENDING;
     state.uploadProgress = 0;
@@ -27,8 +30,10 @@ export const reducers = {
   setText: (state: IPostsState, action: PayloadAction<string>) => {
     state.activePost.text = action.payload;
   },
-  setAudience: (state: IPostsState, action: PayloadAction<number>) => {
-    state.activePost.audience = action.payload;
+  setAudience: (state: IPostsState, action: PayloadAction<{ audience: number; customAudience?: number }>) => {
+    state.activePost.audience = action.payload.audience;
+    if (action.payload.audience === 4 && action.payload.customAudience)
+      state.activePost.customAudience = action.payload.customAudience;
   },
   setCustomAudience: (state: IPostsState, action: PayloadAction<number>) => {
     state.activePost.customAudience = action.payload;

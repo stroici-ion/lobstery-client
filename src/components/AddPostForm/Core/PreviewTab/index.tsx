@@ -17,7 +17,7 @@ interface IPreviewTab {
 }
 
 const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedTab }) => {
-  const user = useSelector(selectUserProfile);
+  const userProfile = useSelector(selectUserProfile);
   const newPost = useSelector(selectActivePost);
   const images = useSelector(selectImages);
   const userId = useSelector(selectUserId);
@@ -46,7 +46,7 @@ const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedTab }) => {
             imagesLayout: newPost.imagesLayout,
             viewsCount: 0,
             commentsCount: 0,
-            user: user,
+            user: userProfile.user,
             taggedFriends: newPost.taggedFriends,
             createdAt: new Date(),
             updatedAt: new Date(),

@@ -15,13 +15,13 @@ import {
 } from '../../../../redux/images/slice';
 import { AddImageVideoSvg, CloseSvg, EditSvg, TagPeopleSvg, ToFrontSvg } from '../../../../icons';
 import { selectActiveImage, selectImages } from '../../../../redux/images/selectors';
-import { getExtension, isVideo } from '../../../../utils/filesTypes';
+import { getFileExtension, checkIsVideoFile } from '../../../../utils/filesTypes';
 import { dirtyFormWarningDialog } from '../../../UI/modals/dialog-options';
 import ImageEditor2 from '../../../media/ImageEditor';
 import DeleteSvg from '../../../../icons/DeleteSvg';
 import { useAppDispatch } from '../../../../redux';
 import { convertToWebP } from './convertFunction';
-import ContextMenu from '../../../UI/ContextMenu';
+import HighlightContextMenu from '../../../UI/HighlightContextMenu';
 import ImageGrid from '../../../media/ImageGrid';
 import ScrollArea from '../../../UI/ScrollArea';
 import Modal from '../../../UI/modals/Modal';
@@ -30,6 +30,10 @@ import { getOrderedGrid } from '../../../media/ImageGrid/core/getOrderedGrid';
 import { setImagesLayout } from '../../../../redux/posts/slice';
 import { selectActivePost } from '../../../../redux/posts/selectors';
 import { IImage } from '../../../../redux/images/types';
+import modalBtnStyles from '../../../../styles/components/buttons/solidLightButtons.module.scss';
+import btnStyles from '../../../../styles/components/buttons/buttons.module.scss';
+import { v4 } from 'uuid';
+import VideoEditor from '../../../media/VideoEditor';
 
 const ImagesTab: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -41,19 +45,17 @@ const ImagesTab: React.FC = () => {
   const [contextRef, setContextRef] = useState<HTMLElement>();
   const [isActiveImageModified, setIsActiveImageModified] = useState(false);
 
-  const getVideoPreview = async (file: File) => {
-    if (isVideo(file.name)) {
-      const metadata = await getMetadata(file);
-      let thumbnail = (
-        await getThumbnails(file, {
-          quality: 1,
-          start: Math.floor(metadata.duration / 2),
-          end: Math.floor(metadata.duration / 2),
-        })
-      )[0];
-      return thumbnail.blob;
-    }
-    return null;
+  const getVideoPreviewImage = async (file: File) => {
+    const metadata = await getMetadata(file);
+    const thumbnail = (
+      await getThumbnails(file, {
+        quality: 1,
+        start: Math.floor(metadata.duration / 3),
+        end: Math.floor(metadata.duration / 3),
+      })
+    )[0];
+
+    return thumbnail.blob;
   };
 
   const getSelectedFiles = async (acceptedFiles: File[]) => {
@@ -61,50 +63,47 @@ const ImagesTab: React.FC = () => {
     for await (const acceptedFile of acceptedFiles) {
       if (acceptedFile) {
         try {
-          const webpBlob = await convertToWebP(acceptedFile, 1200, 1200, 0.8);
-
-          const webpUrl = URL.createObjectURL(webpBlob);
-
-          let image = '';
-          let aspectRatio = 1;
-          let video = null;
-          let isVideoFile = false;
-          let videoExtension = undefined;
-          let thumbnailWidth = 0;
-          let thumbnailHeight = 0;
-          if (isVideo(acceptedFile.name)) {
-            const videoPreviewBlob = await getVideoPreview(acceptedFile);
-            videoExtension = getExtension(acceptedFile.name);
-            if (videoPreviewBlob) {
-              image = URL.createObjectURL(videoPreviewBlob);
-              video = webpUrl;
-              isVideoFile = true;
-            } else {
-              image = '';
-            }
+          let imageUrl;
+          let video = '';
+          const fileName = v4();
+          const isVideoFile = acceptedFile.type.startsWith('video/');
+          if (isVideoFile) {
+            video = URL.createObjectURL(acceptedFile);
+            const videoPreviewImageBlob = await getVideoPreviewImage(acceptedFile);
+            if (videoPreviewImageBlob) {
+              const file = new File([videoPreviewImageBlob], fileName + '.webp', { type: 'image/webp' });
+              const previewImageWEBPBlob = await convertToWebP(file, 1200, 1200, 0.8);
+              imageUrl = URL.createObjectURL(previewImageWEBPBlob);
+            } else throw new Error('Failed to obtain image thumbnail');
           } else {
-            image = webpUrl;
+            const previewImageWEBPBlob = await convertToWebP(acceptedFile, 1200, 1200, 0.8);
+            imageUrl = URL.createObjectURL(previewImageWEBPBlob);
           }
 
-          await getImageSize(image).then(({ width, height }) => {
+          let thumbnailHeight = 1,
+            thumbnailWidth = 1,
+            aspectRatio = 1;
+
+          await getImageSize(imageUrl).then(({ width, height }) => {
             thumbnailHeight = height;
             thumbnailWidth = width;
             aspectRatio = width / height;
           });
+
           const id = +(Math.random() + '').slice(2, 5) * -1;
           currentlyAddedImages.push({
             id,
             orderId: id,
-            imageThumbnail: image,
+            image: imageUrl,
+            imageThumbnail: imageUrl,
             uploadProgress: 0,
-            image,
-            aspectRatio,
             caption: '',
             video,
             isVideoFile,
-            videoExtension,
-            thumbnailWidth,
+            videoExtension: '',
             thumbnailHeight,
+            thumbnailWidth,
+            aspectRatio,
             isUpdated: true,
           });
         } catch (error) {
@@ -173,7 +172,12 @@ const ImagesTab: React.FC = () => {
   };
 
   const handleHideModal = () => {
-    modal.onHide();
+    if (isActiveImageModified) modal.dialog.setDialogParams(dirtyFormWarningDialog, true);
+    else modal.forceHide();
+  };
+
+  const updateVideoThumbnail = (image: IImage) => {
+    dispatch(updatedEditedImage(image));
   };
 
   const handleSaveEditedImage = (image: IImage) => {
@@ -185,7 +189,7 @@ const ImagesTab: React.FC = () => {
           type: EnumModalDialogOptionType.RETURN,
           title: 'Cancel',
           callback: () => {},
-          className: styles.cancel,
+          className: modalBtnStyles.redLight,
         },
         {
           type: EnumModalDialogOptionType.OTHER,
@@ -193,7 +197,7 @@ const ImagesTab: React.FC = () => {
           callback: () => {
             dispatch(updatedEditedImage(image));
           },
-          className: styles.save,
+          className: modalBtnStyles.orangeLight,
         },
         {
           type: EnumModalDialogOptionType.OTHER,
@@ -204,7 +208,7 @@ const ImagesTab: React.FC = () => {
             image.orderId = id;
             dispatch(addImages([image]));
           },
-          className: styles.saveAs,
+          className: modalBtnStyles.greenSolid,
         },
       ],
     };
@@ -213,7 +217,7 @@ const ImagesTab: React.FC = () => {
   };
 
   useEffect(() => {
-    if (isActiveImageModified) modal.dialog.setDialogParams(dirtyFormWarningDialog);
+    if (isActiveImageModified) modal.dialog.setDialogParams(undefined);
   }, [isActiveImageModified]);
 
   const handleSetIsActiveImageModified = (isModified: boolean) => setIsActiveImageModified(isModified);
@@ -223,10 +227,20 @@ const ImagesTab: React.FC = () => {
 
   return (
     <>
-      {activeImage && (
+      {activeImage && activeImage.video && (
         <Modal {...modal}>
           <div className={styles.modal__body}>
-            <button className={styles.modal__return} onClick={handleHideModal}>
+            <button className={classNames(styles.modal__return, btnStyles.close)} onClick={modal.forceHide}>
+              <CloseSvg />
+            </button>
+            <VideoEditor image={activeImage} onSave={updateVideoThumbnail} />
+          </div>
+        </Modal>
+      )}
+      {activeImage && !activeImage.video && (
+        <Modal {...modal}>
+          <div className={styles.modal__body}>
+            <button className={classNames(styles.modal__return, btnStyles.close)} onClick={handleHideModal}>
               <CloseSvg />
             </button>
             <ImageEditor2
@@ -238,7 +252,7 @@ const ImagesTab: React.FC = () => {
         </Modal>
       )}
       {isContextVisible && (
-        <ContextMenu triggerRef={contextRef} onHide={handleHideContextMenu}>
+        <HighlightContextMenu triggerRef={contextRef} onHide={handleHideContextMenu}>
           <div className={classNames(styles.contextMenu, isContextVisible && styles.contextMenu__active)}>
             {activeImage.id !== images[0].id && (
               <button
@@ -271,7 +285,7 @@ const ImagesTab: React.FC = () => {
               <TagPeopleSvg />
             </button>
           </div>
-        </ContextMenu>
+        </HighlightContextMenu>
       )}
       <div className={styles.root}>
         <p className={styles.root__title}>Add images!</p>

@@ -1,35 +1,29 @@
-@import '../../mixins.scss';
-@import '../../colors.scss';
-
-@mixin solidButton($background: var(--darkColor), $text: var(--lightColor)) {
+@mixin solidButton(
+  $text: var(--mainTextColor),
+  $background: var(--mainBackgroundColor),
+  $hover: var(--mainHoverColor)
+) {
   color: $text;
-  @include svgcolor($text);
   background-color: $background;
-  @media (hover: hover) {
-    &:hover {
-      background-color: darken($color: $background, $amount: 15);
-    }
-  }
-  &:active,
-  &.active {
-    background-color: lighten($color: $background, $amount: 10);
+  @include svgColor($text);
+  @include hover {
+    background-color: $hover;
   }
 }
 
-@mixin lightButton($borderColor: var(--darkColor), $text: var(--darkColor), $size: 1px) {
+@mixin lightButton(
+  $text: var(--mainTextColor),
+  $hoverText: var(--mainTextColor),
+  $background: var(--mainBackgroundColor),
+  $hover: var(--mainHoverColor),
+  $size: 1px
+) {
   color: $text;
-  @include svgcolor($text);
-  border: $size solid $borderColor;
-  @media (hover: hover) {
-    &:hover {
-      border: $size solid darken($borderColor, 5);
-      background-color: darken($borderColor, 5);
-      color: var(--lightColor);
-    }
-  }
-  &:active,
-  &.active {
-    border: $size solid lighten($color: $borderColor, $amount: 10);
-    background-color: lighten($color: $borderColor, $amount: 10);
+  border: $size solid $background;
+  @include svgColor($text);
+  @include hover {
+    border: $size solid $hover;
+    background-color: $hover;
+    color: $hoverText;
   }
 }

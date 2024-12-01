@@ -1,9 +1,5 @@
-@import '../../../styles/colors.scss';
-@import '../../../styles/mixins.scss';
-
 .aside {
   position: fixed;
-  z-index: 100;
   top: 0;
   left: 0;
   height: 100vh;
@@ -12,8 +8,9 @@
   transition: 0.3s;
   max-height: 100%;
   width: 190px;
-  border-right: 1px solid var(--grayColorLightenUltra);
+  border-right: 1px solid var(--hrColor);
   z-index: 999;
+  background-color: var(--panel2BackgroundColor);
 
   @media (min-width: 856px) {
     width: 240px;
@@ -78,15 +75,11 @@
   }
 
   &__logoSvg {
-    svg {
-      width: 30px;
-      height: 30px;
-      @include svgcolor($cyanColor);
-    }
+    @include svgSize(30px);
   }
 
   &__logoTextSvg {
-    color: $cyanColor;
+    color: var(--lobsteryColor);
     margin-left: 14px;
     font-weight: 700;
     font-family: cursive;
@@ -98,7 +91,7 @@
   display: flex;
   flex-direction: column;
   transition: 0.3s;
-  background-color: var(--lightColor);
+  background-color: var(--panel2BackgroundColor);
   overflow: hidden;
   &__buttons {
     flex: 1 1 auto;
@@ -124,14 +117,14 @@
     top: 130px;
     height: 40px;
     width: 3px;
-    background-color: $cyanColor;
+    background-color: var(--lobsteryColor);
     right: -1px;
     border-radius: 5px;
   }
 
   &__collapse {
     display: flex;
-    margin: 0px 5px;
+    margin: 0px 10px;
     margin-bottom: 15px;
     align-items: center;
     justify-content: flex-end;
@@ -142,154 +135,17 @@
       left: 0;
       right: 25px;
       height: 1px;
-      background-color: var(--grayColorLightenUltra);
+      background-color: var(--hrColor);
     }
-    // background-color: $cyanColorLighten;
+    // background-color: var(--lobsteryActiveColor);
   }
 
   &__collapseButton {
     width: 20px;
     height: 20px;
 
-    svg {
-      flex: 0 0 20px;
-      width: 20px;
-      height: 20px;
-      @include svgcolor($cyanColor);
-    }
-  }
-}
-
-.bottom {
-  transition: 0.3s;
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0 25px;
-  &::before {
-    transition: 0.3s;
-    content: '';
-    position: absolute;
-    left: 5px;
-    height: 1px;
-    right: 5px;
-    top: 0;
-    background-color: var(--grayColorLightenUltra);
-  }
-}
-
-.user {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  button.signup {
-    padding: 0 0 0 35px;
-  }
-
-  &__openMenuButton {
-    border-radius: 50%;
-    background-color: transparent;
-    transition: 0.3s;
-    width: 34px;
-    flex: 0 0 34px;
-    height: 34px;
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-
-  &__img {
-    width: 100%;
-    height: 100%;
-  }
-
-  &__collapsableInfo {
-    display: flex;
-    flex: 1 1 auto;
-    align-items: center;
-    flex-wrap: nowrap;
-  }
-
-  &__name {
-    flex: 1 1 auto;
-    font-size: 14px;
-  }
-
-  &__button {
-    svg {
-      margin-right: 5px;
-      width: 16px;
-      height: 16px;
-    }
-  }
-}
-
-.guest {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  &__icon {
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 50%;
-    border: 2px solid var(--grayColorLightenUltra);
-    width: 34px;
-    flex: 0 0 34px;
-    height: 34px;
-    svg {
-      @include svgcolor(var(--grayColorLightenUltra));
-      width: 102%;
-      height: 102%;
-    }
-    &:hover {
-      border: 2px solid $cyanColor;
-      svg {
-        @include svgcolor($cyanColor);
-      }
-    }
-  }
-
-  &__collapsableInfo {
-    flex: 1 1 auto;
-    gap: 5px;
-    color: var(--grayColor);
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-  }
-
-  &__link {
-    color: $cyanColorDarken;
-    text-wrap: nowrap;
-    font-size: 14px;
-    text-decoration: underline;
-    &:hover {
-      color: var(--darkColor);
-    }
-  }
-}
-
-.logout {
-  svg {
-    path {
-      fill: transparent;
-      stroke: $redColor;
-    }
-  }
-  &:hover {
-    background-color: $redColorLighten;
-  }
-}
-
-.profile {
-  svg {
-    @include svgcolor($blueColor);
-  }
-
-  &:hover {
-    background-color: $blueColorLighten;
+    @include svgColor(var(--lobsteryColor));
+    @include svgSize(20px);
   }
 }
 

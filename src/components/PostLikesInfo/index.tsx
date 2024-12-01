@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-import { LikeSvg } from '../../icons';
-import { putLikePost } from '../../services/posts/PostServices';
+import { FavoriteSvg, LikeSvg } from '../../icons';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../redux/auth/selectors';
 import toast from 'react-hot-toast';
-import { ILikesInfo } from '../../types/LikesInfo.types';
+import { useAppDispatch } from '../../redux';
+import { IPost } from '../../redux/posts/types';
+import { fetchFavoritePost, fetchLikePost } from '../../redux/posts/asyncActions';
 
 interface IPostLikesInfo {
-  id?: number;
-  likesInfo: ILikesInfo;
+  post: IPost;
 }
 
-const PostLikesInfo: React.FC<IPostLikesInfo> = ({ likesInfo, id }) => {
-  const [localLikesInfo, setLocalLikesInfo] = useState(likesInfo);
-
+const PostLikesInfo: React.FC<IPostLikesInfo> = ({ post }) => {
   const userId = useSelector(selectUserId);
   const isAuthorized = !!userId;
+  const dispatch = useAppDispatch();
 
   const checkPermission = () => {
     if (!isAuthorized) {
@@ -27,30 +26,26 @@ const PostLikesInfo: React.FC<IPostLikesInfo> = ({ likesInfo, id }) => {
     return isAuthorized;
   };
 
-  useEffect(() => {
-    setLocalLikesInfo(likesInfo);
-  }, [likesInfo]);
-
-  const handlePutLike = () => {
-    if (id && checkPermission()) putLikePost(id, true).then((res) => res && setLocalLikesInfo(res));
+  const putLike = (isLike: boolean) => {
+    if (checkPermission()) dispatch(fetchLikePost({ postId: post.id, like: isLike }));
   };
 
-  const handlePutDislike = () => {
-    if (id && checkPermission()) putLikePost(id, false).then((res) => res && setLocalLikesInfo(res));
-  };
+  const handlePutLike = () => putLike(true);
+  const handlePutDislike = () => putLike(false);
+  const handleFavoritePost = () => dispatch(fetchFavoritePost(post.id));
 
   return (
     <div className={styles.root}>
-      <button className={classNames(styles.likes, localLikesInfo.liked && styles.active)} onClick={handlePutLike}>
+      <button className={classNames(styles.likes, post.liked && styles.active)} onClick={handlePutLike}>
         <LikeSvg />
-        {localLikesInfo.likesCount}
+        {post.likesCount}
       </button>
-      <button
-        className={classNames(styles.likes, styles.dislikes, localLikesInfo.disliked && styles.active)}
-        onClick={handlePutDislike}
-      >
+      <button className={classNames(styles.dislikes, post.disliked && styles.active)} onClick={handlePutDislike}>
         <LikeSvg />
-        {localLikesInfo.dislikesCount}
+        {post.dislikesCount}
+      </button>
+      <button className={classNames(styles.favorite, post.favorite && styles.active)} onClick={handleFavoritePost}>
+        <FavoriteSvg />
       </button>
     </div>
   );

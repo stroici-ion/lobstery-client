@@ -1,3 +1,3 @@
 import { RootState } from '..';
 
-export const selectUserProfile = (state: RootState) => state.profile.user;
+export const selectUserProfile = (state: RootState) => state.profile;

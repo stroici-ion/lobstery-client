@@ -1,15 +1,13 @@
-@import '../../../styles/colors.scss';
-
 .root {
   padding: 10px 10px;
   overflow: hidden;
 
   &__scrollArea {
     &::before {
-      background-image: linear-gradient($panelColor, transparent);
+      background-image: linear-gradient(var(--panel2BackgroundColor), transparent);
     }
     &::after {
-      background-image: linear-gradient(transparent, $panelColor);
+      background-image: linear-gradient(transparent, var(--panel2BackgroundColor));
     }
   }
 

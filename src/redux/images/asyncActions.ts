@@ -15,16 +15,17 @@ export const fetchCreateImage = createAsyncThunk<
     //* SET FROM DATA FOR IMAGE
     const imageFile = await fetch(image.image);
     const imageBlob = await imageFile.blob();
-    const file = new File([imageBlob], v4() + '.jpg');
+    const file = new File([imageBlob], v4() + '.webp');
     let video = null;
-    if (image.isVideoFile && image.video && image.videoExtension) {
+    if (image.video) {
       const videoFile = await fetch(image.video);
       const videoBlob = await videoFile.blob();
-      video = new File([videoBlob], v4() + '.' + image.videoExtension);
+      video = new File([videoBlob], v4() + '.mp4');
     }
     const formData = new FormData();
     if (image) formData.set('image', file);
     if (video) formData.set('video', video);
+
     formData.set('order_id', image.orderId + '');
     formData.set('caption', image.caption || '');
     formData.set(
@@ -46,7 +47,8 @@ export const fetchCreateImage = createAsyncThunk<
         }
       },
     });
-    URL.revokeObjectURL(image.image);
+    // URL.revokeObjectURL(image.image);
+    dispatch(setUploadProgress({ id: image.id, progress: 100 }));
     return response.data;
   } catch (error: any) {
     if (!error.response) {

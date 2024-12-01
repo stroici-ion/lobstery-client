@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import { IImage } from '../../../redux/images/types';
 import styles from './styles.module.scss';
 import { TGridCell } from './types';
+import { PlaySvg } from '../../../icons';
+import { useVideo } from '../../../hooks/useVideo';
 
 type ImageGridProps = {
   images: IImage[];
@@ -52,7 +54,11 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
       for (let i = 0; i < cells.length; i++) {
         const prevCell = cells[i - 1];
         const currCell = cells[i];
-        currCell.imageSrc = getImageSrcByOrderId(currCell.orderId);
+        const imageData = getImageByOrderId(currCell.orderId);
+        if (imageData) {
+          currCell.imageSrc = imageData.imageUrl;
+          currCell.video = imageData.videoUrl || undefined;
+        }
 
         if (cell.direction) {
           currCell.height = (1 / currCell.ar / totalAspectRatio) * 100;
@@ -82,10 +88,14 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
       if (isMain) return checkMainCellHeight({ ...cell, cells });
       else return { ...cell, cells };
     } else {
-      const imageSrc = getImageSrcByOrderId(cell.orderId);
-
-      if (isMain) return checkMainCellHeight({ ...cell, imageSrc });
-      else return { ...cell, imageSrc };
+      const imageData = getImageByOrderId(cell.orderId);
+      if (imageData) {
+        if (isMain) return checkMainCellHeight({ ...cell, imageSrc: imageData.imageUrl, video: imageData.videoUrl });
+        else return { ...cell, imageSrc: imageData.imageUrl, video: imageData.videoUrl };
+      } else {
+        if (isMain) return checkMainCellHeight(cell);
+        else return cell;
+      }
     }
   };
 
@@ -95,18 +105,26 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
   };
 
   useEffect(() => {
-    if (parentWidth && orderedGrid) setGrid(getComputedGrid(JSON.parse(JSON.stringify(orderedGrid)), true));
+    if (parentWidth && orderedGrid) {
+      const gridss = getComputedGrid(JSON.parse(JSON.stringify(orderedGrid)), true);
+      setGrid(gridss);
+    }
   }, [parentWidth, orderedGrid, images]);
 
   useEffect(() => {
     if (gridRef.current) setParentWidth(gridRef.current.getBoundingClientRect().width);
   }, [gridRef.current]);
 
-  const getImageSrcByOrderId = (orderId: number) => {
+  const getImageByOrderId = (orderId: number) => {
     const candidate = images.find((i) => i.orderId === orderId);
-    if (candidate) return candidate.imageThumbnail;
-    return '';
+    if (candidate)
+      return {
+        imageUrl: candidate.imageThumbnail,
+        videoUrl: candidate.video || undefined,
+      };
   };
+
+  const video = useVideo();
 
   return (
     <div
@@ -123,10 +141,21 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
             width: grid.width,
             height: grid.height,
           }}
-          onClick={(e) => handleOnSelect?.(grid.imageId, e.target as HTMLElement)}
+          onClick={(e) => !video.isPlaying && handleOnSelect?.(grid.imageId, e.target as HTMLElement)}
         >
-          {grid.imageSrc && <img src={images[0].image} alt="Failed o upload" />}
-          {/* Render top-level cells */}
+          {grid.video && <video {...video.videoParams} hidden={!grid.video} src={grid.video} controls />}
+          {!video.isPlaying && (
+            <>
+              {grid.imageSrc && <img src={grid.imageSrc} alt="Failed o upload" />}
+              {grid.video && (
+                <button className={styles.videoDecoration} onClick={video.onClickPlay}>
+                  <span>
+                    <PlaySvg />
+                  </span>
+                </button>
+              )}
+            </>
+          )}
           {grid.cells.map((cell) => (
             <RecursiveCell key={cell.key} cell={cell} onSelect={handleOnSelect} />
           ))}
@@ -136,28 +165,34 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
   );
 };
 
-const RecursiveCell: React.FC<{ cell: TGridCell; onSelect?: (id: number, node?: HTMLElement) => void }> = ({
-  cell,
-  onSelect,
-}) => {
+const RecursiveCell: React.FC<{
+  cell: TGridCell;
+  onSelect?: (id: number, node?: HTMLElement) => void;
+}> = ({ cell, onSelect }) => {
+  const video = useVideo();
+
   return (
     <div
       key={cell.key}
-      className={classNames(
-        styles.cell,
-        cell.orderId > -1 && styles.selectable
-        // cell.id.includes('rest') && styles.row
-      )}
+      className={classNames(styles.cell)}
       style={{
-        // background: cell.src && `url(${cell.src}) center/cover no-repeat`,
         ...cell.styles,
       }}
-      onClick={(e) => {
-        if (cell.imageSrc) onSelect?.(cell.imageId, e.target as HTMLElement);
-      }}
+      onClick={(e) => !video.isPlaying && onSelect?.(cell.imageId, e.target as HTMLElement)}
     >
-      {cell.imageSrc && <img src={cell.imageSrc} alt="Failed o upload" />}
-      {/* Recursively render child cells */}
+      {cell.video && <video src={cell.video} controls {...video.videoParams} />}
+      {!video.isPlaying && (
+        <>
+          {cell.imageSrc && <img src={cell.imageSrc} alt="Failed o upload" />}
+          {cell.video && (
+            <button className={styles.videoDecoration} onClick={video.onClickPlay}>
+              <span>
+                <PlaySvg />
+              </span>
+            </button>
+          )}
+        </>
+      )}
       {cell.cells.map((childCell) => (
         <RecursiveCell key={childCell.key} cell={childCell} onSelect={onSelect} />
       ))}

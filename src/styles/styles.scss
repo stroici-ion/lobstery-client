@@ -1,10 +1,7 @@
-@import './mixins.scss';
-@import './colors.scss';
-
 body,
 html {
   height: 100%;
-  background-color: var(--lightColor);
+  background-color: var(--mainBackgroundColor);
   transition: 0.3s;
 }
 

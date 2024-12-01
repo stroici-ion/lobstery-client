@@ -1,10 +1,10 @@
-export function getExtension(filename: String) {
+export function getFileExtension(filename: String) {
   var parts = filename.split('.');
   return parts[parts.length - 1];
 }
 
-export function isImage(filename: String) {
-  var ext = getExtension(filename);
+export function checkIsImageFile(filename: String) {
+  var ext = getFileExtension(filename);
   switch (ext.toLowerCase()) {
     case 'jpg':
     case 'gif':
@@ -16,8 +16,8 @@ export function isImage(filename: String) {
   return false;
 }
 
-export function isVideo(filename: String) {
-  var ext = getExtension(filename);
+export function checkIsVideoFile(filename: String) {
+  var ext = getFileExtension(filename);
   switch (ext.toLowerCase()) {
     case 'm4v':
     case 'avi':

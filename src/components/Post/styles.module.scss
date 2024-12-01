@@ -1,21 +1,20 @@
-@import '../../styles/colors.scss';
-
 .post {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-bottom: 1px solid var(--grayColorLightenUltra);
   border-radius: 0;
   max-width: 680px;
 
   @media (min-width: 768px) {
     border-radius: 10px;
-    box-shadow: 1px 1px 10px 4px var(--grayColorLightenUltra);
+    border: none;
+    border: 1px solid var(--mainActiveColor);
+    box-shadow: 3px 3px 15px var(--mainBoxShadowColor);
   }
 
   &__content {
-    background-color: var(--lightColor);
+    background-color: var(--mainBackgroundColor);
     padding: 0px;
     border-radius: 10px;
     @media (min-width: 768px) {
@@ -38,10 +37,11 @@
   &__text {
     // padding-bottom: 10px;
     margin-bottom: 10px;
+    color: var(--mainTextColor);
   }
 
   &__body {
-    padding-top: 2px;
+    padding-top: 5px;
   }
 
   &__tags {
@@ -49,12 +49,13 @@
     display: flex;
     flex-wrap: wrap;
     font-size: 13px;
-    color: $cyanColorDarken;
     gap: 5px;
+    line-height: 10px;
     span {
       cursor: pointer;
-      &:hover {
-        color: $cyanColor;
+      color: var(--mainLinkColor);
+      @include hover {
+        color: var(--mainTextColor);
       }
     }
   }
@@ -67,7 +68,7 @@
     object-fit: cover;
     border-radius: 50%;
     transition: 0.2s;
-    &:hover {
+    @include hover {
       opacity: 0.8;
     }
   }
@@ -89,20 +90,20 @@
   }
 
   &__date {
+    padding-top: 5px;
     font-weight: 500;
     font-size: 12px;
-    color: var(--grayColor);
+    color: var(--mainTextInactiveColor);
     display: flex;
     align-items: center;
     gap: 4px;
-    svg {
-      width: 15px;
-      height: 15px;
-      path {
-        stroke: var(--grayColorDarken);
-        fill: var(--grayColorDarken);
-      }
-    }
+    @include svgSize(15px);
+  }
+
+  &__audience {
+    height: 12px;
+    @include svgSize(12px);
+    @include svgColor(var(--mainTextInactiveColor));
   }
 
   &__audienceBtn {
@@ -111,11 +112,12 @@
   }
 
   &__title {
+    display: inline;
     font-size: 14px;
     transition: 0.2s;
     cursor: pointer;
-    &:hover {
-      color: $blueColor;
+    @include hover {
+      color: var(--lobsteryColor);
     }
 
     @media (min-width: 768px) {
@@ -143,7 +145,7 @@
   }
 
   &__comments {
-    color: $greenColor;
+    color: var(--mainTextInactiveColor);
     padding: 3px 10px;
     border-radius: 20px;
     display: flex;
@@ -153,23 +155,21 @@
 
     cursor: pointer;
     span {
+      color: var(--mainTextInactiveColor);
       font-size: 13px;
-      text-decoration: underline;
     }
-    svg {
-      width: 20px;
-      path {
-        fill: $greenColor;
-        stroke: $greenColor;
-      }
+
+    @include svgSize(20px);
+    @include svgColor(var(--mainTextInactiveColor));
+
+    @include hover {
+      background-color: var(--mainHoverColor);
     }
-    &:hover {
-      color: $greenColorDarken;
-      svg {
-        path {
-          fill: $greenColorDarken;
-          stroke: $greenColorDarken;
-        }
+
+    &ArrowSvg {
+      @include svgSize(10px);
+      &.active {
+        transform: rotate(180deg);
       }
     }
   }
@@ -179,121 +179,46 @@
     align-items: center;
     font-size: 13px;
     justify-content: flex-end;
-    color: var(--grayColor);
+    color: var(--mainTextInactiveColor);
     gap: 6px;
-    svg {
-      height: 12px;
-      path {
-        fill: var(--grayColor);
-        stroke: var(--grayColor);
-      }
-    }
+    margin-right: 15px;
+    @include svgSize(18px);
+    @include svgColor(var(--mainTextInactiveColor));
   }
 
-  &:hover {
+  @include hover {
     .post__actions {
       opacity: 0.9;
       pointer-events: all;
     }
   }
 
-  &__submenu {
-    z-index: 3;
+  &__audienceContextMenu {
+    z-index: 1;
   }
-}
 
-.submenu {
-  &__delete {
-    svg {
-      height: 16px;
-      width: 16px;
-      path {
-        fill: $redColor;
-        stroke: $redColor;
-      }
-    }
-    &:hover {
-      background-color: $redColorLighten;
+  &__audienceButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include svgColor(var(--mainTextInactiveColor));
+    @include svgSize(12px);
+    @include hover {
+      @include svgColor(var(--mainTextColor));
     }
   }
 
-  &__edit {
-    svg {
-      height: 14px;
-      width: 16px;
-      path {
-        fill: $greenColor;
-        stroke: $greenColor;
-      }
-    }
-    &:hover {
-      background-color: $greenColorLighten;
-    }
-  }
-}
-
-.public {
-  svg {
-    path {
-      fill: $greenColor;
-      stroke: $greenColor;
-    }
-  }
-  &:hover {
-    background-color: $greenColorLighten;
-  }
-}
-
-.friends {
-  svg {
-    path {
-      fill: $cyanColor;
-      stroke: $cyanColor;
-    }
-  }
-  &:hover {
-    background-color: $cyanColorLighten;
-  }
-}
-
-.friendsOfFriends {
-  svg {
-    path {
-      fill: $blueColor;
-      stroke: $blueColor;
-    }
-  }
-  &:hover {
-    background-color: lighten($blueColorLighten, 18);
-  }
-}
-
-.private {
-  svg {
-    path {
-      fill: $redColor;
-      stroke: $redColor;
-    }
-  }
-  &:hover {
-    background-color: lighten($redColorLighten, 6);
-  }
-}
-
-.custom {
-  svg {
-    path {
-      fill: darken($color: $yellowColorDarken, $amount: 15);
-      stroke: darken($color: $yellowColorDarken, $amount: 15);
-    }
-  }
-  &:hover {
-    background-color: $yellowColorLighten;
+  &__contextMenuButton {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    @include svgSize(10px);
+    @include svgColor(var(--mainTextInactiveColor));
   }
 }
 
 .skeleton {
-  background-color: var(--lightColor);
+  background-color: var(--mainBackgroundColor);
   display: flex;
   flex-direction: column;
   border-radius: 5px;

@@ -10,8 +10,11 @@ import Comment from '../Comment';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../../redux/auth/selectors';
+import CommentSkeleton from '../Comment/CommentSkeleton';
+import { selectUserProfile } from '../../../../redux/profile/selectors';
 
 interface IRecentComments {
+  commentsCount: number;
   sortBy: SortCommentsByEnum;
   isMultimedia: boolean;
   postId: number;
@@ -19,27 +22,35 @@ interface IRecentComments {
   setPinnedComment: React.Dispatch<React.SetStateAction<IComment | undefined>>;
 }
 
-const RecentComments: React.FC<IRecentComments> = ({ sortBy, postId, owner, isMultimedia, setPinnedComment }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const RecentComments: React.FC<IRecentComments> = ({
+  commentsCount,
+  sortBy,
+  postId,
+  owner,
+  isMultimedia,
+  setPinnedComment,
+}) => {
   const [fetchedComments, setFetchedComments] = useState<IComment[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState<number>(1);
   const isFetched = useRef(false);
-  const user = useSelector(selectUserId);
+  const user = useSelector(selectUserProfile).user;
 
   useEffect(() => {
+    setIsLoading(true);
     setFetchedComments([]);
     if (page === 1) fetchComments();
+
     setPage(1);
-  }, [sortBy, postId]);
+  }, [sortBy]);
 
   useEffect(() => {
     if (isFetched.current) fetchComments();
   }, [page]);
 
   const fetchComments = async () => {
-    setIsLoading(true);
-    const res = await getComments(postId, page, sortBy, user);
+    const res = await getComments(postId, page, sortBy, user.id);
     if (res) {
       if (!count) setCount(res.count);
       if (page === 1) {
@@ -58,9 +69,13 @@ const RecentComments: React.FC<IRecentComments> = ({ sortBy, postId, owner, isMu
 
   if (isLoading)
     return (
-      <div className={styles.root}>
-        <Loader height={40} size={35} />
-      </div>
+      <>
+        {Array.from({ length: commentsCount }).map((_, i) => (
+          <div key={i} className={styles.root}>
+            <CommentSkeleton />
+          </div>
+        ))}
+      </>
     );
 
   return (
@@ -79,7 +94,7 @@ const RecentComments: React.FC<IRecentComments> = ({ sortBy, postId, owner, isMu
             comment={comment}
           />
         ))}
-      {sortBy !== SortCommentsByEnum.MOST_RELEVANT && count > fetchedComments.length && (
+      {sortBy !== SortCommentsByEnum.TOP_COMMENTS && count > fetchedComments.length && (
         <button className={styles.root__moreComments} onClick={() => setPage(page + 1)}>
           <span>•••</span>
           <ReturnBackSvg />

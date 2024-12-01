@@ -1,10 +1,9 @@
-@import '../../styles/colors.scss';
-
 .root {
   width: 100%;
   flex: 1 1 auto;
   display: flex;
   gap: 10px;
+
   &__left {
     display: flex;
     align-items: center;
@@ -24,49 +23,21 @@
     padding-bottom: 5px;
   }
 
-  &__button {
+  &__emojiBtn {
     width: 30px;
     height: 30px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include svgSize(20px);
+    @include svgColor(var(--orangeColor));
+    @include hover {
+      background-color: var(--mainHoverColor);
+    }
   }
 
   &__emojiPicker {
-    background-color: var(--lightColor);
-  }
-
-  &__submenu {
-    background-color: var(--lightColor);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    button {
-      padding: 3px;
-      padding-left: 5px;
-    }
-  }
-}
-
-.moreOptions {
-  background-color: $greenColor;
-  svg {
-    width: 20px;
-    height: 20px;
-    padding: 4px;
-    path {
-      stroke: var(--lightColor);
-      fill: var(--lightColor);
-    }
-  }
-}
-
-.emoji {
-  svg {
-    width: 30px;
-    height: 30px;
-  }
-
-  path {
-    stroke: $yellowColorDarken;
-    fill: $yellowColorDarken;
+    background-color: var(--mainBackgroundColor);
   }
 }

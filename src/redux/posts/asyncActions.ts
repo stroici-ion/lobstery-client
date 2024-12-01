@@ -7,8 +7,23 @@ import { FetchPostsResponse, IPost, IPostEdit } from './types';
 import { setUploadProgress } from './slice';
 import { IFetchError } from '../auth/types';
 import { IImage } from '../images/types';
+import { IFetchedLikesInfo, ILikesInfo } from '../../types/LikesInfo.types';
 
-const apiUrl = process.env.REACT_APP_API_URL;
+export const fetchPostsByUser = createAsyncThunk<
+  { count: number; posts: IPost[] },
+  Record<string, string>,
+  { rejectValue: IFetchError }
+>('posts/fetchPostsByUser', async (params, { rejectWithValue }) => {
+  try {
+    const res = await $api.get<FetchPostsResponse>('api/posts/', { params });
+    return { count: res.data.count, posts: convertKeysToCamelCase(res.data.results) as IPost[] };
+  } catch (error: any) {
+    if (!error.response) {
+      alert(error);
+    }
+    return rejectWithValue({ message: error.response.data.detail } as IFetchError);
+  }
+});
 
 export const fetchPosts = createAsyncThunk<
   { count: number; posts: IPost[] },
@@ -16,7 +31,7 @@ export const fetchPosts = createAsyncThunk<
   { rejectValue: IFetchError }
 >('posts/fetchPosts', async (params, { rejectWithValue }) => {
   try {
-    const res = await $api.get<FetchPostsResponse>(apiUrl + 'api/posts/', { params });
+    const res = await $api.get<FetchPostsResponse>('api/posts/', { params });
     return { count: res.data.count, posts: convertKeysToCamelCase(res.data.results) as IPost[] };
   } catch (error: any) {
     if (!error.response) {
@@ -32,6 +47,8 @@ export const fetchCreatePost = createAsyncThunk<
   { rejectValue: IFetchError }
 >('posts/fetchCreatePost', async ({ post, images }, { dispatch, rejectWithValue }) => {
   try {
+    console.log(post.customAudience);
+
     const newPost = await $api[post.id && post.id >= 0 ? 'put' : 'post']<IPost>(
       `/api/posts/${post.id && post.id >= 0 ? post.id + '/update' : 'create'}/`,
       {
@@ -92,3 +109,39 @@ export const fetchRemovePost = createAsyncThunk<number, number, { rejectValue: I
     }
   }
 );
+
+export const fetchLikePost = createAsyncThunk<
+  { id: number; likesInfo: ILikesInfo },
+  { postId: number; like: boolean },
+  { rejectValue: IFetchError }
+>('posts/fetchLikePost', async ({ postId, like }, { rejectWithValue }) => {
+  try {
+    const res = await $api.post<IFetchedLikesInfo>('api/posts/' + postId + '/likes/', {
+      like,
+    });
+    return { id: postId, likesInfo: convertKeysToCamelCase(res.data) as ILikesInfo };
+  } catch (error: any) {
+    if (!error.response) {
+      throw error;
+    }
+    return rejectWithValue({ message: error.response.data.detail } as IFetchError);
+  }
+});
+
+export const fetchFavoritePost = createAsyncThunk<
+  { id: number; favorite: boolean },
+  number,
+  { rejectValue: IFetchError }
+>('posts/fetchFavoritePost', async (postId, { rejectWithValue }) => {
+  try {
+    const res = await $api.post<{ id: number; favorite: boolean }>('api/posts/favorite/', {
+      post_id: postId,
+    });
+    return res.data as { id: number; favorite: boolean };
+  } catch (error: any) {
+    if (!error.response) {
+      throw error;
+    }
+    return rejectWithValue({ message: error.response.data.detail } as IFetchError);
+  }
+});

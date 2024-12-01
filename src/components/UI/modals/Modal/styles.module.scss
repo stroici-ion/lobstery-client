@@ -1,5 +1,3 @@
-@import '../../../../styles/colors.scss';
-
 .modal {
   z-index: 1000;
   position: fixed;
@@ -9,7 +7,7 @@
   right: 0;
   display: flex;
   justify-content: center;
-  background-color: var(--darkColorTransparent);
+  background-color: var(--modalWrapperColor);
   &__column {
     display: flex;
     flex-direction: column;

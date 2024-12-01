@@ -3,28 +3,32 @@ import React, { ChangeEvent, useEffect, useRef } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { IUser } from '../../../../redux/profile/types';
-import ContextMenu from '../../../ContextMenu';
-import { ArrowDownSvg, FriendsSvg, GlobeSvg, KnownsSvg, LockSvg } from '../../../../icons';
+import { ArrowDownSvg, BlackListSvg, FriendsSvg, KnownsSvg, WhiteListSvg } from '../../../../icons';
 import SearchFirends from '../../../SearchFriends';
 import { useSelector } from 'react-redux';
-import { selectDefaultAudience } from '../../../../redux/defaultAudience/selectors';
 import { useAppDispatch } from '../../../../redux';
+
+import { EFetchStatus } from '../../../../types/enums';
+import ctxBtnStyles from '../../../../styles/components/buttons/contextButtons.module.scss';
+import btnStyles from '../../../../styles/components/buttons/solidLightButtons.module.scss';
+import { useContextMenu } from '../../../../hooks/useContextMenu';
+import ContextMenu from '../../../UI/ContextMenu';
+import { selectUserProfile } from '../../../../redux/profile/selectors';
 import {
   addActiveCustomAudienceFriend,
   removeActiveCustomAudienceFriend,
   setActiveCustomAudienceTitle,
   setActiveCustomAudienceType,
-} from '../../../../redux/defaultAudience/slice';
-import { fetchCustomAudience } from '../../../../redux/defaultAudience/asyncActions';
-import { EFetchStatus } from '../../../../types/enums';
+} from '../../../../redux/profile/slice';
+import { fetchCustomAudience } from '../../../../redux/profile/audienceAsyncActions';
 
 interface IEditCustomAudience {
   goBack: () => void;
 }
 
 const EditCustomAudience: React.FC<IEditCustomAudience> = ({ goBack }) => {
-  const { activeCustomAudience, customAudienceStatus } = useSelector(selectDefaultAudience);
-  const customAudienceType = activeCustomAudience.audience;
+  const userProfile = useSelector(selectUserProfile);
+  const customAudienceType = userProfile.activeCustomAudience.audience;
   const dispatch = useAppDispatch();
   const isUpdated = useRef<boolean>(false);
 
@@ -52,30 +56,35 @@ const EditCustomAudience: React.FC<IEditCustomAudience> = ({ goBack }) => {
     if (isUpdated.current) {
       dispatch(
         fetchCustomAudience({
-          customAudience: activeCustomAudience,
-          update: activeCustomAudience.id > 0,
+          customAudience: userProfile.activeCustomAudience,
+          update: userProfile.activeCustomAudience.id > 0,
         })
       );
     }
   };
 
   useEffect(() => {
-    if (customAudienceStatus === EFetchStatus.SUCCESS && isUpdated.current) {
+    if (userProfile.customAudienceStatus === EFetchStatus.SUCCESS && isUpdated.current) {
       goBack();
     }
-  }, [customAudienceStatus]);
+  }, [userProfile.customAudienceStatus]);
+
+  const ctx = useContextMenu();
 
   return (
     <div className={styles.root}>
       <div className={styles.root__header}>
         <input
           className={styles.root__input}
-          value={activeCustomAudience?.title}
+          value={userProfile.activeCustomAudience?.title}
           onChange={handleTitleOnChange}
           placeholder="Custom audience title"
         />
-        <button className={styles.createNew} onClick={handleCreateCustomAudienceClick}>
-          {activeCustomAudience.id >= 0 ? 'Save' : 'Create'}
+        <button
+          className={classNames(styles.createNew, btnStyles.greenDarkSolid)}
+          onClick={handleCreateCustomAudienceClick}
+        >
+          {userProfile.activeCustomAudience.id >= 0 ? 'Save' : 'Create'}
         </button>
       </div>
       <div className={classNames(styles.root__top, styles.top)}>
@@ -86,59 +95,58 @@ const EditCustomAudience: React.FC<IEditCustomAudience> = ({ goBack }) => {
           {customAudienceType === 3 &&
             'Post will be shown for friends and friends of friends and hidden for blacklist members'}
         </p>
-        <ContextMenu
-          className={classNames(styles.root__submenu, styles.submenu)}
-          openButton={(onClick: any) => (
-            <button
-              onClick={onClick}
-              className={classNames(
-                styles.root__audienceBtn,
-                customAudienceType === 0 && styles.private,
-                customAudienceType === 1 && styles.public,
-                customAudienceType === 2 && styles.friends,
-                customAudienceType === 3 && styles.friendsOfFriends
-              )}
-            >
-              {customAudienceType === 0 && <LockSvg />}
-              {customAudienceType === 1 && <GlobeSvg />}
-              {customAudienceType === 2 && <FriendsSvg />}
-              {customAudienceType === 3 && <KnownsSvg />}
-              <ArrowDownSvg />
-            </button>
+        <button
+          ref={ctx.triggerRef}
+          onClick={ctx.onShow}
+          className={classNames(
+            styles.root__audienceBtn,
+            customAudienceType === 0 && ctxBtnStyles.panel1Green,
+            customAudienceType === 1 && ctxBtnStyles.panel1Red,
+            customAudienceType === 2 && ctxBtnStyles.panel1Blue,
+            customAudienceType === 3 && ctxBtnStyles.panel1Blue
           )}
         >
-          <button
-            className={classNames(styles.submenu__button, styles.private)}
-            onClick={() => handleSetCustomAudienceType(0)}
-          >
-            <LockSvg />
-            Whitelist
-          </button>
-          <button
-            className={classNames(styles.submenu__button, styles.public)}
-            onClick={() => handleSetCustomAudienceType(1)}
-          >
-            <GlobeSvg />
-            Blacklist
-          </button>
-          <button
-            className={classNames(styles.submenu__button, styles.friends)}
-            onClick={() => handleSetCustomAudienceType(2)}
-          >
-            <FriendsSvg />
-            Friends Blacklist
-          </button>
-          <button
-            className={classNames(styles.submenu__button, styles.friendsOfFriends)}
-            onClick={() => handleSetCustomAudienceType(3)}
-          >
-            <KnownsSvg />
-            Knowns Blacklist
-          </button>
-        </ContextMenu>
+          {customAudienceType === 0 && <WhiteListSvg />}
+          {customAudienceType === 1 && <BlackListSvg />}
+          {customAudienceType === 2 && <FriendsSvg />}
+          {customAudienceType === 3 && <KnownsSvg />}
+          <ArrowDownSvg />
+        </button>
+        {ctx.isOpen && (
+          <ContextMenu {...ctx}>
+            <button
+              className={classNames(styles.submenu__button, ctxBtnStyles.panel1Green)}
+              onClick={() => handleSetCustomAudienceType(0)}
+            >
+              <WhiteListSvg />
+              Whitelist
+            </button>
+            <button
+              className={classNames(styles.submenu__button, ctxBtnStyles.panel1Red)}
+              onClick={() => handleSetCustomAudienceType(1)}
+            >
+              <BlackListSvg />
+              Blacklist
+            </button>
+            <button
+              className={classNames(styles.submenu__button, ctxBtnStyles.panel1Blue)}
+              onClick={() => handleSetCustomAudienceType(2)}
+            >
+              <FriendsSvg />
+              Friends Blacklist
+            </button>
+            <button
+              className={classNames(styles.submenu__button, ctxBtnStyles.panel1Blue)}
+              onClick={() => handleSetCustomAudienceType(3)}
+            >
+              <KnownsSvg />
+              Knowns Blacklist
+            </button>
+          </ContextMenu>
+        )}
       </div>
       <SearchFirends
-        taggedFriends={activeCustomAudience.users}
+        taggedFriends={userProfile.activeCustomAudience.users}
         onRemove={handleOnRemoveFriend}
         onSelect={handleOnSelectFriend}
       />

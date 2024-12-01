@@ -1,0 +1,64 @@
+@import '../../mixins/buttons/buttons.scss';
+
+.green {
+  &Light {
+    @include lightButton(var(--greenColor), #fff, transparent, var(--greenColor), 1.4px);
+  }
+  &Solid {
+    @include solidButton(var(--mainBackgroundColor), var(--greenColor), var(--greenHoverColor));
+  }
+}
+
+.greenDark {
+  &Light {
+    @include lightButton(var(--greenDarkColor), #fff, transparent, var(--reenDarkColor), 1.4px);
+  }
+  &Solid {
+    @include solidButton(var(--mainTextColor), var(--greenDarkColor), var(--greenDarkHoverColor));
+  }
+}
+
+.red {
+  &Light {
+    @include lightButton(var(--redColor), #fff, transparent, var(--redColor), 1.4px);
+  }
+  &Solid {
+    @include solidButton(var(--mainTextColor), var(--redColor), var(--redHoverColor));
+  }
+}
+
+.orange {
+  &Light {
+    @include lightButton(var(--orangeColor), #fff, transparent, var(--orangeColor), 1.4px);
+  }
+  &Solid {
+    @include solidButton(#fff, var(--orangeColor), var(--orangeHoverColor));
+  }
+}
+
+.blue {
+  &Light {
+    @include lightButton(var(--blueColor), #fff, transparent, var(--blueColor), 1.4px);
+  }
+  &Solid {
+    @include solidButton(var(--mainTextColor), var(--blueColor), var(--blueHoverColor));
+  }
+}
+
+.yellow {
+  &Light {
+    @include lightButton(var(--yellowColor), #fff, transparent, var(--yellowColor), 1.4px);
+  }
+  &Solid {
+    @include solidButton(var(--mainTextColor), var(--yellowColor), var(--yellowHoverColor));
+  }
+}
+
+.main {
+  &Light {
+    @include lightButton(var(--mainTextColor), #fff, transparent, var(--mainTextColor), 1.4px);
+  }
+  &Solid {
+    @include solidButton(var(--mainBackgroundColor), var(--mainTextColor), var(--mainTextColor));
+  }
+}

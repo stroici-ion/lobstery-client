@@ -5,7 +5,8 @@ export const AUTH_LAYOUT_ROUTE = '/auth';
 export const LOGIN_ROUTE = AUTH_LAYOUT_ROUTE + '/login/';
 export const REGISTRATION_ROUTE = AUTH_LAYOUT_ROUTE + '/register/';
 
-export const HOME_ROUTE = '/';
+export const HOME_ROUTE = '';
+export const PROFILE_ROUTE = '/profile';
 export const PRODUCTS_ROUTE = '/products';
 export const POSTS_ROUTE = '/posts';
 // export const POSTS_CREATE_ROUTE = POSTS_ROUTE + '/create';

@@ -2,36 +2,36 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 
-import { useAppDispatch } from '../../redux';
+import { dirtyFormWarningDialog } from '../../components/UI/modals/dialog-options';
 import { getIsPostFormDirty, selectPosts } from '../../redux/posts/selectors';
-import { fetchPosts } from '../../redux/posts/asyncActions';
 import { selectAuthStatus, selectUserId } from '../../redux/auth/selectors';
-import { EFetchStatus } from '../../types/enums';
-import Modal from '../../components/UI/modals/Modal';
+import { fetchPosts } from '../../redux/posts/asyncActions';
+import { useModalDialog } from '../../hooks/useModalDialog';
+import { setActivePost } from '../../redux/posts/slice';
 import AddPostForm from '../../components/AddPostForm';
+import Modal from '../../components/UI/modals/Modal';
+import { EFetchStatus } from '../../types/enums';
+import { useAppDispatch } from '../../redux';
+import styles from './styles.module.scss';
 import Post from '../../components/Post';
 import { PlusSvg } from '../../icons';
-import styles from './styles.module.scss';
-import { useModalDialog } from '../../hooks/useModalDialog';
-import { dirtyFormWarningDialog } from '../../components/UI/modals/dialog-options';
-import { setActivePost } from '../../redux/posts/slice';
 
 const Posts: React.FC = () => {
   const posts = useSelector(selectPosts);
   const dispatch = useAppDispatch();
-  const authorizationStatus = useSelector(selectAuthStatus);
+  const isAuth = useSelector(selectAuthStatus);
   const userId = useSelector(selectUserId);
-  const pendingAuth = authorizationStatus === EFetchStatus.PENDING;
   const isAddPostFormDirty = useSelector(getIsPostFormDirty);
 
   useEffect(() => {
-    if (pendingAuth) return;
+    if (!isAuth) return;
+    if (posts.length) return;
     if (userId) {
       dispatch(fetchPosts({ user: `${userId}` }));
     } else {
       dispatch(fetchPosts({}));
     }
-  }, [pendingAuth, userId, dispatch]);
+  }, [isAuth, userId, dispatch]);
 
   const modal = useModalDialog();
 
@@ -54,10 +54,9 @@ const Posts: React.FC = () => {
       <Modal {...modal}>
         <AddPostForm onHide={modal.onHide} forceHide={modal.forceHide} />
       </Modal>
-
       <div className={styles.root}>
         <div className={styles.root__posts}>
-          {posts && posts.map((post) => <Post key={post.id} post={{ ...post, viewsCount: 10 }} />)}
+          {posts && posts.map((post) => <Post key={post.id} post={{ ...post, viewsCount: 999 }} />)}
         </div>
 
         <button className={styles.add_post_button} onClick={handleShowAddPostModal}>

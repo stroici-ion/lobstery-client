@@ -27,7 +27,7 @@ const AdjustmentsAside: React.FC<IAdjustmentsAside> = ({ controlList }) => {
 
   return (
     <>
-      {deviceType === 'mobile' && <AdjustemntsMobile controlList={controlList} />} :
+      {deviceType === 'mobile' && <AdjustemntsMobile controlList={controlList} />}
       {deviceType === 'desktop' && (
         <div className={styles.root}>
           <ScrollArea className={styles.root__scrollArea}>

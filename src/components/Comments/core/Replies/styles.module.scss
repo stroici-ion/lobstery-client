@@ -1,50 +1,53 @@
-@import '../../../../styles/colors.scss';
-
 .root {
+  padding-top: 10px;
   &__button {
     display: flex;
     align-items: center;
-    color: $greenColorDarken;
-    gap: 3px;
-    background-color: transparent;
+    gap: 2px;
     font-weight: 700;
-    svg {
-      width: 12px;
-      height: 12px;
-      path {
-        stroke: $greenColorDarken;
-        fill: $greenColorDarken;
-      }
+    background-color: transparent;
+    color: var(--mainTextInactiveColor);
+    @include hover {
+      color: var(--mainTextColor);
     }
   }
 
-  &__avatar {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
-    border-radius: 50%;
-    object-fit: cover;
+  &__user {
+    width: 17px;
+    height: 17px;
+    flex: 0 0 17px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  &__userDecoration {
+    padding: 0 3px;
+    font-size: 20px;
   }
 
-  &__avatarDecoration {
-    width: 10px;
-    font-size: 16px;
+  &__showRepliesIcon {
+    height: 12px;
+    font-size: 12px;
+    &.active {
+      transform: rotate(180deg);
+    }
   }
 
   &__showMoreButton {
+    margin-left: 50px;
     display: flex;
-    color: $greenColorDarken;
+    color: var(--mainTextInactiveColor);
     gap: 5px;
     background-color: transparent;
     font-weight: 700;
+    @include svgColor(var(--mainTextInactiveColor));
+    @include svgSize(13px);
     svg {
       transform: rotate(180deg);
-      width: 18px;
-      height: 18px;
-      path {
-        stroke: $greenColorDarken;
-        fill: $greenColorDarken;
-      }
+    }
+
+    @include hover {
+      color: var(--mainTextColor);
+      @include svgColor(var(--mainTextColor));
     }
   }
 }

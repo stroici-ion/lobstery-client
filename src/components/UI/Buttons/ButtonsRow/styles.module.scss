@@ -1,0 +1,24 @@
+.root {
+  height: 40px;
+  display: flex;
+  padding-bottom: 10px;
+  gap: 5px;
+  &__button {
+    width: 130px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-size: 14px;
+    @include svgSize(15px);
+    @include svgColor(var(--mainLinkColor));
+    &.active {
+      @include svgColor(var(--mainTextColor));
+      background-color: var(--mainActiveColor);
+    }
+    @include hover {
+      background-color: var(--mainHoverColor);
+    }
+  }
+}

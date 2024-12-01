@@ -1,5 +1,3 @@
-@import '../../../../styles/colors.scss';
-
 .root {
   width: 100%;
   position: relative;
@@ -9,14 +7,7 @@
   display: flex;
   border-radius: 10px;
 
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-  &:hover {
-    background-color: var(--grayColorLightenUltra);
-    filter: brightness(1.2%);
-  }
+  @include svgSize(20px);
 
   &__button {
     padding: 3px 5px 3px 5px;
@@ -25,8 +16,8 @@
     align-items: center;
     gap: 10px;
     flex: 1 1 auto;
-    &:hover {
-      background-color: var(--grayColorLightenUltra);
+    @include hover {
+      background-color: var(--mainHoverColor);
     }
   }
 
@@ -36,76 +27,19 @@
     align-items: center;
   }
 
-  &__options {
-    gap: 5px;
-    span {
-      display: block;
-      height: 18px;
-      width: 1px;
-      background-color: var(--grayColorLightenUltra);
-    }
-  }
-
-  &__edit {
-    width: 24px;
-    height: 24px;
-    border-radius: 20px;
-    &:hover {
-      background-color: $greenColorLighten;
-    }
-    svg {
-      width: 14px;
-      height: 100%;
-      path {
-        fill: $greenColor;
-        stroke: $greenColor;
-      }
-    }
-  }
-
-  &__delete {
-    border-radius: 20px;
-    width: 24px;
-    height: 24px;
-    &:hover {
-      background-color: $redColorLighten;
-    }
-    svg {
-      padding: 5px;
-      width: 24px;
-      height: 100%;
-      path {
-        fill: $redColor;
-        stroke: $redColor;
-      }
-    }
-  }
-
-  &__public {
-    path {
-      fill: $greenColor;
-      stroke: $greenColor;
-    }
+  &__whiteList {
+    @include svgColor(var(--greenColor));
   }
 
   &__friends {
-    path {
-      fill: $cyanColor;
-      stroke: $cyanColor;
-    }
+    @include svgColor(var(--blueColor));
   }
 
   &__friendsOfFriends {
-    path {
-      fill: $blueColor;
-      stroke: $blueColor;
-    }
+    @include svgColor(var(--blueColor));
   }
 
-  &__private {
-    path {
-      fill: $redColor;
-      stroke: $redColor;
-    }
+  &__blackList {
+    @include svgColor(var(--redColor));
   }
 }

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { HeartSvg, LikeSvg } from '../../../../icons';
+import { HeartSvg, LikeSvg, ReplySvg } from '../../../../icons';
 import styles from './styles.module.scss';
 import { putCommentLike, putCommentLikeByAuthor } from '../../../../services/comments/CommentsServices';
 import { IUser } from '../../../../redux/profile/types';
-import SmallButton from '../../../UI/Buttons/SmallButton';
 import UserImage from '../../../UserImage';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../../redux/auth/selectors';
@@ -13,7 +12,7 @@ import toast from 'react-hot-toast';
 import { ILikesInfo } from '../../../../types/LikesInfo.types';
 
 interface ICommentActions {
-  isMultimedia: boolean;
+  isMultimedia?: boolean;
   isOwner: boolean;
   owner: IUser;
   id: number;
@@ -39,7 +38,6 @@ const CommentActions: React.FC<ICommentActions> = ({
   id,
   className,
   likesInfo,
-  isMultimedia,
 }) => {
   const [localLikesInfo, setLocalLikesInfo] = useState(likesInfo);
 
@@ -114,34 +112,37 @@ const CommentActions: React.FC<ICommentActions> = ({
 
   return (
     <div className={classNames(className, styles.actions)}>
-      <div className={classNames(styles.actions__like, localLikesInfo.liked && styles.active)}>
-        <SmallButton onClick={handlePutLike}>
+      <div className={styles.actions__body}>
+        <button
+          className={classNames(styles.actions__likes, localLikesInfo.liked && styles.active)}
+          onClick={handlePutLike}
+        >
           <LikeSvg />
-        </SmallButton>
-        <span>{localLikesInfo.likesCount}</span>
-      </div>
-      <div className={classNames(styles.actions__dislike, localLikesInfo.disliked && styles.active)}>
-        <SmallButton onClick={handlePutDislike}>
+          {localLikesInfo.likesCount}
+        </button>
+        <button
+          className={classNames(styles.actions__dislikes, localLikesInfo.disliked && styles.active)}
+          onClick={handlePutDislike}
+        >
           <LikeSvg />
-        </SmallButton>
-        <span>{localLikesInfo.dislikesCount}</span>
+          {localLikesInfo.dislikesCount}
+        </button>
       </div>
       {(isOwner || localLikesInfo.isLikedByAuthor) && (
-        <div
+        <button
+          onClick={handlePutLikeByAuthor}
           className={classNames(
             styles.actions__likeByAuthor,
             isOwner && styles.editable,
             localLikesInfo.isLikedByAuthor && styles.active
           )}
         >
-          <SmallButton onClick={handlePutLikeByAuthor}>
-            <UserImage user={owner} className={styles.actions__authorAvatar} />
-            <HeartSvg />
-          </SmallButton>
-        </div>
+          <UserImage user={owner} />
+          <HeartSvg />
+        </button>
       )}
-
       <button onClick={handleToggleCreateReply} className={styles.actions__reply}>
+        <ReplySvg />
         Reply
       </button>
     </div>
