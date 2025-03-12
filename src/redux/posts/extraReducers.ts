@@ -1,19 +1,12 @@
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
-import {
-  fetchCreatePost,
-  fetchFavoritePost,
-  fetchLikePost,
-  fetchPosts,
-  fetchPostsByUser,
-  fetchRemovePost,
-} from './asyncActions';
+import { fetchCreatePost, fetchFavoritePost, fetchLikePost, fetchPosts, fetchRemovePost } from './asyncActions';
 import { EFetchStatus } from '../../types/enums';
 import { IPostsState } from './types';
-import { fetchMyProfile } from '../profile/asyncActions';
 
 export const extraReducers = (builder: ActionReducerMapBuilder<IPostsState>) => {
   //* POSTS LIST
   builder.addCase(fetchPosts.pending, (state) => {
+    state.loading = true;
     state.status = EFetchStatus.PENDING;
   });
   builder.addCase(fetchPosts.fulfilled, (state, action) => {
@@ -21,12 +14,14 @@ export const extraReducers = (builder: ActionReducerMapBuilder<IPostsState>) => 
     state.posts = action.payload.posts;
     state.count = action.payload.count;
     state.errors = undefined;
+    state.loading = false;
   });
   builder.addCase(fetchPosts.rejected, (state, action) => {
     state.status = EFetchStatus.ERROR;
     state.posts = [];
     state.count = 0;
     state.errors = action.payload;
+    state.loading = false;
   });
 
   //* CREATE POST

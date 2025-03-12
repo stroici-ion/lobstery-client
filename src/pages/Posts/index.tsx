@@ -1,69 +1,58 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import toast from 'react-hot-toast';
 
-import { dirtyFormWarningDialog } from '../../components/UI/modals/dialog-options';
-import { getIsPostFormDirty, selectPosts } from '../../redux/posts/selectors';
-import { selectAuthStatus, selectUserId } from '../../redux/auth/selectors';
+import { selectIsPostFormVisible, selectPostsStatus } from '../../redux/posts/selectors';
+import { selectAuthStatus } from '../../redux/auth/selectors';
 import { fetchPosts } from '../../redux/posts/asyncActions';
-import { useModalDialog } from '../../hooks/useModalDialog';
-import { setActivePost } from '../../redux/posts/slice';
-import AddPostForm from '../../components/AddPostForm';
-import Modal from '../../components/UI/modals/Modal';
-import { EFetchStatus } from '../../types/enums';
+import { setIsPostFormVisible } from '../../redux/posts/slice';
+
 import { useAppDispatch } from '../../redux';
 import styles from './styles.module.scss';
 import Post from '../../components/Post';
 import { PlusSvg } from '../../icons';
+import Container from '../../layouts/Container';
+import { PostSkeleton } from '../../components/Post/Skeleton';
 
 const Posts: React.FC = () => {
-  const posts = useSelector(selectPosts);
   const dispatch = useAppDispatch();
-  const isAuth = useSelector(selectAuthStatus);
-  const userId = useSelector(selectUserId);
-  const isAddPostFormDirty = useSelector(getIsPostFormDirty);
+
+  const { userId } = useSelector(selectAuthStatus);
+
+  const { posts, loading } = useSelector(selectPostsStatus);
+  const isPostFormVisible = useSelector(selectIsPostFormVisible);
 
   useEffect(() => {
-    if (!isAuth) return;
+    if (!userId) return;
     if (posts.length) return;
     if (userId) {
-      dispatch(fetchPosts({ user: `${userId}` }));
+      dispatch(fetchPosts({ user: userId.toString() }));
     } else {
       dispatch(fetchPosts({}));
     }
-  }, [isAuth, userId, dispatch]);
-
-  const modal = useModalDialog();
-
-  useEffect(() => {
-    if (isAddPostFormDirty) modal.dialog.setDialogParams(dirtyFormWarningDialog);
-    else modal.dialog.setDialogParams(undefined);
-  }, [isAddPostFormDirty]);
+  }, [userId, dispatch, posts.length]);
 
   const handleShowAddPostModal = () => {
-    if (userId) {
-      dispatch(setActivePost());
-      modal.open();
-    } else {
-      toast.error('You are not authorized');
-    }
+    dispatch(setIsPostFormVisible(!isPostFormVisible));
   };
 
   return (
-    <>
-      <Modal {...modal}>
-        <AddPostForm onHide={modal.onHide} forceHide={modal.forceHide} />
-      </Modal>
-      <div className={styles.root}>
-        <div className={styles.root__posts}>
-          {posts && posts.map((post) => <Post key={post.id} post={{ ...post, viewsCount: 999 }} />)}
-        </div>
-
-        <button className={styles.add_post_button} onClick={handleShowAddPostModal}>
-          <PlusSvg />
-        </button>
+    <Container className={styles.root} content="center">
+      <div className={styles.root__posts}>
+        {loading ? (
+          <>
+            {Array.from({ length: 1 }, (_, i) => (
+              <PostSkeleton key={i} />
+            ))}
+          </>
+        ) : (
+          <>{posts && posts.map((post) => <Post key={post.id} post={{ ...post, viewsCount: 999 }} />)}</>
+        )}
       </div>
-    </>
+
+      <button className={styles.add_post_button} onClick={handleShowAddPostModal}>
+        <PlusSvg />
+      </button>
+    </Container>
   );
 };
 

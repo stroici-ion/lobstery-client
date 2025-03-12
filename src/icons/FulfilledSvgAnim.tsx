@@ -6,7 +6,7 @@ const FulfilledSvgAnim: React.FC = () => {
       <path
         d="M40 58L40.3517 58.2878C47.3598 64.0217 52.9806 71.266 56.7937 79.4788V79.4788C57.0312 79.9902 57.7788 79.9222 57.9199 79.3763L60.1304 70.8292C63.3226 58.4861 69.6503 47.1774 78.5 38V38"
         stroke="#4AA33E"
-        stroke-width="10"
+        strokeWidth="10"
         stroke-linecap="round"
         stroke-dasharray="0,0,0,75.84602355957031"
       >
@@ -22,7 +22,7 @@ const FulfilledSvgAnim: React.FC = () => {
           fill="freeze"
         ></animate>
       </path>
-      <circle cx="59" cy="59" r="54" stroke="#4AA33E" stroke-width="10" stroke-dasharray="0,0,0,338.743896484375">
+      <circle cx="59" cy="59" r="54" stroke="#4AA33E" strokeWidth="10" stroke-dasharray="0,0,0,338.743896484375">
         <animate
           attributeType="XML"
           attributeName="stroke-dasharray"

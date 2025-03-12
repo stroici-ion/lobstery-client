@@ -1,33 +1,39 @@
-import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
-import { Routes, BrowserRouter, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, BrowserRouter, Route, Navigate } from 'react-router-dom';
 
 import { AUTH_LAYOUT_ROUTE, PROFILE_ROUTE, MAIN_LAYOUT_ROUTE } from './utils/consts';
 import { authRoutes, privateRoutes, publicRoutes } from './routes';
-import { selectAuthStatus, selectUserId } from './redux/auth/selectors';
+import { selectAuthStatus } from './redux/auth/selectors';
 import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
 import './styles/styles.scss';
 import { useAppDispatch } from './redux';
 import { fetchAuthRefresh } from './redux/auth/asyncActions';
 import { fetchMyProfile } from './redux/profile/asyncActions';
-import styles from './App.module.scss';
 import { setGuestStatus } from './redux/auth/slice';
+import Loader from './components/Loader';
+import Modal from './components/UI/modals/Modal';
+import { useModalDialog } from './hooks/useModalDialog';
+import { selectIsPostFormVisible } from './redux/posts/selectors';
+import { setIsPostFormVisible } from './redux/posts/slice';
+import AddPostForm from './components/AddPostForm';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const isAuth = useSelector(selectAuthStatus);
-  const userId = useSelector(selectUserId);
+  const { userId, loading } = useSelector(selectAuthStatus);
+
+  const modal = useModalDialog();
+  const isPostFormVisible = useSelector(selectIsPostFormVisible);
 
   useEffect(() => {
-    // const theme = localStorage.getItem('theme');
-    // if (theme) document.documentElement.setAttribute('data-theme', 'dark');
-
-    if (localStorage.getItem('refreshToken')) dispatch(fetchAuthRefresh({}));
-    else dispatch(setGuestStatus());
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) dispatch(fetchAuthRefresh());
+    else {
+      dispatch(setGuestStatus());
+    }
     const onTouchMoove = () => {
       document.body.scroll(0, -10);
     };
@@ -35,45 +41,47 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log('isAuth', isAuth);
-
-    if (isAuth)
-      if (userId) {
-        dispatch(fetchMyProfile(userId));
-      }
-  }, [isAuth]);
-
-  // useScrollDirection();
+    if (userId) dispatch(fetchMyProfile(userId));
+  }, [userId]);
 
   // useEffect(() => {
-  //   if (scrollDirection === 'down') {
-  //     document.body.style.transform = 'translateY(-50px)'; // Adjust the offset to hide the URL bar
-  //   } else if (scrollDirection === 'up') {
-  //     document.body.style.transform = 'translateY(0)';
-  //   }
-  // }, [scrollDirection]);
+  //   if (isAddPostFormDirty) {
+  //     modal.dialog.setDialogParams(dirtyFormWarningDialog);
+  //     window.alert('Becomes dirty');
+  //   } else modal.dialog.setDialogParams(undefined);
+  // }, [isAddPostFormDirty]);
+
+  useEffect(() => {
+    isPostFormVisible && modal.open();
+    if (!modal.isOpen) dispatch(setIsPostFormVisible(false));
+  }, [isPostFormVisible, modal.isOpen]);
+
+  if (loading) return <Loader />;
 
   return (
-    <div className={classNames(styles.scrollArea)}>
+    <>
       <div>
         <Toaster />
       </div>
       <BrowserRouter>
         <Routes>
           <Route path={AUTH_LAYOUT_ROUTE} element={<AuthLayout />}>
-            {!isAuth && authRoutes.map((route) => <Route key={route.path} {...route} />)}
+            {!userId && authRoutes.map((route) => <Route key={route.path} {...route} />)}
           </Route>
           <Route path={MAIN_LAYOUT_ROUTE} element={<MainLayout />}>
             {publicRoutes.map((route) => (
               <Route key={route.path} path={route.path} element={route.element} />
             ))}
-            {isAuth &&
+            {userId &&
               privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
           </Route>
           <Route path="*" element={<Navigate to={PROFILE_ROUTE} />} />
         </Routes>
+        <Modal {...modal}>
+          <AddPostForm onHide={modal.onHide} forceHide={modal.forceHide} />
+        </Modal>
       </BrowserRouter>
-    </div>
+    </>
   );
 };
 

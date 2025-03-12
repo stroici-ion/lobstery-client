@@ -218,42 +218,31 @@
 }
 
 .skeleton {
-  background-color: var(--mainBackgroundColor);
+  position: relative;
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
-  overflow: hidden;
-  position: relative;
-  width: 720px;
-  &::before {
-    content: '';
-    position: absolute;
-    width: 100px;
-    background-color: var(--grayColorDarken);
-    height: 100%;
-    left: 0%;
-    top: 0;
-    box-shadow: 10px 0 10px var(--grayColorDarken), -10px 0 10px var(--grayColorDarken);
-    animation: loading 2s infinite linear;
-  }
+  width: 100%;
+  border-radius: 0;
+  max-width: 680px;
+  padding: 20px;
 
-  &__image {
-    height: 200px;
-    background-color: var(--grayColorLightenUltra);
+  @media (min-width: 768px) {
+    border-radius: 10px;
+    border: none;
+    border: 1px solid var(--mainActiveColor);
+    box-shadow: 3px 3px 15px var(--mainBoxShadowColor);
   }
 
   &__body {
     display: flex;
     gap: 10px;
-    padding: 20px;
-    padding-bottom: 30px;
   }
 
   &__avatar {
-    background-color: var(--grayColorLightenUltra);
-    width: 40px;
-    flex: 0 0 40px;
-    height: 40px;
+    background-color: var(--mainHoverColor);
+    width: 50px;
+    flex: 0 0 50px;
+    height: 50px;
     border-radius: 50%;
   }
 
@@ -267,7 +256,7 @@
     width: 30%;
     height: 16px;
     border-radius: 4px;
-    background-color: var(--grayColorLightenUltra);
+    background-color: var(--mainHoverColor);
     margin-bottom: 4px;
   }
 
@@ -275,21 +264,26 @@
     border-radius: 4px;
     width: 20%;
     height: 10px;
-    background-color: var(--grayColorLightenUltra);
+    background-color: var(--mainHoverColor);
   }
 
   &__title {
     border-radius: 4px;
     height: 50px;
-    background-color: var(--grayColorLightenUltra);
+    background-color: var(--mainHoverColor);
     margin: 10px 0;
+  }
+
+  &__image {
+    height: 374.51px;
+    background-color: var(--mainHoverColor);
   }
 
   &__tags {
     border-radius: 4px;
     width: 50%;
     height: 20px;
-    background-color: var(--grayColorLightenUltra);
+    background-color: var(--mainHoverColor);
     margin: 10px 0;
   }
 
@@ -297,9 +291,14 @@
     border-radius: 4px;
     width: 15%;
     height: 20px;
-    background-color: var(--grayColorLightenUltra);
+    background-color: var(--mainHoverColor);
     margin: 10px 0;
   }
+}
+
+.scrollRef {
+  position: absolute;
+  top: -100px;
 }
 
 @keyframes loading {

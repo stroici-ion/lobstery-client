@@ -5,6 +5,8 @@ import { EFetchStatus } from '../../types/enums';
 
 const initialState: IAuthState = {
   userId: undefined,
+  loading: true,
+
   loginStatus: EFetchStatus.PENDING,
   registerStatus: EFetchStatus.PENDING,
   errors: undefined,
@@ -25,6 +27,7 @@ const authSlice = createSlice({
     setGuestStatus: (state) => {
       state.userId = undefined;
       state.loginStatus = EFetchStatus.ERROR;
+      state.loading = false;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
@@ -32,43 +35,52 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     //REGISTER
     builder.addCase(fetchAuthRegister.pending, (state) => {
+      state.loading = true;
       state.registerStatus = EFetchStatus.PENDING;
     });
     builder.addCase(fetchAuthRegister.fulfilled, (state, action) => {
-      state.registerStatus = EFetchStatus.SUCCESS;
       state.errors = undefined;
+      state.registerStatus = EFetchStatus.SUCCESS;
+      state.loading = false;
     });
     builder.addCase(fetchAuthRegister.rejected, (state, action) => {
-      state.registerStatus = EFetchStatus.ERROR;
       state.errors = action.payload;
+      state.registerStatus = EFetchStatus.ERROR;
+      state.loading = false;
     });
     //LOGIN
     builder.addCase(fetchAuthLogin.pending, (state) => {
+      state.loading = true;
       state.loginStatus = EFetchStatus.PENDING;
     });
     builder.addCase(fetchAuthLogin.fulfilled, (state, action) => {
-      state.loginStatus = EFetchStatus.SUCCESS;
       state.userId = action.payload;
       state.errors = undefined;
+      state.loginStatus = EFetchStatus.SUCCESS;
+      state.loading = false;
     });
     builder.addCase(fetchAuthLogin.rejected, (state, action) => {
-      state.loginStatus = EFetchStatus.ERROR;
       state.userId = undefined;
       state.errors = action.payload;
+      state.loginStatus = EFetchStatus.ERROR;
+      state.loading = false;
     });
     //REFRESH
     builder.addCase(fetchAuthRefresh.pending, (state) => {
+      state.loading = true;
       state.loginStatus = EFetchStatus.PENDING;
     });
     builder.addCase(fetchAuthRefresh.fulfilled, (state, action) => {
-      state.loginStatus = EFetchStatus.SUCCESS;
       state.userId = action.payload;
       state.errors = undefined;
+      state.loginStatus = EFetchStatus.SUCCESS;
+      state.loading = false;
     });
     builder.addCase(fetchAuthRefresh.rejected, (state, action) => {
-      state.loginStatus = EFetchStatus.ERROR;
       state.userId = undefined;
       state.errors = action.payload;
+      state.loginStatus = EFetchStatus.ERROR;
+      state.loading = false;
     });
   },
 });

@@ -18,6 +18,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
   const [grid, setGrid] = useState<TGridCell>();
   const [parentWidth, setParentWidth] = useState<number>(0);
   const gridRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(true);
 
   const checkMainCellHeight = useCallback(
     (cell: TGridCell) => {
@@ -108,6 +109,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
     if (parentWidth && orderedGrid) {
       const gridss = getComputedGrid(JSON.parse(JSON.stringify(orderedGrid)), true);
       setGrid(gridss);
+      setLoading(false);
     }
   }, [parentWidth, orderedGrid, images]);
 
@@ -128,13 +130,13 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images, onSelect, orderedGrid }) 
 
   return (
     <div
-      className={styles.grid}
+      className={classNames(styles.grid, loading && styles.loading)}
       ref={gridRef}
       style={{
         height: `${grid?.height}px`,
       }}
     >
-      {grid && (
+      {!loading && grid && (
         <div
           className={classNames(styles.cell, styles.mainCell)}
           style={{

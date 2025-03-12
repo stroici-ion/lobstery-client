@@ -4,6 +4,9 @@
   justify-content: center;
   border-radius: 8px;
   background-color: var(--mainHoverColor);
+  &.loading {
+    height: 400px;
+  }
 }
 
 .cell {

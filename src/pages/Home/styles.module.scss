@@ -2,13 +2,15 @@
   position: relative;
   height: 100%;
   display: flex;
+
   &__body {
     flex: 1 1 auto;
     height: 100%;
+    padding: 10px 20px;
   }
-  &__aside {
-    flex: 0 0 300px;
-  }
+  // &__aside {
+  //   flex: 0 0 300px;
+  // }
   &__top {
     height: 450px;
     position: relative;

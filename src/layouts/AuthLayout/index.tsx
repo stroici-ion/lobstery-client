@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 
 const AuthLayout: React.FC = () => {
   return (
-    <div className="wrapper">
+    <div className={styles.root}>
       <Outlet />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import styles from './styles.module.scss';
 import { selectUserProfile } from '../../redux/profile/selectors';
@@ -8,18 +8,16 @@ import UserImage from '../../components/UserImage';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import btnStyles from '../../styles/components/buttons/solidLightButtons.module.scss';
-import { PROFILE_ROUTE, POSTS_ROUTE, USER_PROFILE_ROUTE, USER_SETTINGS_ROUTE } from '../../utils/consts';
-import { EditSvg, FriendsSvg, GallerySvg, ImagesVideoSvg, LikeSvg, MessagingSvg, PinSvg, UserSvg } from '../../icons';
-import { useAppDispatch } from '../../redux';
-import Post from '../../components/Post';
-import ButtonsRow from '../../components/UI/buttons/ButtonsRow';
+import { PROFILE_ROUTE, USER_SETTINGS_ROUTE } from '../../utils/consts';
+import { EditSvg, FriendsSvg, GallerySvg, ImagesVideoSvg, UserSvg } from '../../icons';
 import ProfilePosts from './core/Posts';
+import Container from '../../layouts/Container';
 
 const Home: React.FC = () => {
   const userProfile = useSelector(selectUserProfile);
 
   return (
-    <div className={styles.root}>
+    <Container className={styles.root}>
       <div className={styles.root__body}>
         <div className={classNames(styles.root__top, styles.top)}>
           <div
@@ -38,17 +36,7 @@ const Home: React.FC = () => {
               <div className={styles.top__friendsList}>
                 {userProfile.friends.map((f) => (
                   <div className={styles.top__friendsAvatarContainer}>
-                    <UserImage user={f} className={styles.top__friendsAvatar} />
-                  </div>
-                ))}
-                {userProfile.friends.map((f) => (
-                  <div className={styles.top__friendsAvatarContainer}>
-                    <UserImage user={f} className={styles.top__friendsAvatar} />
-                  </div>
-                ))}
-                {userProfile.friends.map((f) => (
-                  <div className={styles.top__friendsAvatarContainer}>
-                    <UserImage user={f} className={styles.top__friendsAvatar} />
+                    <UserImage key={f.id} user={f} className={styles.top__friendsAvatar} />
                   </div>
                 ))}
               </div>
@@ -82,7 +70,7 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className={styles.root__aside}></div>
-    </div>
+    </Container>
   );
 };
 

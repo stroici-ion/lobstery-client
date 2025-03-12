@@ -2,21 +2,13 @@
   position: relative;
 
   &__posts {
-    padding: 10px;
-    padding-bottom: 120px;
-    padding-right: 240px;
-    @media (max-width: 1185px) {
-      padding-right: 10px;
-    }
-    @media (max-width: 768px) {
-      padding-right: 10px;
-    }
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
     gap: 40px;
     align-items: center;
     justify-content: center;
-    @include scrollBar();
+    overflow-y: visible;
   }
 }
 

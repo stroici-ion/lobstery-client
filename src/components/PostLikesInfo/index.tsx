@@ -4,26 +4,26 @@ import classNames from 'classnames';
 import { FavoriteSvg, LikeSvg } from '../../icons';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../redux/auth/selectors';
 import toast from 'react-hot-toast';
 import { useAppDispatch } from '../../redux';
 import { IPost } from '../../redux/posts/types';
 import { fetchFavoritePost, fetchLikePost } from '../../redux/posts/asyncActions';
+import { selectAuthStatus } from '../../redux/auth/selectors';
 
 interface IPostLikesInfo {
   post: IPost;
 }
 
 const PostLikesInfo: React.FC<IPostLikesInfo> = ({ post }) => {
-  const userId = useSelector(selectUserId);
-  const isAuthorized = !!userId;
+  const { userId } = useSelector(selectAuthStatus);
+
   const dispatch = useAppDispatch();
 
   const checkPermission = () => {
-    if (!isAuthorized) {
+    if (!userId) {
       toast.error('Sign In or Create an account to perform this action!');
     }
-    return isAuthorized;
+    return Boolean(userId);
   };
 
   const putLike = (isLike: boolean) => {

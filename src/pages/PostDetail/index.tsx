@@ -11,7 +11,7 @@ const PostDetail: React.FC = () => {
   useEffect(() => {
     if (!id) return;
     fetchPostDetail(parseInt(id)).then((data) => setPost(data));
-  }, []);
+  }, [id]);
 
   return <div>{post && <Post post={{ ...post, viewsCount: 999 }} />}</div>;
 };

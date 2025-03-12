@@ -20,6 +20,8 @@ import { useContextMenu } from '../../../hooks/useContextMenu';
 import ContextMenu from '../../UI/ContextMenu';
 import ctxBtnStyles from '../../../styles/components/buttons/contextButtons.module.scss';
 import FeedbackSvg from '../../../icons/FeedbackSvg';
+import { selectIsPrimaryMenuCollapsed } from '../../../redux/app/selectors';
+import Container from '../../../layouts/Container';
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,88 +29,96 @@ const Header: React.FC = () => {
   const [theme, setTheme] = useState(document.documentElement.getAttribute('data-theme'));
   const userProfile = useSelector(selectUserProfile);
 
-  const isAuth = useSelector(selectAuthStatus);
+  const { userId } = useSelector(selectAuthStatus);
 
   const handleLogout = () => {
-    if (isAuth) dispatch(logOut());
+    if (userId) dispatch(logOut());
     navigate(LOGIN_ROUTE);
   };
 
   const userContex = useContextMenu();
 
   return (
-    <header className={styles.header}>
-      <div className={styles.header__searchbar}>
-        <SearchSvg />
-        <input type="search" />
-      </div>
-      <div className={styles.header__tools}>
-        <RippleButton
-          className={styles.header__button}
-          onClick={(e) => {
-            const theme = document.documentElement.getAttribute('data-theme');
-            if (theme) {
-              document.documentElement.removeAttribute('data-theme');
-              localStorage.setItem('theme', 'light');
-              setTheme('light');
-            } else {
-              document.documentElement.setAttribute('data-theme', 'dark');
-              localStorage.setItem('theme', 'dark');
-              setTheme('dark');
-            }
-          }}
-        >
-          {theme === 'dark' ? <DarkModeSvg /> : <BrightnessSvg />}
-          {theme === 'dark' ? 'Dark' : 'Light'}
-        </RippleButton>
-        <RippleButton className={classNames(styles.header__button, styles.active)}>
-          <BellSvg />
-          <label />
-        </RippleButton>
-      </div>
-      {userProfile.user && (
-        <>
+    <Container className={styles.header}>
+      <div className={styles.header__body}>
+        <div className={styles.header__searchbar}>
+          <SearchSvg />
+          <input type="search" />
+        </div>
+        <div className={styles.header__tools}>
           <RippleButton
-            triggerRef={userContex.triggerRef}
-            className={classNames(styles.header__button, styles.user__button)}
-            onClick={userContex.onShow}
+            className={classNames(styles.header__button, styles.themeButton)}
+            onClick={(e) => {
+              const theme = document.documentElement.getAttribute('data-theme');
+              if (theme) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                setTheme('light');
+              } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                setTheme('dark');
+              }
+            }}
           >
-            <div className={classNames(styles.header__user)}>
-              <UserImage user={userProfile.user} />
-              {getUserName(userProfile.user)}
-            </div>
+            {theme === 'dark' ? <DarkModeSvg /> : <BrightnessSvg />}
+            {theme === 'dark' ? 'Dark' : 'Light'}
           </RippleButton>
-          {userContex.isOpen && (
-            <ContextMenu {...userContex}>
-              <div className={styles.user__context}>
-                <button className={styles.user__top}>
-                  <UserImage user={userProfile.user} />
-                  {getUserName(userProfile.user)}
-                </button>
-                <div className={styles.user__buttons}>
-                  <button className={classNames(styles.user__ctxButton, ctxBtnStyles.panel1Blue)} onClick={() => {}}>
-                    <HomeSvg />
-                    Profile
-                  </button>
-                  <button className={classNames(styles.user__ctxButton, ctxBtnStyles.panel1Orange)} onClick={() => {}}>
-                    <SettingsSvg />
-                    Settings & Privacy
-                  </button>
-                  <button className={classNames(styles.user__ctxButton, ctxBtnStyles.panel1Green)} onClick={() => {}}>
-                    <FeedbackSvg />
-                    Give feedback
-                  </button>
-                  <button className={classNames(styles.user__ctxButton, ctxBtnStyles.panel1Red)} onClick={() => {}}>
-                    <LogOutSvg />
-                    Log out
-                  </button>
-                </div>
+          <RippleButton className={classNames(styles.header__button, styles.notificationsButton, styles.active)}>
+            <BellSvg />
+            <label />
+          </RippleButton>
+        </div>
+        {userProfile.user && (
+          <>
+            <RippleButton
+              triggerRef={userContex.triggerRef}
+              className={classNames(styles.header__button, styles.user__button)}
+              onClick={userContex.onShow}
+            >
+              <div className={classNames(styles.header__user)}>
+                <UserImage user={userProfile.user} />
+                <span className={styles.header__userName}>{getUserName(userProfile.user)}</span>
               </div>
-            </ContextMenu>
-          )}
-        </>
-      )}
-    </header>
+            </RippleButton>
+            {userContex.isOpen && (
+              <ContextMenu {...userContex}>
+                <div className={styles.user__context}>
+                  <button className={styles.user__top}>
+                    <UserImage user={userProfile.user} />
+                    {getUserName(userProfile.user)}
+                  </button>
+                  <div className={styles.user__buttons}>
+                    <button className={classNames(styles.user__ctxButton, ctxBtnStyles.panel1Blue)} onClick={() => {}}>
+                      <HomeSvg />
+                      Profile
+                    </button>
+                    <button
+                      className={classNames(styles.user__ctxButton, ctxBtnStyles.panel1Orange)}
+                      onClick={() => {}}
+                    >
+                      <SettingsSvg />
+                      Settings & Privacy
+                    </button>
+                    <button className={classNames(styles.user__ctxButton, ctxBtnStyles.panel1Green)} onClick={() => {}}>
+                      <FeedbackSvg />
+                      Give feedback
+                    </button>
+                    <button
+                      className={classNames(styles.user__ctxButton, ctxBtnStyles.panel1Red)}
+                      onClick={handleLogout}
+                    >
+                      <LogOutSvg />
+                      Log out
+                    </button>
+                  </div>
+                </div>
+              </ContextMenu>
+            )}
+          </>
+        )}
+      </div>
+    </Container>
   );
 };
 

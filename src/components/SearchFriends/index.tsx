@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce';
 import { SearchSvg } from '../../icons';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../redux/auth/selectors';
+import { selectAuthStatus } from '../../redux/auth/selectors';
 import { fetchFriends } from '../../services/users/SearchFriends';
 import Loader from '../Loader';
 import { IUser } from '../../redux/profile/types';
@@ -22,7 +22,8 @@ interface ISearchFirends {
 }
 
 const SearchFirends: React.FC<ISearchFirends> = ({ className, onSelect, taggedFriends, onRemove }) => {
-  const userId = useSelector(selectUserId);
+  const { userId } = useSelector(selectAuthStatus);
+
   const [friends, setFriends] = useState<IUser[]>([]);
 
   const [username, setUsername] = useState('');

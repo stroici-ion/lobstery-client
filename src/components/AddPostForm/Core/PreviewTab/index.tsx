@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import React from 'react';
 
 import { selectUserProfile } from '../../../../redux/profile/selectors';
-import { selectUserId } from '../../../../redux/auth/selectors';
 import { useAppDispatch } from '../../../../redux';
 import styles from './styles.module.scss';
 import Post from '../../../Post';
@@ -11,6 +10,7 @@ import { fetchCreatePost } from '../../../../redux/posts/asyncActions';
 import { selectActivePost } from '../../../../redux/posts/selectors';
 import { selectImages } from '../../../../redux/images/selectors';
 import ScrollArea from '../../../UI/ScrollArea';
+import { selectAuthStatus } from '../../../../redux/auth/selectors';
 
 interface IPreviewTab {
   setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
@@ -20,8 +20,8 @@ const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedTab }) => {
   const userProfile = useSelector(selectUserProfile);
   const newPost = useSelector(selectActivePost);
   const images = useSelector(selectImages);
-  const userId = useSelector(selectUserId);
   const dispatch = useAppDispatch();
+  const { userId } = useSelector(selectAuthStatus);
 
   const onSubmit = async () => {
     if (userId) {
@@ -56,6 +56,7 @@ const PreviewTab: React.FC<IPreviewTab> = ({ setSelectedTab }) => {
             dislikesCount: 0,
             audience: newPost.audience,
             customAudience: newPost.customAudience,
+            favorite: false,
           }}
         />
       </ScrollArea>

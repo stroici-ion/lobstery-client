@@ -5,11 +5,9 @@ import { IComment } from '../../types';
 import { IUser } from '../../../../redux/profile/types';
 
 import { getComments } from '../../../../services/comments/CommentsServices';
-import Loader from '../../../Loader';
 import Comment from '../Comment';
 import styles from './styles.module.scss';
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../../../redux/auth/selectors';
 import CommentSkeleton from '../Comment/CommentSkeleton';
 import { selectUserProfile } from '../../../../redux/profile/selectors';
 

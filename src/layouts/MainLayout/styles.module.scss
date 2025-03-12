@@ -1,14 +1,11 @@
 .root {
   display: flex;
   min-height: 100%;
+  width: 100%;
+  overflow: hidden;
 
-  @media (min-width: 768px) {
-    padding-top: 0px;
-  }
   &__content {
-    min-height: 100%;
     flex: 1 1 auto;
-    margin-top: 80px;
-    margin-left: 250px;
+    padding-top: 70px;
   }
 }

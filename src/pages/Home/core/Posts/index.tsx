@@ -21,7 +21,7 @@ const ProfilePosts: React.FC<IProfilePosts> = () => {
     dispatch(fetchPostsByUser({ user: userProfile.user.id + '', ...postsParams }));
   }, [postsParams]);
 
-  const getOnFilterClick = (filterBy: string) => {
+  const getOnClickFilter = (filterBy: string) => {
     return () => {
       setPostsParams({ ...postsParams, filterBy });
       if (topRef.current) {
@@ -42,7 +42,7 @@ const ProfilePosts: React.FC<IProfilePosts> = () => {
           All Posts
         </>
       ),
-      onClick: getOnFilterClick('all'),
+      onClick: getOnClickFilter('all'),
     },
     {
       id: 2,
@@ -52,7 +52,7 @@ const ProfilePosts: React.FC<IProfilePosts> = () => {
           My Posts
         </>
       ),
-      onClick: getOnFilterClick('my'),
+      onClick: getOnClickFilter('my'),
     },
     {
       id: 3,
@@ -62,7 +62,7 @@ const ProfilePosts: React.FC<IProfilePosts> = () => {
           Liked
         </>
       ),
-      onClick: getOnFilterClick('liked'),
+      onClick: getOnClickFilter('liked'),
     },
     {
       id: 4,
@@ -72,7 +72,7 @@ const ProfilePosts: React.FC<IProfilePosts> = () => {
           Favorites
         </>
       ),
-      onClick: getOnFilterClick('favorites'),
+      onClick: getOnClickFilter('favorites'),
     },
   ];
 
@@ -81,7 +81,7 @@ const ProfilePosts: React.FC<IProfilePosts> = () => {
       <ButtonsRow buttons={navButtons} className={styles.root__nav} />
       <div className={styles.root__posts}>
         {userProfile.posts.map((p) => (
-          <Post post={{ ...p, viewsCount: 100 }} />
+          <Post key={p.id} post={{ ...p, viewsCount: 100 }} />
         ))}
       </div>
     </div>

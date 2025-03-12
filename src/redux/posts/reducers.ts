@@ -6,6 +6,9 @@ import { TGridCell } from '../../components/media/ImageGrid/types';
 import { IPost, IPostsState } from './types';
 
 export const reducers = {
+  setIsPostFormVisible: (state: IPostsState, action: PayloadAction<boolean>) => {
+    state.isPostFormVisible = action.payload;
+  },
   setPost: (state: IPostsState, action: PayloadAction<IPost>) => {
     state.posts = state.posts.map((p) => (p.id === action.payload.id ? action.payload : p));
   },

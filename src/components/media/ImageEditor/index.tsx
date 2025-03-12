@@ -444,7 +444,7 @@ const ImageEditor2: React.FC<IImageEditor2> = ({ originalAspectRatio, image, onS
         const newImage = saveImage();
         if (newImage) onSave(newImage);
       } catch (e) {
-        window.alert('Something went wrong :(');
+        console.log(e);
       }
     }
   };

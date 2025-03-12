@@ -1,6 +1,6 @@
 import { RootState } from '..';
 
-// export const selectPostToEdit = (state: RootState) => state.app.editPost;
+export const selectIsPrimaryMenuCollapsed = (state: RootState) => state.app.isPrimaryMenuCollapsed;
 // export const selectPostToEditCandidate = (state: RootState) => state.app.editPostCandidate;
 // export const selectPostToCreate = (state: RootState) => state.app.post;
 // export const selectIsEditingPost = (state: RootState) => state.app.isEditing;

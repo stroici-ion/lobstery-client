@@ -21,6 +21,8 @@ import ContextMenu from '../../UI/ContextMenu';
 import { useContextMenu } from '../../../hooks/useContextMenu';
 
 const PrimaryMenu: React.FC = () => {
+  const { userId } = useSelector(selectAuthStatus);
+
   const [activeLink, setActiveLink] = useState(0);
   const [isSwipeUpActive, setIsSwipeUpActive] = useState(false);
   const user = useSelector(selectUserProfile).user;
@@ -56,11 +58,9 @@ const PrimaryMenu: React.FC = () => {
   });
 
   const handleLogout = () => {
-    if (isAuth) dispatch(logOut());
+    if (userId) dispatch(logOut());
     navigate(LOGIN_ROUTE);
   };
-
-  const isAuth = useSelector(selectAuthStatus);
 
   const ctx = useContextMenu();
 
@@ -73,7 +73,7 @@ const PrimaryMenu: React.FC = () => {
             <RippleButton className={classNames(styles.link__button, btnStyles.lightMain)}>{link.icon}</RippleButton>
           </Link>
         ))}
-        {isAuth && user.id ? (
+        {userId && user.id ? (
           <Link
             className={styles.link}
             to={primaryMenuMobileLinks.user.path}

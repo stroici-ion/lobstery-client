@@ -13,7 +13,6 @@ import TagsTab from './Core/TagsTab';
 import { CloseSvg } from '../../icons';
 import TextTab from './Core/TextTab';
 import AudienceTab from './Core/AudienceTab';
-import { selectUserId } from '../../redux/auth/selectors';
 import { useAppDispatch } from '../../redux';
 import { setImages } from '../../redux/images/slice';
 import { selectActivePost } from '../../redux/posts/selectors';

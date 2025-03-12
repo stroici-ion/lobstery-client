@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import toast from 'react-hot-toast';
@@ -40,7 +40,6 @@ import AddPostForm from '../AddPostForm';
 import Modal from '../UI/modals/Modal';
 import { dirtyFormWarningDialog } from '../UI/modals/dialog-options';
 import { setActivePost } from '../../redux/posts/slice';
-import { getIsPostFormDirty } from '../../redux/posts/selectors';
 import ImageGrid from '../media/ImageGrid';
 import RippleButton from '../UI/buttons/RippleButton';
 import { useContextMenu } from '../../hooks/useContextMenu';
@@ -57,9 +56,9 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
   const navigate = useNavigate();
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const userProfile = useSelector(selectUserProfile);
-  const isAddPostFormDirty = useSelector(getIsPostFormDirty);
   const editModal = useModalDialog();
   const dialogModal = useModalDialog();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleRemovePost = async () => {
     const dialogParams = {
@@ -119,7 +118,12 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     toast.success('Post was reported');
   };
 
-  const handleViewComments = () => {
+  const handleToggleComments = () => {
+    if (isCommentsVisible)
+      scrollRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     setIsCommentsVisible(!isCommentsVisible);
   };
 
@@ -127,10 +131,10 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
     navigate(POSTS_ROUTE + post.id);
   };
 
-  useEffect(() => {
-    if (isAddPostFormDirty) editModal.dialog.setDialogParams(dirtyFormWarningDialog);
-    else editModal.dialog.setDialogParams(undefined);
-  }, [editModal.dialog, isAddPostFormDirty]);
+  // useEffect(() => {
+  //   if (isAddPostFormDirty) editModal.dialog.setDialogParams(dirtyFormWarningDialog);
+  //   else editModal.dialog.setDialogParams(undefined);
+  // }, [editModal.dialog, isAddPostFormDirty]);
 
   const ctx = useContextMenu();
   const audienceCtx = useContextMenu();
@@ -140,6 +144,8 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
       <Modal {...dialogModal} />
       <Modal {...editModal}>{<AddPostForm onHide={editModal.onHide} forceHide={editModal.forceHide} />}</Modal>
       <div className={classNames(styles.post, className)}>
+        <div className={styles.scrollRef} ref={scrollRef} />
+
         <div className={styles.post__content}>
           <div className={styles.post__top}>
             <div className={styles.post__top_right}>
@@ -237,7 +243,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
             <div className={styles.post__bottom}>
               <div className={styles.post__bottom_right}>
                 <PostLikesInfo post={post} />
-                <button className={styles.post__comments} onClick={handleViewComments}>
+                <button className={styles.post__comments} onClick={handleToggleComments}>
                   <MessagingSvg />
                   <span>{post.commentsCount === 0 ? 'Comment' : 'Comments'}</span>
                   {post.commentsCount > 0 && getLikes(post.commentsCount)}
@@ -256,7 +262,7 @@ const Post: React.FC<IPostFC> = ({ post, small = false, className }) => {
         {isCommentsVisible && (
           <Comments
             commentsCount={post.commentsCount}
-            hideComments={handleViewComments}
+            hideComments={handleToggleComments}
             owner={post.user}
             id={post.id}
           />

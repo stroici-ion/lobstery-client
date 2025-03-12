@@ -7,9 +7,9 @@ import { putCommentLike, putCommentLikeByAuthor } from '../../../../services/com
 import { IUser } from '../../../../redux/profile/types';
 import UserImage from '../../../UserImage';
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../../../redux/auth/selectors';
 import toast from 'react-hot-toast';
 import { ILikesInfo } from '../../../../types/LikesInfo.types';
+import { selectAuthStatus } from '../../../../redux/auth/selectors';
 
 interface ICommentActions {
   isMultimedia?: boolean;
@@ -41,14 +41,13 @@ const CommentActions: React.FC<ICommentActions> = ({
 }) => {
   const [localLikesInfo, setLocalLikesInfo] = useState(likesInfo);
 
-  const userId = useSelector(selectUserId);
-  const isAuthorized = !!userId;
+  const { userId } = useSelector(selectAuthStatus);
 
   const checkPermission = () => {
-    if (!isAuthorized) {
+    if (!userId) {
       toast.error('Sign In or Create an account to perform this action!');
     }
-    return isAuthorized;
+    return Boolean(userId);
   };
 
   const handlePutLike = async () => {

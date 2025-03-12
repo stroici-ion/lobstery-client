@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 import {
   CheckedSvg,
-  EmojiSvg,
   FriendsSvg,
   GlobeSvg,
   ImagesVideoSvg,
@@ -15,6 +14,7 @@ import {
   TagSvg,
   TextSvg,
 } from '../../../../icons';
+import { BsEmojiSmile } from 'react-icons/bs';
 
 import styles from './styles.module.scss';
 import emoji from 'react-easy-emoji';
@@ -117,7 +117,7 @@ const Aside: React.FC<IAside> = ({ selectedTab, setSelectedTab }) => {
         {newPost.feeling ? (
           emoji(String.fromCodePoint(parseInt(feelings.find((item) => item.name === newPost.feeling)?.code || '', 16)))
         ) : (
-          <EmojiSvg />
+          <BsEmojiSmile />
         )}
       </button>
       <button

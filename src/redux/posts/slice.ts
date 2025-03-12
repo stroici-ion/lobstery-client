@@ -13,6 +13,7 @@ const postsSlice = createSlice({
 
 export const {
   setActivePost,
+  setIsPostFormVisible,
   setTitle,
   setText,
   setAudience,

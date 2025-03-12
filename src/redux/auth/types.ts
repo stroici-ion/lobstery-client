@@ -20,7 +20,10 @@ export interface IFetchedAuthResponse {
 
 export interface IAuthState {
   userId?: number;
+  loading: boolean;
+
   loginStatus: EFetchStatus;
   registerStatus: EFetchStatus;
+
   errors?: IFetchError;
 }

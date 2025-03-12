@@ -14,7 +14,10 @@ export interface IPostsState {
   postCreateStatus: EFetchStatus;
   errors?: IFetchError;
   activePost: IPostEdit;
+
+  loading: boolean;
   postSnapshot?: IPostEdit;
+  isPostFormVisible: boolean;
 }
 
 export interface IPost extends ILikesInfo {

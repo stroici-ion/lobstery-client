@@ -1,10 +1,9 @@
-import classNames from 'classnames';
-import { Outlet } from 'react-router-dom';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 import styles from './styles.module.scss';
-import { PrimaryMenu, PrimaryMenuMobile } from '../../components/navigation';
 import Header from '../../components/navigation/Header';
+import { PrimaryMenu, PrimaryMenuMobile } from '../../components/navigation';
 
 const MainLayout: React.FC = () => {
   return (
@@ -12,7 +11,7 @@ const MainLayout: React.FC = () => {
       <Header />
       <PrimaryMenu />
       <PrimaryMenuMobile />
-      <div className={classNames(styles.root__content, 'wrapper')}>
+      <div className={styles.root__content}>
         <Outlet />
       </div>
     </div>
