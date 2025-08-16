@@ -1,9 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 import { IAuthResponse, IFetchedAuthResponse, IFetchError } from './types';
-import $api from '../../http';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -39,48 +38,6 @@ export const fetchAuthRegister = createAsyncThunk<{}, Record<string, string>, { 
         message: error.response.data.detail || '',
         errors: error.response.data,
       } as IFetchError);
-    }
-  }
-);
-
-export const fetchAuthRefresh = createAsyncThunk<number, undefined, { rejectValue: IFetchError }>(
-  'auth/fetchAuthRefresh',
-  async (params, { rejectWithValue }) => {
-    try {
-      const refreshToken = localStorage.getItem('refreshToken');
-      const response = await axios.post<IAuthResponse>(apiUrl + 'api/token/refresh/', {
-        refresh: refreshToken,
-      });
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
-      const decoded: any = jwt_decode(response.data.access);
-      return decoded.user_id;
-    } catch (error: any) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue({ message: error.response.data.detail } as IFetchError);
-    }
-  }
-);
-
-export const fetchAuthMe = createAsyncThunk<number, undefined, { rejectValue: IFetchError }>(
-  'auth/fetchAuthMe',
-  async (params, { rejectWithValue }) => {
-    try {
-      const refreshToken = localStorage.getItem('refreshToken');
-      const response = await $api.post<IAuthResponse>(apiUrl + 'api/token/refresh/', {
-        refresh: refreshToken,
-      });
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
-      const decoded: any = jwt_decode(response.data.access);
-      return decoded.user_id;
-    } catch (error: any) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue({ message: error.response.data.detail } as IFetchError);
     }
   }
 );

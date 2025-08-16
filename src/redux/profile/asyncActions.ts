@@ -5,11 +5,11 @@ import convertKeysToCamelCase from '../../utils/convertKeysToCamelCase';
 import { IFetchError } from '../auth/types';
 import $api from '../../http';
 
-export const fetchMyProfile = createAsyncThunk<IMyProfile, number, { rejectValue: IFetchError }>(
-  'profile/fetchMyProfile',
-  async (userId, { rejectWithValue }) => {
+export const fetchMe = createAsyncThunk<IMyProfile, undefined, { rejectValue: IFetchError }>(
+  'profile/fetchMe',
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await $api.get<IFetchedMyProfile>('api/profiles/' + userId);
+      const response = await $api.get<IFetchedMyProfile>('api/me');
       return convertKeysToCamelCase({
         ...response.data,
         friends: response.data.friends.map((f) => f.user),

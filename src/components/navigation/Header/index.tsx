@@ -20,7 +20,6 @@ import { useContextMenu } from '../../../hooks/useContextMenu';
 import ContextMenu from '../../UI/ContextMenu';
 import ctxBtnStyles from '../../../styles/components/buttons/contextButtons.module.scss';
 import FeedbackSvg from '../../../icons/FeedbackSvg';
-import { selectIsPrimaryMenuCollapsed } from '../../../redux/app/selectors';
 import Container from '../../../layouts/Container';
 
 const Header: React.FC = () => {

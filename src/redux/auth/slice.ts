@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAuthLogin, fetchAuthRefresh, fetchAuthRegister } from './asyncActions';
+import { fetchAuthLogin, fetchAuthRegister } from './asyncActions';
 import { IAuthState } from './types';
 import { EFetchStatus } from '../../types/enums';
+import { fetchMe } from '../profile/asyncActions';
 
 const initialState: IAuthState = {
   userId: undefined,
@@ -65,21 +66,12 @@ const authSlice = createSlice({
       state.loginStatus = EFetchStatus.ERROR;
       state.loading = false;
     });
-    //REFRESH
-    builder.addCase(fetchAuthRefresh.pending, (state) => {
-      state.loading = true;
-      state.loginStatus = EFetchStatus.PENDING;
-    });
-    builder.addCase(fetchAuthRefresh.fulfilled, (state, action) => {
-      state.userId = action.payload;
+
+    //ME
+    builder.addCase(fetchMe.fulfilled, (state, action) => {
+      state.userId = action.payload.user.id;
       state.errors = undefined;
       state.loginStatus = EFetchStatus.SUCCESS;
-      state.loading = false;
-    });
-    builder.addCase(fetchAuthRefresh.rejected, (state, action) => {
-      state.userId = undefined;
-      state.errors = action.payload;
-      state.loginStatus = EFetchStatus.ERROR;
       state.loading = false;
     });
   },

@@ -10,8 +10,7 @@ import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
 import './styles/styles.scss';
 import { useAppDispatch } from './redux';
-import { fetchAuthRefresh } from './redux/auth/asyncActions';
-import { fetchMyProfile } from './redux/profile/asyncActions';
+import { fetchMe } from './redux/profile/asyncActions';
 import { setGuestStatus } from './redux/auth/slice';
 import Loader from './components/Loader';
 import Modal from './components/UI/modals/Modal';
@@ -30,19 +29,17 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken');
-    if (refreshToken) dispatch(fetchAuthRefresh());
+    if (refreshToken) dispatch(fetchMe());
     else {
       dispatch(setGuestStatus());
     }
+
     const onTouchMoove = () => {
       document.body.scroll(0, -10);
     };
+
     window.addEventListener('touchmove', onTouchMoove);
   }, []);
-
-  useEffect(() => {
-    if (userId) dispatch(fetchMyProfile(userId));
-  }, [userId]);
 
   // useEffect(() => {
   //   if (isAddPostFormDirty) {

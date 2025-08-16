@@ -33,6 +33,8 @@ const ProfilePosts: React.FC<IProfilePosts> = () => {
     };
   };
 
+  let a = 1;
+
   const navButtons = [
     {
       id: 1,

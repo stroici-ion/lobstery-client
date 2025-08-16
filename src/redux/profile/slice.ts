@@ -3,7 +3,7 @@ import { EFetchStatus } from '../../types/enums';
 import { IUser, IUserProfileState } from './types';
 import { audienceReducers } from './audienceReducers';
 import { audienceExtraReducers } from './audienceExtraReducers';
-import { fetchMyProfile, fetchUserProfile } from './asyncActions';
+import { fetchMe, fetchUserProfile } from './asyncActions';
 import { fetchFavoritePost, fetchLikePost, fetchPostsByUser } from '../posts/asyncActions';
 
 const initialState: IUserProfileState = {
@@ -48,7 +48,7 @@ const profileSlice = createSlice({
   extraReducers: (builder) => {
     audienceExtraReducers(builder);
 
-    builder.addCase(fetchMyProfile.fulfilled, (state, action) => {
+    builder.addCase(fetchMe.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.defaultAudience = action.payload.defaultAudience;
       state.defaultCustomAudience = action.payload.defaultCustomAudience;
@@ -58,7 +58,7 @@ const profileSlice = createSlice({
       state.status = EFetchStatus.SUCCESS;
     });
 
-    builder.addCase(fetchMyProfile.rejected, (state, action) => {
+    builder.addCase(fetchMe.rejected, (state, action) => {
       state.user = {} as IUser;
       state.defaultAudience = -1;
       state.defaultCustomAudience = -1;
