@@ -53,7 +53,7 @@ const App: React.FC = () => {
     if (!modal.isOpen) dispatch(setIsPostFormVisible(false));
   }, [isPostFormVisible, modal.isOpen]);
 
-  if (loading) return <Loader />;
+  // if (loading) return <Loader />;
 
   return (
     <>
@@ -69,8 +69,7 @@ const App: React.FC = () => {
             {publicRoutes.map((route) => (
               <Route key={route.path} path={route.path} element={route.element} />
             ))}
-            {userId &&
-              privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
+            {userId && privateRoutes.map((route) => <Route key={route.path} path={route.path} element={route.element}></Route>)}
           </Route>
           <Route path="*" element={<Navigate to={PROFILE_ROUTE} />} />
         </Routes>
